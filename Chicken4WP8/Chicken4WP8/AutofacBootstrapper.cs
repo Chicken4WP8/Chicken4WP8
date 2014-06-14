@@ -109,7 +109,9 @@ namespace Chicken4WP8
                 //  registered as self
               .AsSelf()
                 //  always create a new one
-              .InstancePerDependency();
+              .InstancePerDependency()
+                // auto inject property
+              .PropertiesAutowired();
 
             //  register views
             builder.RegisterAssemblyTypes(AssemblySource.Instance.ToArray())
@@ -121,6 +123,19 @@ namespace Chicken4WP8
               .AsSelf()
                 //  always create a new one
               .InstancePerDependency();
+
+            //register services
+            builder.RegisterAssemblyTypes(AssemblySource.Instance.ToArray())
+                // must be a type which name ends with service
+                .Where(type => type.Name.EndsWith("Service"))
+                // namespace ends with services implemention
+                    .Where(type => type.Namespace.EndsWith("Implemention"))
+                // registered as interface
+                    .AsImplementedInterfaces()
+                //create new one
+                    .InstancePerDependency()
+                //auto inject property
+                    .PropertiesAutowired();
 
             //  register as CM container
             //builder.RegisterInstance<SimpleContainer>(this).InstancePerLifetimeScope();
