@@ -1,5 +1,6 @@
 ﻿using Caliburn.Micro;
 using Chicken4WP8.Services.Interface;
+using Chicken4WP8.ViewModels.Home;
 
 namespace Chicken4WP8.ViewModels
 {
@@ -14,15 +15,16 @@ namespace Chicken4WP8.ViewModels
         protected override void OnInitialize()
         {
             base.OnInitialize();
-            var credential = StorageService.GetCurrentOAuthSetting();
-            if (credential.HasAllCredentials())
-            {
-                SharedObjects.Credential = credential;
-            }
-            else
-            {
- 
-            }
+            //var credential = StorageService.GetCurrentOAuthSetting();
+            //if (credential.HasAllCredentials())
+            //{
+            //    SharedObjects.Credential = credential;
+            //    NavigationService.UriFor<HomePageViewModel>().Navigate();
+            //}
+            //else
+            //{
+
+            //}
         }
     }
 }

@@ -228,7 +228,7 @@ namespace Chicken4WP8
         /// </summary>
         protected virtual void ConfigureBootstrapper()
         { //  by default, enforce the namespace convention
-            EnforceNamespaceConvention = true;
+            EnforceNamespaceConvention = false;// true;
             //  by default, do not treat the view as loaded
             TreatViewAsLoaded = false;
 

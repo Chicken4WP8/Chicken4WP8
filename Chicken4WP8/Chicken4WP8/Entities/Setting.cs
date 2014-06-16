@@ -25,6 +25,6 @@ namespace Chicken4WP8.Entities
     {
         OAuthSetting = 100,
         LanguageSetting = 200,
-        CurrentUser = 300,
+        CurrentUserSetting = 300,
     }
 }

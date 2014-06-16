@@ -1,5 +1,4 @@
 ﻿using Chicken4WP8.Entities;
-using LinqToTwitter;
 
 namespace Chicken4WP8.Services.Interface
 {
@@ -8,12 +7,12 @@ namespace Chicken4WP8.Services.Interface
         //User GetCurrentUser();
         //void UpdateCurrentUser(User user);
 
-        //IList<Setting> GetProxySettings();
-        ICredentialStore GetCurrentOAuthSetting();
-        void UpdageCurrentSetting(ICredentialStore CredentialStore);
+        ////IList<Setting> GetProxySettings();
+        //ICredentialStore GetCurrentOAuthSetting();
+        //void UpdageCurrentSetting(ICredentialStore CredentialStore);
 
-        //string GetCurrentLanguage();
-        //void UpdateLanguage(string name);
+        string GetCurrentLanguage();
+        void UpdateLanguage(string name);
 
         //Tweet GetTempTweet();
         //void UpdateTempTweet(Tweet tweet);
