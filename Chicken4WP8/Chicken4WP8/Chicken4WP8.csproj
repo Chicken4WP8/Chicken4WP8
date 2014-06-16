@@ -291,6 +291,44 @@
   <ItemGroup>
     <Folder Include="Models\Setting\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Tweetinvi.Controllers\Tweetinvi.Controllers.csproj">
+      <Project>{6048BD01-3CEF-4668-80D8-615914CC85A2}</Project>
+      <Name>Tweetinvi.Controllers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tweetinvi.Core\Tweetinvi.Core.csproj">
+      <Project>{CD1AE921-D88A-4145-87B6-B82F276872F8}</Project>
+      <Name>Tweetinvi.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tweetinvi.Credentials\Tweetinvi.Credentials.csproj">
+      <Project>{612CDDA5-C4CE-421F-BF86-C542316F12AB}</Project>
+      <Name>Tweetinvi.Credentials</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tweetinvi.Factories\Tweetinvi.Factories.csproj">
+      <Project>{D39434BF-9482-48F0-8717-C02C420C7E4F}</Project>
+      <Name>Tweetinvi.Factories</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tweetinvi.Logic\Tweetinvi.Logic.csproj">
+      <Project>{1C74B83B-4B84-44E2-AFD7-1468BB90306D}</Project>
+      <Name>Tweetinvi.Logic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tweetinvi.Security\Tweetinvi.Security.csproj">
+      <Project>{9CA25A79-3ED2-42EB-A497-1BE3F8A2B298}</Project>
+      <Name>Tweetinvi.Security</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tweetinvi.Streams\Tweetinvi.Streams.csproj">
+      <Project>{1EE99D68-D7CB-403B-830E-AEE8B87705FA}</Project>
+      <Name>Tweetinvi.Streams</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tweetinvi.WebLogic\Tweetinvi.WebLogic.csproj">
+      <Project>{059849D4-DFC0-42BC-8B34-0AD2DF3210C7}</Project>
+      <Name>Tweetinvi.WebLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tweetinvi\Tweetinvi.csproj">
+      <Project>{C03B362B-6779-4EF6-8A92-1593079FFE54}</Project>
+      <Name>Tweetinvi</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
