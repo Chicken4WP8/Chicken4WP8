@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using Autofac;
 using Caliburn.Micro;
 using Microsoft.Phone.Controls;
+using Tweetinvi;
 
 namespace Chicken4WP8
 {
@@ -254,6 +256,17 @@ namespace Chicken4WP8
         /// <param name="builder">The Autofac configuration builder.</param>
         protected virtual void ConfigureContainer(ContainerBuilder builder)
         {
+        }
+
+        protected override void OnStartup(object sender, StartupEventArgs e)
+        {
+            base.OnStartup(sender, e);
+            //TwitterCredentials.SetCredentials(
+            //    "174858924-A9Z9bco8YNPFrcQyD9uf2DyvGJS2MGZDt0nUJRhm",
+            //    "d16sMpu7Dpoz37m54ud91I2TgUDC92kO7aK7nYRahs",
+            //    "pPnxpn00RbGx3YJJtvYUsA",
+            //    "PoX3exts23HJ1rlMaPr6RtlX2G5VQdrqbpUWpkMcCo");
+            //var tweet = Tweet.GetTweet(210462857140252672);
         }
 
         protected override void OnUnhandledException(object sender, System.Windows.ApplicationUnhandledExceptionEventArgs e)
