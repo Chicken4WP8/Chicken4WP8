@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows;
 using System.Windows.Controls;
 using Autofac;
 using Caliburn.Micro;
@@ -256,13 +255,6 @@ namespace Chicken4WP8
         /// <param name="builder">The Autofac configuration builder.</param>
         protected virtual void ConfigureContainer(ContainerBuilder builder)
         {
-        }
-
-        protected override void OnStartup(object sender, StartupEventArgs e)
-        {
-            base.OnStartup(sender, e);
-            
-            //var tweet = Tweet.GetTweet(210462857140252672);
         }
 
         protected override void OnUnhandledException(object sender, System.Windows.ApplicationUnhandledExceptionEventArgs e)
