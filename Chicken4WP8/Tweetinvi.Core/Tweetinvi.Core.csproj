@@ -136,6 +136,7 @@
     <Compile Include="Interfaces\IMention.cs" />
     <Compile Include="Interfaces\IMessage.cs" />
     <Compile Include="Interfaces\IRelationship.cs" />
+    <Compile Include="Interfaces\IResourcesManager.cs" />
     <Compile Include="Interfaces\ITweet.cs" />
     <Compile Include="Interfaces\ITweetList.cs" />
     <Compile Include="Interfaces\Models\Entities\IDescriptionEntity.cs" />
@@ -246,7 +247,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

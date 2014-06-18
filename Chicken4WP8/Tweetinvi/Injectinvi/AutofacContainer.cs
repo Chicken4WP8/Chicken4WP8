@@ -7,6 +7,7 @@ using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Credentials;
 using Tweetinvi.Factories;
 using Tweetinvi.Logic;
+using Tweetinvi.Resource;
 using Tweetinvi.Streams;
 using Tweetinvi.WebLogic;
 
@@ -55,13 +56,14 @@ namespace Tweetinvi.Injectinvi
         private void RegisterModules()
         {
             _moduleCatalog.Add(new TweetinviModule(this));
+            _moduleCatalog.Add(new TweetinviResourcesModule(this));
             _moduleCatalog.Add(new TweetinviControllersModule(this));
             _moduleCatalog.Add(new TweetinviCoreModule(this));
             _moduleCatalog.Add(new TweetinviCredentialsModule(this));
             _moduleCatalog.Add(new TweetinviFactoriesModule(this));
             _moduleCatalog.Add(new TweetinviLogicModule(this));
             _moduleCatalog.Add(new TweetinviWebLogicModule(this));
-            
+
             _moduleCatalog.Add(new StreaminviModule(this));
         }
 

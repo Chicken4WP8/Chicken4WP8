@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tweetinvi.Streams", "Tweeti
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tweetinvi.WebLogic", "Tweetinvi.WebLogic\Tweetinvi.WebLogic.csproj", "{059849D4-DFC0-42BC-8B34-0AD2DF3210C7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tweetinvi.Resource", "Tweetinvi.Resource\Tweetinvi.Resource.csproj", "{DFC77F51-5064-4AEB-99A6-3BD6DEB3F245}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -121,6 +123,14 @@ Global
 		{059849D4-DFC0-42BC-8B34-0AD2DF3210C7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{059849D4-DFC0-42BC-8B34-0AD2DF3210C7}.Release|ARM.ActiveCfg = Release|Any CPU
 		{059849D4-DFC0-42BC-8B34-0AD2DF3210C7}.Release|x86.ActiveCfg = Release|Any CPU
+		{DFC77F51-5064-4AEB-99A6-3BD6DEB3F245}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFC77F51-5064-4AEB-99A6-3BD6DEB3F245}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFC77F51-5064-4AEB-99A6-3BD6DEB3F245}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{DFC77F51-5064-4AEB-99A6-3BD6DEB3F245}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DFC77F51-5064-4AEB-99A6-3BD6DEB3F245}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFC77F51-5064-4AEB-99A6-3BD6DEB3F245}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFC77F51-5064-4AEB-99A6-3BD6DEB3F245}.Release|ARM.ActiveCfg = Release|Any CPU
+		{DFC77F51-5064-4AEB-99A6-3BD6DEB3F245}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

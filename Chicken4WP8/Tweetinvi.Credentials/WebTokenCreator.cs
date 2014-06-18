@@ -2,9 +2,9 @@
 using System.Text.RegularExpressions;
 using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Injectinvi;
+using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.oAuth;
-using Tweetinvi.Credentials.Properties;
 using Tweetinvi.WebLogic;
 
 namespace Tweetinvi.Credentials
@@ -14,15 +14,18 @@ namespace Tweetinvi.Credentials
         private readonly IFactory<ITemporaryCredentials> _applicationCredentialsUnityFactory;
         private readonly IOAuthWebRequestGenerator _oAuthWebRequestGenerator;
         private readonly ITwitterRequester _twitterRequester;
+        private readonly IResourcesManager _resourcesManager;
 
         public WebTokenCreator(
             IFactory<ITemporaryCredentials> applicationCredentialsUnityFactory,
             IOAuthWebRequestGenerator oAuthWebRequestGenerator,
-            ITwitterRequester twitterRequester)
+            ITwitterRequester twitterRequester,
+            IResourcesManager resourcesManager)
         {
             _applicationCredentialsUnityFactory = applicationCredentialsUnityFactory;
             _oAuthWebRequestGenerator = oAuthWebRequestGenerator;
             _twitterRequester = twitterRequester;
+            _resourcesManager = resourcesManager;
         }
 
         // Step 0 - Generate Application Credentials
@@ -37,18 +40,18 @@ namespace Tweetinvi.Credentials
         // Step 1 - Generate Authorization URL
         public string GetPinCodeAuthorizationURL(ITemporaryCredentials temporaryCredentials)
         {
-            return GetAuthorizationURL(temporaryCredentials, Resources.OAuth_PINCode_CallbackURL);
+            return GetAuthorizationURL(temporaryCredentials, _resourcesManager.OAuth_PINCode_CallbackURL);
         }
 
         public string GetAuthorizationURL(ITemporaryCredentials temporaryCredentials, string callbackURL)
         {
             var callbackParameter = _oAuthWebRequestGenerator.GenerateParameter("oauth_callback", callbackURL, true, true, false);
 
-            var requestTokenResponse = _twitterRequester.ExecuteQueryWithTemporaryCredentials(Resources.OAuthRequestToken, HttpMethod.POST, temporaryCredentials: temporaryCredentials, headers: new[] { callbackParameter });
+            var requestTokenResponse = _twitterRequester.ExecuteQueryWithTemporaryCredentials(_resourcesManager.OAuthRequestToken, HttpMethod.POST, temporaryCredentials: temporaryCredentials, headers: new[] { callbackParameter });
 
-            if (!string.IsNullOrEmpty(requestTokenResponse) && requestTokenResponse != Resources.OAuthRequestToken)
+            if (!string.IsNullOrEmpty(requestTokenResponse) && requestTokenResponse != _resourcesManager.OAuthRequestToken)
             {
-                Match tokenInformation = Regex.Match(requestTokenResponse, Resources.OAuthTokenRequestRegex);
+                Match tokenInformation = Regex.Match(requestTokenResponse, _resourcesManager.OAuthTokenRequestRegex);
 
                 bool callbackConfirmed = Boolean.Parse(tokenInformation.Groups["oauth_callback_confirmed"].Value);
                 if (!callbackConfirmed)
@@ -59,7 +62,7 @@ namespace Tweetinvi.Credentials
                 temporaryCredentials.AuthorizationKey = tokenInformation.Groups["oauth_token"].Value;
                 temporaryCredentials.AuthorizationSecret = tokenInformation.Groups["oauth_token_secret"].Value;
 
-                return String.Format("{0}?oauth_token={1}", Resources.OAuthRequestAuthorize, temporaryCredentials.AuthorizationKey);
+                return String.Format("{0}?oauth_token={1}", _resourcesManager.OAuthRequestAuthorize, temporaryCredentials.AuthorizationKey);
             }
 
             return null;
@@ -73,13 +76,13 @@ namespace Tweetinvi.Credentials
                 return null;
             }
 
-            Match urlInformation = Regex.Match(callbackURL, Resources.OAuthToken_GetVerifierCode_Regex);
+            Match urlInformation = Regex.Match(callbackURL, _resourcesManager.OAuthToken_GetVerifierCode_Regex);
             return urlInformation.Groups["oauth_verifier"].Value;
         }
 
         public IOAuthCredentials GetCredentialsFromCallbackURL(string callbackURL, ITemporaryCredentials temporaryCredentials)
         {
-            Match urlInformation = Regex.Match(callbackURL, Resources.OAuthToken_GetVerifierCode_Regex);
+            Match urlInformation = Regex.Match(callbackURL, _resourcesManager.OAuthToken_GetVerifierCode_Regex);
 
             String responseOAuthToken = urlInformation.Groups["oauth_token"].Value;
             String verifierCode = urlInformation.Groups["oauth_verifier"].Value;
@@ -103,7 +106,7 @@ namespace Tweetinvi.Credentials
         {
             var callbackParameter = _oAuthWebRequestGenerator.GenerateParameter("oauth_verifier", temporaryCredentials.VerifierCode, true, true, false);
 
-            var response = _twitterRequester.ExecuteQueryWithTemporaryCredentials(Resources.OAuthRequestAccessToken, HttpMethod.POST, temporaryCredentials: temporaryCredentials, headers: new[] { callbackParameter });
+            var response = _twitterRequester.ExecuteQueryWithTemporaryCredentials(_resourcesManager.OAuthRequestAccessToken, HttpMethod.POST, temporaryCredentials: temporaryCredentials, headers: new[] { callbackParameter });
             if (response == null)
             {
                 return null;

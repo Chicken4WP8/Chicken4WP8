@@ -119,6 +119,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Tweetinvi.Resource\Tweetinvi.Resource.csproj">
+      <Project>{dfc77f51-5064-4aeb-99a6-3bd6deb3f245}</Project>
+      <Name>Tweetinvi.Resource</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Tweetinvi.Streams\Tweetinvi.Streams.csproj">
       <Project>{1ee99d68-d7cb-403b-830e-aee8b87705fa}</Project>
       <Name>Tweetinvi.Streams</Name>
