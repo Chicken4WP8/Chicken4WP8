@@ -15,16 +15,17 @@ namespace Chicken4WP8.ViewModels
         protected override void OnInitialize()
         {
             base.OnInitialize();
-            //var credential = StorageService.GetCurrentOAuthSetting();
-            //if (credential.HasAllCredentials())
-            //{
-            //    SharedObjects.Credential = credential;
-            //    NavigationService.UriFor<HomePageViewModel>().Navigate();
-            //}
-            //else
-            //{
-
-            //}
+            var setting = StorageService.GetCurrentUserSetting();
+            if (setting == null)
+            {
+                //setting page
+            }
+            else
+            {
+                //set base url for twip or
+                //set oauth key
+                NavigationService.UriFor<HomePageViewModel>().Navigate();
+            }
         }
     }
 }

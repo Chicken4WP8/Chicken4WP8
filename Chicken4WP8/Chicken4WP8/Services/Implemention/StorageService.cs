@@ -2,6 +2,7 @@
 using System.Linq;
 using Chicken4WP8.Common;
 using Chicken4WP8.Entities;
+using Chicken4WP8.Models.Setting;
 using Chicken4WP8.Services.Interface;
 using Newtonsoft.Json;
 
@@ -45,24 +46,18 @@ namespace Chicken4WP8.Services.Implemention
             this.context = new ChickenDataContext();
         }
 
-        //public ICredentialStore GetCurrentOAuthSetting()
-        //{
-        //    var oauth = context.Settings.FirstOrDefault(s => s.Category == SettingCategory.OAuthSetting && s.IsCurrentlyInUsed);
-        //    if (oauth == null || string.IsNullOrEmpty(oauth.Data))
-        //        return null;
-        //    switch (oauth.Name)
-        //    {
-        //        case Const.OAUTH_MODE_BASE:
-        //            return JsonConvert.DeserializeObject<InMemoryCredentialStore>(oauth.Data);
-        //        default:
-        //            return null;
-        //    }
-        //}
+        public UserSetting GetCurrentUserSetting()
+        {
+            var entity = context.Settings.FirstOrDefault(s => s.Category == SettingCategory.CurrentUserSetting && s.IsCurrentlyInUsed);
+            if (entity == null && entity.Data == null)
+                return null;
+            return JsonConvert.DeserializeObject<UserSetting>(entity.Data);
+        }
 
-        //public void UpdageCurrentSetting(ICredentialStore CredentialStore)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public object GetOAuthSetting(int id)
+        {
+            throw new NotImplementedException();
+        }
 
         public string GetCurrentLanguage()
         {

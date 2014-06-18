@@ -1,14 +1,15 @@
 ﻿using Chicken4WP8.Entities;
+using Chicken4WP8.Models.Setting;
 
 namespace Chicken4WP8.Services.Interface
 {
     public interface IStorageService
     {
-        //User GetCurrentUser();
+        UserSetting GetCurrentUserSetting();
         //void UpdateCurrentUser(User user);
 
         ////IList<Setting> GetProxySettings();
-        //ICredentialStore GetCurrentOAuthSetting();
+        object GetOAuthSetting(int id);
         //void UpdageCurrentSetting(ICredentialStore CredentialStore);
 
         string GetCurrentLanguage();
