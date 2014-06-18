@@ -22,20 +22,26 @@
         </Grid.RowDefinitions>
 
         <!--title-->
-        <StackPanel Grid.Row="0">
+        <StackPanel Grid.Row="0" Margin="12,10,12,0">
             <TextBlock Text="{Binding Path=LanguageHelper[OAuthSettingPageView_OAuthSettingTitle]}" />
         </StackPanel>
+
         <!--oauth types picker-->
-        <StackPanel Grid.Row="1">
-            <toolkit:ListPicker x:Name="Types" Header="{Binding Path=LanguageHelper[OAuthSettingPageView_OAuthTypesPickerHeader]}">
-                
-                
+        <StackPanel Grid.Row="1" Margin="0,10,0,0">
+            <toolkit:ListPicker x:Name="Items" Header="{Binding Path=LanguageHelper[OAuthSettingPageView_OAuthTypesPickerHeader]}">
+                <toolkit:ListPicker.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Path=Name}" />
+                    </DataTemplate>
+                </toolkit:ListPicker.ItemTemplate>
             </toolkit:ListPicker>
         </StackPanel>
-            <!--description for selected type-->
-        <Grid x:Name="ContentPanel" Grid.Row="1">
 
-        </Grid>
+        <!--description for selected type-->
+        <StackPanel Grid.Row="2" Margin="12,10,12,0">
+            <TextBlock Text="{Binding Path=SelectedItem.Description}"
+                       TextWrapping="Wrap" />
+        </StackPanel>
     </Grid>
 
 </phone:PhoneApplicationPage>

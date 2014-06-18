@@ -30,8 +30,6 @@ namespace Chicken4WP8.Models.Setting
         public OAuthCredentials Credential { get; set; }
     }
 
-
-
     public class TwipOAuthSetting : IOAuthSetting
     {
         private string name = "TWIP4";

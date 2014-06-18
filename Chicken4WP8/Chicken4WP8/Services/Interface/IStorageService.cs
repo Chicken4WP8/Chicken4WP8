@@ -1,4 +1,5 @@
-﻿using Chicken4WP8.Entities;
+﻿using System.Collections.Generic;
+using Chicken4WP8.Entities;
 using Chicken4WP8.Models.Setting;
 
 namespace Chicken4WP8.Services.Interface
@@ -7,8 +8,7 @@ namespace Chicken4WP8.Services.Interface
     {
         UserSetting GetCurrentUserSetting();
         //void UpdateCurrentUser(User user);
-
-        ////IList<Setting> GetProxySettings();
+        
         object GetOAuthSetting(int id);
         //void UpdageCurrentSetting(ICredentialStore CredentialStore);
 
