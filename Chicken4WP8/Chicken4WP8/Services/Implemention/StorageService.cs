@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Chicken4WP8.Common;
 using Chicken4WP8.Entities;
 using Chicken4WP8.Models.Setting;
 using Chicken4WP8.Services.Interface;
@@ -49,7 +48,7 @@ namespace Chicken4WP8.Services.Implemention
         public UserSetting GetCurrentUserSetting()
         {
             var entity = context.Settings.FirstOrDefault(s => s.Category == SettingCategory.CurrentUserSetting && s.IsCurrentlyInUsed);
-            if (entity == null && entity.Data == null)
+            if (entity == null || entity.Data == null)
                 return null;
             return JsonConvert.DeserializeObject<UserSetting>(entity.Data);
         }

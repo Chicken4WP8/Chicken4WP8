@@ -59,5 +59,23 @@ namespace Chicken4WP8.Resources {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   查找类似 OAuth Setting 的本地化字符串。
+        /// </summary>
+        public static string OAuthSettingPageView_OAuthSettingTitle {
+            get {
+                return ResourceManager.GetString("OAuthSettingPageView_OAuthSettingTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Select Authorization Type 的本地化字符串。
+        /// </summary>
+        public static string OAuthSettingPageView_OAuthTypesPickerHeader {
+            get {
+                return ResourceManager.GetString("OAuthSettingPageView_OAuthTypesPickerHeader", resourceCulture);
+            }
+        }
     }
 }

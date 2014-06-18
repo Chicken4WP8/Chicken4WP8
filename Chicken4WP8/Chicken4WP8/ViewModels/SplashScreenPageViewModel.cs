@@ -1,6 +1,7 @@
 ﻿using Caliburn.Micro;
 using Chicken4WP8.Services.Interface;
 using Chicken4WP8.ViewModels.Home;
+using Chicken4WP8.ViewModels.Setting;
 
 namespace Chicken4WP8.ViewModels
 {
@@ -18,7 +19,8 @@ namespace Chicken4WP8.ViewModels
             var setting = StorageService.GetCurrentUserSetting();
             if (setting == null)
             {
-                //setting page
+                //goto oauth setting page
+                NavigationService.UriFor<OAuthSettingPageViewModel>().Navigate();
             }
             else
             {
