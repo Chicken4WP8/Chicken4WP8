@@ -9,13 +9,13 @@ namespace Chicken4WP8.Entities
         public int Id { get; set; }
 
         [Column]
+        public bool IsCurrentlyInUsed { get; set; }
+
+        [Column]
         public SettingCategory Category { get; set; }
 
         [Column]
         public string Name { get; set; }
-
-        [Column]
-        public bool IsCurrentlyInUsed { get; set; }
 
         [Column]
         public string Data { get; set; }

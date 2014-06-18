@@ -79,6 +79,7 @@
     <Compile Include="TwitterAccessor.cs" />
     <Compile Include="TwitterAccessorAsync.cs" />
     <Compile Include="TwitterCredentials.cs" />
+    <Compile Include="TwitterResources.cs" />
     <Compile Include="User.cs" />
     <Compile Include="UserAsync.cs" />
   </ItemGroup>

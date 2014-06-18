@@ -4,13 +4,11 @@ namespace Tweetinvi.Resource
 {
     public class ResourcesManager : IResourcesManager
     {
-        private const string BASE_URL = "https://api.twitter.com/";
-        private static string baseUrl = BASE_URL;
-
         static ResourcesManager()
         {
         }
 
+        private string baseUrl;
         public string BaseUrl
         {
             get
