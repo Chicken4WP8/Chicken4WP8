@@ -4,8 +4,9 @@ using System.Linq;
 using System.Windows.Controls;
 using Autofac;
 using Caliburn.Micro;
+using Chicken4WP8.Services.Implemention;
+using Chicken4WP8.Services.Interface;
 using Microsoft.Phone.Controls;
-//using Tweetinvi;
 
 namespace Chicken4WP8
 {
@@ -99,8 +100,9 @@ namespace Chicken4WP8
               .As<IStorageHandler>()
               .InstancePerLifetimeScope();
 
+            var assembiles = AssemblySource.Instance.ToArray();
             //  register view models
-            builder.RegisterAssemblyTypes(AssemblySource.Instance.ToArray())
+            builder.RegisterAssemblyTypes(assembiles)
                 //  must be a type with a name that ends with ViewModel
               .Where(type => type.Name.EndsWith("ViewModel"))
                 //  must be in a namespace ending with ViewModels
@@ -115,7 +117,7 @@ namespace Chicken4WP8
               .PropertiesAutowired();
 
             //  register views
-            builder.RegisterAssemblyTypes(AssemblySource.Instance.ToArray())
+            builder.RegisterAssemblyTypes(assembiles)
                 //  must be a type with a name that ends with View
               .Where(type => type.Name.EndsWith("View"))
                 //  must be in a namespace that ends in Views
@@ -126,7 +128,7 @@ namespace Chicken4WP8
               .InstancePerDependency();
 
             //register services
-            builder.RegisterAssemblyTypes(AssemblySource.Instance.ToArray())
+            builder.RegisterAssemblyTypes(assembiles)
                 // must be a type which name ends with service
                 .Where(type => type.Name.EndsWith("Service"))
                 // namespace ends with services implemention
@@ -137,6 +139,11 @@ namespace Chicken4WP8
                     .InstancePerDependency()
                 //auto inject property
                     .PropertiesAutowired();
+
+            //register language helper
+            builder.RegisterType<LanguageHelper>()
+                .As<ILanguageHelper>()
+                .SingleInstance();
 
             //  register as CM container
             //builder.RegisterInstance<SimpleContainer>(this).InstancePerLifetimeScope();

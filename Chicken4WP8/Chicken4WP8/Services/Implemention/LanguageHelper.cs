@@ -7,12 +7,12 @@ using Chicken4WP8.Services.Interface;
 
 namespace Chicken4WP8.Services.Implemention
 {
-    public class LanguageService : PropertyChangedBase, ILanguageService
+    public class LanguageHelper : PropertyChangedBase, ILanguageHelper
     {
         public IEventAggregator Aggregator { get; set; }
         public IStorageService StorageService { get; set; }
 
-        public LanguageService()
+        public LanguageHelper()
         { }
 
         public void SetLanguage(CultureInfo cultureInfo)

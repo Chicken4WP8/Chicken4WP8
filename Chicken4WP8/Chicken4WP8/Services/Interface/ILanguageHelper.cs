@@ -1,8 +1,9 @@
-﻿using System.Globalization;
+﻿using System.ComponentModel;
+using System.Globalization;
 
 namespace Chicken4WP8.Services.Interface
 {
-    public interface ILanguageService
+    public interface ILanguageHelper : INotifyPropertyChanged
     {
         void SetLanguage(CultureInfo cultureInfo);
         string this[string key] { get; }
