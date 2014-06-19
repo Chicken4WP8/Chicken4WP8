@@ -1,4 +1,5 @@
-﻿using Caliburn.Micro;
+﻿using System.Windows;
+using Caliburn.Micro;
 using Chicken4WP8.Services.Interface;
 using Tweetinvi;
 
@@ -9,7 +10,9 @@ namespace Chicken4WP8.ViewModels.Setting.Proxies
         public ILanguageHelper LanguageHelper { get; set; }
 
         public TwipOAuthSettingPageViewModel()
-        { }
+        {
+            baseUrl = "https://wxt2005.org/tapi/o/77Z655/";
+        }
 
         private string baseUrl;
         public string BaseUrl
@@ -22,11 +25,26 @@ namespace Chicken4WP8.ViewModels.Setting.Proxies
             }
         }
 
+        private string name;
+        public string UserName
+        {
+            get { return name; }
+            set
+            {
+                name = value;
+                NotifyOfPropertyChange(() => UserName);
+            }
+        }
+
         public void Finish()
         {
             if (!string.IsNullOrEmpty(BaseUrl))
             {
                 TwitterResources.BaseUrl = BaseUrl;
+                var user = User.GetLoggedUser();
+                UserName = user.Name;
+
+                MessageBox.Show(UserName);
             }
         }
     }

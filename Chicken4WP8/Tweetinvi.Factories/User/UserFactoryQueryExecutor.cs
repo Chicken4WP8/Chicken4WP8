@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.QueryGenerators;
@@ -29,17 +30,22 @@ namespace Tweetinvi.Factories.User
 
         private readonly ITwitterAccessor _twitterAccessor;
         private readonly IUserQueryParameterGenerator _queryParameterGenerator;
+        private readonly IResourcesManager _resourcesManager;
 
-        public UserFactoryQueryExecutor(ITwitterAccessor twitterAccessor, IUserQueryParameterGenerator queryParameterGenerator)
+        public UserFactoryQueryExecutor(
+            ITwitterAccessor twitterAccessor,
+            IUserQueryParameterGenerator queryParameterGenerator,
+            IResourcesManager resourcesManager)
         {
             _twitterAccessor = twitterAccessor;
             _queryParameterGenerator = queryParameterGenerator;
+            _resourcesManager = resourcesManager;
         }
 
         // Get single user
         public IUserDTO GetLoggedUser()
         {
-            string query = Resources.TokenUser_GetCurrentUser;
+            string query = _resourcesManager.TokenUser_GetCurrentUser;
             return _twitterAccessor.ExecuteGETQuery<IUserDTO>(query);
         }
 

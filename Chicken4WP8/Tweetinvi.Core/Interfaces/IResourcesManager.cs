@@ -20,5 +20,7 @@ namespace Tweetinvi.Core.Interfaces
         string OAuthToken_GetVerifierCode_Regex { get; }
 
         string OAuthRequestAccessTokenWithUserCredentials { get; }
+
+        string TokenUser_GetCurrentUser { get; }
     }
 }
