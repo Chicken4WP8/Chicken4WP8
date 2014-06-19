@@ -2,6 +2,7 @@
 using Caliburn.Micro;
 using Chicken4WP8.Models.Setting;
 using Chicken4WP8.Services.Interface;
+using Chicken4WP8.ViewModels.Setting.Proxies;
 
 namespace Chicken4WP8.ViewModels.Setting
 {
@@ -9,6 +10,7 @@ namespace Chicken4WP8.ViewModels.Setting
     {
         public ILanguageHelper LanguageHelper { get; set; }
         public IStorageService StorageSerive { get; set; }
+        public INavigationService NavigationService { get; set; }
 
         public OAuthSettingPageViewModel()
         { }
@@ -47,6 +49,18 @@ namespace Chicken4WP8.ViewModels.Setting
             Items.Add(twip);
 
             SelectedItem = Items[0];
+        }
+
+        public void AppBar_Next()
+        {
+            switch (SelectedItem.Name)
+            {
+                case "BASE":
+                    break;
+                case "TWIP4":
+                    NavigationService.UriFor<TwipOAuthSettingPageViewModel>().Navigate();
+                    break;
+            }
         }
     }
 }

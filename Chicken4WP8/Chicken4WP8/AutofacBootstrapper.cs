@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Controls;
 using Autofac;
 using Caliburn.Micro;
+using Caliburn.Micro.BindableAppBar;
 using Chicken4WP8.Services.Implemention;
 using Chicken4WP8.Services.Interface;
 using Microsoft.Phone.Controls;
@@ -315,6 +316,12 @@ namespace Chicken4WP8
                     }
                     return false;
                 };
+
+            // App Bar Conventions
+            ConventionManager.AddElementConvention<BindableAppBarButton>(
+                Control.IsEnabledProperty, "DataContext", "Click");
+            ConventionManager.AddElementConvention<BindableAppBarMenuItem>(
+                Control.IsEnabledProperty, "DataContext", "Click");
         }
     }
 }

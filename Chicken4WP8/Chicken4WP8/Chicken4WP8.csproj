@@ -112,23 +112,11 @@
     <Compile Include="Services\Interface\IStorageService.cs" />
     <Compile Include="ViewModels\Home\HomePageViewModel.cs" />
     <Compile Include="ViewModels\Setting\OAuthSettingPageViewModel.cs" />
-    <Compile Include="ViewModels\Setting\Proxies\PinOAuthSettingPageViewModel.cs" />
+    <Compile Include="ViewModels\Setting\Proxies\TwipOAuthSettingPageViewModel.cs" />
     <Compile Include="ViewModels\Setting\SettingPageViewModel.cs" />
     <Compile Include="ViewModels\SplashScreenPageViewModel.cs" />
     <Compile Include="Views\Home\HomePageView.xaml.cs">
       <DependentUpon>HomePageView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Setting\OAuthSettingPageView.xaml.cs">
-      <DependentUpon>OAuthSettingPageView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Setting\Proxies\PinOAuthSettingPageView.xaml.cs">
-      <DependentUpon>PinOAuthSettingPageView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Setting\SettingPageView.xaml.cs">
-      <DependentUpon>SettingPageView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\SplashScreenPageView.xaml.cs">
-      <DependentUpon>SplashScreenPageView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -292,7 +280,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Setting\Proxies\PinOAuthSettingPageView.xaml">
+    <Page Include="Views\Setting\Proxies\TwipOAuthSettingPageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -306,6 +294,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Caliburn.Micro.BindableAppBar\Caliburn.Micro.BindableAppBar.csproj">
+      <Project>{D0A0600D-253C-408B-A0BE-DC575D86FD55}</Project>
+      <Name>Caliburn.Micro.BindableAppBar</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Tweetinvi.Controllers\Tweetinvi.Controllers.csproj">
       <Project>{6048BD01-3CEF-4668-80D8-615914CC85A2}</Project>
       <Name>Tweetinvi.Controllers</Name>

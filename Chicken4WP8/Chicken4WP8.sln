@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tweetinvi.WebLogic", "Tweet
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tweetinvi.Resource", "Tweetinvi.Resource\Tweetinvi.Resource.csproj", "{DFC77F51-5064-4AEB-99A6-3BD6DEB3F245}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Caliburn.Micro.BindableAppBar", "Caliburn.Micro.BindableAppBar\Caliburn.Micro.BindableAppBar.csproj", "{D0A0600D-253C-408B-A0BE-DC575D86FD55}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -131,6 +133,18 @@ Global
 		{DFC77F51-5064-4AEB-99A6-3BD6DEB3F245}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DFC77F51-5064-4AEB-99A6-3BD6DEB3F245}.Release|ARM.ActiveCfg = Release|Any CPU
 		{DFC77F51-5064-4AEB-99A6-3BD6DEB3F245}.Release|x86.ActiveCfg = Release|Any CPU
+		{D0A0600D-253C-408B-A0BE-DC575D86FD55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0A0600D-253C-408B-A0BE-DC575D86FD55}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0A0600D-253C-408B-A0BE-DC575D86FD55}.Debug|ARM.ActiveCfg = Debug|ARM
+		{D0A0600D-253C-408B-A0BE-DC575D86FD55}.Debug|ARM.Build.0 = Debug|ARM
+		{D0A0600D-253C-408B-A0BE-DC575D86FD55}.Debug|x86.ActiveCfg = Debug|x86
+		{D0A0600D-253C-408B-A0BE-DC575D86FD55}.Debug|x86.Build.0 = Debug|x86
+		{D0A0600D-253C-408B-A0BE-DC575D86FD55}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0A0600D-253C-408B-A0BE-DC575D86FD55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0A0600D-253C-408B-A0BE-DC575D86FD55}.Release|ARM.ActiveCfg = Release|ARM
+		{D0A0600D-253C-408B-A0BE-DC575D86FD55}.Release|ARM.Build.0 = Release|ARM
+		{D0A0600D-253C-408B-A0BE-DC575D86FD55}.Release|x86.ActiveCfg = Release|x86
+		{D0A0600D-253C-408B-A0BE-DC575D86FD55}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

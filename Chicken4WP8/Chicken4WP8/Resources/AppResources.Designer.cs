@@ -77,5 +77,14 @@ namespace Chicken4WP8.Resources {
                 return ResourceManager.GetString("OAuthSettingPageView_OAuthTypesPickerHeader", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   查找类似 Twip Base URL 的本地化字符串。
+        /// </summary>
+        public static string TwipOAuthSettingPageView_Title {
+            get {
+                return ResourceManager.GetString("TwipOAuthSettingPageView_Title", resourceCulture);
+            }
+        }
     }
 }

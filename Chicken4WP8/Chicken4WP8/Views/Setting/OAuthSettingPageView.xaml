@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:appBar="clr-namespace:Caliburn.Micro.BindableAppBar;assembly=Caliburn.Micro.BindableAppBar"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
@@ -42,6 +43,11 @@
             <TextBlock Text="{Binding Path=SelectedItem.Description}"
                        TextWrapping="Wrap" />
         </StackPanel>
+
+        <appBar:BindableAppBar>
+            <appBar:BindableAppBarButton x:Name="AppBar_Next"
+                                         Text="Next" IconUri="/Images/dark/appbar.check.png" />
+        </appBar:BindableAppBar>
     </Grid>
 
 </phone:PhoneApplicationPage>
