@@ -2,26 +2,27 @@
 
 namespace Chicken4WP8.Models.Setting
 {
-    public interface IOAuthSetting
+    public abstract class OAuthSetting
     {
-        string Name { get; set; }
-        string Description { get; set; }
+        public int Id { get; set; }
+        public virtual string Name { get; set; }
+        public virtual string Description { get; set; }
     }
 
     /// <summary>
     /// BaseOAuthSetting use OAuthCredentials
     /// </summary>
-    public class BaseOAuthSetting : IOAuthSetting
+    public class BaseOAuthSetting : OAuthSetting
     {
         private string name = "BASE";
-        public string Name
+        public override string Name
         {
             get { return name; }
             set { name = value; }
         }
 
         private string description = "Authorization with your twitter user name and password";
-        public string Description
+        public override string Description
         {
             get { return description; }
             set { description = value; }
@@ -30,17 +31,17 @@ namespace Chicken4WP8.Models.Setting
         public OAuthCredentials Credential { get; set; }
     }
 
-    public class TwipOAuthSetting : IOAuthSetting
+    public class TwipOAuthSetting : OAuthSetting
     {
         private string name = "TWIP4";
-        public string Name
+        public override string Name
         {
             get { return name; }
             set { name = value; }
         }
 
         private string description = "twip4 mode description";
-        public string Description
+        public override string Description
         {
             get { return description; }
             set { description = value; }

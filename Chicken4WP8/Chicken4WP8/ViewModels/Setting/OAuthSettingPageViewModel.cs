@@ -15,8 +15,8 @@ namespace Chicken4WP8.ViewModels.Setting
         public OAuthSettingPageViewModel()
         { }
 
-        private ObservableCollection<IOAuthSetting> types;
-        public ObservableCollection<IOAuthSetting> Items
+        private ObservableCollection<OAuthSetting> types;
+        public ObservableCollection<OAuthSetting> Items
         {
             get { return types; }
             set
@@ -26,8 +26,8 @@ namespace Chicken4WP8.ViewModels.Setting
             }
         }
 
-        private IOAuthSetting type;
-        public IOAuthSetting SelectedItem
+        private OAuthSetting type;
+        public OAuthSetting SelectedItem
         {
             get { return type; }
             set
@@ -44,7 +44,7 @@ namespace Chicken4WP8.ViewModels.Setting
             var @base = new BaseOAuthSetting();
             var twip = new TwipOAuthSetting();
 
-            Items = new ObservableCollection<IOAuthSetting>();
+            Items = new ObservableCollection<OAuthSetting>();
             Items.Add(@base);
             Items.Add(twip);
 
