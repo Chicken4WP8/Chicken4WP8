@@ -290,7 +290,7 @@ namespace Tweetinvi.Logic
             _friendshipController = friendshipController;
             _taskFactory = taskFactory;
         }
-
+        #region sync
         // Friends
         public virtual IEnumerable<long> GetFriendIds(int maxFriendsToRetrieve = 5000)
         {
@@ -366,12 +366,12 @@ namespace Tweetinvi.Logic
             // string query = Resources.User_GetContributees;
             throw new NotImplementedException();
         }
+        #endregion
 
         #region Async
-
         public async Task<IEnumerable<long>> GetFriendIdsAsync(int maxFriendsToRetrieve = 5000)
         {
-            return await _taskFactory.ExecuteTaskAsync(() => GetFriendIds(maxFriendsToRetrieve));
+            return await _userController.GetFriendsAsync(maxFriendsToRetrieve);
         }
 
         public async Task<IEnumerable<IUser>> GetFriendsAsync(int maxFriendsToRetrieve = 250)
@@ -427,7 +427,7 @@ namespace Tweetinvi.Logic
         public async Task<IEnumerable<IUser>> GetContributeesAsync(bool createContributeeList = false)
         {
             return await _taskFactory.ExecuteTaskAsync(() => GetContributees(createContributeeList));
-        } 
+        }
 
         #endregion
 

@@ -6,14 +6,14 @@ using Tweetinvi.Core.Interfaces.Models;
 
 namespace Tweetinvi.Core.Interfaces.Controllers
 {
-    public interface IUserController
+    public interface IUserController : IUserControllerAsync
     {
         // Friends
         IEnumerable<long> GetFriendIds(IUser user, int maxFriendsToRetrieve = 5000);
         IEnumerable<long> GetFriendIds(IUserIdentifier userDTO, int maxFriendsToRetrieve = 5000);
         IEnumerable<long> GetFriendIds(long userId, int maxFriendsToRetrieve = 5000);
         IEnumerable<long> GetFriendIds(string userScreenName, int maxFriendsToRetrieve = 5000);
-        
+
         IEnumerable<IUser> GetFriends(IUser user, int maxFriendsToRetrieve = 250);
         IEnumerable<IUser> GetFriends(IUserIdentifier userDTO, int maxFriendsToRetrieve = 250);
         IEnumerable<IUser> GetFriends(long userId, int maxFriendsToRetrieve = 250);

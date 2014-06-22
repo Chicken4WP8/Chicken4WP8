@@ -94,6 +94,7 @@
     <Compile Include="Interfaces\Controllers\ITweetController.cs" />
     <Compile Include="Interfaces\Controllers\ITweetListController.cs" />
     <Compile Include="Interfaces\Controllers\IUserController.cs" />
+    <Compile Include="Interfaces\Controllers\IUserControllerAsync.cs" />
     <Compile Include="Interfaces\Credentials\ICredentialsAccessor.cs" />
     <Compile Include="Interfaces\DTO\IMediaDTO.cs" />
     <Compile Include="Interfaces\Factories\IUserIdentifierFactory.cs" />

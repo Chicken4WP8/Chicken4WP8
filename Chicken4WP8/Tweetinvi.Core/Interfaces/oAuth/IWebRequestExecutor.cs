@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Threading.Tasks;
 
 namespace Tweetinvi.Core.Interfaces.oAuth
 {
@@ -9,5 +10,11 @@ namespace Tweetinvi.Core.Interfaces.oAuth
     {       
         string ExecuteWebRequest(HttpWebRequest httpWebRequest);
         string ExecuteMultipartRequest(IMultipartWebRequest multipartWebRequest);
+    }
+
+    public interface IWebRequestExecutorAsync
+    {
+        Task<string> ExecuteWebRequestAsync(HttpWebRequest httpWebRequest);
+        Task<string> ExecuteMultipartRequestAsync(IMultipartWebRequest multipartWebRequest);
     }
 }

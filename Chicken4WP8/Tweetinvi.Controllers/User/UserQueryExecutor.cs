@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Interfaces.Credentials;
@@ -11,7 +12,33 @@ using Tweetinvi.Core.Interfaces.QueryGenerators;
 
 namespace Tweetinvi.Controllers.User
 {
-    public interface IUserQueryExecutor
+    public interface IUserQueryExecutorAsync
+    {
+        // Friend Ids
+        Task<IEnumerable<long>> GetFriendIdsAsync(IUserIdentifier userDTO, int maxFriendsToRetrieve);
+        Task<IEnumerable<long>> GetFriendIdsAsync(long userId, int maxFriendsToRetrieve);
+        Task<IEnumerable<long>> GetFriendIdsAsync(string userScreenName, int maxFriendsToRetrieve);
+
+        // Followers Ids
+        Task<IEnumerable<long>> GetFollowerIdsAsync(IUserIdentifier userDTO, int maxFollowersToRetrieve);
+        Task<IEnumerable<long>> GetFollowerIdsAsync(long userId, int maxFollowersToRetrieve);
+        Task<IEnumerable<long>> GetFollowerIdsAsync(string userScreenName, int maxFollowersToRetrieve);
+
+        // Favourites
+        Task<IEnumerable<ITweetDTO>> GetFavouriteTweetsAsync(IUserIdentifier userDTO, int maxFavouritesToRetrieve);
+        Task<IEnumerable<ITweetDTO>> GetFavouriteTweetsAsync(long userId, int maxFavouritesToRetrieve);
+        Task<IEnumerable<ITweetDTO>> GetFavouriteTweetsAsync(string userScreenName, int maxFavouritesToRetrieve);
+
+        // Block User
+        Task<bool> BlockUserAsync(IUserIdentifier userDTO);
+        Task<bool> BlockUserAsync(long userId);
+        Task<bool> BlockUserAsync(string userScreenName);
+
+        // Stream Profile Image
+        Task<Stream> GetProfileImageStreamAsync(IUserDTO userDTO, ImageSize imageSize = ImageSize.normal);
+    }
+
+    public interface IUserQueryExecutor : IUserQueryExecutorAsync
     {
         // Friend Ids
         IEnumerable<long> GetFriendIds(IUserIdentifier userDTO, int maxFriendsToRetrieve);
@@ -52,7 +79,8 @@ namespace Tweetinvi.Controllers.User
             _webHelper = webHelper;
         }
 
-        // Friend ids
+        #region sync
+        #region Friend ids
         public IEnumerable<long> GetFriendIds(IUserIdentifier userDTO, int maxFriendsToRetrieve)
         {
             string query = _userQueryGenerator.GetFriendIdsQuery(userDTO, maxFriendsToRetrieve);
@@ -70,8 +98,9 @@ namespace Tweetinvi.Controllers.User
             string query = _userQueryGenerator.GetFriendIdsQuery(userScreenName, maxFriendsToRetrieve);
             return ExecuteGetUserIdsQuery(query, maxFriendsToRetrieve);
         }
+        #endregion
 
-        // Followers
+        #region Followers
         public IEnumerable<long> GetFollowerIds(IUserIdentifier userDTO, int maxFollowersToRetrieve)
         {
             string query = _userQueryGenerator.GetFollowerIdsQuery(userDTO, maxFollowersToRetrieve);
@@ -89,8 +118,9 @@ namespace Tweetinvi.Controllers.User
             string query = _userQueryGenerator.GetFollowerIdsQuery(userScreenName, maxFollowersToRetrieve);
             return ExecuteGetUserIdsQuery(query, maxFollowersToRetrieve);
         }
+        #endregion
 
-        // Favourites
+        #region Favourites
         public IEnumerable<ITweetDTO> GetFavouriteTweets(IUserIdentifier userDTO, int maxFavouritesToRetrieve)
         {
             string query = _userQueryGenerator.GetFavouriteTweetsQuery(userDTO, maxFavouritesToRetrieve);
@@ -108,8 +138,9 @@ namespace Tweetinvi.Controllers.User
             string query = _userQueryGenerator.GetFavouriteTweetsQuery(userScreenName, maxFavouritesToRetrieve);
             return _twitterAccessor.ExecuteGETQuery<IEnumerable<ITweetDTO>>(query);
         }
+        #endregion
 
-        // Block
+        #region Block
         public bool BlockUser(IUserIdentifier userDTO)
         {
             string query = _userQueryGenerator.GetBlockUserQuery(userDTO);
@@ -127,14 +158,15 @@ namespace Tweetinvi.Controllers.User
             string query = _userQueryGenerator.GetBlockUserQuery(userScreenName);
             return _twitterAccessor.TryExecutePOSTQuery(query);
         }
+        #endregion
 
-        // Stream Profile Image
+        #region Stream Profile Image
         public Stream GetProfileImageStream(IUserDTO userDTO, ImageSize imageSize = ImageSize.normal)
         {
             var url = _userQueryGenerator.DownloadProfileImageURL(userDTO, imageSize);
             return _webHelper.GetResponseStream(url);
         }
-
+        #endregion
         // Helpers
         private IEnumerable<long> ExecuteGetUserIdsQuery(string query, int maxUserIds)
         {
@@ -162,5 +194,73 @@ namespace Tweetinvi.Controllers.User
 
             return userdIds;
         }
+        #endregion
+
+        #region async
+        public async Task<IEnumerable<long>> GetFriendIdsAsync(IUserIdentifier userDTO, int maxFriendsToRetrieve)
+        {
+
+        }
+
+        public async Task<IEnumerable<long>> GetFriendIdsAsync(long userId, int maxFriendsToRetrieve)
+        {
+
+        }
+
+        public async Task<IEnumerable<long>> GetFriendIdsAsync(string userScreenName, int maxFriendsToRetrieve)
+        {
+
+        }
+
+        public async Task<IEnumerable<long>> GetFollowerIdsAsync(IUserIdentifier userDTO, int maxFollowersToRetrieve)
+        {
+
+        }
+
+        public async Task<IEnumerable<long>> GetFollowerIdsAsync(long userId, int maxFollowersToRetrieve)
+        {
+
+        }
+
+        public async Task<IEnumerable<long>> GetFollowerIdsAsync(string userScreenName, int maxFollowersToRetrieve)
+        {
+
+        }
+
+        public async Task<IEnumerable<ITweetDTO>> GetFavouriteTweetsAsync(IUserIdentifier userDTO, int maxFavouritesToRetrieve)
+        {
+
+        }
+
+        public async Task<IEnumerable<ITweetDTO>> GetFavouriteTweetsAsync(long userId, int maxFavouritesToRetrieve)
+        {
+
+        }
+
+        public async Task<IEnumerable<ITweetDTO>> GetFavouriteTweetsAsync(string userScreenName, int maxFavouritesToRetrieve)
+        {
+
+        }
+
+        public async Task<bool> BlockUserAsync(IUserIdentifier userDTO)
+        {
+
+        }
+
+        public async Task<bool> BlockUserAsync(long userId)
+        {
+
+        }
+
+        public async Task<bool> BlockUserAsync(string userScreenName)
+        {
+
+        }
+
+        public async Task<Stream> GetProfileImageStreamAsync(IUserDTO userDTO, ImageSize imageSize = ImageSize.normal)
+        {
+
+        }
+        #endregion
     }
 }

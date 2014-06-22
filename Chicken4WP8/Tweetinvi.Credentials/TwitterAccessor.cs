@@ -12,6 +12,7 @@ using Tweetinvi.Core.Interfaces.Exceptions;
 using Tweetinvi.Core.Interfaces.oAuth;
 using Tweetinvi.Core.Wrappers;
 using Tweetinvi.Credentials.QueryJsonConverters;
+using System.Threading.Tasks;
 
 namespace Tweetinvi.Credentials
 {
@@ -34,7 +35,8 @@ namespace Tweetinvi.Credentials
             _exceptionHandler = exceptionHandler;
         }
 
-       // Execute<Json>
+        #region sync
+        // Execute<Json>
         public string ExecuteJsonGETQuery(string query)
         {
             return ExecuteQuery(query, HttpMethod.GET);
@@ -222,10 +224,7 @@ namespace Tweetinvi.Credentials
             return result;
         }
 
-        public IEnumerable<T> ExecuteCursorGETQuery<T>(
-                string baseQuery,
-                int maxObjectToRetrieve = Int32.MaxValue,
-                long cursor = -1)
+        public IEnumerable<T> ExecuteCursorGETQuery<T>(string baseQuery, int maxObjectToRetrieve = Int32.MaxValue, long cursor = -1)
             where T : class, IBaseCursorQueryDTO
         {
             int nbOfObjectsProcessed = 0;
@@ -329,5 +328,230 @@ namespace Tweetinvi.Credentials
                 throw;
             }
         }
+        #endregion
+
+        #region async
+        public async Task<string> ExecuteJsonGETQueryAsync(string query)
+        {
+            return await ExecuteQueryAsync(query, HttpMethod.GET);
+        }
+
+        public async Task<string> ExecuteJsonPOSTQueryAsync(string query)
+        {
+            return await ExecuteQueryAsync(query, HttpMethod.POST);
+        }
+
+        //public async Task<bool> TryExecuteJsonGETQueryAsync(string query, out string json)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //public async Task<bool> TryExecuteJsonPOSTQueryAsync(string query, out string json)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        public async Task<JObject> ExecuteGETQueryAsync(string query)
+        {
+            string jsonResponse = await ExecuteQueryAsync(query, HttpMethod.GET);
+            return _wrapper.GetJobjectFromJson(jsonResponse);
+        }
+
+        public async Task<JObject> ExecutePOSTQueryAsync(string query)
+        {
+            string jsonResponse = await ExecuteQueryAsync(query, HttpMethod.POST);
+            return _wrapper.GetJobjectFromJson(jsonResponse);
+        }
+
+        public async Task<T> ExecuteGETQueryAsync<T>(string query, JsonConverter[] converters = null) where T : class
+        {
+            string jsonResponse = await ExecuteQueryAsync(query, HttpMethod.GET);
+            return _jsonObjectConverter.DeserializeObject<T>(jsonResponse, converters);
+        }
+
+        public async Task<T> ExecutePOSTQueryAsync<T>(string query, JsonConverter[] converters = null) where T : class
+        {
+            string jsonResponse = await ExecuteQueryAsync(query, HttpMethod.POST);
+            return _jsonObjectConverter.DeserializeObject<T>(jsonResponse, converters);
+        }
+
+        public async Task<T> ExecutePOSTMultipartQueryAsync<T>(string query, IEnumerable<IMedia> medias, JsonConverter[] converters = null) where T : class
+        {
+            string jsonResponse = await ExecuteMultipartQueryAsync(query, HttpMethod.POST, medias);
+            return _jsonObjectConverter.DeserializeObject<T>(jsonResponse, converters);
+        }
+
+        public async Task<bool> TryExecuteGETQueryAsync(string query, JsonConverter[] converters = null)
+        {
+            try
+            {
+                var jObject = await ExecuteGETQueryAsync(query);
+                return jObject != null;
+            }
+            catch (WebException)
+            {
+                if (!_exceptionHandler.SwallowWebExceptions)
+                {
+                    throw;
+                }
+
+                return false;
+            }
+        }
+
+        public async Task<bool> TryExecutePOSTQueryAsync(string query, JsonConverter[] converters = null)
+        {
+            try
+            {
+                var jObject = await ExecutePOSTQueryAsync(query);
+                return jObject != null;
+            }
+            catch (WebException)
+            {
+                if (!_exceptionHandler.SwallowWebExceptions)
+                {
+                    throw;
+                }
+
+                return false;
+            }
+        }
+
+        //public async Task<bool> TryExecuteGETQueryAsync<T>(string query, out T resultObject, JsonConverter[] converters = null) where T : class
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //public async Task<bool> TryExecutePOSTQueryAsync<T>(string query, out T resultObject, JsonConverter[] converters = null) where T : class
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        public async Task<IEnumerable<string>> ExecuteJsonCursorGETQueryAsync<T>(string baseQuery, int maxObjectToRetrieve = Int32.MaxValue, long cursor = -1)
+            where T : class, IBaseCursorQueryDTO
+        {
+            int nbOfObjectsProcessed = 0;
+            long previousCursor = -2;
+            long nextCursor = cursor;
+
+            // add & for query parameters
+            baseQuery = FormatBaseQuery(baseQuery);
+
+            var result = new List<string>();
+            while (previousCursor != nextCursor && nbOfObjectsProcessed < maxObjectToRetrieve)
+            {
+                T cursorResult = await ExecuteCursorQueryAsync<T>(baseQuery, cursor, true);
+                if (cursorResult == null)
+                {
+                    return result;
+                }
+
+                nbOfObjectsProcessed += cursorResult.GetNumberOfObjectRetrieved();
+                previousCursor = cursorResult.PreviousCursor;
+                nextCursor = cursorResult.NextCursor;
+
+                result.Add(cursorResult.RawJson);
+            }
+
+            return result;
+        }
+
+        public async Task<IEnumerable<T>> ExecuteCursorGETQueryAsync<T>(string baseQuery, int maxObjectToRetrieve = Int32.MaxValue, long cursor = -1)
+            where T : class, IBaseCursorQueryDTO
+        {
+            int nbOfObjectsProcessed = 0;
+            long previousCursor = -2;
+            long nextCursor = cursor;
+
+            // add & for query parameters
+            baseQuery = FormatBaseQuery(baseQuery);
+
+            var result = new List<T>();
+            while (previousCursor != nextCursor && nbOfObjectsProcessed < maxObjectToRetrieve)
+            {
+                T cursorResult = await ExecuteCursorQueryAsync<T>(baseQuery, nextCursor, false);
+
+                if (cursorResult == null)
+                {
+                    return result;
+                }
+
+                nbOfObjectsProcessed += cursorResult.GetNumberOfObjectRetrieved();
+                previousCursor = cursorResult.PreviousCursor;
+                nextCursor = cursorResult.NextCursor;
+
+                result.Add(cursorResult);
+            }
+
+            return result;
+        }
+
+        private async Task<T> ExecuteCursorQueryAsync<T>(string baseQuery, long cursor, bool storeJson)
+            where T : class, IBaseCursorQueryDTO
+        {
+            var query = String.Format("{0}cursor={1}", baseQuery, cursor);
+
+            try
+            {
+                string json = await ExecuteJsonGETQueryAsync(query);
+                var dtoResult = _jsonObjectConverter.DeserializeObject<T>(json, JsonQueryConverterRepository.Converters);
+
+                if (storeJson)
+                {
+                    dtoResult.RawJson = json;
+                }
+
+                return dtoResult;
+            }
+            catch (WebException)
+            {
+                return null;
+            }
+        }
+
+        public async Task<string> ExecuteQueryAsync(string query, HttpMethod method)
+        {
+            if (query == null)
+            {
+                throw new ArgumentException("At least one of the arguments provided to the query was invalid.");
+            }
+
+            try
+            {
+                return await _twitterRequester.ExecuteQueryAsync(query, method);
+            }
+            catch (WebException)
+            {
+                if (_exceptionHandler.SwallowWebExceptions)
+                {
+                    return null;
+                }
+
+                throw;
+            }
+        }
+
+        public async Task<string> ExecuteMultipartQueryAsync(string query, HttpMethod method, IEnumerable<IMedia> medias)
+        {
+            if (query == null)
+            {
+                throw new ArgumentException("At least one of the arguments provided to the query was invalid.");
+            }
+
+            try
+            {
+                return await _twitterRequester.ExecuteMultipartQueryAsync(query, method, medias);
+            }
+            catch (WebException)
+            {
+                if (_exceptionHandler.SwallowWebExceptions)
+                {
+                    return null;
+                }
+
+                throw;
+            }
+        }
+        #endregion
     }
 }
