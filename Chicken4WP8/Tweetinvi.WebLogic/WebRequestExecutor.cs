@@ -88,53 +88,22 @@ namespace Tweetinvi.WebLogic
         #region async
         public async Task<string> ExecuteWebRequestAsync(HttpWebRequest httpWebRequest)
         {
-            WebResponse webResponse = null;
-
-            try
-            {
-                // Opening the connection
-                webResponse = await _webHelper.GetWebResponseAsync(httpWebRequest);
-                Stream stream = webResponse.GetResponseStream();
-                _lastHeadersResult = webResponse.Headers;
-
-                if (stream != null)
-                {
-                    // Getting the result
-                    var responseReader = new StreamReader(stream);
-                    return responseReader.ReadLine();
-                }
-
-                // Closing the connection
-                httpWebRequest.Abort();
-            }
-            catch (AggregateException aex)
-            {
-                var webException = aex.InnerException as WebException;
-                if (webException != null)
-                {
-                    if (webResponse != null)
+            return await _webHelper.GetWebResponseAsync(httpWebRequest)
+                .ContinueWith(task =>
                     {
-                        webResponse.Dispose();
-                    }
-
-                    if (httpWebRequest != null)
-                    {
-                        httpWebRequest.Abort();
-                    }
-
-                    if (httpWebRequest != null)
-                    {
-                        var twitterException = _exceptionHandler.AddWebException(webException, httpWebRequest.RequestUri.AbsoluteUri);
-                        throw twitterException;
-                    }
-
-                    throw webException;
-                }
-
-                throw;
-            }
-
-            return null;
+                        using (var stream = task.Result.GetResponseStream())
+                        {
+                            _lastHeadersResult = task.Result.Headers;
+                            if (stream != null)
+                            {
+                                // Getting the result
+                                var responseReader = new StreamReader(stream);
+                                return responseReader.ReadToEnd();
+                            }
+                            else
+                                return string.Empty;
+                        }
+                    });
         }
 
         public async Task<string> ExecuteMultipartRequestAsync(IMultipartWebRequest multipartWebRequest)
