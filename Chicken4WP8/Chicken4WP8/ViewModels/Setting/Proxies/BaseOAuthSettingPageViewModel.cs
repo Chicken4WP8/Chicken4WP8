@@ -1,5 +1,6 @@
 ﻿using System;
 using Caliburn.Micro;
+using Chicken4WP8.Models.Setting;
 using Chicken4WP8.Services.Interface;
 using Chicken4WP8.Views.Setting.Proxies;
 using Tweetinvi;
@@ -14,6 +15,7 @@ namespace Chicken4WP8.ViewModels.Setting.Proxies
         private ITemporaryCredentials credentials;
 
         public ILanguageHelper LanguageHelper { get; set; }
+        public IStorageService StorageService { get; set; }
 
         public BaseOAuthSettingPageViewModel()
         {
@@ -48,6 +50,14 @@ namespace Chicken4WP8.ViewModels.Setting.Proxies
                 return;
             var newCredentials = await CredentialsCreator.GetCredentialsFromVerifierCodeAsync(PinCode, credentials);
             TwitterCredentials.SetCredentials(newCredentials);
+            var oauth = new BaseOAuthSetting
+            {
+                ConsumerKey = newCredentials.ConsumerKey,
+                ConsumerSecret = newCredentials.ConsumerSecret,
+                AccessToken = newCredentials.AccessToken,
+                AccessTokenSecret = newCredentials.AccessTokenSecret
+            };
+            
         }
     }
 }

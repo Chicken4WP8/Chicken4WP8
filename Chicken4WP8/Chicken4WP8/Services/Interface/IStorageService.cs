@@ -7,9 +7,9 @@ namespace Chicken4WP8.Services.Interface
     public interface IStorageService
     {
         UserSetting GetCurrentUserSetting();
-        //void UpdateCurrentUser(User user);
+        void UpdateCurrentUserSetting(UserSetting setting);
         
-        object GetOAuthSetting(int id);
+        //object GetOAuthSetting(int id);
         //void UpdageCurrentSetting(ICredentialStore CredentialStore);
 
         string GetCurrentLanguage();

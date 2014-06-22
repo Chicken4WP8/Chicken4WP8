@@ -53,9 +53,19 @@ namespace Chicken4WP8.Services.Implemention
             return JsonConvert.DeserializeObject<UserSetting>(entity.Data);
         }
 
-        public object GetOAuthSetting(int id)
+        public void UpdateCurrentUserSetting(UserSetting setting)
         {
-            throw new NotImplementedException();
+            if (setting.Id == 0) //add new
+            {
+                var entity = new Setting
+                { 
+                    IsCurrentlyInUsed = true,
+                    Category = SettingCategory.CurrentUserSetting,
+                     Name = setting.Name,
+                      Data = JsonConvert.SerializeObject(setting)                 
+                };
+                context.Settings.InsertOnSubmit(entity);
+            }
         }
 
         public string GetCurrentLanguage()
@@ -81,5 +91,6 @@ namespace Chicken4WP8.Services.Implemention
             setting.Name = name;
             context.SubmitChanges();
         }
+        
     }
 }
