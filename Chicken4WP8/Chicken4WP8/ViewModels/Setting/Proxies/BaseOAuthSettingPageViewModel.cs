@@ -14,12 +14,12 @@ namespace Chicken4WP8.ViewModels.Setting.Proxies
         {
         }
 
-        protected override void OnViewLoaded(object view)
+        protected override async void OnViewLoaded(object view)
         {
             base.OnViewLoaded(view);
-            
+
             var credentials = CredentialsCreator.GenerateApplicationCredentials("pPnxpn00RbGx3YJJtvYUsA", "PoX3exts23HJ1rlMaPr6RtlX2G5VQdrqbpUWpkMcCo");
-            var url = CredentialsCreator.GetAuthorizationURL(credentials);
+            var url = await CredentialsCreator.GetAuthorizationURLAsync(credentials);
 
             var page = view as BaseOAuthSettingPageView;
             var browser = page.Browser;
@@ -36,7 +36,7 @@ namespace Chicken4WP8.ViewModels.Setting.Proxies
                 NotifyOfPropertyChange(() => PinCode);
             }
         }
-        
+
         public void AppBar_Finish()
         {
         }

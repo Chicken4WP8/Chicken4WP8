@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Interfaces;
@@ -28,6 +29,7 @@ namespace Tweetinvi.Credentials
             _resourcesManager = resourcesManager;
         }
 
+        #region sync
         // Step 0 - Generate Application Credentials
         public ITemporaryCredentials GenerateApplicationCredentials(string consumerKey, string consumerSecret)
         {
@@ -122,5 +124,38 @@ namespace Tweetinvi.Credentials
 
             return credentials;
         }
+        #endregion
+
+        #region async
+        public async Task<string> GetPinCodeAuthorizationURLAsync(ITemporaryCredentials temporaryCredentials)
+        {
+            return await GetAuthorizationURLAsync(temporaryCredentials, _resourcesManager.OAuth_PINCode_CallbackURL);
+        }
+
+        public async Task<string> GetAuthorizationURLAsync(ITemporaryCredentials temporaryCredentials, string callbackURL)
+        {
+            var callbackParameter = _oAuthWebRequestGenerator.GenerateParameter("oauth_callback", callbackURL, true, true, false);
+
+            var requestTokenResponse =await _twitterRequester.ExecuteQueryWithTemporaryCredentialsAsync(_resourcesManager.OAuthRequestToken, HttpMethod.POST, temporaryCredentials: temporaryCredentials, headers: new[] { callbackParameter });
+
+            if (!string.IsNullOrEmpty(requestTokenResponse) && requestTokenResponse != _resourcesManager.OAuthRequestToken)
+            {
+                Match tokenInformation = Regex.Match(requestTokenResponse, _resourcesManager.OAuthTokenRequestRegex);
+
+                bool callbackConfirmed = Boolean.Parse(tokenInformation.Groups["oauth_callback_confirmed"].Value);
+                if (!callbackConfirmed)
+                {
+                    return null;
+                }
+
+                temporaryCredentials.AuthorizationKey = tokenInformation.Groups["oauth_token"].Value;
+                temporaryCredentials.AuthorizationSecret = tokenInformation.Groups["oauth_token_secret"].Value;
+
+                return String.Format("{0}?oauth_token={1}", _resourcesManager.OAuthRequestAuthorize, temporaryCredentials.AuthorizationKey);
+            }
+
+            return null;
+        }
+        #endregion
     }
 }
