@@ -15,9 +15,9 @@ namespace Tweetinvi.Core.Interfaces.Credentials
         Task<string> ExecuteJsonGETQueryAsync(string query);
         Task<string> ExecuteJsonPOSTQueryAsync(string query);
 
-        // Try Execute<Json>
-        Task<bool> TryExecuteJsonGETQueryAsync(string query, out string json);
-        Task<bool> TryExecuteJsonPOSTQueryAsync(string query, out string json);
+        //// Try Execute<Json>
+        //Task<bool> TryExecuteJsonGETQueryAsync(string query, out string json);
+        //Task<bool> TryExecuteJsonPOSTQueryAsync(string query, out string json);
 
         // Get unknown type of objects
         Task<JObject> ExecuteGETQueryAsync(string query);
@@ -33,8 +33,8 @@ namespace Tweetinvi.Core.Interfaces.Credentials
         Task<bool> TryExecutePOSTQueryAsync(string query, JsonConverter[] converters = null);
 
         // Try Get Result
-        Task<bool> TryExecuteGETQueryAsync<T>(string query, out T resultObject, JsonConverter[] converters = null) where T : class;
-        Task<bool> TryExecutePOSTQueryAsync<T>(string query, out T resultObject, JsonConverter[] converters = null) where T : class;
+        //Task<bool> TryExecuteGETQueryAsync<T>(string query, out T resultObject, JsonConverter[] converters = null) where T : class;
+        //Task<bool> TryExecutePOSTQueryAsync<T>(string query, out T resultObject, JsonConverter[] converters = null) where T : class;
 
         // Cursor Query
         Task<IEnumerable<string>> ExecuteJsonCursorGETQueryAsync<T>(

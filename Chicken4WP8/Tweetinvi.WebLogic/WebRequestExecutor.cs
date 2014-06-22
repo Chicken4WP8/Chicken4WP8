@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Threading.Tasks;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Interfaces.Exceptions;
 using Tweetinvi.Core.Interfaces.oAuth;
@@ -26,6 +27,7 @@ namespace Tweetinvi.WebLogic
             _webHelper = webHelper;
         }
 
+        #region sync
         public string ExecuteWebRequest(HttpWebRequest httpWebRequest)
         {
             WebResponse webResponse = null;
@@ -81,5 +83,64 @@ namespace Tweetinvi.WebLogic
         {
             return multipartWebRequest.GetResult();
         }
+        #endregion
+
+        #region async
+        public async Task<string> ExecuteWebRequestAsync(HttpWebRequest httpWebRequest)
+        {
+            WebResponse webResponse = null;
+
+            try
+            {
+                // Opening the connection
+                webResponse = await _webHelper.GetWebResponseAsync(httpWebRequest);
+                Stream stream = webResponse.GetResponseStream();
+                _lastHeadersResult = webResponse.Headers;
+
+                if (stream != null)
+                {
+                    // Getting the result
+                    var responseReader = new StreamReader(stream);
+                    return responseReader.ReadLine();
+                }
+
+                // Closing the connection
+                httpWebRequest.Abort();
+            }
+            catch (AggregateException aex)
+            {
+                var webException = aex.InnerException as WebException;
+                if (webException != null)
+                {
+                    if (webResponse != null)
+                    {
+                        webResponse.Dispose();
+                    }
+
+                    if (httpWebRequest != null)
+                    {
+                        httpWebRequest.Abort();
+                    }
+
+                    if (httpWebRequest != null)
+                    {
+                        var twitterException = _exceptionHandler.AddWebException(webException, httpWebRequest.RequestUri.AbsoluteUri);
+                        throw twitterException;
+                    }
+
+                    throw webException;
+                }
+
+                throw;
+            }
+
+            return null;
+        }
+
+        public async Task<string> ExecuteMultipartRequestAsync(IMultipartWebRequest multipartWebRequest)
+        {
+            return await multipartWebRequest.GetResultAsync();
+        }
+        #endregion
     }
 }

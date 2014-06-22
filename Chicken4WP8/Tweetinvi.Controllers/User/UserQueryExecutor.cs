@@ -197,69 +197,119 @@ namespace Tweetinvi.Controllers.User
         #endregion
 
         #region async
+        #region Friend Ids
         public async Task<IEnumerable<long>> GetFriendIdsAsync(IUserIdentifier userDTO, int maxFriendsToRetrieve)
         {
-
+            string query = _userQueryGenerator.GetFriendIdsQuery(userDTO, maxFriendsToRetrieve);
+            return await ExecuteGetUserIdsQueryAsync(query, maxFriendsToRetrieve);
         }
 
         public async Task<IEnumerable<long>> GetFriendIdsAsync(long userId, int maxFriendsToRetrieve)
         {
-
+            string query = _userQueryGenerator.GetFriendIdsQuery(userId, maxFriendsToRetrieve);
+            return await ExecuteGetUserIdsQueryAsync(query, maxFriendsToRetrieve);
         }
 
         public async Task<IEnumerable<long>> GetFriendIdsAsync(string userScreenName, int maxFriendsToRetrieve)
         {
-
+            string query = _userQueryGenerator.GetFriendIdsQuery(userScreenName, maxFriendsToRetrieve);
+            return await ExecuteGetUserIdsQueryAsync(query, maxFriendsToRetrieve);
         }
+        #endregion
 
+        #region Followers
         public async Task<IEnumerable<long>> GetFollowerIdsAsync(IUserIdentifier userDTO, int maxFollowersToRetrieve)
         {
-
+            string query = _userQueryGenerator.GetFollowerIdsQuery(userDTO, maxFollowersToRetrieve);
+            return await ExecuteGetUserIdsQueryAsync(query, maxFollowersToRetrieve);
         }
 
         public async Task<IEnumerable<long>> GetFollowerIdsAsync(long userId, int maxFollowersToRetrieve)
         {
-
+            string query = _userQueryGenerator.GetFollowerIdsQuery(userId, maxFollowersToRetrieve);
+            return await ExecuteGetUserIdsQueryAsync(query, maxFollowersToRetrieve);
         }
 
         public async Task<IEnumerable<long>> GetFollowerIdsAsync(string userScreenName, int maxFollowersToRetrieve)
         {
-
+            string query = _userQueryGenerator.GetFollowerIdsQuery(userScreenName, maxFollowersToRetrieve);
+            return await ExecuteGetUserIdsQueryAsync(query, maxFollowersToRetrieve);
         }
+        #endregion
 
+        #region Favorites
         public async Task<IEnumerable<ITweetDTO>> GetFavouriteTweetsAsync(IUserIdentifier userDTO, int maxFavouritesToRetrieve)
         {
-
+            string query = _userQueryGenerator.GetFavouriteTweetsQuery(userDTO, maxFavouritesToRetrieve);
+            return await _twitterAccessor.ExecuteGETQueryAsync<IEnumerable<ITweetDTO>>(query);
         }
 
         public async Task<IEnumerable<ITweetDTO>> GetFavouriteTweetsAsync(long userId, int maxFavouritesToRetrieve)
         {
-
+            string query = _userQueryGenerator.GetFavouriteTweetsQuery(userId, maxFavouritesToRetrieve);
+            return await _twitterAccessor.ExecuteGETQueryAsync<IEnumerable<ITweetDTO>>(query);
         }
 
         public async Task<IEnumerable<ITweetDTO>> GetFavouriteTweetsAsync(string userScreenName, int maxFavouritesToRetrieve)
         {
-
+            string query = _userQueryGenerator.GetFavouriteTweetsQuery(userScreenName, maxFavouritesToRetrieve);
+            return await _twitterAccessor.ExecuteGETQueryAsync<IEnumerable<ITweetDTO>>(query);
         }
+        #endregion
 
+        #region Block User
         public async Task<bool> BlockUserAsync(IUserIdentifier userDTO)
         {
-
+            string query = _userQueryGenerator.GetBlockUserQuery(userDTO);
+            return await _twitterAccessor.TryExecutePOSTQueryAsync(query);
         }
 
         public async Task<bool> BlockUserAsync(long userId)
         {
-
+            string query = _userQueryGenerator.GetBlockUserQuery(userId);
+            return await _twitterAccessor.TryExecutePOSTQueryAsync(query);
         }
 
         public async Task<bool> BlockUserAsync(string userScreenName)
         {
-
+            string query = _userQueryGenerator.GetBlockUserQuery(userScreenName);
+            return await _twitterAccessor.TryExecutePOSTQueryAsync(query);
         }
+        #endregion
 
+        #region Profile Image
         public async Task<Stream> GetProfileImageStreamAsync(IUserDTO userDTO, ImageSize imageSize = ImageSize.normal)
         {
+            var url = _userQueryGenerator.DownloadProfileImageURL(userDTO, imageSize);
+            return await _webHelper.GetResponseStreamAsync(url);
+        }
+        #endregion
+        // Helpers
+        private async Task<IEnumerable<long>> ExecuteGetUserIdsQueryAsync(string query, int maxUserIds)
+        {
+            var userIdsDTO = await _twitterAccessor.ExecuteCursorGETQueryAsync<IIdsCursorQueryResultDTO>(query, maxUserIds);
+            if (userIdsDTO == null)
+            {
+                return null;
+            }
 
+            var userIdsDTOList = userIdsDTO.ToList();
+
+            var userdIds = new List<long>();
+            for (int i = 0; i < userIdsDTOList.Count - 1; ++i)
+            {
+                userdIds.AddRange(userIdsDTOList.ElementAt(i).Ids);
+            }
+
+            // TODO : Move the limit logic in the TwitterAccessor.ExecuteCursorQuery
+
+            if (userIdsDTOList.Any())
+            {
+                var userIdsDTOResult = userIdsDTOList.Last();
+                userdIds.AddRange(userIdsDTOResult.Ids.Take(maxUserIds - userdIds.Count));
+            }
+
+            return userdIds;
         }
         #endregion
     }

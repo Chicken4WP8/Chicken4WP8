@@ -371,7 +371,7 @@ namespace Tweetinvi.Logic
         #region Async
         public async Task<IEnumerable<long>> GetFriendIdsAsync(int maxFriendsToRetrieve = 5000)
         {
-            return await _userController.GetFriendsAsync(maxFriendsToRetrieve);
+            return await _userController.GetFriendIdsAsync(maxFriendsToRetrieve);
         }
 
         public async Task<IEnumerable<IUser>> GetFriendsAsync(int maxFriendsToRetrieve = 250)

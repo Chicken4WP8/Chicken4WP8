@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Tweetinvi.Core.Enum;
@@ -12,7 +13,6 @@ using Tweetinvi.Core.Interfaces.Exceptions;
 using Tweetinvi.Core.Interfaces.oAuth;
 using Tweetinvi.Core.Wrappers;
 using Tweetinvi.Credentials.QueryJsonConverters;
-using System.Threading.Tasks;
 
 namespace Tweetinvi.Credentials
 {

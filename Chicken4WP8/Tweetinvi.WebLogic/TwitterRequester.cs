@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Interfaces.Credentials;
@@ -18,6 +19,7 @@ namespace Tweetinvi.WebLogic
             _webRequestExecutor = webRequestExecutor;
         }
 
+        #region sync
         public string ExecuteQuery(string url, HttpMethod httpMethod, IEnumerable<IOAuthQueryParameter> headers = null)
         {
             var webRequest = _twitterRequestGenerator.GetQueryWebRequest(url, httpMethod, headers);
@@ -35,11 +37,36 @@ namespace Tweetinvi.WebLogic
             return _webRequestExecutor.ExecuteMultipartRequest(webRequest);
         }
 
-        public string ExecuteQueryWithTemporaryCredentials(string url, HttpMethod httpMethod, ITemporaryCredentials temporaryCredentials, IEnumerable<IOAuthQueryParameter> parameters)
+        public string ExecuteQueryWithTemporaryCredentials(string url, HttpMethod httpMethod, ITemporaryCredentials temporaryCredentials, IEnumerable<IOAuthQueryParameter> headers)
         {
-            var webRequest = _twitterRequestGenerator.GetQueryWebRequestWithTemporaryCredentials(url, httpMethod, temporaryCredentials, parameters);
+            var webRequest = _twitterRequestGenerator.GetQueryWebRequestWithTemporaryCredentials(url, httpMethod, temporaryCredentials, headers);
             return _webRequestExecutor.ExecuteWebRequest(webRequest);
         }
+        #endregion
 
+        #region async
+        public async Task<string> ExecuteQueryAsync(string url, HttpMethod httpMethod, IEnumerable<IOAuthQueryParameter> headers = null)
+        {
+            var webRequest = _twitterRequestGenerator.GetQueryWebRequest(url, httpMethod, headers);
+            return await _webRequestExecutor.ExecuteWebRequestAsync(webRequest);
+        }
+
+        public async Task<string> ExecuteMultipartQueryAsync(string url, HttpMethod httpMethod, IEnumerable<IMedia> medias)
+        {
+            if (medias == null || medias.IsEmpty())
+            {
+                return await ExecuteQueryAsync(url, httpMethod);
+            }
+
+            var webRequest = _twitterRequestGenerator.ExecuteMediaQueryWebRequest(url, httpMethod, medias);
+            return await _webRequestExecutor.ExecuteMultipartRequestAsync(webRequest);
+        }
+
+        public async Task<string> ExecuteQueryWithTemporaryCredentialsAsync(string url, HttpMethod httpMethod, ITemporaryCredentials temporaryCredentials, IEnumerable<IOAuthQueryParameter> headers)
+        {
+            var webRequest = _twitterRequestGenerator.GetQueryWebRequestWithTemporaryCredentials(url, httpMethod, temporaryCredentials, headers);
+            return await _webRequestExecutor.ExecuteWebRequestAsync(webRequest);
+        }
+        #endregion
     }
 }

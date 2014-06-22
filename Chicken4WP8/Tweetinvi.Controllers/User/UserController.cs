@@ -346,18 +346,20 @@ namespace Tweetinvi.Controllers.User
 
         public async Task<IEnumerable<ITweet>> GetFavouriteTweetsAsync(IUserIdentifier userDTO, int maxFavouritesToRetrieve = 40)
         {
-            var favoriteTweetsDTO = await _userQueryExecutor.GetFavouriteTweets(userDTO, maxFavouritesToRetrieve);
-            return await _tweetFactory.GenerateTweetsFromDTO(favoriteTweetsDTO);
+            var favoriteTweetsDTO = await _userQueryExecutor.GetFavouriteTweetsAsync(userDTO, maxFavouritesToRetrieve);
+            return _tweetFactory.GenerateTweetsFromDTO(favoriteTweetsDTO);
         }
 
         public async Task<IEnumerable<ITweet>> GetFavouriteTweetsAsync(long userId, int maxFavouritesToRetrieve = 40)
         {
-
+            var favoriteTweetsDTO = await _userQueryExecutor.GetFavouriteTweetsAsync(userId, maxFavouritesToRetrieve);
+            return _tweetFactory.GenerateTweetsFromDTO(favoriteTweetsDTO);
         }
 
         public async Task<IEnumerable<ITweet>> GetFavouriteTweetsAsync(string userScreenName, int maxFavouritesToRetrieve = 40)
         {
-
+            var favoriteTweetsDTO = await _userQueryExecutor.GetFavouriteTweetsAsync(userScreenName, maxFavouritesToRetrieve);
+            return _tweetFactory.GenerateTweetsFromDTO(favoriteTweetsDTO);
         }
         #endregion
 

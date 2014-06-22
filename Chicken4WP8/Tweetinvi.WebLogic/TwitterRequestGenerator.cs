@@ -134,9 +134,14 @@ namespace Tweetinvi.WebLogic
                 return result;
             }
 
-            public Task<string> GetResultAsync()
+            public async Task<string> GetResultAsync()
             {
-                throw new NotImplementedException();
+                var response = await Task.Factory.FromAsync<WebResponse>(WebRequest.BeginGetResponse, WebRequest.EndGetResponse, WebRequest);
+                using (StreamReader streamReader = new StreamReader(response.GetResponseStream()))
+                {
+                    string result = streamReader.ReadToEnd();
+                    return result;
+                }
             }
         }
 
