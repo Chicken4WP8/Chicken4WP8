@@ -56,6 +56,7 @@ namespace Chicken4WP8.ViewModels.Setting
             switch (SelectedItem.Name)
             {
                 case "BASE":
+                    NavigationService.UriFor<BaseOAuthSettingPageViewModel>().Navigate();
                     break;
                 case "TWIP4":
                     NavigationService.UriFor<TwipOAuthSettingPageViewModel>().Navigate();

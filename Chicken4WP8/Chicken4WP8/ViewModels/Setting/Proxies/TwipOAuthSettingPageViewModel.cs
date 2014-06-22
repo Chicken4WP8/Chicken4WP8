@@ -36,13 +36,13 @@ namespace Chicken4WP8.ViewModels.Setting.Proxies
             }
         }
 
-        public void Finish()
+        public async void Finish()
         {
             if (!string.IsNullOrEmpty(BaseUrl))
             {
                 TwitterResources.BaseUrl = BaseUrl;
-                var user = User.GetLoggedUser();
-                UserName = user.Name;
+                var user =await UserAsync.GetLoggedUser();
+                UserName =  user.Name;
 
                 MessageBox.Show(UserName);
             }

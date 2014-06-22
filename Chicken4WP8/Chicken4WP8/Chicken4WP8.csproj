@@ -112,11 +112,15 @@
     <Compile Include="Services\Interface\IStorageService.cs" />
     <Compile Include="ViewModels\Home\HomePageViewModel.cs" />
     <Compile Include="ViewModels\Setting\OAuthSettingPageViewModel.cs" />
+    <Compile Include="ViewModels\Setting\Proxies\BaseOAuthSettingPageViewModel.cs" />
     <Compile Include="ViewModels\Setting\Proxies\TwipOAuthSettingPageViewModel.cs" />
     <Compile Include="ViewModels\Setting\SettingPageViewModel.cs" />
     <Compile Include="ViewModels\SplashScreenPageViewModel.cs" />
     <Compile Include="Views\Home\HomePageView.xaml.cs">
       <DependentUpon>HomePageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Setting\Proxies\BaseOAuthSettingPageView.xaml.cs">
+      <DependentUpon>BaseOAuthSettingPageView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -277,6 +281,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Setting\OAuthSettingPageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Setting\Proxies\BaseOAuthSettingPageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

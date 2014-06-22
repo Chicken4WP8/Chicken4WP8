@@ -8,6 +8,11 @@ namespace Tweetinvi.Resource
         {
         }
 
+        public ResourcesManager()
+        {
+            baseUrl = "https://api.twitter.com/";
+        }
+
         private string baseUrl;
         public string BaseUrl
         {
