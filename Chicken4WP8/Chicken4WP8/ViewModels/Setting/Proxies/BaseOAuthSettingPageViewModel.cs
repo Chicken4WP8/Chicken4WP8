@@ -3,11 +3,16 @@ using Caliburn.Micro;
 using Chicken4WP8.Services.Interface;
 using Chicken4WP8.Views.Setting.Proxies;
 using Tweetinvi;
+using Tweetinvi.Core.Interfaces.Credentials;
 
 namespace Chicken4WP8.ViewModels.Setting.Proxies
 {
     public class BaseOAuthSettingPageViewModel : Screen
     {
+        private const string KEY = "pPnxpn00RbGx3YJJtvYUsA";
+        private const string SECRET = "PoX3exts23HJ1rlMaPr6RtlX2G5VQdrqbpUWpkMcCo";
+        private ITemporaryCredentials credentials;
+
         public ILanguageHelper LanguageHelper { get; set; }
 
         public BaseOAuthSettingPageViewModel()
@@ -18,7 +23,7 @@ namespace Chicken4WP8.ViewModels.Setting.Proxies
         {
             base.OnViewLoaded(view);
 
-            var credentials = CredentialsCreator.GenerateApplicationCredentials("pPnxpn00RbGx3YJJtvYUsA", "PoX3exts23HJ1rlMaPr6RtlX2G5VQdrqbpUWpkMcCo");
+            credentials = CredentialsCreator.GenerateApplicationCredentials(KEY, SECRET);
             var url = await CredentialsCreator.GetAuthorizationURLAsync(credentials);
 
             var page = view as BaseOAuthSettingPageView;
@@ -37,8 +42,12 @@ namespace Chicken4WP8.ViewModels.Setting.Proxies
             }
         }
 
-        public void AppBar_Finish()
+        public async void AppBar_Finish()
         {
+            if (string.IsNullOrEmpty(PinCode))
+                return;
+            var newCredentials = await CredentialsCreator.GetCredentialsFromVerifierCodeAsync(PinCode, credentials);
+            TwitterCredentials.SetCredentials(newCredentials);
         }
     }
 }
