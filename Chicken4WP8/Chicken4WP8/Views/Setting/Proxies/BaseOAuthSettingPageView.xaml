@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:appBar="clr-namespace:Caliburn.Micro.BindableAppBar;assembly=Caliburn.Micro.BindableAppBar"
+    xmlns:toolkits="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
@@ -35,5 +36,9 @@
                                          Text="Finish" IconUri="/Images/dark/appbar.check.png" />
         </appBar:BindableAppBar>
     </Grid>
+
+    <toolkits:WaitCursorService.WaitCursor>
+        <toolkits:WaitCursor x:Name="WaitIndicator"/>
+    </toolkits:WaitCursorService.WaitCursor>
 
 </phone:PhoneApplicationPage>

@@ -104,5 +104,14 @@ namespace Chicken4WP8.Resources {
                 return ResourceManager.GetString("TwipOAuthSettingPageView_Title", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   查找类似 Loading... 的本地化字符串。
+        /// </summary>
+        public static string WaitCursor_Loading {
+            get {
+                return ResourceManager.GetString("WaitCursor_Loading", resourceCulture);
+            }
+        }
     }
 }

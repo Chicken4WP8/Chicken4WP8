@@ -113,9 +113,7 @@ namespace Chicken4WP8
                 //  registered as self
               .AsSelf()
                 //  always create a new one
-              .InstancePerDependency()
-                // auto inject property
-              .PropertiesAutowired();
+              .InstancePerDependency();
 
             //  register views
             builder.RegisterAssemblyTypes(assembiles)

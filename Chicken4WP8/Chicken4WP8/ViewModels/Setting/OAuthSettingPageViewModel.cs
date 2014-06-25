@@ -8,12 +8,21 @@ namespace Chicken4WP8.ViewModels.Setting
 {
     public class OAuthSettingPageViewModel : Screen
     {
+        #region properties
+        private readonly IStorageService storageService;
+        private readonly INavigationService navigationService;
         public ILanguageHelper LanguageHelper { get; set; }
-        public IStorageService StorageSerive { get; set; }
-        public INavigationService NavigationService { get; set; }
 
-        public OAuthSettingPageViewModel()
-        { }
+        public OAuthSettingPageViewModel(
+            ILanguageHelper languageHelper,
+            IStorageService storageService,
+            INavigationService navigationService)
+        {
+            this.LanguageHelper = languageHelper;
+            this.storageService = storageService;
+            this.navigationService = navigationService;
+        }
+        #endregion
 
         private ObservableCollection<OAuthSetting> types;
         public ObservableCollection<OAuthSetting> Items
@@ -56,10 +65,10 @@ namespace Chicken4WP8.ViewModels.Setting
             switch (SelectedItem.Name)
             {
                 case "BASE":
-                    NavigationService.UriFor<BaseOAuthSettingPageViewModel>().Navigate();
+                    navigationService.UriFor<BaseOAuthSettingPageViewModel>().Navigate();
                     break;
                 case "TWIP4":
-                    NavigationService.UriFor<TwipOAuthSettingPageViewModel>().Navigate();
+                    navigationService.UriFor<TwipOAuthSettingPageViewModel>().Navigate();
                     break;
             }
         }
