@@ -57,7 +57,16 @@ namespace Chicken4WP8.ViewModels.Setting.Proxies
                 AccessToken = newCredentials.AccessToken,
                 AccessTokenSecret = newCredentials.AccessTokenSecret
             };
-            
+
+            var user = User.GetLoggedUser();
+
+            var setting = StorageService.GetCurrentUserSetting();
+            if (setting == null)
+                setting = new UserSetting();
+            setting.OAuthSetting = oauth;
+
+            StorageService.UpdateCurrentUserSetting(setting);
+            App.UpdateSetting(setting);
         }
     }
 }

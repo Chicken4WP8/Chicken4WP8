@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using Chicken4WP8.Models.Setting;
 
 namespace Chicken4WP8
 {
@@ -7,6 +8,17 @@ namespace Chicken4WP8
         public App()
         {
             InitializeComponent();
+        }
+
+        private static UserSetting _setting;
+        public static UserSetting UserSetting
+        {
+            get { return _setting; }
+        }
+
+        public static void UpdateSetting(UserSetting setting)
+        {
+            _setting = setting;
         }
     }
 }

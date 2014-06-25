@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Chicken4WP8.Common;
 using Chicken4WP8.Entities;
 using Chicken4WP8.Models.Setting;
 using Chicken4WP8.Services.Interface;
@@ -50,22 +51,24 @@ namespace Chicken4WP8.Services.Implemention
             var entity = context.Settings.FirstOrDefault(s => s.Category == SettingCategory.CurrentUserSetting && s.IsCurrentlyInUsed);
             if (entity == null || entity.Data == null)
                 return null;
-            return JsonConvert.DeserializeObject<UserSetting>(entity.Data);
+            return JsonConvert.DeserializeObject<UserSetting>(entity.Data, Const.JsonSettings);
         }
 
         public void UpdateCurrentUserSetting(UserSetting setting)
         {
-            if (setting.Id == 0) //add new
+            var entity = context.Settings.FirstOrDefault(s => s.Category == SettingCategory.CurrentUserSetting && s.IsCurrentlyInUsed);
+            if (entity == null) //add new
             {
-                var entity = new Setting
-                { 
-                    IsCurrentlyInUsed = true,
+                entity = new Setting
+                {
                     Category = SettingCategory.CurrentUserSetting,
-                     Name = setting.Name,
-                      Data = JsonConvert.SerializeObject(setting)                 
+                    Name = setting.Name
                 };
                 context.Settings.InsertOnSubmit(entity);
             }
+            entity.IsCurrentlyInUsed = true;
+            entity.Data = JsonConvert.SerializeObject(setting, Const.JsonSettings);
+            context.SubmitChanges();
         }
 
         public string GetCurrentLanguage()
@@ -91,6 +94,5 @@ namespace Chicken4WP8.Services.Implemention
             setting.Name = name;
             context.SubmitChanges();
         }
-        
     }
 }

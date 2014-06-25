@@ -5,7 +5,6 @@ namespace Chicken4WP8.Models.Setting
 {
     public abstract class OAuthSetting
     {
-        public int Id { get; set; }
         public virtual string Name { get; set; }
         public virtual string Description { get; set; }
     }
