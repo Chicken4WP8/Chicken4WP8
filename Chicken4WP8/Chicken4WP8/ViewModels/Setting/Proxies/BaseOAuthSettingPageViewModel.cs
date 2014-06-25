@@ -22,18 +22,19 @@ namespace Chicken4WP8.ViewModels.Setting.Proxies
         public ILanguageHelper LanguageHelper { get; set; }
 
         public BaseOAuthSettingPageViewModel(
-            ILanguageHelper languageHelper,
             IStorageService storageService,
             INavigationService navigationService)
         {
-            this.LanguageHelper = languageHelper;
             this.storageService = storageService;
             this.navigationService = navigationService;
-
             waitCursorService = WaitCursorService.WaitCursor;
-            waitCursorService.Text = LanguageHelper["WaitCursor_Loading"];
         }
         #endregion
+        protected override void OnInitialize()
+        {
+            base.OnInitialize(); 
+            waitCursorService.Text = LanguageHelper["WaitCursor_Loading"];
+        }
 
         protected override async void OnViewLoaded(object view)
         {

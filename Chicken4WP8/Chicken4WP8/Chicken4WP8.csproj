@@ -94,6 +94,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="AutofacBootstrapper.cs" />
+    <Compile Include="AutofacModules\LanguageModule.cs" />
     <Compile Include="AutofacPhoneContainer.cs" />
     <Compile Include="Common\Const.cs" />
     <Compile Include="Entities\ChickenDataContext.cs" />
@@ -347,6 +348,7 @@
       <Name>Tweetinvi</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

@@ -14,11 +14,9 @@ namespace Chicken4WP8.ViewModels.Setting
         public ILanguageHelper LanguageHelper { get; set; }
 
         public OAuthSettingPageViewModel(
-            ILanguageHelper languageHelper,
             IStorageService storageService,
             INavigationService navigationService)
         {
-            this.LanguageHelper = languageHelper;
             this.storageService = storageService;
             this.navigationService = navigationService;
         }

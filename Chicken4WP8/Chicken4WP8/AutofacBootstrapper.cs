@@ -5,8 +5,7 @@ using System.Windows.Controls;
 using Autofac;
 using Caliburn.Micro;
 using Caliburn.Micro.BindableAppBar;
-using Chicken4WP8.Services.Implemention;
-using Chicken4WP8.Services.Interface;
+using Chicken4WP8.AutofacModules;
 using Microsoft.Phone.Controls;
 
 namespace Chicken4WP8
@@ -137,12 +136,7 @@ namespace Chicken4WP8
                 //create new one
                     .InstancePerDependency()
                 //auto inject property
-                    .PropertiesAutowired();
-
-            //register language helper
-            builder.RegisterType<LanguageHelper>()
-                .As<ILanguageHelper>()
-                .SingleInstance();
+                    .PropertiesAutowired();            
 
             //  register as CM container
             //builder.RegisterInstance<SimpleContainer>(this).InstancePerLifetimeScope();
@@ -164,6 +158,9 @@ namespace Chicken4WP8
             builder.Register<ISoundEffectPlayer>(c => CreateSoundEffectPlayer()).InstancePerLifetimeScope();
             builder.RegisterType<StorageCoordinator>().AsSelf().InstancePerLifetimeScope();
             builder.RegisterType<TaskController>().AsSelf().InstancePerLifetimeScope();
+
+            //register modules
+            builder.RegisterModule(new LanguageModule());
 
             //  allow derived classes to add to the container
             ConfigureContainer(builder);
