@@ -41,7 +41,7 @@ namespace Chicken4WP8.ViewModels.Setting.Proxies
             if (!string.IsNullOrEmpty(BaseUrl))
             {
                 TwitterResources.BaseUrl = BaseUrl;
-                var user =await UserAsync.GetLoggedUser();
+                var user = await User.GetLoggedUserAsync();
                 UserName =  user.Name;
 
                 MessageBox.Show(UserName);

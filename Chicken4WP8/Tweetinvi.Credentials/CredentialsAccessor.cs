@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.oAuth;
 
@@ -42,6 +43,7 @@ namespace Tweetinvi.Credentials
             }
         }
 
+        #region sync
         public T ExecuteOperationWithCredentials<T>(IOAuthCredentials credentials, Func<T> operation)
         {
             var initialCredentials = CurrentThreadCredentials;
@@ -58,6 +60,26 @@ namespace Tweetinvi.Credentials
             operation();
             CurrentThreadCredentials = initialCredentials;
         }
+        #endregion
+
+        #region async
+        public async Task<T> ExecuteOperationWithCredentialsAsync<T>(IOAuthCredentials credentials, Func<T> operation)
+        {
+            var initialCredentials = CurrentThreadCredentials;
+            CurrentThreadCredentials = credentials;
+            var result = await Task.Factory.StartNew(() => operation());
+            CurrentThreadCredentials = initialCredentials;
+            return result;
+        }
+
+        public async void ExecuteOperationWithCredentialsAsync(IOAuthCredentials credentials, Action operation)
+        {
+            var initialCredentials = CurrentThreadCredentials;
+            CurrentThreadCredentials = credentials;
+            await Task.Factory.StartNew(() => operation());
+            CurrentThreadCredentials = initialCredentials;
+        }
+        #endregion
 
         private bool HasTheApplicationCredentialsBeenInitialized()
         {

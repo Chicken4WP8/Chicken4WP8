@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Core.Interfaces.Controllers;
@@ -54,7 +55,7 @@ namespace Tweetinvi
         }
 
         #region User Factory
-
+        #region sync
         public static ILoggedUser GetLoggedUser()
         {
             return UserFactory.GetLoggedUser();
@@ -92,7 +93,37 @@ namespace Tweetinvi
         {
             return UserFactory.GenerateUsersFromDTO(usersDTO);
         }
+        #endregion
 
+        #region async
+        public async static Task<ILoggedUser> GetLoggedUserAsync()
+        {
+            return await UserFactory.GetLoggedUserAsync();
+        }
+
+        public async static Task<ILoggedUser> GetLoggedUserAsync(IOAuthCredentials credentials)
+        {
+            return await UserFactory.GetLoggedUserAsync(credentials);
+        }
+
+        public async static Task<IUser> GetUserFromIdAsync(long userId)
+        {
+            return await UserFactory.GetUserFromIdAsync(userId);
+        }
+
+        /// <summary>
+        /// Get a collection of users from a collection of user ids
+        /// </summary>
+        public async static Task<IEnumerable<IUser>> GetUsersFromIdsAsync(IEnumerable<long> userIds)
+        {
+            return await UserFactory.GetUsersFromIdsAsync(userIds);
+        }
+
+        public async static Task<IUser> GetUserFromScreenNameAsync(string userName)
+        {
+            return await UserFactory.GetUserFromScreenNameAsync(userName);
+        }
+        #endregion
         #endregion
 
         #region User Controller

@@ -72,5 +72,25 @@ namespace Tweetinvi.Resource
             get { return string.Format("{0}1.1/account/verify_credentials.json", BaseUrl); }
         }
         #endregion
+
+        public string User_GetUserFromId
+        {
+            get { return "https://api.twitter.com/1.1/users/show.json?user_id={0}"; }
+        }
+
+        public string User_GetUserFromName
+        {
+            get { return "https://api.twitter.com/1.1/users/show.json?screen_name={0}"; }
+        }
+
+        public string User_GetUsersFromIds
+        {
+            get { return "https://api.twitter.com/1.1/users/lookup.json?user_id={0}"; }
+        }
+
+        public string User_GetUsersFromNames
+        {
+            get { return "https://api.twitter.com/1.1/users/lookup.json?screen_name={0}"; }
+        }
     }
 }

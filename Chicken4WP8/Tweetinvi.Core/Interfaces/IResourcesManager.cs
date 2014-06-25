@@ -22,5 +22,13 @@ namespace Tweetinvi.Core.Interfaces
         string OAuthRequestAccessTokenWithUserCredentials { get; }
 
         string TokenUser_GetCurrentUser { get; }
+
+        string User_GetUserFromId { get; }
+
+        string User_GetUserFromName { get; }
+
+        string User_GetUsersFromIds { get; }
+
+        string User_GetUsersFromNames { get; }
     }
 }

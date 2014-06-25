@@ -81,7 +81,6 @@
     <Compile Include="TwitterCredentials.cs" />
     <Compile Include="TwitterResources.cs" />
     <Compile Include="User.cs" />
-    <Compile Include="UserAsync.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Autofac">

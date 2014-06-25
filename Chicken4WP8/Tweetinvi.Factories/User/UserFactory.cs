@@ -9,6 +9,7 @@ using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.Factories;
 using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Interfaces.oAuth;
+using System.Threading.Tasks;
 
 namespace Tweetinvi.Factories.User
 {
@@ -37,6 +38,7 @@ namespace Tweetinvi.Factories.User
             _credentialsAccessor = credentialsAccessor;
         }
 
+        #region sync
         // Get User
         public ILoggedUser GetLoggedUser()
         {
@@ -151,5 +153,57 @@ namespace Tweetinvi.Factories.User
 
             return usersDTO.Select(GenerateUserFromDTO).ToList();
         }
+        #endregion
+
+        #region async
+        public async Task<ILoggedUser> GetLoggedUserAsync()
+        {
+            var userDTO = await _userFactoryQueryExecutor.GetLoggedUserAsync();
+            return GenerateLoggedUserFromDTO(userDTO);
+        }
+
+        public async Task<ILoggedUser> GetLoggedUserAsync(IOAuthCredentials credentials)
+        {
+            var userDTO = await _credentialsAccessor.ExecuteOperationWithCredentialsAsync(credentials, () =>
+            {
+                return _userFactoryQueryExecutor.GetLoggedUser();
+            });
+
+            var loggedUser = GenerateLoggedUserFromDTO(userDTO);
+            loggedUser.SetCredentials(credentials);
+
+            return loggedUser;
+        }
+
+        public async Task<IUser> GetUserFromIdAsync(long userId)
+        {
+            var userDTO = await _userFactoryQueryExecutor.GetUserDTOFromIdAsync(userId);
+            return GenerateUserFromDTO(userDTO);
+        }
+
+        public async Task<IUser> GetUserFromScreenNameAsync(string userName)
+        {
+            var userDTO = await _userFactoryQueryExecutor.GetUserDTOFromScreenNameAsync(userName);
+            return GenerateUserFromDTO(userDTO);
+        }
+
+        //public async Task<IUser> GenerateUserFromJsonAsync(string jsonUser)
+        //{
+        //    var userDTO = _jsonObjectConverter.DeserializeObject<IUserDTO>(jsonUser);
+        //    return GenerateUserFromDTO(userDTO);
+        //}
+
+        public async Task<IEnumerable<IUser>> GetUsersFromIdsAsync(IEnumerable<long> userIds)
+        {
+            var usersDTO = await _userFactoryQueryExecutor.GetUsersDTOFromIdsAsync(userIds);
+            return GenerateUsersFromDTO(usersDTO);
+        }
+
+        public async Task<IEnumerable<IUser>> GetUsersFromNamesAsync(IEnumerable<string> userNames)
+        {
+            var usersDTO = await _userFactoryQueryExecutor.GetUsersDTOFromScreenNamesAsync(userNames);
+            return GenerateUsersFromDTO(usersDTO);
+        }
+        #endregion
     }
 }
