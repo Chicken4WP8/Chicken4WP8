@@ -58,12 +58,15 @@ namespace Chicken4WP8.ViewModels.Setting.Proxies
                 AccessTokenSecret = newCredentials.AccessTokenSecret
             };
 
-            var user = User.GetLoggedUser();
+            var user = await User.GetLoggedUserAsync();
 
             var setting = StorageService.GetCurrentUserSetting();
             if (setting == null)
                 setting = new UserSetting();
             setting.OAuthSetting = oauth;
+            setting.Id = user.Id;
+            setting.Name = user.Name;
+            setting.ScreenName = user.ScreenName;
 
             StorageService.UpdateCurrentUserSetting(setting);
             App.UpdateSetting(setting);
