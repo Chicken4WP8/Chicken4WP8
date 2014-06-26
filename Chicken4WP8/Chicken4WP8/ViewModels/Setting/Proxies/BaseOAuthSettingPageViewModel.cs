@@ -16,23 +16,20 @@ namespace Chicken4WP8.ViewModels.Setting.Proxies
         private const string SECRET = "PoX3exts23HJ1rlMaPr6RtlX2G5VQdrqbpUWpkMcCo";
         private ITemporaryCredentials credentials;
         private readonly WaitCursor waitCursorService;
-        private readonly IStorageService storageService;
-        private readonly INavigationService navigationService;
+        public IStorageService StorageService { get; set; }
+        public INavigationService NavigationService { get; set; }
 
         public ILanguageHelper LanguageHelper { get; set; }
 
-        public BaseOAuthSettingPageViewModel(
-            IStorageService storageService,
-            INavigationService navigationService)
+        public BaseOAuthSettingPageViewModel()
         {
-            this.storageService = storageService;
-            this.navigationService = navigationService;
             waitCursorService = WaitCursorService.WaitCursor;
         }
         #endregion
+
         protected override void OnInitialize()
         {
-            base.OnInitialize(); 
+            base.OnInitialize();
             waitCursorService.Text = LanguageHelper["WaitCursor_Loading"];
         }
 
@@ -76,7 +73,7 @@ namespace Chicken4WP8.ViewModels.Setting.Proxies
 
             var user = await User.GetLoggedUserAsync();
 
-            var setting = storageService.GetCurrentUserSetting();
+            var setting = StorageService.GetCurrentUserSetting();
             if (setting == null)
                 setting = new UserSetting();
             setting.OAuthSetting = oauth;
@@ -84,7 +81,7 @@ namespace Chicken4WP8.ViewModels.Setting.Proxies
             setting.Name = user.Name;
             setting.ScreenName = user.ScreenName;
 
-            storageService.UpdateCurrentUserSetting(setting);
+            StorageService.UpdateCurrentUserSetting(setting);
             App.UpdateSetting(setting);
             waitCursorService.IsVisible = false;
         }

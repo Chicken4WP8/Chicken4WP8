@@ -7,31 +7,26 @@ namespace Chicken4WP8.ViewModels
 {
     public class SplashScreenPageViewModel : Screen
     {
-        private readonly IStorageService storageService;
-        private readonly INavigationService navigationService;
+        public IStorageService StorageService { get; set; }
+        public INavigationService NavigationService { get; set; }
 
-        public SplashScreenPageViewModel(
-            IStorageService storageService,
-            INavigationService navigationService)
-        {
-            this.storageService = storageService;
-            this.navigationService = navigationService;
-        }
+        public SplashScreenPageViewModel()
+        { }
 
         protected override void OnInitialize()
         {
             base.OnInitialize();
-            var setting = storageService.GetCurrentUserSetting();
+            var setting = StorageService.GetCurrentUserSetting();
             if (setting == null)
             {
                 //goto oauth setting page
-                navigationService.UriFor<OAuthSettingPageViewModel>().Navigate();
+                NavigationService.UriFor<OAuthSettingPageViewModel>().Navigate();
             }
             else
             {
                 //set base url for twip or
                 //set oauth key
-                navigationService.UriFor<HomePageViewModel>().Navigate();
+                NavigationService.UriFor<HomePageViewModel>().Navigate();
             }
         }
     }
