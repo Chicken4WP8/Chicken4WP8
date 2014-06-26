@@ -5,10 +5,43 @@
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:local="clr-namespace:Chicken4WP8"
-    xmlns:service="clr-namespace:Chicken4WP8.Services.Implemention">
+    xmlns:service="clr-namespace:Chicken4WP8.Services.Implemention"
+    xmlns:toolkits="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
+    xmlns:ctrls="clr-namespace:Chicken4WP8.Controls">
 
     <Application.Resources>
         <local:AutofacBootstrapper x:Key="bootstrapper" />
+
+        <Style TargetType="ctrls:ToastPrompt">
+            <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeSmall}" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="Foreground" Value="{StaticResource PhoneForegroundBrush}" />
+            <Setter Property="Background" Value="{StaticResource PhoneAccentBrush}" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+            <Setter Property="Overlay" Value="Transparent" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ctrls:ToastPrompt">
+                        <Grid VerticalAlignment="{TemplateBinding VerticalAlignment}" Background="Transparent">
+                            <Rectangle Fill="{TemplateBinding Background}" Opacity="0.6" />
+                            <StackPanel VerticalAlignment="Bottom" Margin="0" Orientation="{TemplateBinding TextOrientation}">
+                                <StackPanel Margin="0" VerticalAlignment="Bottom" Orientation="Horizontal">
+                                    <Image Margin="0" Visibility="Collapsed" Name="ToastImage"
+                                           VerticalAlignment="Bottom" Width="{TemplateBinding ImageWidth}" Height="{TemplateBinding ImageHeight}"
+                                           Source="{TemplateBinding ImageSource}" Stretch="{TemplateBinding Stretch}" />
+                                    <TextBlock Text="{TemplateBinding Title}"
+                                               FontWeight="Bold" VerticalAlignment="Center" Margin="0" Padding="0" />
+                                </StackPanel>
+                                <TextBlock Text="{TemplateBinding Message}"
+                                           Margin="0" Padding="0"
+                                           TextWrapping="{TemplateBinding TextWrapping}" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Application.Resources>
 
 </Application>

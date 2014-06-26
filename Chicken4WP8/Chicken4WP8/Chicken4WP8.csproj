@@ -96,6 +96,8 @@
     <Compile Include="AutofacBootstrapper.cs" />
     <Compile Include="AutofacPhoneContainer.cs" />
     <Compile Include="Common\Const.cs" />
+    <Compile Include="Controls\PopUp.cs" />
+    <Compile Include="Controls\ToastPrompt.cs" />
     <Compile Include="Entities\ChickenDataContext.cs" />
     <Compile Include="Entities\Setting.cs" />
     <Compile Include="Models\Setting\OAuthSetting.cs" />
@@ -108,8 +110,10 @@
     </Compile>
     <Compile Include="Services\Implemention\LanguageHelper.cs" />
     <Compile Include="Services\Implemention\StorageService.cs" />
+    <Compile Include="Services\Implemention\ToastMessageService.cs" />
     <Compile Include="Services\Interface\ILanguageHelper.cs" />
     <Compile Include="Services\Interface\IStorageService.cs" />
+    <Compile Include="Services\Interface\IToastMessageService.cs" />
     <Compile Include="ViewModels\Home\HomePageViewModel.cs" />
     <Compile Include="ViewModels\Setting\OAuthSettingPageViewModel.cs" />
     <Compile Include="ViewModels\Setting\Proxies\BaseOAuthSettingPageViewModel.cs" />

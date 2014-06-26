@@ -2,6 +2,7 @@
 using Caliburn.Micro;
 using Chicken4WP8.Models.Setting;
 using Chicken4WP8.Services.Interface;
+using Chicken4WP8.ViewModels.Home;
 using Chicken4WP8.Views.Setting.Proxies;
 using Microsoft.Phone.Controls;
 using Tweetinvi;
@@ -20,6 +21,7 @@ namespace Chicken4WP8.ViewModels.Setting.Proxies
         public IStorageService StorageService { get; set; }
         public INavigationService NavigationService { get; set; }
         public ILanguageHelper LanguageHelper { get; set; }
+        public IToastMessageService ToastMessageService { get; set; }
 
         public BaseOAuthSettingPageViewModel()
         {
@@ -48,6 +50,9 @@ namespace Chicken4WP8.ViewModels.Setting.Proxies
         {
             base.OnViewLoaded(view);
 
+            waitCursorService.Text = LanguageHelper["WaitCursor_GetAuthorizationPage"];
+            waitCursorService.IsVisible = true;
+
             credentials = CredentialsCreator.GenerateApplicationCredentials(KEY, SECRET);
 
             var page = view as BaseOAuthSettingPageView;
@@ -57,10 +62,6 @@ namespace Chicken4WP8.ViewModels.Setting.Proxies
                 waitCursorService.IsVisible = false;
             };
             browser.NavigationFailed += (o, e) => BrowserNavigationFailed(e.Exception);
-
-            //begin get twitter authorization page
-            waitCursorService.Text = LanguageHelper["WaitCursor_GetAuthorizationPage"];
-            waitCursorService.IsVisible = true;
 
             try
             {
@@ -105,6 +106,10 @@ namespace Chicken4WP8.ViewModels.Setting.Proxies
             StorageService.UpdateCurrentUserSetting(setting);
             App.UpdateSetting(setting);
             waitCursorService.IsVisible = false;
+
+            ToastMessageService.HandleMessage("hello",
+                () =>
+                    NavigationService.UriFor<HomePageViewModel>().Navigate());
         }
 
         private async void BrowserNavigationFailed(Exception exception)
