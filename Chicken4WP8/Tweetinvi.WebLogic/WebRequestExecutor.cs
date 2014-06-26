@@ -88,8 +88,10 @@ namespace Tweetinvi.WebLogic
         #region async
         public async Task<string> ExecuteWebRequestAsync(HttpWebRequest httpWebRequest)
         {
-            return await _webHelper.GetWebResponseAsync(httpWebRequest)
-                .ContinueWith(task =>
+            try
+            {
+                return await _webHelper.GetWebResponseAsync(httpWebRequest)
+                    .ContinueWith(task =>
                     {
                         using (var stream = task.Result.GetResponseStream())
                         {
@@ -104,6 +106,20 @@ namespace Tweetinvi.WebLogic
                                 return string.Empty;
                         }
                     });
+            }
+            catch (AggregateException aex)
+            {
+                var webException = aex.InnerException as WebException;
+                if (webException != null)
+                {
+                    if (httpWebRequest != null)
+                    {
+                        httpWebRequest.Abort();
+                    }
+                    throw webException;
+                }
+                throw;
+            }
         }
 
         public async Task<string> ExecuteMultipartRequestAsync(IMultipartWebRequest multipartWebRequest)

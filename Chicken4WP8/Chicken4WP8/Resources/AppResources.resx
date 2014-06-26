@@ -123,6 +123,12 @@
   <data name="BaseOAuthSettingPageView_Title" xml:space="preserve">
     <value>Authorize with twitter</value>
   </data>
+  <data name="Button_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Button_OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
   <data name="OAuthSettingPageView_OAuthSettingTitle" xml:space="preserve">
     <value>OAuth Setting</value>
   </data>
@@ -131,6 +137,18 @@
   </data>
   <data name="TwipOAuthSettingPageView_Title" xml:space="preserve">
     <value>Twip Base URL</value>
+  </data>
+  <data name="WaitCursor_AnErrorHappened" xml:space="preserve">
+    <value>An Error Happened</value>
+  </data>
+  <data name="WaitCursor_GetAuthorizationPage" xml:space="preserve">
+    <value>Getting Twitter Authorization Page...</value>
+  </data>
+  <data name="WaitCursor_GetCredentials" xml:space="preserve">
+    <value>Authorizing...</value>
+  </data>
+  <data name="WaitCursor_GetCurrentUser" xml:space="preserve">
+    <value>Getting User Information...</value>
   </data>
   <data name="WaitCursor_Loading" xml:space="preserve">
     <value>Loading...</value>

@@ -79,6 +79,24 @@ namespace Chicken4WP8.Resources {
         }
         
         /// <summary>
+        ///   查找类似 Cancel 的本地化字符串。
+        /// </summary>
+        public static string Button_Cancel {
+            get {
+                return ResourceManager.GetString("Button_Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 OK 的本地化字符串。
+        /// </summary>
+        public static string Button_OK {
+            get {
+                return ResourceManager.GetString("Button_OK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 OAuth Setting 的本地化字符串。
         /// </summary>
         public static string OAuthSettingPageView_OAuthSettingTitle {
@@ -102,6 +120,42 @@ namespace Chicken4WP8.Resources {
         public static string TwipOAuthSettingPageView_Title {
             get {
                 return ResourceManager.GetString("TwipOAuthSettingPageView_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 An Error Happened 的本地化字符串。
+        /// </summary>
+        public static string WaitCursor_AnErrorHappened {
+            get {
+                return ResourceManager.GetString("WaitCursor_AnErrorHappened", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Getting Twitter Authorization Page... 的本地化字符串。
+        /// </summary>
+        public static string WaitCursor_GetAuthorizationPage {
+            get {
+                return ResourceManager.GetString("WaitCursor_GetAuthorizationPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Authorizing... 的本地化字符串。
+        /// </summary>
+        public static string WaitCursor_GetCredentials {
+            get {
+                return ResourceManager.GetString("WaitCursor_GetCredentials", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Getting User Information... 的本地化字符串。
+        /// </summary>
+        public static string WaitCursor_GetCurrentUser {
+            get {
+                return ResourceManager.GetString("WaitCursor_GetCurrentUser", resourceCulture);
             }
         }
         
