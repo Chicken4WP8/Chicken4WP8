@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Chicken4WP8.Common;
 using Chicken4WP8.Entities;
 using Chicken4WP8.Models.Setting;
@@ -18,27 +17,7 @@ namespace Chicken4WP8.Services.Implemention
             if (!ctx.DatabaseExists())
             {
                 ctx.CreateDatabase();
-                Initialize(ctx);
             }
-        }
-
-        private static void Initialize(ChickenDataContext context)
-        {
-            //var credential = new InMemoryCredentialStore
-            //{
-            //    ConsumerKey = "pPnxpn00RbGx3YJJtvYUsA",
-            //    ConsumerSecret = "PoX3exts23HJ1rlMaPr6RtlX2G5VQdrqbpUWpkMcCo"
-            //};
-            //var baseOAuth = new Setting
-            //{
-            //    Id = 0,
-            //    Category = SettingCategory.OAuthSetting,
-            //    IsCurrentlyInUsed = true,
-            //    Name = Const.OAUTH_MODE_BASE,
-            //    Data = JsonConvert.SerializeObject(credential, Const.JsonSettings)
-            //};
-            //context.Settings.InsertOnSubmit(baseOAuth);
-            //context.SubmitChanges();
         }
 
         public StorageService()
