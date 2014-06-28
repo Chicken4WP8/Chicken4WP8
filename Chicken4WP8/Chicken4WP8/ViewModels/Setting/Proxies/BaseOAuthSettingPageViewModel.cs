@@ -99,9 +99,7 @@ namespace Chicken4WP8.ViewModels.Setting.Proxies
             var user = await User.GetLoggedUserAsync();
 
             setting.OAuthSetting = oauth;
-            setting.Id = user.Id;
-            setting.Name = user.Name;
-            setting.ScreenName = user.ScreenName;
+            setting.LoggedUser = user;
 
             StorageService.UpdateCurrentUserSetting(setting);
             App.UpdateSetting(setting);
