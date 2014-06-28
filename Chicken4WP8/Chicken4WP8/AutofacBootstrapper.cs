@@ -146,10 +146,10 @@ namespace Chicken4WP8
                 .As<ILanguageHelper>()
                 .SingleInstance();
 
-            //  register as CM container
-            //builder.RegisterInstance<SimpleContainer>(this).InstancePerLifetimeScope();
-            //builder.RegisterInstance<PhoneContainer>(this).InstancePerLifetimeScope();
-            //builder.RegisterInstance<IPhoneContainer>(this).InstancePerLifetimeScope();
+            //register progress service
+            builder.RegisterType<ProgressService>()
+                .As<IProgressService>()
+                .SingleInstance();
 
             // The constructor of these services must be called
             // to attach to the framework properly.

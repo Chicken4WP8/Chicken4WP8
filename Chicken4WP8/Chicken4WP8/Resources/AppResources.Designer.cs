@@ -115,6 +115,15 @@ namespace Chicken4WP8.Resources {
         }
         
         /// <summary>
+        ///   查找类似 Loading... 的本地化字符串。
+        /// </summary>
+        public static string ProgressBar_Loading {
+            get {
+                return ResourceManager.GetString("ProgressBar_Loading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Hello, {0}~ 的本地化字符串。
         /// </summary>
         public static string Toast_Msg_HelloUser {
