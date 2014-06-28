@@ -147,8 +147,9 @@ namespace Chicken4WP8
                 .SingleInstance();
 
             //register progress service
-            builder.RegisterType<ProgressService>()
+            builder.RegisterInstance(new ProgressService(RootFrame))
                 .As<IProgressService>()
+                .PropertiesAutowired()
                 .SingleInstance();
 
             // The constructor of these services must be called

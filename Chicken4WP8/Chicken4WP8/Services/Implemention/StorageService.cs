@@ -41,7 +41,7 @@ namespace Chicken4WP8.Services.Implemention
                 entity = new Setting
                 {
                     Category = SettingCategory.CurrentUserSetting,
-                    Name = setting.LoggedUser.Name,
+                    Name = setting.Name,
                 };
                 context.Settings.InsertOnSubmit(entity);
             }

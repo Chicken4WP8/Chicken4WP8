@@ -8,13 +8,18 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 
-namespace Chicken4WP8.Views.Setting.Proxies
+namespace Chicken4WP8.Views.Home
 {
-    public partial class BaseOAuthSettingPageView : PhoneApplicationPage
+    public partial class IndexView : UserControl
     {
-        public BaseOAuthSettingPageView()
+        public IndexView()
         {
             InitializeComponent();
+        }
+
+        private void Items_ItemRealized(object sender, ItemRealizationEventArgs e)
+        {
+
         }
     }
 }

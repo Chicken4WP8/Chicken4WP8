@@ -128,8 +128,8 @@
     <Compile Include="Views\Home\HomePageView.xaml.cs">
       <DependentUpon>HomePageView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Setting\Proxies\BaseOAuthSettingPageView.xaml.cs">
-      <DependentUpon>BaseOAuthSettingPageView.xaml</DependentUpon>
+    <Compile Include="Views\Home\IndexView.xaml.cs">
+      <DependentUpon>IndexView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -286,6 +286,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\Home\HomePageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Home\IndexView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

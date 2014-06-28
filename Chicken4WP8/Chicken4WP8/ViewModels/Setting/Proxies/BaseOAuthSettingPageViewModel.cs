@@ -94,21 +94,26 @@ namespace Chicken4WP8.ViewModels.Setting.Proxies
                 AccessToken = newCredentials.AccessToken,
                 AccessTokenSecret = newCredentials.AccessTokenSecret
             };
+            setting.OAuthSetting = oauth;
 
             waitCursorService.Text = LanguageHelper["WaitCursor_GetCurrentUser"];
-            var user = await User.GetLoggedUserAsync();
 
-            setting.OAuthSetting = oauth;
-            setting.LoggedUser = user;
+            var user = await User.GetLoggedUserAsync();
+            setting.Id = user.Id;
+            setting.Name = user.Name;
+            setting.ScreenName = user.ScreenName;
+            App.UpdateLoggedUser(user);
 
             StorageService.UpdateCurrentUserSetting(setting);
             App.UpdateSetting(setting);
-            waitCursorService.IsVisible = false;
 
             ToastMessageService.HandleMessage(
                 LanguageHelper.GetString("Toast_Msg_HelloUser", user.ScreenName),
                 () =>
-                    NavigationService.UriFor<HomePageViewModel>().Navigate());
+                {
+                    waitCursorService.IsVisible = false;
+                    NavigationService.UriFor<HomePageViewModel>().Navigate();
+                });
         }
 
         private async void BrowserNavigationFailed(Exception exception)
