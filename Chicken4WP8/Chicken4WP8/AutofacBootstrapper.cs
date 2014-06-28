@@ -318,6 +318,9 @@ namespace Chicken4WP8
                     return false;
                 };
 
+            //long list selector
+            ConventionManager.AddElementConvention<LongListSelector>(LongListSelector.ItemsSourceProperty, "DataContext", "Loaded");
+
             // App Bar Conventions
             ConventionManager.AddElementConvention<BindableAppBarButton>(
                 Control.IsEnabledProperty, "DataContext", "Click");

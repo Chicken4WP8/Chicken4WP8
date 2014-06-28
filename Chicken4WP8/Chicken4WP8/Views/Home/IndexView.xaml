@@ -16,8 +16,7 @@
     <Grid x:Name="LayoutRoot">
         <toolkits:LongListSelector x:Name="Items"
                                    IsGroupingEnabled="False" LayoutMode="List"
-                                   ItemRealized="Items_ItemRealized"
-                                   >
+                                   ItemRealized="Items_ItemRealized">
         </toolkits:LongListSelector>
 
         <appBar:BindableAppBar>
