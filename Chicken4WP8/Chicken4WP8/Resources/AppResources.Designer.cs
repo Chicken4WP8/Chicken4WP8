@@ -115,6 +115,15 @@ namespace Chicken4WP8.Resources {
         }
         
         /// <summary>
+        ///   查找类似 Hello, {0}~ 的本地化字符串。
+        /// </summary>
+        public static string Toast_Msg_HelloUser {
+            get {
+                return ResourceManager.GetString("Toast_Msg_HelloUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Twip Base URL 的本地化字符串。
         /// </summary>
         public static string TwipOAuthSettingPageView_Title {

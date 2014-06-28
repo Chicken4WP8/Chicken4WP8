@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using System.Windows;
 using Chicken4WP8.Controls;
 using Chicken4WP8.Services.Interface;

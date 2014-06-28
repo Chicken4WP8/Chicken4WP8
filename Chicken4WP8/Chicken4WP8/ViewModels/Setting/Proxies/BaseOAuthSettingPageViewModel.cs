@@ -107,7 +107,8 @@ namespace Chicken4WP8.ViewModels.Setting.Proxies
             App.UpdateSetting(setting);
             waitCursorService.IsVisible = false;
 
-            ToastMessageService.HandleMessage("hello",
+            ToastMessageService.HandleMessage(
+                LanguageHelper.GetString("Toast_Msg_HelloUser", user.ScreenName),
                 () =>
                     NavigationService.UriFor<HomePageViewModel>().Navigate());
         }

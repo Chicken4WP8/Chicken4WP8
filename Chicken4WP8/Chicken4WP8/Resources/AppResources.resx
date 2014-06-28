@@ -135,6 +135,9 @@
   <data name="OAuthSettingPageView_OAuthTypesPickerHeader" xml:space="preserve">
     <value>Select Authorization Type</value>
   </data>
+  <data name="Toast_Msg_HelloUser" xml:space="preserve">
+    <value>Hello, {0}~</value>
+  </data>
   <data name="TwipOAuthSettingPageView_Title" xml:space="preserve">
     <value>Twip Base URL</value>
   </data>
