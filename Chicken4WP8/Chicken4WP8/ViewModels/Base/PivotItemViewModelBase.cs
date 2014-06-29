@@ -1,17 +1,23 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using Caliburn.Micro;
 using Chicken4WP8.Services.Interface;
+using ImageTools;
 using Microsoft.Phone.Controls;
 
 namespace Chicken4WP8.ViewModels.Base
 {
     public abstract class PivotItemViewModelBase<T> : Screen, IHandle<CultureInfo>
+        where T : class
     {
-        private const int offset = 1;
+        private const int OFFSET = 1;
 
         public IProgressService ProgressService { get; set; }
         public ILanguageHelper LanguageHelper { get; set; }
@@ -57,7 +63,7 @@ namespace Chicken4WP8.ViewModels.Base
             //when initialize a pivot item,
             //load data first.
             await ShowProgressBar();
-            await RefreshData();
+            await FetchData();
             await HideProgressBar();
         }
 
@@ -87,9 +93,31 @@ namespace Chicken4WP8.ViewModels.Base
             //    .Navigate();
         }
 
-        public virtual void ItemRealized(object sender, ItemRealizationEventArgs e)
-        { 
-
+        public async virtual void ItemRealized(object sender, ItemRealizationEventArgs e)
+        {
+            var item = e.Container.Content as T;
+            await ItemRealized(item);
+            #region load or fetch data
+            if (!IsLoading && Items.Count >= OFFSET && e.ItemKind == LongListSelectorItemKind.Item)
+            {
+                //stretch to bottom,
+                //then load data
+                if (item.Equals(Items[Items.Count - OFFSET]))
+                {
+                    await ShowProgressBar();
+                    await LoadData();
+                    await HideProgressBar();
+                }
+                //stretch to top,
+                //then fetch data
+                else if (item.Equals(Items[0]))
+                {
+                    await ShowProgressBar();
+                    await FetchData();
+                    await HideProgressBar();
+                }
+            }
+            #endregion
         }
 
         /// <summary>
@@ -98,13 +126,16 @@ namespace Chicken4WP8.ViewModels.Base
         protected virtual void SetLanguage()
         { }
 
+        protected async virtual Task ItemRealized(T item)
+        { }
+
         protected async virtual Task ShowProgressBar()
         {
             IsLoading = true;
             await ProgressService.ShowAsync();
         }
 
-        protected async virtual Task RefreshData()
+        protected async virtual Task FetchData()
         { }
 
         protected async virtual Task LoadData()
@@ -114,6 +145,45 @@ namespace Chicken4WP8.ViewModels.Base
         {
             IsLoading = false;
             await ProgressService.HideAsync();
+        }
+
+        protected virtual void SetImageFromStream(ImageSource source, Stream stream)
+        {
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
+                {
+                    #region jpeg/png
+                    try
+                    {
+                        using (var memStream = new MemoryStream())
+                        {
+                            stream.CopyTo(memStream);
+                            memStream.Position = 0;
+                            var bitmapImage = new BitmapImage();
+                            bitmapImage.SetSource(memStream);
+                            source = bitmapImage;
+                        }
+                    }
+                    #endregion
+                    #region others
+                    catch (Exception exception)
+                    {
+                        Debug.WriteLine("set gif image. length: {0}", stream.Length);
+                        using (var memStream = new MemoryStream())
+                        {
+                            stream.CopyTo(memStream);
+                            memStream.Position = 0;
+                            memStream.Position = 0;
+                            var extendedImage = new ExtendedImage();
+                            extendedImage.SetSource(memStream);
+                            extendedImage.LoadingCompleted += (o, e) =>
+                            {
+                                var ei = o as ExtendedImage;
+                                source = ei.ToBitmap();
+                            };
+                        }
+                    }
+                    #endregion
+                });
         }
     }
 

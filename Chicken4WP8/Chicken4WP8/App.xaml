@@ -173,8 +173,8 @@
                     <Button.Template>
                         <ControlTemplate>
                             <Grid>
-                                <Image Source="/Images/dark/cat.png" />
-                                <!--ImageUrl="{Binding Path=Creator.ProfileImageUrl}"  />-->
+                                <!--<Image Source="/Images/dark/cat.png" />-->
+                                <Image Source="{Binding Creator.ProfileImage}" />
                             </Grid>
                         </ControlTemplate>
                     </Button.Template>
