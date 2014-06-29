@@ -1,13 +1,28 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using Chicken4WP8.Controls;
+using ImageTools;
+using ImageTools.IO;
+using ImageTools.IO.Bmp;
+using ImageTools.IO.Gif;
+using ImageTools.IO.Png;
 using Tweetinvi.Core.Interfaces;
 
 namespace Chicken4WP8.ViewModels.Home
 {
     public class IndexViewModel : PivotItemViewModelBase
     {
+        static IndexViewModel()
+        {
+            Decoders.AddDecoder<BmpDecoder>();
+            Decoders.AddDecoder<PngDecoder>();
+            Decoders.AddDecoder<GifDecoder>();
+        }
+
         protected override void OnPivotItemInitialize()
         {
             base.OnPivotItemInitialize();
@@ -38,14 +53,59 @@ namespace Chicken4WP8.ViewModels.Home
             HideProgressBar();
         }
 
-        public async void AvatarLoaded(object sender, RoutedEventArgs e)
+        public void AvatarLoaded(object sender)
         {
-            var image = sender as Image;
+            var image = sender as ThemedImage;
+
+            image.SourceUrlChanged -= image_SourceUrlChanged;
+            image.SourceUrlChanged += image_SourceUrlChanged;
+        }
+
+        private async void image_SourceUrlChanged(object sender)
+        {
+            var image = sender as ThemedImage;
             var tweet = image.DataContext as ITweet;
             var stream = await tweet.Creator.GetProfileImageStreamAsync();
-            var bitmapImage = new BitmapImage();
-            bitmapImage.SetSource(stream);
-            Deployment.Current.Dispatcher.BeginInvoke(() => image.Source = bitmapImage);
+            ApplyImageSource(image, stream);
+        }
+
+        private void ApplyImageSource(ThemedImage image, System.IO.Stream stream)
+        {
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
+                {
+                    #region jpeg/png
+                    try
+                    {
+                        using (var memStream = new MemoryStream())
+                        {
+                            stream.CopyTo(memStream);
+                            memStream.Position = 0;
+                            var bitmapImage = new BitmapImage();
+                            bitmapImage.SetSource(memStream);
+                            image.ApplySource(bitmapImage);
+                        }
+                    }
+                    #endregion
+                    #region others
+                    catch (Exception exception)
+                    {
+                        Debug.WriteLine("set gif image. length: {0}", stream.Length);
+                        using (var memStream = new MemoryStream())
+                        {
+                            stream.CopyTo(memStream);
+                            memStream.Position = 0;
+                            memStream.Position = 0;
+                            var extendedImage = new ExtendedImage();
+                            extendedImage.SetSource(memStream);
+                            extendedImage.LoadingCompleted += (o, e) =>
+                            {
+                                var ei = o as ExtendedImage;
+                                image.ApplySource(ei.ToBitmap());
+                            };
+                        }
+                    }
+                    #endregion
+                });
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using Chicken4WP8.Models.Setting;
 using Tweetinvi.Core.Interfaces;
 

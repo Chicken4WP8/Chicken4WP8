@@ -97,6 +97,7 @@
     <Compile Include="AutofacPhoneContainer.cs" />
     <Compile Include="Common\Const.cs" />
     <Compile Include="Controls\PopUp.cs" />
+    <Compile Include="Controls\ThemedImage.cs" />
     <Compile Include="Controls\ToastPrompt.cs" />
     <Compile Include="Entities\ChickenDataContext.cs" />
     <Compile Include="Entities\Setting.cs" />
@@ -377,6 +378,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AutofacModules\" />
+    <Folder Include="Models\Tweet\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />

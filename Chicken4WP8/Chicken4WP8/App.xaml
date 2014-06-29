@@ -13,6 +13,18 @@
     <Application.Resources>
         <local:AutofacBootstrapper x:Key="bootstrapper" />
 
+        <Style TargetType="ctrls:ThemedImage">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ctrls:ThemedImage">
+                        <Grid>
+                            <Image x:Name="ImageBrush" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <Style TargetType="ctrls:ToastPrompt">
             <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeSmall}" />
             <Setter Property="TextWrapping" Value="Wrap" />
@@ -171,13 +183,9 @@
                         cal:Message.Attach="[Event Click] = [Action AvatarClick($dataContext, $eventArgs)]">
                     <Button.Template>
                         <ControlTemplate>
-                            <!--<Grid>
-                                <ctrls:ThemedImage ImageUrl="{Binding Path=User.ProfileImageUrl}" Source="/Images/dark/cat.png" />
-                            </Grid>-->
                             <Grid>
-                                <Image Source="/Images/dark/cat.png"
-                                       cal:Action.TargetWithoutContext="{Binding ElementName=LayoutRoot,Path=DataContext}"
-                                       cal:Message.Attach="[Event Loaded] = [Action AvatarLoaded($source, $eventArgs)]" />
+                                <ctrls:ThemedImage DefaultImage="/Images/dark/cat.png"
+                                                   ImageUrl="{Binding Path=Creator.ProfileImageUrl}"  />
                             </Grid>
                         </ControlTemplate>
                     </Button.Template>
