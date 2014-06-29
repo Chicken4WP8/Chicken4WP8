@@ -4,6 +4,10 @@ using Chicken4WP8.Models.Setting;
 using Chicken4WP8.Services.Interface;
 using Chicken4WP8.ViewModels.Home;
 using Chicken4WP8.ViewModels.Setting;
+using ImageTools.IO;
+using ImageTools.IO.Bmp;
+using ImageTools.IO.Gif;
+using ImageTools.IO.Png;
 using Tweetinvi;
 using Tweetinvi.Core.Interfaces.oAuth;
 
@@ -19,6 +23,13 @@ namespace Chicken4WP8.ViewModels
         public SplashScreenPageViewModel()
         { }
         #endregion
+
+        static SplashScreenPageViewModel()
+        {
+            Decoders.AddDecoder<BmpDecoder>();
+            Decoders.AddDecoder<PngDecoder>();
+            Decoders.AddDecoder<GifDecoder>();
+        }
 
         protected async override void OnInitialize()
         {

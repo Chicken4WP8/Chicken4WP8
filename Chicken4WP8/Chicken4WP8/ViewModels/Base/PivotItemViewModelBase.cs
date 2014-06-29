@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
 using Chicken4WP8.Services.Interface;
 
 namespace Chicken4WP8.ViewModels.Base
 {
-    public abstract class PivotItemViewModelBase : Screen, IHandle<CultureInfo>
+    public abstract class PivotItemViewModelBase<T> : Screen, IHandle<CultureInfo>
     {
         private LongLiseStretch stretch;
         public IProgressService ProgressService { get; set; }
@@ -19,6 +21,9 @@ namespace Chicken4WP8.ViewModels.Base
         }
 
         private bool isLoading;
+        /// <summary>
+        /// if the list is loading data from internet or not
+        /// </summary>
         public bool IsLoading
         {
             get
@@ -31,17 +36,28 @@ namespace Chicken4WP8.ViewModels.Base
             }
         }
 
-        protected override void OnInitialize()
+        private ObservableCollection<T> items;
+        public ObservableCollection<T> Items
         {
-            base.OnInitialize();
-            //when initialize a pivot item,
-            //load data first.
-            ShowProgressBar();
-            OnPivotItemInitialize();
+            get { return items; }
+            set
+            {
+                items = value;
+                NotifyOfPropertyChange(() => Items);
+            }
         }
 
-        protected virtual void OnPivotItemInitialize()
-        { }
+        protected async override void OnInitialize()
+        {
+            base.OnInitialize();
+            if (Items == null)
+                Items = new ObservableCollection<T>();
+            //when initialize a pivot item,
+            //load data first.
+            await ShowProgressBar();
+            await RefreshData();
+            await HideProgressBar();
+        }
 
         public virtual void Handle(CultureInfo message)
         {
@@ -69,35 +85,35 @@ namespace Chicken4WP8.ViewModels.Base
             //    .Navigate();
         }
 
-        public void StretchingCompleted(object sender, EventArgs e)
-        {
-            if (IsLoading)
-                return;
+        //public void StretchingCompleted(object sender, EventArgs e)
+        //{
+        //    if (IsLoading)
+        //        return;
 
-            ShowProgressBar();
+        //    ShowProgressBar();
 
-            switch (stretch)
-            {
-                case LongLiseStretch.Top:
-                    RefreshData();
-                    break;
-                case LongLiseStretch.Bottom:
-                    LoadData();
-                    break;
-                default:
-                    break;
-            }
-        }
+        //    switch (stretch)
+        //    {
+        //        case LongLiseStretch.Top:
+        //            RefreshData();
+        //            break;
+        //        case LongLiseStretch.Bottom:
+        //            LoadData();
+        //            break;
+        //        default:
+        //            break;
+        //    }
+        //}
 
-        public void StretchingBottom(object sender, EventArgs e)
-        {
-            stretch = LongLiseStretch.Bottom;
-        }
+        //public void StretchingBottom(object sender, EventArgs e)
+        //{
+        //    stretch = LongLiseStretch.Bottom;
+        //}
 
-        public void StretchingTop(object sender, EventArgs e)
-        {
-            stretch = LongLiseStretch.Top;
-        }
+        //public void StretchingTop(object sender, EventArgs e)
+        //{
+        //    stretch = LongLiseStretch.Top;
+        //}
 
         /// <summary>
         /// set local strings using language helper on start up
@@ -105,22 +121,22 @@ namespace Chicken4WP8.ViewModels.Base
         protected virtual void SetLanguage()
         { }
 
-        protected virtual void ShowProgressBar()
+        protected async virtual Task ShowProgressBar()
         {
             IsLoading = true;
-            ProgressService.Show();
+            await ProgressService.ShowAsync();
         }
 
-        protected virtual void RefreshData()
+        protected async virtual Task RefreshData()
         { }
 
-        protected virtual void LoadData()
+        protected async virtual Task LoadData()
         { }
 
-        protected virtual void HideProgressBar()
+        protected async virtual Task HideProgressBar()
         {
             IsLoading = false;
-            ProgressService.Hide();
+            await ProgressService.HideAsync();
         }
     }
 

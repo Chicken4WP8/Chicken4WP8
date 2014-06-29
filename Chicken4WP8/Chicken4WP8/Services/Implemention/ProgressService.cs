@@ -58,17 +58,17 @@ namespace Chicken4WP8.Services.Implemention
         #endregion
 
         #region async
-        public async void ShowAsync()
+        public async Task ShowAsync()
         {
             await Task.Factory.StartNew(Show);
         }
 
-        public async void ShowAsync(string text)
+        public async Task ShowAsync(string text)
         {
             await Task.Factory.StartNew(() => Show(text));
         }
 
-        public async void HideAsync()
+        public async Task HideAsync()
         {
             await Task.Factory.StartNew(Hide);
         }
