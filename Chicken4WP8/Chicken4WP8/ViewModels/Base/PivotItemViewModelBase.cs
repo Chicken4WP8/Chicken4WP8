@@ -4,9 +4,9 @@ using System.Windows;
 using Caliburn.Micro;
 using Chicken4WP8.Services.Interface;
 
-namespace Chicken4WP8.ViewModels
+namespace Chicken4WP8.ViewModels.Base
 {
-    public abstract class PivotItemViewModelBase : ViewModelBase, IHandle<CultureInfo>
+    public abstract class PivotItemViewModelBase : Screen, IHandle<CultureInfo>
     {
         private LongLiseStretch stretch;
         public IProgressService ProgressService { get; set; }

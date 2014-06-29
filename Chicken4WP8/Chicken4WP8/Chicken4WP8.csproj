@@ -96,8 +96,8 @@
     <Compile Include="AutofacBootstrapper.cs" />
     <Compile Include="AutofacPhoneContainer.cs" />
     <Compile Include="Common\Const.cs" />
+    <Compile Include="Common\TwitterHelper.cs" />
     <Compile Include="Controls\PopUp.cs" />
-    <Compile Include="Controls\ThemedImage.cs" />
     <Compile Include="Controls\ToastPrompt.cs" />
     <Compile Include="Entities\ChickenDataContext.cs" />
     <Compile Include="Entities\Setting.cs" />
@@ -117,15 +117,17 @@
     <Compile Include="Services\Interface\IProgressService.cs" />
     <Compile Include="Services\Interface\IStorageService.cs" />
     <Compile Include="Services\Interface\IToastMessageService.cs" />
+    <Compile Include="ViewModels\Base\TweetModel.cs" />
+    <Compile Include="ViewModels\Base\UserModel.cs" />
     <Compile Include="ViewModels\Home\HomePageViewModel.cs" />
     <Compile Include="ViewModels\Home\IndexViewModel.cs" />
-    <Compile Include="ViewModels\PivotItemViewModelBase.cs" />
+    <Compile Include="ViewModels\Base\PivotItemViewModelBase.cs" />
     <Compile Include="ViewModels\Setting\OAuthSettingPageViewModel.cs" />
     <Compile Include="ViewModels\Setting\Proxies\BaseOAuthSettingPageViewModel.cs" />
     <Compile Include="ViewModels\Setting\Proxies\TwipOAuthSettingPageViewModel.cs" />
     <Compile Include="ViewModels\Setting\SettingPageViewModel.cs" />
     <Compile Include="ViewModels\SplashScreenPageViewModel.cs" />
-    <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="ViewModels\Base\PageViewModelBase.cs" />
     <Compile Include="Views\Home\HomePageView.xaml.cs">
       <DependentUpon>HomePageView.xaml</DependentUpon>
     </Compile>
@@ -378,7 +380,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AutofacModules\" />
-    <Folder Include="Models\Tweet\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />

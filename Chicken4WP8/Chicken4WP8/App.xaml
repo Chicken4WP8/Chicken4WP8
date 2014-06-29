@@ -184,8 +184,8 @@
                     <Button.Template>
                         <ControlTemplate>
                             <Grid>
-                                <ctrls:ThemedImage DefaultImage="/Images/dark/cat.png"
-                                                   ImageUrl="{Binding Path=Creator.ProfileImageUrl}"  />
+                                <!--<Image DefaultImage="/Images/dark/cat.png"
+                                                   ImageUrl="{Binding Path=Creator.ProfileImageUrl}"  />-->
                             </Grid>
                         </ControlTemplate>
                     </Button.Template>
