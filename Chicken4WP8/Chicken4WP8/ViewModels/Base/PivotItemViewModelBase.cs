@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
 using Chicken4WP8.Services.Interface;
+using Microsoft.Phone.Controls;
 
 namespace Chicken4WP8.ViewModels.Base
 {
     public abstract class PivotItemViewModelBase<T> : Screen, IHandle<CultureInfo>
     {
-        private LongLiseStretch stretch;
+        private const int offset = 1;
+
         public IProgressService ProgressService { get; set; }
         public ILanguageHelper LanguageHelper { get; set; }
         public INavigationService NavigationService { get; set; }
@@ -85,35 +87,10 @@ namespace Chicken4WP8.ViewModels.Base
             //    .Navigate();
         }
 
-        //public void StretchingCompleted(object sender, EventArgs e)
-        //{
-        //    if (IsLoading)
-        //        return;
+        public virtual void ItemRealized(object sender, ItemRealizationEventArgs e)
+        { 
 
-        //    ShowProgressBar();
-
-        //    switch (stretch)
-        //    {
-        //        case LongLiseStretch.Top:
-        //            RefreshData();
-        //            break;
-        //        case LongLiseStretch.Bottom:
-        //            LoadData();
-        //            break;
-        //        default:
-        //            break;
-        //    }
-        //}
-
-        //public void StretchingBottom(object sender, EventArgs e)
-        //{
-        //    stretch = LongLiseStretch.Bottom;
-        //}
-
-        //public void StretchingTop(object sender, EventArgs e)
-        //{
-        //    stretch = LongLiseStretch.Top;
-        //}
+        }
 
         /// <summary>
         /// set local strings using language helper on start up

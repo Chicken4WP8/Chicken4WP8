@@ -128,9 +128,6 @@
     <Compile Include="ViewModels\Setting\SettingPageViewModel.cs" />
     <Compile Include="ViewModels\SplashScreenPageViewModel.cs" />
     <Compile Include="ViewModels\Base\PageViewModelBase.cs" />
-    <Compile Include="Views\Home\HomePageView.xaml.cs">
-      <DependentUpon>HomePageView.xaml</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

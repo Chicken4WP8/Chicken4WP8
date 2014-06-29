@@ -16,7 +16,8 @@
     <Grid x:Name="LayoutRoot">
         <toolkits:LongListSelector x:Name="Items"
                                    IsGroupingEnabled="False" LayoutMode="List"
-                                   ItemTemplate="{StaticResource StatusTemplate}">
+                                   ItemTemplate="{StaticResource StatusTemplate}"
+                                   cal:Message.Attach="[Event ItemRealized] = [Action ItemRealized($source, $eventArgs)]">
         </toolkits:LongListSelector>
 
         <appBar:BindableAppBar>

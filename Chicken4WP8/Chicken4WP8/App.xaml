@@ -13,18 +13,7 @@
     <Application.Resources>
         <local:AutofacBootstrapper x:Key="bootstrapper" />
 
-        <Style TargetType="ctrls:ThemedImage">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ctrls:ThemedImage">
-                        <Grid>
-                            <Image x:Name="ImageBrush" />
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
+        <!--controls-->
         <Style TargetType="ctrls:ToastPrompt">
             <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeSmall}" />
             <Setter Property="TextWrapping" Value="Wrap" />
@@ -184,8 +173,8 @@
                     <Button.Template>
                         <ControlTemplate>
                             <Grid>
-                                <!--<Image DefaultImage="/Images/dark/cat.png"
-                                                   ImageUrl="{Binding Path=Creator.ProfileImageUrl}"  />-->
+                                <Image Source="/Images/dark/cat.png" />
+                                <!--ImageUrl="{Binding Path=Creator.ProfileImageUrl}"  />-->
                             </Grid>
                         </ControlTemplate>
                     </Button.Template>

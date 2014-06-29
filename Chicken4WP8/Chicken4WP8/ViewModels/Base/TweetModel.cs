@@ -35,7 +35,7 @@ namespace Chicken4WP8.ViewModels.Base
             get { return tweet.CreatedAt; }
         }
 
-        public UserModel User
+        public UserModel Creator
         {
             get { return user; }
         }
