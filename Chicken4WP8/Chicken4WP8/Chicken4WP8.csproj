@@ -128,9 +128,6 @@
     <Compile Include="Views\Home\HomePageView.xaml.cs">
       <DependentUpon>HomePageView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Home\IndexView.xaml.cs">
-      <DependentUpon>IndexView.xaml</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -229,6 +226,15 @@
     <Content Include="Images\light\retweet.png" />
     <Content Include="Images\light\verified.png" />
     <Content Include="Images\SplashScreenImage.jpg" />
+    <Content Include="Libs\ICSharpCode.SharpZLib.Phone.dll" />
+    <Content Include="Libs\ImageTools.Controls.dll" />
+    <Content Include="Libs\ImageTools.dll" />
+    <Content Include="Libs\ImageTools.Filtering.dll" />
+    <Content Include="Libs\ImageTools.IO.Bmp.dll" />
+    <Content Include="Libs\ImageTools.IO.Gif.dll" />
+    <Content Include="Libs\ImageTools.IO.Png.dll" />
+    <Content Include="Libs\ImageTools.Utils.dll" />
+    <Content Include="Libs\PhoneCodeContractsAssemblies.dll" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\AppResources.resx">
@@ -249,6 +255,14 @@
     <Reference Include="Caliburn.Micro.Platform">
       <HintPath>..\packages\Caliburn.Micro.2.0.0\lib\wp8\Caliburn.Micro.Platform.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.SharpZLib.Phone, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="ImageTools, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="ImageTools.Controls, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="ImageTools.Filtering, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="ImageTools.IO.Bmp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="ImageTools.IO.Gif, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="ImageTools.IO.Png, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="ImageTools.Utils, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Phone.Controls, Version=8.0.0.0, Culture=neutral, PublicKeyToken=24eec0d8c86cda1e, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Phone.Controls.Toolkit">
       <HintPath>..\packages\WPtoolkit.Kinnara.4.2014.06.10\lib\wp8\Microsoft.Phone.Controls.Toolkit.dll</HintPath>
@@ -268,6 +282,7 @@
     <Reference Include="PCLWebUtility">
       <HintPath>..\packages\PCLWebUtility.1.0.2\Lib\portable-net4+sl4+wp7+win8\PCLWebUtility.dll</HintPath>
     </Reference>
+    <Reference Include="PhoneCodeContractsAssemblies, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="System.Net.Http, Version=1.5.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.Net.Http.2.2.22\lib\sl4-windowsphone71\System.Net.Http.dll</HintPath>

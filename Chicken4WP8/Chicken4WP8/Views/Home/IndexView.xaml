@@ -16,7 +16,7 @@
     <Grid x:Name="LayoutRoot">
         <toolkits:LongListSelector x:Name="Items"
                                    IsGroupingEnabled="False" LayoutMode="List"
-                                   ItemRealized="Items_ItemRealized">
+                                   ItemTemplate="{StaticResource StatusTemplate}">
         </toolkits:LongListSelector>
 
         <appBar:BindableAppBar>

@@ -7,7 +7,7 @@
     xmlns:local="clr-namespace:Chicken4WP8"
     xmlns:service="clr-namespace:Chicken4WP8.Services.Implemention"
     xmlns:toolkits="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
-    xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
+    xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro.Platform"
     xmlns:ctrls="clr-namespace:Chicken4WP8.Controls">
 
     <Application.Resources>
@@ -42,6 +42,195 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <!--media and retweet icon-->
+        <Style x:Name="RetweetRectangleSmall" TargetType="Rectangle">
+            <Setter Property="Stretch" Value="Fill" />
+            <Setter Property="Width" Value="16" />
+            <Setter Property="Height" Value="16" />
+            <Setter Property="Margin" Value="2" />
+        </Style>
+
+        <!--tweet detail border, for retweet count,location, etc.-->
+        <Style x:Name="RetweetCountBorder" TargetType="Border">
+            <Setter Property="Opacity" Value="0.8" />
+            <Setter Property="BorderBrush" Value="Silver" />
+            <Setter Property="Margin" Value="0,4,0,0" />
+        </Style>
+
+        <!--profile image-->
+        <Style x:Name="ProfileImage" TargetType="Button">
+            <Setter Property="Margin" Value="4" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+        </Style>
+        <!--profile image small, for tweet avatar-->
+        <Style x:Name="ProfileImageSmall" TargetType="Button" BasedOn="{StaticResource ProfileImage}">
+            <Setter Property="Margin" Value="0,2,4,0" />
+            <Setter Property="Width" Value="64" />
+            <Setter Property="Height"  Value="64" />
+        </Style>
+        <!--profile image bigger, for tweet detail page-->
+        <Style x:Name="ProfileImageBigger" TargetType="Button" BasedOn="{StaticResource ProfileImage}">
+            <Setter Property="Width" Value="84" />
+            <Setter Property="Height"  Value="84" />
+        </Style>
+
+        <!--text small-->
+        <Style x:Name="TextSmall" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeSmall}" />
+            <Setter Property="TextTrimming" Value="WordEllipsis" />
+            <Setter Property="Foreground" Value="Silver" />
+        </Style>
+        <!--text normal-->
+        <Style x:Name="TextNormal" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeNormal}" />
+            <Setter Property="TextTrimming" Value="WordEllipsis" />
+        </Style>
+        <!--text mediun-->
+        <Style x:Name="TextMedium" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeMedium}" />
+            <Setter Property="TextTrimming" Value="WordEllipsis" />
+        </Style>
+
+        <!--tweet screen name-->
+        <Style x:Name="TweetScreenName" TargetType="TextBlock" BasedOn="{StaticResource TextSmall}">
+            <Setter Property="Opacity" Value="0.6" />
+        </Style>
+
+        <Style x:Name="ProfileScreenName" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeSmall}" />
+            <Setter Property="TextTrimming" Value="WordEllipsis" />
+        </Style>
+
+        <!--Content default is Medium-->
+        <!--<Style x:Name="TextContent" TargetType="ctrls:AutoRichTextBox">
+            <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeMedium}" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>-->
+
+        <!--HyperLink Text small-->
+        <Style x:Name="HyperLinkTextSmall" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeSmall}" />
+            <Setter Property="Foreground" Value="Gray" />
+            <Setter Property="TextAlignment" Value="Right" />
+            <Setter Property="TextTrimming" Value="WordEllipsis" />
+        </Style>
+
+        <!--HyperLink Text without underline-->
+        <Style x:Name="HyperLinkTextNoUnderlineCenter" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeMedium}" />
+            <Setter Property="Foreground" Value="#F9F9F9" />
+            <Setter Property="TextAlignment" Value="Center" />
+            <Setter Property="TextTrimming" Value="WordEllipsis" />
+        </Style>
+
+        <!--hyper link button small-->
+        <Style x:Name="HyperLinkButtonSmall" TargetType="HyperlinkButton">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="HyperlinkButton">
+                        <ContentPresenter Content="{TemplateBinding Content}">
+                            <ContentPresenter.ContentTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" Style="{StaticResource HyperLinkTextSmall}" />
+                                </DataTemplate>
+                            </ContentPresenter.ContentTemplate>
+                        </ContentPresenter>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Name="HyperLinkNoUnderlineCenter" TargetType="HyperlinkButton">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="HyperlinkButton">
+                        <ContentPresenter Content="{TemplateBinding Content}">
+                            <ContentPresenter.ContentTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" Style="{StaticResource HyperLinkTextNoUnderlineCenter}" />
+                                </DataTemplate>
+                            </ContentPresenter.ContentTemplate>
+                        </ContentPresenter>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+        <DataTemplate x:Key="StatusTemplate">
+            <Grid Margin="0,4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="68" />
+                    <ColumnDefinition Width="*"  />
+                </Grid.ColumnDefinitions>
+                <!--avatar-->
+                <Button Grid.Column="0" Style="{StaticResource ProfileImageSmall}"
+                        cal:Action.TargetWithoutContext="{Binding ElementName=Items, Path=DataContext}"
+                        cal:Message.Attach="[Event Click] = [Action AvatarClick($dataContext, $eventArgs)]">
+                    <Button.Template>
+                        <ControlTemplate>
+                            <!--<Grid>
+                                <ctrls:ThemedImage ImageUrl="{Binding Path=User.ProfileImageUrl}" Source="/Images/dark/cat.png" />
+                            </Grid>-->
+                            <Grid>
+                                <Image Source="/Images/dark/cat.png"
+                                       cal:Action.TargetWithoutContext="{Binding ElementName=LayoutRoot,Path=DataContext}"
+                                       cal:Message.Attach="[Event Loaded] = [Action AvatarLoaded($source, $eventArgs)]" />
+                            </Grid>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <!--content-->
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Button Grid.Row="0"
+                            cal:Action.TargetWithoutContext="{Binding ElementName=Items, Path=DataContext}"
+                            cal:Message.Attach="[Event Click] = [Action ItemClick($datacontext, $eventArgs)]">
+                        <Button.Template>
+                            <ControlTemplate>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Grid.Resources>
+                                        <Style TargetType="TextBlock" BasedOn="{StaticResource TextSmall}" />
+                                    </Grid.Resources>
+                                    <!--user name-->
+                                    <TextBlock Text="{Binding Creator.Name}" Grid.Row="0" />
+                                    <!--screen name-->
+                                    <TextBlock Text="{Binding Creator.ScreenName}" Grid.Row="1"
+                                               Style="{StaticResource TweetScreenName}" />
+                                    <!--text-->
+                                    <TextBlock Grid.Row="2" Text="{Binding Path=Text}" TextWrapping="Wrap"
+                                                           HorizontalAlignment="Stretch" TextAlignment="Left" />
+                                    <Grid Grid.Row="3" Opacity="0.6" HorizontalAlignment="Stretch">
+                                        <!--CreatedAt-->
+                                        <TextBlock Text="{Binding CreatedAt}"
+                                                   HorizontalAlignment="Left" TextAlignment="Left"
+                                                   Style="{StaticResource TextSmall}" />
+                                        <!--media retweet count etc-->
+
+                                    </Grid>
+                                </Grid>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <!--via-->
+                    <HyperlinkButton Grid.Row="1" Content="{Binding Path=Source}"
+                                     NavigateUri="{Binding Path=SourceUrl}" TargetName="_blank"
+                                     Style="{StaticResource HyperLinkButtonSmall}" HorizontalAlignment="Right" />
+                </Grid>
+                <!--content end-->
+            </Grid>
+        </DataTemplate>
     </Application.Resources>
 
 </Application>

@@ -1,4 +1,7 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 using Tweetinvi.Core.Interfaces;
 
 namespace Chicken4WP8.ViewModels.Home
@@ -11,7 +14,7 @@ namespace Chicken4WP8.ViewModels.Home
             if (Items == null)
                 Items = new ObservableCollection<ITweet>();
 
-           RefreshData();
+            RefreshData();
         }
 
         private ObservableCollection<ITweet> items;
@@ -28,11 +31,21 @@ namespace Chicken4WP8.ViewModels.Home
         protected override async void RefreshData()
         {
             var loggedUser = App.LoggedUser;
-            var tweets =await loggedUser.GetHomeTimelineAsync();
+            var tweets = await loggedUser.GetHomeTimelineAsync();
 
             foreach (var tweet in tweets)
                 Items.Add(tweet);
             HideProgressBar();
+        }
+
+        public async void AvatarLoaded(object sender, RoutedEventArgs e)
+        {
+            var image = sender as Image;
+            var tweet = image.DataContext as ITweet;
+            var stream = await tweet.Creator.GetProfileImageStreamAsync();
+            var bitmapImage = new BitmapImage();
+            bitmapImage.SetSource(stream);
+            Deployment.Current.Dispatcher.BeginInvoke(() => image.Source = bitmapImage);
         }
     }
 }

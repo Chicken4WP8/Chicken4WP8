@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Navigation;
 using Chicken4WP8.Services.Interface;
 using Microsoft.Phone.Controls;
@@ -35,15 +36,23 @@ namespace Chicken4WP8.Services.Implemention
 
         public void Show(string text)
         {
-            progressIndicator.Text = text;
-            progressIndicator.IsIndeterminate = true;
-            progressIndicator.IsVisible = true;
+            Deployment.Current.Dispatcher.BeginInvoke(
+                () =>
+                {
+                    progressIndicator.Text = text;
+                    progressIndicator.IsIndeterminate = true;
+                    progressIndicator.IsVisible = true;
+                });
         }
 
         public void Hide()
         {
-            progressIndicator.IsIndeterminate = false;
-            progressIndicator.IsVisible = false;
+            Deployment.Current.Dispatcher.BeginInvoke(
+                () =>
+                {
+                    progressIndicator.IsIndeterminate = false;
+                    progressIndicator.IsVisible = false;
+                });
         }
 
         #endregion
