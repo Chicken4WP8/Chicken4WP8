@@ -12,7 +12,7 @@ namespace Chicken4WP8.ViewModels.Home
                 || item.Creator.ProfileImage != null)
                 return;
             var stream = await item.Creator.User.GetProfileImageStreamAsync();
-            base.SetImageFromStream(item.Creator.ProfileImage, stream);
+            base.SetImageFromStream(item.Creator, stream);
         }
 
         protected override async Task FetchData()

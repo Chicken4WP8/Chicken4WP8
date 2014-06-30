@@ -5,7 +5,7 @@ using Tweetinvi.Core.Interfaces;
 
 namespace Chicken4WP8.ViewModels.Base
 {
-    public class UserModel : PropertyChangedBase
+    public class UserModel : PropertyChangedBase, IImageSource
     {
         #region private
         //private static ImageSource defaultImage = new BitmapImage
@@ -90,6 +90,15 @@ namespace Chicken4WP8.ViewModels.Base
             {
                 profileImage = value;
                 NotifyOfPropertyChange(() => ProfileImage);
+            }
+        }
+
+        public ImageSource ImageSource
+        {
+            get { return ProfileImage; }
+            set
+            {
+                ProfileImage = value;
             }
         }
     }

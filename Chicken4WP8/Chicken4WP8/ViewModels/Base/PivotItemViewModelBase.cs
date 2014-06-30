@@ -5,11 +5,14 @@ using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Caliburn.Micro;
 using Chicken4WP8.Services.Interface;
 using ImageTools;
+using ImageTools.IO;
+using ImageTools.IO.Bmp;
+using ImageTools.IO.Gif;
+using ImageTools.IO.Png;
 using Microsoft.Phone.Controls;
 
 namespace Chicken4WP8.ViewModels.Base
@@ -25,6 +28,10 @@ namespace Chicken4WP8.ViewModels.Base
 
         protected PivotItemViewModelBase()
         {
+            Decoders.AddDecoder<BmpDecoder>();
+            Decoders.AddDecoder<PngDecoder>();
+            Decoders.AddDecoder<GifDecoder>();
+
             SetLanguage();
         }
 
@@ -98,25 +105,25 @@ namespace Chicken4WP8.ViewModels.Base
             var item = e.Container.Content as T;
             await ItemRealized(item);
             #region load or fetch data
-            if (!IsLoading && Items.Count >= OFFSET && e.ItemKind == LongListSelectorItemKind.Item)
-            {
-                //stretch to bottom,
-                //then load data
-                if (item.Equals(Items[Items.Count - OFFSET]))
-                {
-                    await ShowProgressBar();
-                    await LoadData();
-                    await HideProgressBar();
-                }
-                //stretch to top,
-                //then fetch data
-                else if (item.Equals(Items[0]))
-                {
-                    await ShowProgressBar();
-                    await FetchData();
-                    await HideProgressBar();
-                }
-            }
+            //if (!IsLoading && Items.Count >= OFFSET && e.ItemKind == LongListSelectorItemKind.Item)
+            //{
+            //    //stretch to bottom,
+            //    //then load data
+            //    if (item.Equals(Items[Items.Count - OFFSET]))
+            //    {
+            //        await ShowProgressBar();
+            //        await LoadData();
+            //        await HideProgressBar();
+            //    }
+            //    //stretch to top,
+            //    //then fetch data
+            //    else if (item.Equals(Items[0]))
+            //    {
+            //        await ShowProgressBar();
+            //        await FetchData();
+            //        await HideProgressBar();
+            //    }
+            //}
             #endregion
         }
 
@@ -147,7 +154,7 @@ namespace Chicken4WP8.ViewModels.Base
             await ProgressService.HideAsync();
         }
 
-        protected virtual void SetImageFromStream(ImageSource source, Stream stream)
+        protected virtual void SetImageFromStream(IImageSource source, Stream stream)
         {
             Deployment.Current.Dispatcher.BeginInvoke(() =>
                 {
@@ -160,7 +167,7 @@ namespace Chicken4WP8.ViewModels.Base
                             memStream.Position = 0;
                             var bitmapImage = new BitmapImage();
                             bitmapImage.SetSource(memStream);
-                            source = bitmapImage;
+                            source.ImageSource = bitmapImage;
                         }
                     }
                     #endregion
@@ -178,7 +185,7 @@ namespace Chicken4WP8.ViewModels.Base
                             extendedImage.LoadingCompleted += (o, e) =>
                             {
                                 var ei = o as ExtendedImage;
-                                source = ei.ToBitmap();
+                                source.ImageSource = ei.ToBitmap();
                             };
                         }
                     }

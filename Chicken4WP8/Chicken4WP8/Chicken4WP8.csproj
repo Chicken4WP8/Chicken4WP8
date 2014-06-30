@@ -117,6 +117,7 @@
     <Compile Include="Services\Interface\IProgressService.cs" />
     <Compile Include="Services\Interface\IStorageService.cs" />
     <Compile Include="Services\Interface\IToastMessageService.cs" />
+    <Compile Include="ViewModels\Base\IImageSource.cs" />
     <Compile Include="ViewModels\Base\TweetModel.cs" />
     <Compile Include="ViewModels\Base\UserModel.cs" />
     <Compile Include="ViewModels\Home\HomePageViewModel.cs" />
