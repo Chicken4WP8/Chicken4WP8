@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using System.Windows.Media;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Chicken4WP8.ViewModels.Base;
 
 namespace Chicken4WP8.ViewModels.Home
@@ -15,13 +15,15 @@ namespace Chicken4WP8.ViewModels.Home
             base.SetImageFromStream(item.Creator, stream);
         }
 
-        protected override async Task FetchData()
+        protected override async Task<IEnumerable<TweetModel>> FetchData()
         {
             var loggedUser = App.LoggedUser;
+            var list = new List<TweetModel>();
             var tweets = await loggedUser.GetHomeTimelineAsync();
-
-            foreach (var tweet in tweets)
-                Items.Add(new TweetModel(tweet));
+            if (tweets != null)
+                foreach (var tweet in tweets)
+                    list.Add(new TweetModel(tweet));
+            return list;
         }
     }
 }

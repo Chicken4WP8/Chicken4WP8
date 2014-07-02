@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media.Imaging;
 using Caliburn.Micro;
@@ -15,15 +17,20 @@ using ImageTools.IO.Bmp;
 using ImageTools.IO.Gif;
 using ImageTools.IO.Png;
 using Microsoft.Phone.Controls;
-using System.Windows.Controls;
 
 namespace Chicken4WP8.ViewModels.Base
 {
-    public abstract class PivotItemViewModelBase<T> : Screen, IHandle<CultureInfo>
-        where T : class
+    public abstract class PivotItemViewModelBase<T> : Screen, IHandle<CultureInfo> where T : class
     {
+        #region properties
         private const double OFFSET = 20;
-        ViewportControl container;
+        private const int ITEMSPERPAGE = 10;
+        /// <summary>
+        /// the viewport control of longlistselector
+        /// </summary>
+        private ViewportControl container;
+        private List<T> realizedFetchedItems = new List<T>();
+        private List<T> realizedLoadedItems = new List<T>();
 
         public IProgressService ProgressService { get; set; }
         public ILanguageHelper LanguageHelper { get; set; }
@@ -73,7 +80,7 @@ namespace Chicken4WP8.ViewModels.Base
             //when initialize a pivot item,
             //load data first.
             await ShowProgressBar();
-            await FetchData();
+            await FetchMoreData();
             await HideProgressBar();
         }
 
@@ -82,13 +89,76 @@ namespace Chicken4WP8.ViewModels.Base
             base.OnViewAttached(view, context);
             var control = view as FrameworkElement;
             container = control.GetFirstLogicalChildByType<ViewportControl>(true);
+            if (container != null)
+                container.ManipulationStateChanged += ContainerManipulationStateChanged;
+        }
+        #endregion
+
+        #region realize item
+        public async virtual void ItemRealized(object sender, ItemRealizationEventArgs e)
+        {
+            await ShowProgressBar();
+            RealizeItem(e.Container.Content as T);
+            await HideProgressBar();
         }
 
+        protected async virtual void RealizeItem(T item)
+        {
+            return;
+        }
+        #endregion
+
+        #region fetch data when at top, load data when at bottom
+        private async void ContainerManipulationStateChanged(object sender, ManipulationStateChangedEventArgs e)
+        {
+            if (!IsLoading && container.ManipulationState == ManipulationState.Animating)
+            {
+                if (IsAtTop())
+                {
+                    Debug.WriteLine("now at TOP");
+                    await ShowProgressBar();
+                    await FetchMoreData();
+                    await HideProgressBar();
+                }
+                else if (IsAtBottom())
+                {
+                    Debug.WriteLine("now at BOTTOM");
+                    await ShowProgressBar();
+                    await LoadMoreData();
+                    await HideProgressBar();
+                }
+            }
+        }
+
+        private bool IsAtTop()
+        {
+            if (Math.Abs(container.Viewport.Top - container.Bounds.Top) <= OFFSET)
+                return true;
+            return false;
+        }
+
+        private bool IsAtBottom()
+        {
+            if (Math.Abs(container.Viewport.Bottom - container.Bounds.Bottom) <= OFFSET)
+                return true;
+            return false;
+        }
+        #endregion
+
+        #region set language
         public virtual void Handle(CultureInfo message)
         {
             SetLanguage();
         }
 
+        /// <summary>
+        /// set local strings using language helper on start up
+        /// </summary>
+        protected virtual void SetLanguage()
+        { }
+        #endregion
+
+        #region Item click
         public virtual void AvatarClick(object sender, RoutedEventArgs e)
         {
             //var tweet = sender as Tweet;
@@ -109,56 +179,67 @@ namespace Chicken4WP8.ViewModels.Base
             //    .WithParam(o => o.Random, DateTime.Now.Ticks.ToString("x"))
             //    .Navigate();
         }
+        #endregion
 
-        public async virtual void ItemRealized(object sender, ItemRealizationEventArgs e)
-        {
-            #region load or fetch data
-            //if (!IsLoading && Items.Count >= OFFSET && e.ItemKind == LongListSelectorItemKind.Item)
-            //{
-            //    //stretch to bottom,
-            //    //then load data
-            //    if (item.Equals(Items[Items.Count - OFFSET]))
-            //    {
-            //        await ShowProgressBar();
-            //        await LoadData();
-            //        await HideProgressBar();
-            //    }
-            //    //stretch to top,
-            //    //then fetch data
-            //    else if (item.Equals(Items[0]))
-            //    {
-            //        await ShowProgressBar();
-            //        await FetchData();
-            //        await HideProgressBar();
-            //    }
-            //}
-            #endregion
-        }
-
-        /// <summary>
-        /// set local strings using language helper on start up
-        /// </summary>
-        protected virtual void SetLanguage()
-        { }
-
+        #region progress bar
         protected async virtual Task ShowProgressBar()
         {
             IsLoading = true;
             await ProgressService.ShowAsync();
         }
 
-        protected async virtual Task FetchData()
-        { }
-
-        protected async virtual Task LoadData()
-        { }
-
         protected async virtual Task HideProgressBar()
         {
             IsLoading = false;
             await ProgressService.HideAsync();
         }
+        #endregion
 
+        #region fetch data
+        private async Task FetchMoreData()
+        {
+            int count = realizedFetchedItems.Count;
+            #region add items from cache, with 10 items per action
+            if (count > 0)
+            {
+                if (count > ITEMSPERPAGE)
+                {
+                    for (int i = count - 1; i > ITEMSPERPAGE; i--)
+                        Items.Add(realizedFetchedItems[i]);
+                    realizedFetchedItems.RemoveRange(count - 1 - ITEMSPERPAGE, ITEMSPERPAGE);
+                }
+                else
+                {
+                    for (int i = count - 1; i > count; i--)
+                    {
+                        Items.Add(realizedFetchedItems[i]);
+                        realizedFetchedItems.Clear();
+                    }
+                }
+            }
+            #endregion
+            #region fetch data from derived class
+            else
+            {
+                var fetchedList = await FetchData();
+                realizedFetchedItems.AddRange(fetchedList);
+                await FetchMoreData();
+            }
+            #endregion
+        }
+
+        protected async virtual Task<IEnumerable<T>> FetchData()
+        {
+            return new List<T>();
+        }
+        #endregion
+
+        #region load data
+        protected async virtual Task LoadMoreData()
+        { }
+        #endregion
+
+        #region set image stream
         protected virtual void SetImageFromStream(IImageSource source, Stream stream)
         {
             Deployment.Current.Dispatcher.BeginInvoke(() =>
@@ -197,6 +278,7 @@ namespace Chicken4WP8.ViewModels.Base
                     #endregion
                 });
         }
+        #endregion
     }
 
     public enum LongLiseStretch
