@@ -6,7 +6,7 @@ namespace Chicken4WP8.ViewModels.Home
 {
     public class IndexViewModel : PivotItemViewModelBase<TweetModel>
     {
-        protected async override Task ItemRealized(TweetModel item)
+        protected async Task ItemRealized(TweetModel item)
         {
             if (string.IsNullOrEmpty(item.Creator.ProfileImageUrl)
                 || item.Creator.ProfileImage != null)

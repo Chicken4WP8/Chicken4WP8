@@ -5,6 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls.Primitives;
 using System.Windows.Media.Imaging;
 using Caliburn.Micro;
 using Chicken4WP8.Services.Interface;
@@ -14,13 +15,15 @@ using ImageTools.IO.Bmp;
 using ImageTools.IO.Gif;
 using ImageTools.IO.Png;
 using Microsoft.Phone.Controls;
+using System.Windows.Controls;
 
 namespace Chicken4WP8.ViewModels.Base
 {
     public abstract class PivotItemViewModelBase<T> : Screen, IHandle<CultureInfo>
         where T : class
     {
-        private const int OFFSET = 1;
+        private const double OFFSET = 20;
+        ViewportControl container;
 
         public IProgressService ProgressService { get; set; }
         public ILanguageHelper LanguageHelper { get; set; }
@@ -74,6 +77,13 @@ namespace Chicken4WP8.ViewModels.Base
             await HideProgressBar();
         }
 
+        protected override void OnViewAttached(object view, object context)
+        {
+            base.OnViewAttached(view, context);
+            var control = view as FrameworkElement;
+            container = control.GetFirstLogicalChildByType<ViewportControl>(true);
+        }
+
         public virtual void Handle(CultureInfo message)
         {
             SetLanguage();
@@ -102,8 +112,6 @@ namespace Chicken4WP8.ViewModels.Base
 
         public async virtual void ItemRealized(object sender, ItemRealizationEventArgs e)
         {
-            var item = e.Container.Content as T;
-            await ItemRealized(item);
             #region load or fetch data
             //if (!IsLoading && Items.Count >= OFFSET && e.ItemKind == LongListSelectorItemKind.Item)
             //{
@@ -131,9 +139,6 @@ namespace Chicken4WP8.ViewModels.Base
         /// set local strings using language helper on start up
         /// </summary>
         protected virtual void SetLanguage()
-        { }
-
-        protected async virtual Task ItemRealized(T item)
         { }
 
         protected async virtual Task ShowProgressBar()
