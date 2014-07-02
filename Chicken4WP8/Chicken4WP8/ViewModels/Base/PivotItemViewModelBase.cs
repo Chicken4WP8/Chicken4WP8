@@ -201,13 +201,13 @@ namespace Chicken4WP8.ViewModels.Base
                 if (count > ITEMSPERPAGE)
                 {
                     for (int i = 0; i < ITEMSPERPAGE; i++)
-                        Items.Add(realizedFetchedItems[count - 1 - i]);
+                        Items.Insert(0, realizedFetchedItems[count - 1 - i]);
                     realizedFetchedItems.RemoveRange(count - 1 - ITEMSPERPAGE, ITEMSPERPAGE);
                 }
                 else
                 {
                     for (int i = count - 1; i >= 0; i--)
-                        Items.Add(realizedFetchedItems[i]);
+                        Items.Insert(0, realizedFetchedItems[i]);
                     realizedFetchedItems.Clear();
                 }
             }
