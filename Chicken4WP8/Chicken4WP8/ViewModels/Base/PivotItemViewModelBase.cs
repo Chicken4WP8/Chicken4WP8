@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -79,9 +80,7 @@ namespace Chicken4WP8.ViewModels.Base
                 Items = new ObservableCollection<T>();
             //when initialize a pivot item,
             //load data first.
-            await ShowProgressBar();
             await FetchMoreData();
-            await HideProgressBar();
         }
 
         protected override void OnViewAttached(object view, object context)
@@ -97,12 +96,11 @@ namespace Chicken4WP8.ViewModels.Base
         #region realize item
         public async virtual void ItemRealized(object sender, ItemRealizationEventArgs e)
         {
-            await ShowProgressBar();
-            RealizeItem(e.Container.Content as T);
-            await HideProgressBar();
+            Debug.WriteLine("realize an item");
+            await RealizeItem(e.Container.Content as T);
         }
 
-        protected async virtual void RealizeItem(T item)
+        protected async virtual Task RealizeItem(T item)
         {
             return;
         }
@@ -116,16 +114,12 @@ namespace Chicken4WP8.ViewModels.Base
                 if (IsAtTop())
                 {
                     Debug.WriteLine("now at TOP");
-                    await ShowProgressBar();
                     await FetchMoreData();
-                    await HideProgressBar();
                 }
                 else if (IsAtBottom())
                 {
                     Debug.WriteLine("now at BOTTOM");
-                    await ShowProgressBar();
                     await LoadMoreData();
-                    await HideProgressBar();
                 }
             }
         }
@@ -198,34 +192,37 @@ namespace Chicken4WP8.ViewModels.Base
         #region fetch data
         private async Task FetchMoreData()
         {
+            await ShowProgressBar();
             int count = realizedFetchedItems.Count;
+            Debug.WriteLine("realizedFetchedItems' count is: {0}", count);
             #region add items from cache, with 10 items per action
             if (count > 0)
             {
                 if (count > ITEMSPERPAGE)
                 {
-                    for (int i = count - 1; i > ITEMSPERPAGE; i--)
-                        Items.Add(realizedFetchedItems[i]);
+                    for (int i = 0; i < ITEMSPERPAGE; i++)
+                        Items.Add(realizedFetchedItems[count - 1 - i]);
                     realizedFetchedItems.RemoveRange(count - 1 - ITEMSPERPAGE, ITEMSPERPAGE);
                 }
                 else
                 {
-                    for (int i = count - 1; i > count; i--)
-                    {
+                    for (int i = count - 1; i >= 0; i--)
                         Items.Add(realizedFetchedItems[i]);
-                        realizedFetchedItems.Clear();
-                    }
+                    realizedFetchedItems.Clear();
                 }
             }
             #endregion
             #region fetch data from derived class
             else
             {
+                Debug.WriteLine("fetch data from internet");
                 var fetchedList = await FetchData();
+                Debug.WriteLine("fetced data count is :{0}", fetchedList.Count());
                 realizedFetchedItems.AddRange(fetchedList);
                 await FetchMoreData();
             }
             #endregion
+            await HideProgressBar();
         }
 
         protected async virtual Task<IEnumerable<T>> FetchData()

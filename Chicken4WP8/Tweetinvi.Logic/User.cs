@@ -376,17 +376,17 @@ namespace Tweetinvi.Logic
 
         public async Task<IEnumerable<IUser>> GetFriendsAsync(int maxFriendsToRetrieve = 250)
         {
-            return await _taskFactory.ExecuteTaskAsync(() => GetFriends(maxFriendsToRetrieve));
+            return await _userController.GetFriendsAsync(maxFriendsToRetrieve);
         }
 
         public async Task<IEnumerable<long>> GetFollowerIdsAsync(int maxFriendsToRetrieve = 5000)
         {
-            return await _taskFactory.ExecuteTaskAsync(() => GetFollowerIds(maxFriendsToRetrieve));
+            return await _userController.GetFollowerIdsAsync(maxFriendsToRetrieve);
         }
 
         public async Task<IEnumerable<IUser>> GetFollowersAsync(int maxFriendsToRetrieve = 250)
         {
-            return await _taskFactory.ExecuteTaskAsync(() => GetFollowers(maxFriendsToRetrieve));
+            return await _userController.GetFollowersAsync(maxFriendsToRetrieve);
         }
 
         public async Task<IRelationship> GetRelationshipWithAsync(IUser user)
@@ -416,7 +416,7 @@ namespace Tweetinvi.Logic
 
         public async Task<Stream> GetProfileImageStreamAsync(ImageSize imageSize = ImageSize.normal)
         {
-            return await _taskFactory.ExecuteTaskAsync(() => GetProfileImageStream(imageSize));
+            return await _userController.GetProfileImageStreamAsync(_userDTO, imageSize);
         }
 
         public async Task<IEnumerable<IUser>> GetContributorsAsync(bool createContributorList = false)
