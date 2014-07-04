@@ -2,11 +2,14 @@
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Chicken4WP8.ViewModels.Base;
+using Tweetinvi.Logic.Model.Parameters;
 
 namespace Chicken4WP8.ViewModels.Home
 {
     public class IndexViewModel : PivotItemViewModelBase<TweetModel>
     {
+        private long sinceId = -1, maxId = -1;
+
         protected override async Task RealizeItem(TweetModel item)
         {
             if (string.IsNullOrEmpty(item.Creator.ProfileImageUrl)
@@ -24,10 +27,35 @@ namespace Chicken4WP8.ViewModels.Home
         {
             var loggedUser = App.LoggedUser;
             var list = new List<TweetModel>();
-            var tweets = await loggedUser.GetHomeTimelineAsync();
+            var option = new TimelineRequestParameters()
+            {
+                SinceId = sinceId,
+                MaxId = maxId,
+            };
+            var tweets = await loggedUser.GetHomeTimelineAsync(option);
             if (tweets != null)
                 foreach (var tweet in tweets)
                     list.Add(new TweetModel(tweet));
+            if (list.Count != 0)
+                sinceId = list[0].Id;
+            return list;
+        }
+
+        protected override async Task<IEnumerable<TweetModel>> LoadData()
+        {
+            var loggedUser = App.LoggedUser;
+            var list = new List<TweetModel>();
+            var option = new TimelineRequestParameters()
+            {
+                SinceId = sinceId,
+                MaxId = maxId,
+            };++++
+            var tweets = await loggedUser.GetHomeTimelineAsync(option);
+            if (tweets != null)
+                foreach (var tweet in tweets)
+                    list.Add(new TweetModel(tweet));
+            if (list.Count != 0)
+                maxId = list[list.Count].Id;
             return list;
         }
     }

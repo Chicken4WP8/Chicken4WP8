@@ -80,7 +80,9 @@ namespace Chicken4WP8.ViewModels.Base
                 Items = new ObservableCollection<T>();
             //when initialize a pivot item,
             //load data first.
-            await FetchMoreData();
+            await ShowProgressBar();
+            await LoadMoreData();
+            await HideProgressBar();
         }
 
         protected override void OnViewAttached(object view, object context)
@@ -114,12 +116,17 @@ namespace Chicken4WP8.ViewModels.Base
                 if (IsAtTop())
                 {
                     Debug.WriteLine("now at TOP");
+                    await ShowProgressBar();
                     await FetchMoreData();
+                    await HideProgressBar();
+
                 }
                 else if (IsAtBottom())
                 {
                     Debug.WriteLine("now at BOTTOM");
+                    await ShowProgressBar();
                     await LoadMoreData();
+                    await HideProgressBar();
                 }
             }
         }
@@ -192,7 +199,6 @@ namespace Chicken4WP8.ViewModels.Base
         #region fetch data
         private async Task FetchMoreData()
         {
-            await ShowProgressBar();
             int count = realizedFetchedItems.Count;
             Debug.WriteLine("realizedFetchedItems' count is: {0}", count);
             #region add items from cache, with 10 items per action
@@ -222,7 +228,6 @@ namespace Chicken4WP8.ViewModels.Base
                 await FetchMoreData();
             }
             #endregion
-            await HideProgressBar();
         }
 
         protected async virtual Task<IEnumerable<T>> FetchData()
@@ -232,8 +237,43 @@ namespace Chicken4WP8.ViewModels.Base
         #endregion
 
         #region load data
-        protected async virtual Task LoadMoreData()
-        { }
+        private async Task LoadMoreData()
+        {
+            int count = realizedLoadedItems.Count;
+            Debug.WriteLine("realized loaded items' count is: {0}", count);
+            #region add items from cache, with 10 items per action
+            if (count > 0)
+            {
+                if (count > ITEMSPERPAGE)
+                {
+                    for (int i = 0; i < ITEMSPERPAGE; i++)
+                        Items.Add(realizedLoadedItems[i]);
+                    realizedLoadedItems.RemoveRange(0, ITEMSPERPAGE);
+                }
+                else
+                {
+                    foreach (var item in realizedLoadedItems)
+                        Items.Add(item);
+                    realizedLoadedItems.Clear();
+                }
+            }
+            #endregion
+            #region load data from derived class
+            else
+            {
+                Debug.WriteLine("load data from internet");
+                var loadedList = await LoadData();
+                Debug.WriteLine("loaded data count is: {0}", loadedList.Count());
+                realizedLoadedItems.AddRange(loadedList);
+                await LoadMoreData();
+            }
+            #endregion
+        }
+
+        protected async virtual Task<IEnumerable<T>> LoadData()
+        {
+            return;
+        }
         #endregion
 
         #region set image stream
