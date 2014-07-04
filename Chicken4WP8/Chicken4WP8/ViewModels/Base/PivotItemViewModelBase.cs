@@ -272,7 +272,7 @@ namespace Chicken4WP8.ViewModels.Base
 
         protected async virtual Task<IEnumerable<T>> LoadData()
         {
-            return;
+            return new List<T>();
         }
         #endregion
 

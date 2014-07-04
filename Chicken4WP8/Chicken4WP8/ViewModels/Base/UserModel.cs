@@ -1,28 +1,27 @@
 ﻿using System;
 using System.Windows.Media;
 using Caliburn.Micro;
-using Tweetinvi.Core.Interfaces;
+using CoreTweet;
 
 namespace Chicken4WP8.ViewModels.Base
 {
     public class UserModel : PropertyChangedBase, IImageSource
     {
         #region private
-        //private static ImageSource defaultImage = new BitmapImage
-        private IUser user;
+        private User user;
         #endregion
 
-        public UserModel(IUser user)
+        public UserModel(User user)
         {
             this.user = user;
         }
 
-        public IUser User
+        public User User
         {
             get { return user; }
         }
 
-        public long Id
+        public long? Id
         {
             get { return user.Id; }
         }
@@ -44,7 +43,7 @@ namespace Chicken4WP8.ViewModels.Base
 
         public DateTime CreatedAt
         {
-            get { return user.CreatedAt; }
+            get { return user.CreatedAt.DateTime; }
         }
 
         public string Location
@@ -54,17 +53,17 @@ namespace Chicken4WP8.ViewModels.Base
 
         public bool IsFollowing
         {
-            get { return user.Following; }
+            get { return false; }
         }
 
         public bool IsVerified
         {
-            get { return user.Verified; }
+            get { return user.IsVerified; }
         }
 
         public bool IsPrivate
         {
-            get { return user.Protected; }
+            get { return user.IsProtected; }
         }
 
         public bool IsTranslator
@@ -74,13 +73,13 @@ namespace Chicken4WP8.ViewModels.Base
 
         public string ProfileImageUrl
         {
-            get { return user.ProfileImageUrl; }
+            get { return user.ProfileImageUrl.AbsoluteUri; }
         }
 
-        public string ProfileImageUrlHttps
-        {
-            get { return user.ProfileImageUrlHttps; }
-        }
+        //public string ProfileImageUrlHttps
+        //{
+        //    get { return user.ProfileImageUrlHttps; }
+        //}
 
         private ImageSource profileImage;
         public ImageSource ProfileImage

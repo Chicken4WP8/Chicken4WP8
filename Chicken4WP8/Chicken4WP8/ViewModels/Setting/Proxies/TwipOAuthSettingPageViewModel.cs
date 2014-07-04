@@ -1,7 +1,5 @@
-﻿using System.Windows;
-using Caliburn.Micro;
+﻿using Caliburn.Micro;
 using Chicken4WP8.Services.Interface;
-using Tweetinvi;
 
 namespace Chicken4WP8.ViewModels.Setting.Proxies
 {
@@ -40,11 +38,11 @@ namespace Chicken4WP8.ViewModels.Setting.Proxies
         {
             if (!string.IsNullOrEmpty(BaseUrl))
             {
-                TwitterResources.BaseUrl = BaseUrl;
-                var user = await User.GetLoggedUserAsync();
-                UserName =  user.Name;
+                //TwitterResources.BaseUrl = BaseUrl;
+                //var user = await User.GetLoggedUserAsync();
+                //UserName =  user.Name;
 
-                MessageBox.Show(UserName);
+                //MessageBox.Show(UserName);
             }
         }
     }

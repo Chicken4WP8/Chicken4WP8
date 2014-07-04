@@ -1,26 +1,24 @@
 ﻿using System;
 using Caliburn.Micro;
 using Chicken4WP8.Common;
-using Tweetinvi.Core.Interfaces;
-using Tweetinvi.Core.Interfaces.Models;
-using Tweetinvi.Core.Interfaces.Models.Entities;
+using CoreTweet;
 
 namespace Chicken4WP8.ViewModels.Base
 {
     public class TweetModel : PropertyChangedBase
     {
         #region private
-        protected ITweet tweet;
+        protected Status tweet;
         protected UserModel user;
         #endregion
 
-        public TweetModel(ITweet tweet)
+        public TweetModel(Status tweet)
         {
             this.tweet = tweet;
-            this.user = new UserModel(this.tweet.Creator);
+            this.user = new UserModel(this.tweet.User);
         }
 
-        public ITweet Tweet
+        public Status Tweet
         {
             get { return tweet; }
         }
@@ -32,7 +30,7 @@ namespace Chicken4WP8.ViewModels.Base
 
         public DateTime CreatedAt
         {
-            get { return tweet.CreatedAt; }
+            get { return tweet.CreatedAt.DateTime; }
         }
 
         public UserModel Creator
@@ -50,34 +48,34 @@ namespace Chicken4WP8.ViewModels.Base
             get
             {
                 return this.tweet.Entities != null
-                    && this.tweet.Entities.Medias != null
-                    && this.tweet.Entities.Medias.Count != 0;
+                    && this.tweet.Entities.Media != null
+                    && this.tweet.Entities.Media.Length != 0;
             }
         }
 
-        public ITweetEntities Entities
+        public CoreTweet.Entities Entities
         {
             get { return this.tweet.Entities; }
         }
 
-        public bool IsRetweeted
+        public bool? IsRetweeted
         {
-            get { return tweet.Retweeted; }
+            get { return tweet.IsRetweeted; }
         }
 
-        public bool IsFavorited
+        public bool? IsFavorited
         {
-            get { return tweet.Favourited; }
+            get { return tweet.IsFavorited; }
         }
 
-        public int RetweetCount
+        public int? RetweetCount
         {
             get { return tweet.RetweetCount; }
         }
 
-        public int FavoriteCount
+        public int? FavoriteCount
         {
-            get { return tweet.FavouriteCount; }
+            get { return tweet.FavoriteCount; }
         }
 
         public string Source
@@ -100,7 +98,7 @@ namespace Chicken4WP8.ViewModels.Base
             get { return tweet.Coordinates != null; }
         }
 
-        public ICoordinates Coordinates
+        public Coordinates Coordinates
         {
             get { return tweet.Coordinates; }
         }

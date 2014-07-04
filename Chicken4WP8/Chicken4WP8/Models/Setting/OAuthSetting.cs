@@ -1,6 +1,4 @@
-﻿using Tweetinvi.Core.Interfaces.oAuth;
-using Tweetinvi.WebLogic;
-
+﻿
 namespace Chicken4WP8.Models.Setting
 {
     public abstract class OAuthSetting
@@ -12,7 +10,7 @@ namespace Chicken4WP8.Models.Setting
     /// <summary>
     /// BaseOAuthSetting use OAuthCredentials
     /// </summary>
-    public class BaseOAuthSetting : OAuthSetting, IOAuthCredentials
+    public class BaseOAuthSetting : OAuthSetting
     {
         private string name = "BASE";
         public override string Name
@@ -28,10 +26,10 @@ namespace Chicken4WP8.Models.Setting
             set { description = value; }
         }
 
-        public string AccessToken { get; set; }
-        public string AccessTokenSecret { get; set; }
         public string ConsumerKey { get; set; }
         public string ConsumerSecret { get; set; }
+        public string AccessToken { get; set; }
+        public string AccessTokenSecret { get; set; }
     }
 
     public class TwipOAuthSetting : OAuthSetting

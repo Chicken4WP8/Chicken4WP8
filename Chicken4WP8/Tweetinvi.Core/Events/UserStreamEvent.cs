@@ -1,4 +1,0 @@
-﻿namespace Tweetinvi.Core.Events
-{
-  
-}

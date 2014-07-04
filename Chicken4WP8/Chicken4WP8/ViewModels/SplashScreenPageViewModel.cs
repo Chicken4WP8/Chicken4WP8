@@ -4,8 +4,6 @@ using Chicken4WP8.Models.Setting;
 using Chicken4WP8.Services.Interface;
 using Chicken4WP8.ViewModels.Home;
 using Chicken4WP8.ViewModels.Setting;
-using Tweetinvi;
-using Tweetinvi.Core.Interfaces.oAuth;
 
 namespace Chicken4WP8.ViewModels
 {
@@ -35,7 +33,7 @@ namespace Chicken4WP8.ViewModels
                 if (type == typeof(BaseOAuthSetting))
                 {
                     //set oauth key and secret for access
-                    TwitterCredentials.SetCredentials(setting.OAuthSetting as IOAuthCredentials);
+                    //TwitterCredentials.SetCredentials(setting.OAuthSetting as IOAuthCredentials);
                 }
                 else if (type == typeof(TwipOAuthSetting))
                 {
@@ -43,12 +41,12 @@ namespace Chicken4WP8.ViewModels
                 }
                 try
                 {
-                    var user = await User.GetLoggedUserAsync();
-                    if (user != null)
-                    {
-                        App.UpdateLoggedUser(user);
-                        NavigationService.UriFor<HomePageViewModel>().Navigate();
-                    }
+                    //var user = null;// await User.GetLoggedUserAsync();
+                    //if (user != null)
+                    //{
+                    //    App.UpdateLoggedUser(user);
+                    //    NavigationService.UriFor<HomePageViewModel>().Navigate();
+                    //}
                 }
                 catch (Exception e)
                 {

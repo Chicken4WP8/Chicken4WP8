@@ -4,9 +4,9 @@ using Chicken4WP8.Models.Setting;
 using Chicken4WP8.Services.Interface;
 using Chicken4WP8.ViewModels.Home;
 using Chicken4WP8.Views.Setting.Proxies;
+using CoreTweet;
+using CoreTweet.Rest;
 using Microsoft.Phone.Controls;
-using Tweetinvi;
-using Tweetinvi.Core.Interfaces.Credentials;
 
 namespace Chicken4WP8.ViewModels.Setting.Proxies
 {
@@ -15,7 +15,7 @@ namespace Chicken4WP8.ViewModels.Setting.Proxies
         #region properties
         private const string KEY = "pPnxpn00RbGx3YJJtvYUsA";
         private const string SECRET = "PoX3exts23HJ1rlMaPr6RtlX2G5VQdrqbpUWpkMcCo";
-        private ITemporaryCredentials credentials;
+        private CoreTweet.OAuth.OAuthSession session;
         private readonly WaitCursor waitCursorService;
 
         public IStorageService StorageService { get; set; }
@@ -53,7 +53,7 @@ namespace Chicken4WP8.ViewModels.Setting.Proxies
             waitCursorService.Text = LanguageHelper["WaitCursor_GetAuthorizationPage"];
             waitCursorService.IsVisible = true;
 
-            credentials = CredentialsCreator.GenerateApplicationCredentials(KEY, SECRET);
+            session = await OAuth.AuthorizeAsync(KEY, SECRET);
 
             var page = view as BaseOAuthSettingPageView;
             var browser = page.Browser;
@@ -65,8 +65,7 @@ namespace Chicken4WP8.ViewModels.Setting.Proxies
 
             try
             {
-                var url = await CredentialsCreator.GetAuthorizationURLAsync(credentials);
-                browser.Navigate(new Uri(url, UriKind.Absolute));
+                browser.Navigate(session.AuthorizeUri);
             }
             catch (Exception e)
             {
@@ -85,27 +84,26 @@ namespace Chicken4WP8.ViewModels.Setting.Proxies
             if (setting == null)
                 setting = new UserSetting();
 
-            var newCredentials = await CredentialsCreator.GetCredentialsFromVerifierCodeAsync(PinCode, credentials);
-            TwitterCredentials.SetCredentials(newCredentials);
+            var tokens = await session.GetTokensAsync(PinCode);
             var oauth = new BaseOAuthSetting
             {
-                ConsumerKey = newCredentials.ConsumerKey,
-                ConsumerSecret = newCredentials.ConsumerSecret,
-                AccessToken = newCredentials.AccessToken,
-                AccessTokenSecret = newCredentials.AccessTokenSecret
+                ConsumerKey = tokens.ConsumerKey,
+                ConsumerSecret = tokens.ConsumerSecret,
+                AccessToken = tokens.AccessToken,
+                AccessTokenSecret = tokens.AccessTokenSecret,
             };
             setting.OAuthSetting = oauth;
 
             waitCursorService.Text = LanguageHelper["WaitCursor_GetCurrentUser"];
 
-            var user = await User.GetLoggedUserAsync();
-            setting.Id = user.Id;
+            var user = await tokens.Account.VerifyCredentialsAsync();
+            setting.Id = (long)user.Id;
             setting.Name = user.Name;
             setting.ScreenName = user.ScreenName;
-            App.UpdateLoggedUser(user);
 
             StorageService.UpdateCurrentUserSetting(setting);
             App.UpdateSetting(setting);
+            App.UpdateTokens(tokens);
 
             ToastMessageService.HandleMessage(
                 LanguageHelper.GetString("Toast_Msg_HelloUser", user.ScreenName),

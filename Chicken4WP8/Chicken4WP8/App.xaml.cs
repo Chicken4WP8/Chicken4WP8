@@ -1,7 +1,6 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using Chicken4WP8.Models.Setting;
-using Tweetinvi.Core.Interfaces;
+using CoreTweet.Core;
 
 namespace Chicken4WP8
 {
@@ -18,10 +17,10 @@ namespace Chicken4WP8
             get { return _setting; }
         }
 
-        private static ILoggedUser _loggedUser;
-        public static ILoggedUser LoggedUser
+        private static TokensBase _tokens;
+        public static TokensBase Tokens
         {
-            get { return _loggedUser; }
+            get { return _tokens; }
         }
 
         public static void UpdateSetting(UserSetting setting)
@@ -29,9 +28,9 @@ namespace Chicken4WP8
             _setting = setting;
         }
 
-        public static void UpdateLoggedUser(ILoggedUser user)
+        public static void UpdateTokens(TokensBase tokens)
         {
-            _loggedUser = user;
+            _tokens = tokens;
         }
     }
 }
