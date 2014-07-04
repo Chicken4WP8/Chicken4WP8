@@ -6,7 +6,7 @@ using CoreTweet;
 
 namespace Chicken4WP8.ViewModels.Base
 {
-    public class UserModel : PropertyChangedBase,IUserModel, IImageSource
+    public class UserModel : PropertyChangedBase, IUserModel, IImageSource
     {
         #region private
         private User user;
@@ -72,34 +72,21 @@ namespace Chicken4WP8.ViewModels.Base
             get { return user.IsTranslator; }
         }
 
-        public string ProfileImageUrl
+        public Uri ProfileImageUrl
         {
-            get { return user.ProfileImageUrl.AbsoluteUri; }
+            get { return user.ProfileImageUrl; }
         }
 
-        //public string ProfileImageUrlHttps
-        //{
-        //    get { return user.ProfileImageUrlHttps; }
-        //}
+        public Uri ProfileImageUrlHttps
+        {
+            get { return user.ProfileImageUrlHttps; }
+        }
 
         private ImageSource profileImage;
-        public ImageSource ProfileImage
-        {
-            get { return profileImage; }
-            set
-            {
-                profileImage = value;
-                NotifyOfPropertyChange(() => ProfileImage);
-            }
-        }
-
         public ImageSource ImageSource
         {
-            get { return ProfileImage; }
-            set
-            {
-                ProfileImage = value;
-            }
+            get { return profileImage; }
+            set { profileImage = value; }
         }
     }
 }

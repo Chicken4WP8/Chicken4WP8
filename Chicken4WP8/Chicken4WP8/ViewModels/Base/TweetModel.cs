@@ -6,21 +6,26 @@ using CoreTweet;
 
 namespace Chicken4WP8.ViewModels.Base
 {
-    public class TweetModel : PropertyChangedBase,ITweetModel
+    public class TweetModel : PropertyChangedBase, ITweetModel
     {
         #region private
         private Status tweet;
         private IUserModel user;
         private IEntities entities;
+        private ICoordinates coordinates;
         #endregion
 
         public TweetModel(Status tweet)
         {
             this.tweet = tweet;
-            this.user = new UserModel(this.tweet.User);
+            this.user = new UserModel(tweet.User);
+            if (tweet.Entities != null)
+                this.entities = new EntitiesModel(tweet.Entities);
+            if (tweet.Coordinates != null)
+                this.coordinates = new CoordinatesModel(tweet.Coordinates);
         }
 
-        public long Id
+        public long? Id
         {
             get { return tweet.Id; }
         }
@@ -34,7 +39,7 @@ namespace Chicken4WP8.ViewModels.Base
         {
             get { return this.user; }
         }
-        
+
         public string Text
         {
             get { return tweet.Text; }
@@ -52,7 +57,7 @@ namespace Chicken4WP8.ViewModels.Base
 
         public IEntities Entities
         {
-            get { return this.tweet.Entities; }
+            get { return entities; }
         }
 
         public bool? IsRetweeted
@@ -95,9 +100,9 @@ namespace Chicken4WP8.ViewModels.Base
             get { return tweet.Coordinates != null; }
         }
 
-        public Coordinates Coordinates
+        public ICoordinates Coordinates
         {
-            get { return tweet.Coordinates; }
+            get { return coordinates; }
         }
 
         /// <summary>

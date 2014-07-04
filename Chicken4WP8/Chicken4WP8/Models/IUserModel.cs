@@ -15,7 +15,7 @@ namespace Chicken4WP8.Models
         bool IsVerified { get; }
         bool IsPrivate { get; }
         bool IsTranslator { get; }
-        string ProfileImageUrl { get; }
-        string ProfileImageUrlHttps { get; }
+        Uri ProfileImageUrl { get; }
+        Uri ProfileImageUrlHttps { get; }
     }
 }

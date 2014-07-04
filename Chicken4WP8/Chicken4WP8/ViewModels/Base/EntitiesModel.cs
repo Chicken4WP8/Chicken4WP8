@@ -44,10 +44,10 @@ namespace Chicken4WP8.ViewModels.Base
                     foreach (var url in entities.Urls)
                         urls.Add(new UrlEntityModel(url));
                 }
-                if(entities.UserMentions!=null&&entities.UserMentions.Length!=0)
+                if (entities.UserMentions != null && entities.UserMentions.Length != 0)
                 {
-                    userMentions =  new List<IUserMentionEntity>();
-                    foreach(var userMention in entities.UserMentions)
+                    userMentions = new List<IUserMentionEntity>();
+                    foreach (var userMention in entities.UserMentions)
                         userMentions.Add(new UserMentionEntityModel(userMention));
                 }
             }
@@ -292,6 +292,32 @@ namespace Chicken4WP8.ViewModels.Base
         {
             get { return entity.ScreenName; }
             set { entity.ScreenName = value; }
+        }
+    }
+
+    public class CoordinatesModel : ICoordinates
+    {
+        private Coordinates coordinates;
+
+        public CoordinatesModel(Coordinates coordinates)
+        {
+            this.coordinates = coordinates;
+        }
+
+        public double Latitude
+        {
+            get { return coordinates.Latitude; }
+        }
+
+        public double Longtitude
+        {
+            get { return coordinates.Longtitude; }
+        }
+
+        public string Type
+        {
+            get { return coordinates.Type; }
+            set { coordinates.Type = value; }
         }
     }
 }

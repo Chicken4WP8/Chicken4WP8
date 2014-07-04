@@ -11,8 +11,7 @@ namespace Chicken4WP8.ViewModels.Home
 
         protected override async Task RealizeItem(TweetModel item)
         {
-            if (string.IsNullOrEmpty(item.User.ProfileImageUrl)
-                || item.User.ProfileImage != null)
+            if (item.User.ImageSource != null)
             {
                 Debug.WriteLine("user {0} 's avatar already realized, image url is: {1}", item.User.ScreenName, item.User.ProfileImageUrl);
                 return;
@@ -44,7 +43,7 @@ namespace Chicken4WP8.ViewModels.Home
         {
             //var loggedUser = App.LoggedUser;
             var list = new List<TweetModel>();
-            var tweets =await App.Tokens.Statuses.HomeTimelineAsync();
+            var tweets = await App.Tokens.Statuses.HomeTimelineAsync();
             //var option = new TimelineRequestParameters()
             //{
             //    SinceId = sinceId,
