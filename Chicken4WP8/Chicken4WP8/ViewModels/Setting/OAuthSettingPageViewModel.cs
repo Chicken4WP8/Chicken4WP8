@@ -55,11 +55,16 @@ namespace Chicken4WP8.ViewModels.Setting
 
         public void AppBar_Next()
         {
-            var type = SelectedItem.GetType();
-            if (type == typeof(BaseOAuthSetting))
-                NavigationService.UriFor<BaseOAuthSettingPageViewModel>().Navigate();
-            else if (type == typeof(TwipOAuthSetting))
-                NavigationService.UriFor<TwipOAuthSettingPageViewModel>().Navigate();
+            var type = SelectedItem.OAuthSettingType;
+            switch (type)
+            {
+                case OAuthSettingType.BaseOAuth:
+                    NavigationService.UriFor<BaseOAuthSettingPageViewModel>().Navigate();
+                    break;
+                case OAuthSettingType.TwipOAuth:
+                    NavigationService.UriFor<TwipOAuthSettingPageViewModel>().Navigate();
+                    break;
+            }
         }
     }
 }

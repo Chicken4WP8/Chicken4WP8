@@ -104,6 +104,7 @@
     <Compile Include="Models\IEntities.cs" />
     <Compile Include="Models\ITweetModel.cs" />
     <Compile Include="Models\IUserModel.cs" />
+    <Compile Include="Models\Setting\OAuthSessionModel.cs" />
     <Compile Include="Models\Setting\OAuthSetting.cs" />
     <Compile Include="Models\Setting\UserSetting.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -113,10 +114,12 @@
       <DependentUpon>AppResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Services\Implemention\LanguageHelper.cs" />
+    <Compile Include="Services\Implemention\OAuthService.cs" />
     <Compile Include="Services\Implemention\ProgressService.cs" />
     <Compile Include="Services\Implemention\StorageService.cs" />
     <Compile Include="Services\Implemention\ToastMessageService.cs" />
     <Compile Include="Services\Interface\ILanguageHelper.cs" />
+    <Compile Include="Services\Interface\IOAuthService.cs" />
     <Compile Include="Services\Interface\IProgressService.cs" />
     <Compile Include="Services\Interface\IStorageService.cs" />
     <Compile Include="Services\Interface\IToastMessageService.cs" />

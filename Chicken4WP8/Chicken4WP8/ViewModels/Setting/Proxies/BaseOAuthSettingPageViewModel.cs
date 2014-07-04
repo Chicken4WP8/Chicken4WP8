@@ -4,7 +4,6 @@ using Chicken4WP8.Models.Setting;
 using Chicken4WP8.Services.Interface;
 using Chicken4WP8.ViewModels.Home;
 using Chicken4WP8.Views.Setting.Proxies;
-using CoreTweet;
 using Microsoft.Phone.Controls;
 
 namespace Chicken4WP8.ViewModels.Setting.Proxies
@@ -14,10 +13,11 @@ namespace Chicken4WP8.ViewModels.Setting.Proxies
         #region properties
         private const string KEY = "pPnxpn00RbGx3YJJtvYUsA";
         private const string SECRET = "PoX3exts23HJ1rlMaPr6RtlX2G5VQdrqbpUWpkMcCo";
-        private CoreTweet.OAuth.OAuthSession session;
+        private OAuthSessionModel session;
         private readonly WaitCursor waitCursorService;
 
         public IStorageService StorageService { get; set; }
+        public IOAuthService OAuthService { get; set; }
         public INavigationService NavigationService { get; set; }
         public ILanguageHelper LanguageHelper { get; set; }
 
@@ -51,7 +51,7 @@ namespace Chicken4WP8.ViewModels.Setting.Proxies
             waitCursorService.Text = LanguageHelper["WaitCursor_GetAuthorizationPage"];
             waitCursorService.IsVisible = true;
 
-            session = await OAuth.AuthorizeAsync(KEY, SECRET);
+            session = await OAuthService.AuthorizeAsync(KEY, SECRET);
 
             var page = view as BaseOAuthSettingPageView;
             var browser = page.Browser;
@@ -82,20 +82,13 @@ namespace Chicken4WP8.ViewModels.Setting.Proxies
             if (setting == null)
                 setting = new UserSetting();
 
-            var tokens = await session.GetTokensAsync(PinCode);
-            var oauth = new BaseOAuthSetting
-            {
-                ConsumerKey = tokens.ConsumerKey,
-                ConsumerSecret = tokens.ConsumerSecret,
-                AccessToken = tokens.AccessToken,
-                AccessTokenSecret = tokens.AccessTokenSecret,
-            };
+            var oauth = await OAuthService.GetTokensAsync(PinCode);
             setting.OAuthSetting = oauth;
 
             waitCursorService.Text = LanguageHelper["WaitCursor_GetCurrentUser"];
 
-            var user = await tokens.Account.VerifyCredentialsAsync();
-            setting.Id = (long)user.Id;
+            var user = await OAuthService.VerifyCredentialsAsync();
+            setting.Id = user.Id;
             setting.Name = user.Name;
             setting.ScreenName = user.ScreenName;
 
