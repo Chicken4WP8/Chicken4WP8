@@ -11,6 +11,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media.Imaging;
 using Caliburn.Micro;
+using Chicken4WP8.Models;
 using Chicken4WP8.Services.Interface;
 using ImageTools;
 using ImageTools.IO;

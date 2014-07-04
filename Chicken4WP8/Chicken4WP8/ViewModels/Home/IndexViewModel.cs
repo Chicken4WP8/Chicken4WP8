@@ -11,13 +11,13 @@ namespace Chicken4WP8.ViewModels.Home
 
         protected override async Task RealizeItem(TweetModel item)
         {
-            if (string.IsNullOrEmpty(item.Creator.ProfileImageUrl)
-                || item.Creator.ProfileImage != null)
+            if (string.IsNullOrEmpty(item.User.ProfileImageUrl)
+                || item.User.ProfileImage != null)
             {
-                Debug.WriteLine("user {0} 's avatar already realized, image url is: {1}", item.Creator.ScreenName, item.Creator.ProfileImageUrl);
+                Debug.WriteLine("user {0} 's avatar already realized, image url is: {1}", item.User.ScreenName, item.User.ProfileImageUrl);
                 return;
             }
-            Debug.WriteLine("get user {0} avatar image from internet, image url is: {1}", item.Creator.ScreenName, item.Creator.ProfileImageUrl);
+            Debug.WriteLine("get user {0} avatar image from internet, image url is: {1}", item.User.ScreenName, item.User.ProfileImageUrl);
             //var stream = await item.Creator.User.GetProfileImageStreamAsync();
             //base.SetImageFromStream(item.Creator, stream);
         }

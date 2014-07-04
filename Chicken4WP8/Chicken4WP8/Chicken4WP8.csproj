@@ -101,6 +101,9 @@
     <Compile Include="Controls\ToastPrompt.cs" />
     <Compile Include="Entities\ChickenDataContext.cs" />
     <Compile Include="Entities\Setting.cs" />
+    <Compile Include="Models\IEntities.cs" />
+    <Compile Include="Models\ITweetModel.cs" />
+    <Compile Include="Models\IUserModel.cs" />
     <Compile Include="Models\Setting\OAuthSetting.cs" />
     <Compile Include="Models\Setting\UserSetting.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -117,7 +120,8 @@
     <Compile Include="Services\Interface\IProgressService.cs" />
     <Compile Include="Services\Interface\IStorageService.cs" />
     <Compile Include="Services\Interface\IToastMessageService.cs" />
-    <Compile Include="ViewModels\Base\IImageSource.cs" />
+    <Compile Include="Models\IImageSource.cs" />
+    <Compile Include="ViewModels\Base\EntitiesModel.cs" />
     <Compile Include="ViewModels\Base\TweetModel.cs" />
     <Compile Include="ViewModels\Base\UserModel.cs" />
     <Compile Include="ViewModels\Home\HomePageViewModel.cs" />

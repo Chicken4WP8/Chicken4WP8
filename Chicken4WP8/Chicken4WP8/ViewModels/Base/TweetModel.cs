@@ -1,26 +1,23 @@
 ﻿using System;
 using Caliburn.Micro;
 using Chicken4WP8.Common;
+using Chicken4WP8.Models;
 using CoreTweet;
 
 namespace Chicken4WP8.ViewModels.Base
 {
-    public class TweetModel : PropertyChangedBase
+    public class TweetModel : PropertyChangedBase,ITweetModel
     {
         #region private
-        protected Status tweet;
-        protected UserModel user;
+        private Status tweet;
+        private IUserModel user;
+        private IEntities entities;
         #endregion
 
         public TweetModel(Status tweet)
         {
             this.tweet = tweet;
             this.user = new UserModel(this.tweet.User);
-        }
-
-        public Status Tweet
-        {
-            get { return tweet; }
         }
 
         public long Id
@@ -33,11 +30,11 @@ namespace Chicken4WP8.ViewModels.Base
             get { return tweet.CreatedAt.DateTime; }
         }
 
-        public UserModel Creator
+        public IUserModel User
         {
-            get { return user; }
+            get { return this.user; }
         }
-
+        
         public string Text
         {
             get { return tweet.Text; }
@@ -53,7 +50,7 @@ namespace Chicken4WP8.ViewModels.Base
             }
         }
 
-        public CoreTweet.Entities Entities
+        public IEntities Entities
         {
             get { return this.tweet.Entities; }
         }
