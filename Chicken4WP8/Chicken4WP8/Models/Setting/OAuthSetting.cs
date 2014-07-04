@@ -3,27 +3,32 @@ namespace Chicken4WP8.Models.Setting
 {
     public abstract class OAuthSetting
     {
-        public virtual string Name { get; set; }
-        public virtual string Description { get; set; }
+        public abstract string Name { get; }
+        public abstract OAuthSettingType OAuthSettingType { get; }
+        public abstract string Description { get; }
     }
 
-    /// <summary>
-    /// BaseOAuthSetting use OAuthCredentials
-    /// </summary>
+    public enum OAuthSettingType
+    {
+        BaseOAuth = 1,
+        TwipOAuth = 2,
+    }
+
     public class BaseOAuthSetting : OAuthSetting
     {
         private string name = "BASE";
         public override string Name
         {
             get { return name; }
-            set { name = value; }
         }
+
+        public override OAuthSettingType OAuthSettingType
+        { get { return OAuthSettingType.BaseOAuth; } }
 
         private string description = "Authorization with your twitter user name and password";
         public override string Description
         {
             get { return description; }
-            set { description = value; }
         }
 
         public string ConsumerKey { get; set; }
@@ -38,14 +43,17 @@ namespace Chicken4WP8.Models.Setting
         public override string Name
         {
             get { return name; }
-            set { name = value; }
+        }
+
+        public override OAuthSettingType OAuthSettingType
+        {
+            get { return Setting.OAuthSettingType.TwipOAuth; }
         }
 
         private string description = "twip4 mode description";
         public override string Description
         {
             get { return description; }
-            set { description = value; }
         }
 
         public string BaseUrl { get; set; }

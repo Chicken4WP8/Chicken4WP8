@@ -1,6 +1,4 @@
-﻿using System;
-using Caliburn.Micro;
-using Chicken4WP8.Models.Setting;
+﻿using Caliburn.Micro;
 using Chicken4WP8.Services.Interface;
 using Chicken4WP8.ViewModels.Home;
 using Chicken4WP8.ViewModels.Setting;
@@ -12,13 +10,12 @@ namespace Chicken4WP8.ViewModels
         #region properties
         public IStorageService StorageService { get; set; }
         public INavigationService NavigationService { get; set; }
-        public IToastMessageService ToastMessageService { get; set; }
 
         public SplashScreenPageViewModel()
         { }
         #endregion
 
-        protected async override void OnInitialize()
+        protected override void OnInitialize()
         {
             base.OnInitialize();
             var setting = StorageService.GetCurrentUserSetting();
@@ -29,29 +26,8 @@ namespace Chicken4WP8.ViewModels
             }
             else
             {
-                var type = setting.OAuthSetting.GetType();
-                if (type == typeof(BaseOAuthSetting))
-                {
-                    //set oauth key and secret for access
-                    //TwitterCredentials.SetCredentials(setting.OAuthSetting as IOAuthCredentials);
-                }
-                else if (type == typeof(TwipOAuthSetting))
-                {
-                    //set base url for twip
-                }
-                try
-                {
-                    //var user = null;// await User.GetLoggedUserAsync();
-                    //if (user != null)
-                    //{
-                    //    App.UpdateLoggedUser(user);
-                    //    NavigationService.UriFor<HomePageViewModel>().Navigate();
-                    //}
-                }
-                catch (Exception e)
-                {
-                    ToastMessageService.HandleMessage(e.Message);
-                }
+                App.UpdateSetting(setting);
+                NavigationService.UriFor<HomePageViewModel>().Navigate();
             }
         }
     }

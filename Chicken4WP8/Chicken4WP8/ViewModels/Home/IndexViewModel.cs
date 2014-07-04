@@ -44,7 +44,7 @@ namespace Chicken4WP8.ViewModels.Home
         {
             //var loggedUser = App.LoggedUser;
             var list = new List<ITweetModel>();
-            var tweets = await App.Tokens.Statuses.HomeTimelineAsync();
+            //var tweets = await App.Tokens.Statuses.HomeTimelineAsync();
             //var option = new TimelineRequestParameters()
             //{
             //    SinceId = sinceId,
@@ -52,8 +52,8 @@ namespace Chicken4WP8.ViewModels.Home
             //};
             //var tweets = await loggedUser.GetHomeTimelineAsync();
             //if (tweets != null)
-            foreach (var tweet in tweets)
-                list.Add(new TweetModel(tweet));
+            //foreach (var tweet in tweets)
+            //    list.Add(new TweetModel(tweet));
             //if (list.Count != 0)
             //    maxId = list[list.Count-1].Id;
             return list;

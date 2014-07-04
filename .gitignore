@@ -2,3 +2,5 @@
 /obj
 Bin
 obj
+
+*.suo

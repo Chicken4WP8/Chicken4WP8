@@ -1,30 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Caliburn.Micro;
+﻿using Caliburn.Micro;
 
 namespace Chicken4WP8.ViewModels.Home
 {
     public class HomePageViewModel : Conductor<Screen>.Collection.OneActive
     {
-        private IndexViewModel index;
+        public IndexViewModel IndexViewModel { get; set; }
 
-        public HomePageViewModel(
-            IndexViewModel index
-            )
+        public HomePageViewModel()
         {
-            this.index = index;
         }
 
         protected override void OnInitialize()
         {
             base.OnInitialize();
 
-            Items.Add(index);
+            Items.Add(IndexViewModel);
 
-            ActivateItem(index);
+            ActivateItem(IndexViewModel);
         }
     }
 }

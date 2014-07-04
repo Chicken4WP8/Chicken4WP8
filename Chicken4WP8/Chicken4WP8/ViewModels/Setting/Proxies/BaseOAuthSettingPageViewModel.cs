@@ -5,7 +5,6 @@ using Chicken4WP8.Services.Interface;
 using Chicken4WP8.ViewModels.Home;
 using Chicken4WP8.Views.Setting.Proxies;
 using CoreTweet;
-using CoreTweet.Rest;
 using Microsoft.Phone.Controls;
 
 namespace Chicken4WP8.ViewModels.Setting.Proxies
@@ -21,7 +20,6 @@ namespace Chicken4WP8.ViewModels.Setting.Proxies
         public IStorageService StorageService { get; set; }
         public INavigationService NavigationService { get; set; }
         public ILanguageHelper LanguageHelper { get; set; }
-        public IToastMessageService ToastMessageService { get; set; }
 
         public BaseOAuthSettingPageViewModel()
         {
@@ -103,15 +101,9 @@ namespace Chicken4WP8.ViewModels.Setting.Proxies
 
             StorageService.UpdateCurrentUserSetting(setting);
             App.UpdateSetting(setting);
-            App.UpdateTokens(tokens);
 
-            ToastMessageService.HandleMessage(
-                LanguageHelper.GetString("Toast_Msg_HelloUser", user.ScreenName),
-                () =>
-                {
-                    waitCursorService.IsVisible = false;
-                    NavigationService.UriFor<HomePageViewModel>().Navigate();
-                });
+            waitCursorService.IsVisible = false;
+            NavigationService.UriFor<HomePageViewModel>().Navigate();
         }
 
         private async void BrowserNavigationFailed(Exception exception)
