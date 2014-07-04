@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Chicken4WP8.Models;
 using Chicken4WP8.ViewModels.Base;
 
 namespace Chicken4WP8.ViewModels.Home
 {
-    public class IndexViewModel : PivotItemViewModelBase<TweetModel>
+    public class IndexViewModel : PivotItemViewModelBase<ITweetModel>
     {
         private long sinceId = -1, maxId = -1;
 
-        protected override async Task RealizeItem(TweetModel item)
+        protected override async Task RealizeItem(ITweetModel item)
         {
             if (item.User.ImageSource != null)
             {
@@ -21,7 +22,7 @@ namespace Chicken4WP8.ViewModels.Home
             //base.SetImageFromStream(item.Creator, stream);
         }
 
-        protected override async Task<IEnumerable<TweetModel>> FetchData()
+        protected override async Task<IEnumerable<ITweetModel>> FetchData()
         {
             //var loggedUser = App.LoggedUser;
             var list = new List<TweetModel>();
@@ -39,10 +40,10 @@ namespace Chicken4WP8.ViewModels.Home
             return list;
         }
 
-        protected override async Task<IEnumerable<TweetModel>> LoadData()
+        protected override async Task<IEnumerable<ITweetModel>> LoadData()
         {
             //var loggedUser = App.LoggedUser;
-            var list = new List<TweetModel>();
+            var list = new List<ITweetModel>();
             var tweets = await App.Tokens.Statuses.HomeTimelineAsync();
             //var option = new TimelineRequestParameters()
             //{
@@ -51,8 +52,8 @@ namespace Chicken4WP8.ViewModels.Home
             //};
             //var tweets = await loggedUser.GetHomeTimelineAsync();
             //if (tweets != null)
-            //    foreach (var tweet in tweets)
-            //        list.Add(new TweetModel(tweet));
+            foreach (var tweet in tweets)
+                list.Add(new TweetModel(tweet));
             //if (list.Count != 0)
             //    maxId = list[list.Count-1].Id;
             return list;

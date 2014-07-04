@@ -174,7 +174,7 @@
                         <ControlTemplate>
                             <Grid>
                                 <!--<Image Source="/Images/dark/cat.png" />-->
-                                <Image Source="{Binding Creator.ProfileImage}" />
+                                <Image Source="{Binding User.ImageSource}" />
                             </Grid>
                         </ControlTemplate>
                     </Button.Template>
@@ -201,9 +201,9 @@
                                         <Style TargetType="TextBlock" BasedOn="{StaticResource TextSmall}" />
                                     </Grid.Resources>
                                     <!--user name-->
-                                    <TextBlock Text="{Binding Creator.Name}" Grid.Row="0" />
+                                    <TextBlock Text="{Binding User.Name}" Grid.Row="0" />
                                     <!--screen name-->
-                                    <TextBlock Text="{Binding Creator.ScreenName}" Grid.Row="1"
+                                    <TextBlock Text="{Binding User.ScreenName}" Grid.Row="1"
                                                Style="{StaticResource TweetScreenName}" />
                                     <!--text-->
                                     <TextBlock Grid.Row="2" Text="{Binding Path=Text}" TextWrapping="Wrap"

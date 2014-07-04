@@ -15,6 +15,7 @@ namespace Chicken4WP8.Models
         bool? IsFavorited { get; }
         int? RetweetCount { get; }
         int? FavoriteCount { get; }
+        string Source { get; }
         Uri SourceUrl { get; }
         long? InReplyToTweetId { get; }
         bool IncludeCoordinates { get; }
