@@ -11,7 +11,7 @@
     xmlns:ctrls="clr-namespace:Chicken4WP8.Controls">
 
     <Application.Resources>
-        <local:AutofacBootstrapper x:Key="bootstrapper" />
+        <local:ChickenBootstrapper x:Key="bootstrapper" />
 
         <!--controls-->
         <Style TargetType="ctrls:ToastPrompt">

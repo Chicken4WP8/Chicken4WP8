@@ -5,19 +5,12 @@ using System.Windows.Controls;
 using Autofac;
 using Caliburn.Micro;
 using Caliburn.Micro.BindableAppBar;
-using Chicken4WP8.Services.Implemention;
-using Chicken4WP8.Services.Interface;
 using Microsoft.Phone.Controls;
 
 namespace Chicken4WP8
 {
-    public class AutofacBootstrapper : PhoneBootstrapperBase
+    public abstract class AutofacBootstrapper : PhoneBootstrapperBase
     {
-        public AutofacBootstrapper()
-        {
-            base.Initialize();
-        }
-
         #region Properties
         protected IContainer Container { get; private set; }
         /// <summary>
@@ -127,30 +120,6 @@ namespace Chicken4WP8
               .AsSelf()
                 //  always create a new one
               .InstancePerDependency();
-
-            //register services
-            builder.RegisterAssemblyTypes(assembiles)
-                // must be a type which name ends with service
-                .Where(type => type.Name.EndsWith("Service"))
-                // namespace ends with services implemention
-                    .Where(type => type.Namespace.EndsWith("Implemention"))
-                // registered as interface
-                    .AsImplementedInterfaces()
-                //create new one
-                    .InstancePerDependency()
-                //auto inject property
-                    .PropertiesAutowired();
-
-            //register language helper
-            builder.RegisterType<LanguageHelper>()
-                .As<ILanguageHelper>()
-                .SingleInstance();
-
-            //register progress service
-            builder.RegisterInstance(new ProgressService(RootFrame))
-                .As<IProgressService>()
-                .PropertiesAutowired()
-                .SingleInstance();
 
             // The constructor of these services must be called
             // to attach to the framework properly.
