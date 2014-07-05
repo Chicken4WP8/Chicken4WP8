@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace Chicken4WP8.Common
 {
@@ -14,6 +15,7 @@ namespace Chicken4WP8.Common
         private const string URLPATTERN = @"(?<text>{0})(?![A-Za-z0-9-_/])";
         #endregion
 
+        #region parse tweet string
         public static string ParseToSource(this string source)
         {
             if (string.IsNullOrEmpty(source))
@@ -40,6 +42,12 @@ namespace Chicken4WP8.Common
                 return Const.DEFAULTSOURCEURL;
             }
             return result;
+        }
+        #endregion
+
+        public static IDictionary<string, object> GetDictionary()
+        {
+            return new Dictionary<string, object>();
         }
     }
 }
