@@ -1,16 +1,15 @@
 ﻿using System.Threading.Tasks;
+using Chicken4WP8.Controllers.Interface;
 using Chicken4WP8.Models;
 using Chicken4WP8.Models.Setting;
-using Chicken4WP8.Services.Interface;
 using Chicken4WP8.ViewModels.Base;
 using CoreTweet;
 
-namespace Chicken4WP8.Services.Implemention
+namespace Chicken4WP8.Controllers.Implemention
 {
-    public class OAuthService : IOAuthService
+    public class BaseOAuthController:IBaseOAuthController
     {
         private OAuth.OAuthSession session;
-        private Tokens tokens;
 
         public async Task<OAuthSessionModel> AuthorizeAsync(string consumerKey, string consumerSecret)
         {
@@ -26,7 +25,7 @@ namespace Chicken4WP8.Services.Implemention
 
         public async Task<OAuthSetting> GetTokensAsync(string pinCode)
         {
-            tokens = await OAuth.GetTokensAsync(session, pinCode);
+            var tokens = await OAuth.GetTokensAsync(session, pinCode);
             return new BaseOAuthSetting
             {
                 ConsumerKey = session.ConsumerKey,
@@ -36,8 +35,10 @@ namespace Chicken4WP8.Services.Implemention
             };
         }
 
-        public async Task<IUserModel> VerifyCredentialsAsync()
+        public async Task<IUserModel> VerifyCredentialsAsync(OAuthSetting setting)
         {
+            var oauth = setting as BaseOAuthSetting;
+            var tokens = Tokens.Create(oauth.ConsumerKey, oauth.ConsumerSecret, oauth.AccessToken, oauth.ConsumerSecret);
             var user = await tokens.Account.VerifyCredentialsAsync();
             return new UserModel(user);
         }

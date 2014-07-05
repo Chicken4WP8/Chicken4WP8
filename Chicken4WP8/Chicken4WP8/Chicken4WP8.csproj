@@ -97,6 +97,8 @@
     <Compile Include="AutofacPhoneContainer.cs" />
     <Compile Include="Common\Const.cs" />
     <Compile Include="Common\TwitterHelper.cs" />
+    <Compile Include="Controllers\Implemention\BaseOAuthController.cs" />
+    <Compile Include="Controllers\Interface\IBaseOAuthController.cs" />
     <Compile Include="Controls\PopUp.cs" />
     <Compile Include="Controls\ToastPrompt.cs" />
     <Compile Include="Entities\ChickenDataContext.cs" />
@@ -114,12 +116,10 @@
       <DependentUpon>AppResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Services\Implemention\LanguageHelper.cs" />
-    <Compile Include="Services\Implemention\OAuthService.cs" />
     <Compile Include="Services\Implemention\ProgressService.cs" />
     <Compile Include="Services\Implemention\StorageService.cs" />
     <Compile Include="Services\Implemention\ToastMessageService.cs" />
     <Compile Include="Services\Interface\ILanguageHelper.cs" />
-    <Compile Include="Services\Interface\IOAuthService.cs" />
     <Compile Include="Services\Interface\IProgressService.cs" />
     <Compile Include="Services\Interface\IStorageService.cs" />
     <Compile Include="Services\Interface\IToastMessageService.cs" />
