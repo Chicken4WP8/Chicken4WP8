@@ -62,7 +62,6 @@ namespace Chicken4WP8
                 .WithMetadata<OAuthTypeMetadata>(
                 meta => meta.For(
                     m => m.OAuthType, OAuthSettingType.TwipOAuth));
-
         }
     }
 }

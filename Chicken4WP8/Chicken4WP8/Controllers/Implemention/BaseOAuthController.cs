@@ -7,7 +7,7 @@ using CoreTweet;
 
 namespace Chicken4WP8.Controllers.Implemention
 {
-    public class BaseOAuthController:IBaseOAuthController
+    public class BaseOAuthController : IOAuthController
     {
         private OAuth.OAuthSession session;
 
