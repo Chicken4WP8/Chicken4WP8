@@ -14,6 +14,11 @@ namespace Chicken4WP8.Models.Setting
         TwipOAuth = 2,
     }
 
+    public class OAuthTypeMetadata
+    {
+        public OAuthSettingType OAuthType { get; set; }
+    }
+
     public class BaseOAuthSetting : OAuthSetting
     {
         private string name = "BASE";
