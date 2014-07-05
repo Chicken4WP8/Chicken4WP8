@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Chicken4WP8.Models;
+using Chicken4WP8.Controllers;
 using Chicken4WP8.ViewModels.Base;
 
 namespace Chicken4WP8.ViewModels.Home
@@ -25,7 +25,7 @@ namespace Chicken4WP8.ViewModels.Home
         protected override async Task<IEnumerable<ITweetModel>> FetchData()
         {
             //var loggedUser = App.LoggedUser;
-            var list = new List<TweetModel>();
+            var list = new List<ITweetModel>();
             //var option = new TimelineRequestParameters()
             //{
             //    SinceId = sinceId,

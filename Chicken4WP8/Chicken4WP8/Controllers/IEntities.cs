@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Chicken4WP8.Models
+namespace Chicken4WP8.Controllers
 {
     public interface IEntities
     {

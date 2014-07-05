@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace Chicken4WP8.Models
+namespace Chicken4WP8.Controllers
 {
     public interface IUserModel : IImageSource, INotifyPropertyChanged
     {

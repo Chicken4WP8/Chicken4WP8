@@ -1,10 +1,10 @@
 ﻿using System;
 using Caliburn.Micro;
 using Chicken4WP8.Common;
-using Chicken4WP8.Models;
+using Chicken4WP8.Controllers;
 using CoreTweet;
 
-namespace Chicken4WP8.ViewModels.Base
+namespace Chicken4WP8.Controllers.Implemention.Base
 {
     public class TweetModel : PropertyChangedBase, ITweetModel
     {

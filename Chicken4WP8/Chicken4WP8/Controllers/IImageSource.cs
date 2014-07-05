@@ -1,6 +1,6 @@
 ﻿using System.Windows.Media;
 
-namespace Chicken4WP8.Models
+namespace Chicken4WP8.Controllers
 {
     public interface IImageSource
     {

@@ -1,8 +1,7 @@
 ﻿using System.Threading.Tasks;
+using Chicken4WP8.Controllers.Implemention.Base;
 using Chicken4WP8.Controllers.Interface;
-using Chicken4WP8.Models;
 using Chicken4WP8.Models.Setting;
-using Chicken4WP8.ViewModels.Base;
 using CoreTweet;
 
 namespace Chicken4WP8.Controllers.Implemention

@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Caliburn.Micro;
-using Chicken4WP8.Models;
 using CoreTweet;
 
-namespace Chicken4WP8.ViewModels.Base
+namespace Chicken4WP8.Controllers.Implemention.Base
 {
     public class EntitiesModel : PropertyChangedBase, IEntities
     {
