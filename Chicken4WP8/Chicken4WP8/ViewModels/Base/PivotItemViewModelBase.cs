@@ -276,47 +276,6 @@ namespace Chicken4WP8.ViewModels.Base
             return new List<T>();
         }
         #endregion
-
-        #region set image stream
-        protected virtual void SetImageFromStream(IImageSource source, Stream stream)
-        {
-            Deployment.Current.Dispatcher.BeginInvoke(() =>
-                {
-                    #region jpeg/png
-                    try
-                    {
-                        using (var memStream = new MemoryStream())
-                        {
-                            stream.CopyTo(memStream);
-                            memStream.Position = 0;
-                            var bitmapImage = new BitmapImage();
-                            bitmapImage.SetSource(memStream);
-                            source.ImageSource = bitmapImage;
-                        }
-                    }
-                    #endregion
-                    #region others
-                    catch (Exception exception)
-                    {
-                        Debug.WriteLine("set gif image. length: {0}", stream.Length);
-                        using (var memStream = new MemoryStream())
-                        {
-                            stream.CopyTo(memStream);
-                            memStream.Position = 0;
-                            memStream.Position = 0;
-                            var extendedImage = new ExtendedImage();
-                            extendedImage.SetSource(memStream);
-                            extendedImage.LoadingCompleted += (o, e) =>
-                            {
-                                var ei = o as ExtendedImage;
-                                source.ImageSource = ei.ToBitmap();
-                            };
-                        }
-                    }
-                    #endregion
-                });
-        }
-        #endregion
     }
 
     public enum LongLiseStretch

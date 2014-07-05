@@ -15,10 +15,14 @@ namespace Chicken4WP8.ViewModels.Home
     {
         private long? sinceId = -1, maxId = -1;
         private IStatusController statusController;
+        private IUserController userController;
 
-        public IndexViewModel(IEnumerable<Lazy<IStatusController, OAuthTypeMetadata>> controllers)
+        public IndexViewModel(
+            IEnumerable<Lazy<IStatusController, OAuthTypeMetadata>> statusControllers,
+            IEnumerable<Lazy<IUserController, OAuthTypeMetadata>> userControllers)
         {
-            statusController = controllers.Single(c => c.Metadata.OAuthType == App.UserSetting.OAuthSetting.OAuthSettingType).Value;
+            statusController = statusControllers.Single(c => c.Metadata.OAuthType == App.UserSetting.OAuthSetting.OAuthSettingType).Value;
+            userController = userControllers.Single(c => c.Metadata.OAuthType == App.UserSetting.OAuthSetting.OAuthSettingType).Value;
         }
 
         protected override async Task RealizeItem(ITweetModel item)
@@ -29,8 +33,7 @@ namespace Chicken4WP8.ViewModels.Home
                 return;
             }
             Debug.WriteLine("get user {0} avatar image from internet, image url is: {1}", item.User.ScreenName, item.User.ProfileImageUrl);
-            //var stream = await item.Creator.User.GetProfileImageStreamAsync();
-            //base.SetImageFromStream(item.Creator, stream);
+            await userController.SetProfileImageStreamAsync(item.User);
         }
 
         protected override async Task<IEnumerable<ITweetModel>> FetchData()
