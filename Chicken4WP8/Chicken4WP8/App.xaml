@@ -44,6 +44,18 @@
             </Setter>
         </Style>
 
+        <Style TargetType="ctrls:ThemedImage">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ctrls:ThemedImage">
+                        <Grid>
+                            <Image x:Name="ImageBrush" Stretch="Fill" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <!--media and retweet icon-->
         <Style x:Name="RetweetRectangleSmall" TargetType="Rectangle">
             <Setter Property="Stretch" Value="Fill" />

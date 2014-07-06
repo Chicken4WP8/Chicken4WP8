@@ -11,9 +11,6 @@ namespace Chicken4WP8.Controllers.Implemention.Base
     {
         public async Task SetProfileImageStreamAsync(IUserModel user)
         {
-            //get from database
-
-            //then from web
             var data = await base.DownloadImage(user.ProfileImageUrl);
             base.SetImageFromBytes(user, data);
         }
