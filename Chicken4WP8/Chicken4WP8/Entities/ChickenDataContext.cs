@@ -17,5 +17,13 @@ namespace Chicken4WP8.Entities
                 return this.GetTable<Setting>();
             }
         }
+
+        public Table<CachedImage> CachedImages
+        {
+            get
+            {
+                return this.GetTable<CachedImage>();
+            }
+        }
     }
 }

@@ -110,6 +110,7 @@
     <Compile Include="Controls\PopUp.cs" />
     <Compile Include="Controls\ThemedImage.cs" />
     <Compile Include="Controls\ToastPrompt.cs" />
+    <Compile Include="Entities\CachedImageData.cs" />
     <Compile Include="Entities\ChickenDataContext.cs" />
     <Compile Include="Entities\Setting.cs" />
     <Compile Include="Controllers\IEntities.cs" />
@@ -124,11 +125,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AppResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Services\Implemention\ImageCacheService.cs" />
     <Compile Include="Services\Implemention\LanguageHelper.cs" />
     <Compile Include="Services\Implemention\ProgressService.cs" />
     <Compile Include="Services\Implemention\StorageService.cs" />
     <Compile Include="Services\Implemention\ToastMessageService.cs" />
     <Compile Include="Services\Interface\ILanguageHelper.cs" />
+    <Compile Include="Services\Interface\ImageCacheService.cs" />
     <Compile Include="Services\Interface\IProgressService.cs" />
     <Compile Include="Services\Interface\IStorageService.cs" />
     <Compile Include="Services\Interface\IToastMessageService.cs" />

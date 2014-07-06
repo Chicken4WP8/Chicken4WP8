@@ -73,5 +73,41 @@ namespace Chicken4WP8.Services.Implemention
             setting.Name = name;
             context.SubmitChanges();
         }
+
+        public byte[] GetCachedImage(string url, string id = null)
+        {
+            CachedImage image = null;
+            if (string.IsNullOrEmpty(id))
+                image = context.CachedImages.FirstOrDefault(c => c.ImageUrl == url);
+            else
+                image = context.CachedImages.FirstOrDefault(c => c.ImageUrl == url && c.Id == id);
+            if (image != null)
+                return image.Data;
+            return null;
+        }
+
+        public void AddOrUpdateImageCache(string url, byte[] data, string id = null)
+        {
+            CachedImage image = null;
+            if (string.IsNullOrEmpty(id))
+                image = context.CachedImages.FirstOrDefault(c => c.ImageUrl == url);
+            if (image == null)
+            {
+                image = new CachedImage()
+                {
+                    ImageUrl = url,
+                    Id = id,
+                    Data = data
+                };
+                context.CachedImages.InsertOnSubmit(image);
+            }
+            //update cache
+            if (image.Id != id)
+            {
+                image.Id = id;
+                image.Data = data;
+            }
+            context.SubmitChanges();
+        }
     }
 }
