@@ -28,7 +28,7 @@ namespace Chicken4WP8.ViewModels.Home
             statusController = statusControllers.Single(c => c.Metadata.OAuthType == App.UserSetting.OAuthSetting.OAuthSettingType).Value;
             userController = userControllers.Single(c => c.Metadata.OAuthType == App.UserSetting.OAuthSetting.OAuthSettingType).Value;
         }
-        
+
         #endregion
 
         protected override async Task RealizeItem(ITweetModel item)
@@ -44,20 +44,20 @@ namespace Chicken4WP8.ViewModels.Home
             {
                 Debug.WriteLine("user {0} 's avatar '{1}' has not been cached, download it from internet", item.User.ScreenName, item.User.ProfileImageUrl);
                 data = await userController.DownloadProfileImageAsync(item.User);
-                Debug.WriteLine("add user {0} 's  avatar {1}  (data length : {2}) to cache",, item.User.ScreenName, item.User.ProfileImageUrl, data.Length);
+                Debug.WriteLine("add user {0} 's  avatar {1}  (data length : {2}) to cache", item.User.ScreenName, item.User.ProfileImageUrl, data.Length);
                 ImageCacheService.AddProfileImageToCache(item.User, data);
             }
-            Debug.WriteLine("set user's avatar");
+            Debug.WriteLine("set user {0} 's avatar {1}", item.User.ScreenName, item.User.ProfileImageUrl);
             await userController.SetProfileImageAsync(item.User, data);
         }
 
         protected override async Task UnrealizeItem(ITweetModel item)
         {
-            if (item.User.ImageSource != null)
-            {
-                Debug.WriteLine("clear profile image, url is : {0}", item.User.ProfileImageUrl);
-                await Task.Factory.StartNew(() => item.User.ImageSource = null);
-            }
+            //if (item.User.ImageSource != null)
+            //{
+            //    Debug.WriteLine("clear profile image, url is : {0}", item.User.ProfileImageUrl);
+            //    await Task.Factory.StartNew(() => item.User.ImageSource = null);
+            //}
         }
 
         protected override async Task<IEnumerable<ITweetModel>> FetchData()

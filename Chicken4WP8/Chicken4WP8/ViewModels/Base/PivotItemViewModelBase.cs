@@ -224,8 +224,13 @@ namespace Chicken4WP8.ViewModels.Base
                 Debug.WriteLine("fetch data from internet");
                 var fetchedList = await FetchData();
                 Debug.WriteLine("fetced data count is :{0}", fetchedList.Count());
-                realizedFetchedItems.AddRange(fetchedList);
-                await FetchMoreData();
+                if (fetchedList.Count() != 0)
+                {
+                    realizedFetchedItems.AddRange(fetchedList);
+                    await FetchMoreData();
+                }
+                else
+                { }
             }
             #endregion
         }
@@ -264,8 +269,13 @@ namespace Chicken4WP8.ViewModels.Base
                 Debug.WriteLine("load data from internet");
                 var loadedList = await LoadData();
                 Debug.WriteLine("loaded data count is: {0}", loadedList.Count());
-                realizedLoadedItems.AddRange(loadedList);
-                await LoadMoreData();
+                if (loadedList.Count() != 0)
+                {
+                    realizedLoadedItems.AddRange(loadedList);
+                    await LoadMoreData();
+                }
+                else
+                { }
             }
             #endregion
         }
