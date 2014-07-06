@@ -85,7 +85,11 @@ namespace Chicken4WP8.Controllers.Implemention.Base
         public ImageSource ImageSource
         {
             get { return profileImage; }
-            set { profileImage = value; }
+            set
+            {
+                profileImage = value;
+                NotifyOfPropertyChange(() => ImageSource);
+            }
         }
     }
 }

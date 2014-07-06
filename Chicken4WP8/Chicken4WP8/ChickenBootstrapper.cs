@@ -36,6 +36,7 @@ namespace Chicken4WP8
                 .Where(type => type.Name.EndsWith("Service"))
                 // namespace ends with services implemention
                     .Where(type => type.Namespace.EndsWith("Implemention"))
+                    .Except<ProgressService>()
                 // registered as interface
                     .AsImplementedInterfaces()
                 //create new one

@@ -13,7 +13,7 @@ namespace Chicken4WP8.ViewModels.Home
 {
     public class IndexViewModel : PivotItemViewModelBase<ITweetModel>
     {
-        private long? sinceId = -1, maxId = -1;
+        private long? sinceId, maxId;
         private IStatusController statusController;
         private IUserController userController;
 
@@ -39,20 +39,22 @@ namespace Chicken4WP8.ViewModels.Home
         protected override async Task<IEnumerable<ITweetModel>> FetchData()
         {
             var options = TwitterHelper.GetDictionary();
-            options.Add(Const.SINCE_ID, sinceId);
+            if (sinceId != null)
+                options.Add(Const.SINCE_ID, sinceId);
             var tweets = await statusController.HomeTimelineAsync(options);
             if (tweets.Count() != 0)
-                sinceId = tweets.First().Id;
+                sinceId = tweets.First().Id+1;
             return tweets;
         }
 
         protected override async Task<IEnumerable<ITweetModel>> LoadData()
         {
             var options = TwitterHelper.GetDictionary();
-            options.Add(Const.MAX_ID, maxId);
+            if (maxId != null)
+                options.Add(Const.MAX_ID, maxId);
             var tweets = await statusController.HomeTimelineAsync(options);
             if (tweets.Count() != 0)
-                maxId = tweets.Last().Id;
+                maxId = tweets.Last().Id+1;
             return tweets;
         }
     }

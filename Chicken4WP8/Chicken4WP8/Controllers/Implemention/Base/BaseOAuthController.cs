@@ -37,7 +37,7 @@ namespace Chicken4WP8.Controllers.Implemention
         public async Task<IUserModel> VerifyCredentialsAsync(OAuthSetting setting)
         {
             var oauth = setting as BaseOAuthSetting;
-            var tokens = Tokens.Create(oauth.ConsumerKey, oauth.ConsumerSecret, oauth.AccessToken, oauth.ConsumerSecret);
+            var tokens = Tokens.Create(oauth.ConsumerKey, oauth.ConsumerSecret, oauth.AccessToken, oauth.AccessTokenSecret);
             var user = await tokens.Account.VerifyCredentialsAsync();
             return new UserModel(user);
         }
