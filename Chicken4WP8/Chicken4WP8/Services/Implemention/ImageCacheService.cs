@@ -12,13 +12,17 @@ namespace Chicken4WP8.Services.Implemention
 
         public byte[] GetCachedProfileImage(IUserModel user)
         {
-            var data = StorageSerive.GetCachedImage(user.ProfileImageUrl.AbsoluteUri, user.Id.Value.ToString());
+            var data = StorageSerive.GetCachedImage(user.Id.Value.ToString(), user.ProfileImageUrl.AbsoluteUri);
             return data;
         }
 
         public void AddProfileImageToCache(IUserModel user, byte[] data)
         {
-            StorageSerive.AddOrUpdateImageCache(user.ProfileImageUrl.AbsoluteUri, data, user.Id.Value.ToString());
+            //user id stands for primary key in database,
+            //when user updated profile image,
+            //the profile image url changed,
+            //but user id not.
+            StorageSerive.AddOrUpdateImageCache(user.Id.Value.ToString(), data, user.ProfileImageUrl.AbsoluteUri);
         }
     }
 }
