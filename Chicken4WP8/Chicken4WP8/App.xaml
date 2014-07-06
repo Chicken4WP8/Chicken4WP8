@@ -185,8 +185,7 @@
                     <Button.Template>
                         <ControlTemplate>
                             <Grid>
-                                <!--<Image Source="/Images/dark/cat.png" />-->
-                                <Image Source="{Binding User.ImageSource}" />
+                                <ctrls:ThemedImage DefaultImage="/Images/dark/cat.png" Source="{Binding User.ImageSource}" />
                             </Grid>
                         </ControlTemplate>
                     </Button.Template>
