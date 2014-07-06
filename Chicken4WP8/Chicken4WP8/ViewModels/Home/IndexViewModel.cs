@@ -7,6 +7,7 @@ using Chicken4WP8.Common;
 using Chicken4WP8.Controllers;
 using Chicken4WP8.Controllers.Interface;
 using Chicken4WP8.Models.Setting;
+using Chicken4WP8.Services.Interface;
 using Chicken4WP8.ViewModels.Base;
 
 namespace Chicken4WP8.ViewModels.Home
@@ -16,6 +17,8 @@ namespace Chicken4WP8.ViewModels.Home
         private long? sinceId, maxId;
         private IStatusController statusController;
         private IUserController userController;
+
+        public IImageCacheService ImageCacheService { get; set; }
 
         public IndexViewModel(
             IEnumerable<Lazy<IStatusController, OAuthTypeMetadata>> statusControllers,
@@ -32,8 +35,24 @@ namespace Chicken4WP8.ViewModels.Home
                 Debug.WriteLine("user {0} 's avatar already realized, image url is: {1}", item.User.ScreenName, item.User.ProfileImageUrl);
                 return;
             }
+            var data = ImageCacheService.GetCachedProfileImage(item.User);
+            if (data == null)
+            {
+                data = await userController.DownloadProfileImageAsync(item.User);
+                ImageCacheService.AddProfileImageToCache(item.User, data);
+            }
+
             Debug.WriteLine("get user {0} avatar image from internet, image url is: {1}", item.User.ScreenName, item.User.ProfileImageUrl);
-            await userController.SetProfileImageStreamAsync(item.User);
+            await userController.SetProfileImageAsync(item.User, data);
+        }
+
+        protected override async Task UnrealizeItem(ITweetModel item)
+        {
+            if (item.User.ImageSource != null)
+            {
+                Debug.WriteLine("clear profile image, url is :{0}", item.User.ProfileImageUrl);
+                await Task.Factory.StartNew(() => item.User.ImageSource = null);
+            }
         }
 
         protected override async Task<IEnumerable<ITweetModel>> FetchData()
@@ -43,7 +62,7 @@ namespace Chicken4WP8.ViewModels.Home
                 options.Add(Const.SINCE_ID, sinceId);
             var tweets = await statusController.HomeTimelineAsync(options);
             if (tweets.Count() != 0)
-                sinceId = tweets.First().Id+1;
+                sinceId = tweets.First().Id + 1;
             return tweets;
         }
 
@@ -54,7 +73,7 @@ namespace Chicken4WP8.ViewModels.Home
                 options.Add(Const.MAX_ID, maxId);
             var tweets = await statusController.HomeTimelineAsync(options);
             if (tweets.Count() != 0)
-                maxId = tweets.Last().Id+1;
+                maxId = tweets.Last().Id + 1;
             return tweets;
         }
     }

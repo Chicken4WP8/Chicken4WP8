@@ -84,7 +84,7 @@ namespace Chicken4WP8.ViewModels.Base
         }
         #endregion
 
-        #region realize item
+        #region realize and unrealize an item
         public async virtual void ItemRealized(object sender, ItemRealizationEventArgs e)
         {
             Debug.WriteLine("realize an item");
@@ -92,6 +92,17 @@ namespace Chicken4WP8.ViewModels.Base
         }
 
         protected async virtual Task RealizeItem(T item)
+        {
+            return;
+        }
+
+        public async virtual void ItemUnrealized(object sender, ItemRealizationEventArgs e)
+        {
+            Debug.WriteLine("unrealize an item");
+            await UnrealizeItem(e.Container.Content as T);
+        }
+
+        protected async virtual Task UnrealizeItem(T item)
         {
             return;
         }
