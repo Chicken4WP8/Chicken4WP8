@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -18,13 +16,11 @@ namespace Chicken4WP8.ViewModels.Base
     {
         #region properties
         private const double OFFSET = 20;
-        private const int ITEMSPERPAGE = 10;
+        protected const int ITEMSPERPAGE = 10;
         /// <summary>
         /// the viewport control of longlistselector
         /// </summary>
         private ViewportControl container;
-        private List<T> realizedFetchedItems = new List<T>();
-        private List<T> realizedLoadedItems = new List<T>();
 
         public IProgressService ProgressService { get; set; }
         public ILanguageHelper LanguageHelper { get; set; }
@@ -61,19 +57,7 @@ namespace Chicken4WP8.ViewModels.Base
                 NotifyOfPropertyChange(() => Items);
             }
         }
-
-        protected async override void OnInitialize()
-        {
-            base.OnInitialize();
-            if (Items == null)
-                Items = new ObservableCollection<T>();
-            //when initialize a pivot item,
-            //load data first.
-            await ShowProgressBar();
-            await LoadMoreData();
-            await HideProgressBar();
-        }
-
+        
         protected override void OnViewAttached(object view, object context)
         {
             base.OnViewAttached(view, context);
@@ -117,7 +101,7 @@ namespace Chicken4WP8.ViewModels.Base
                 {
                     Debug.WriteLine("now at TOP");
                     await ShowProgressBar();
-                    await FetchMoreData();
+                    await FetchMoreDataFromWeb();
                     await HideProgressBar();
 
                 }
@@ -125,7 +109,7 @@ namespace Chicken4WP8.ViewModels.Base
                 {
                     Debug.WriteLine("now at BOTTOM");
                     await ShowProgressBar();
-                    await LoadMoreData();
+                    await LoadMoreDataFromWeb();
                     await HideProgressBar();
                 }
             }
@@ -197,93 +181,11 @@ namespace Chicken4WP8.ViewModels.Base
         #endregion
 
         #region fetch data
-        private async Task FetchMoreData()
-        {
-            int count = realizedFetchedItems.Count;
-            Debug.WriteLine("realizedFetchedItems' count is: {0}", count);
-            #region add items from cache, with 10 items per action
-            if (count > 0)
-            {
-                if (count > ITEMSPERPAGE)
-                {
-                    for (int i = 0; i < ITEMSPERPAGE; i++)
-                        Items.Insert(0, realizedFetchedItems[count - 1 - i]);
-                    realizedFetchedItems.RemoveRange(count - 1 - ITEMSPERPAGE, ITEMSPERPAGE);
-                }
-                else
-                {
-                    for (int i = count - 1; i >= 0; i--)
-                        Items.Insert(0, realizedFetchedItems[i]);
-                    realizedFetchedItems.Clear();
-                }
-            }
-            #endregion
-            #region fetch data from derived class
-            else
-            {
-                Debug.WriteLine("fetch data from internet");
-                var fetchedList = await FetchData();
-                Debug.WriteLine("fetced data count is :{0}", fetchedList.Count());
-                if (fetchedList.Count() != 0)
-                {
-                    realizedFetchedItems.AddRange(fetchedList);
-                    await FetchMoreData();
-                }
-                else
-                { }
-            }
-            #endregion
-        }
-
-        protected async virtual Task<IEnumerable<T>> FetchData()
-        {
-            return new List<T>();
-        }
+        protected abstract Task FetchMoreDataFromWeb();
         #endregion
 
         #region load data
-        private async Task LoadMoreData()
-        {
-            int count = realizedLoadedItems.Count;
-            Debug.WriteLine("realized loaded items' count is: {0}", count);
-            #region add items from cache, with 10 items per action
-            if (count > 0)
-            {
-                if (count > ITEMSPERPAGE)
-                {
-                    for (int i = 0; i < ITEMSPERPAGE; i++)
-                        Items.Add(realizedLoadedItems[i]);
-                    realizedLoadedItems.RemoveRange(0, ITEMSPERPAGE);
-                }
-                else
-                {
-                    foreach (var item in realizedLoadedItems)
-                        Items.Add(item);
-                    realizedLoadedItems.Clear();
-                }
-            }
-            #endregion
-            #region load data from derived class
-            else
-            {
-                Debug.WriteLine("load data from internet");
-                var loadedList = await LoadData();
-                Debug.WriteLine("loaded data count is: {0}", loadedList.Count());
-                if (loadedList.Count() != 0)
-                {
-                    realizedLoadedItems.AddRange(loadedList);
-                    await LoadMoreData();
-                }
-                else
-                { }
-            }
-            #endregion
-        }
-
-        protected async virtual Task<IEnumerable<T>> LoadData()
-        {
-            return new List<T>();
-        }
+        protected abstract Task LoadMoreDataFromWeb();
         #endregion
     }
 

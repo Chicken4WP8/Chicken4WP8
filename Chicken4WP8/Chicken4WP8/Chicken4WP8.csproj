@@ -139,6 +139,7 @@
     <Compile Include="Controllers\Implemention\Base\EntitiesModel.cs" />
     <Compile Include="Controllers\Implemention\Base\TweetModel.cs" />
     <Compile Include="Controllers\Implemention\Base\UserModel.cs" />
+    <Compile Include="ViewModels\Base\TweetPivotItemViewModelBase.cs" />
     <Compile Include="ViewModels\Home\HomePageViewModel.cs" />
     <Compile Include="ViewModels\Home\IndexViewModel.cs" />
     <Compile Include="ViewModels\Base\PivotItemViewModelBase.cs" />

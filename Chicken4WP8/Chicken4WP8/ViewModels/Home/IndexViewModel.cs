@@ -12,10 +12,9 @@ using Chicken4WP8.ViewModels.Base;
 
 namespace Chicken4WP8.ViewModels.Home
 {
-    public class IndexViewModel : PivotItemViewModelBase<ITweetModel>
+    public class IndexViewModel : TweetPivotItemViewModelBase
     {
         #region properties
-        private long? sinceId, maxId;
         private IStatusController statusController;
         private IUserController userController;
 
@@ -51,34 +50,14 @@ namespace Chicken4WP8.ViewModels.Home
             await userController.SetProfileImageAsync(item.User, data);
         }
 
-        protected override async Task UnrealizeItem(ITweetModel item)
+        protected override async Task<IEnumerable<ITweetModel>> LoadDataFromDatabase()
         {
-            //if (item.User.ImageSource != null)
-            //{
-            //    Debug.WriteLine("clear profile image, url is : {0}", item.User.ProfileImageUrl);
-            //    await Task.Factory.StartNew(() => item.User.ImageSource = null);
-            //}
+            return null;
         }
 
-        protected override async Task<IEnumerable<ITweetModel>> FetchData()
+        protected override async Task<IEnumerable<ITweetModel>> LoadDataFromWeb(IDictionary<string, object> options)
         {
-            var options = TwitterHelper.GetDictionary();
-            if (sinceId != null)
-                options.Add(Const.SINCE_ID, sinceId);
             var tweets = await statusController.HomeTimelineAsync(options);
-            if (tweets.Count() != 0)
-                sinceId = tweets.First().Id + 1;
-            return tweets;
-        }
-
-        protected override async Task<IEnumerable<ITweetModel>> LoadData()
-        {
-            var options = TwitterHelper.GetDictionary();
-            if (maxId != null)
-                options.Add(Const.MAX_ID, maxId);
-            var tweets = await statusController.HomeTimelineAsync(options);
-            if (tweets.Count() != 0)
-                maxId = tweets.Last().Id + 1;
             return tweets;
         }
     }
