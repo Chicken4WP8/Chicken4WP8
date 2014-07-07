@@ -5,10 +5,10 @@ namespace Chicken4WP8.Entities
     [Table]
     public class CachedImage
     {
-        //[Column(IsPrimaryKey = true, IsDbGenerated = true, DbType = "bigint IDENTITY(1,1)")]
-        //public long Key { get; set; }
+        [Column(IsPrimaryKey = true, IsDbGenerated = true, DbType = "bigint IDENTITY(1,1)")]
+        public long PrimaryKey { get; set; }
 
-       [Column(IsPrimaryKey = true)]
+       [Column]
         public string Key  { get; set; }
 
         /// <summary>
