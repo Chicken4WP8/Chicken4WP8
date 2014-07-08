@@ -50,15 +50,17 @@ namespace Chicken4WP8.ViewModels.Home
             await userController.SetProfileImageAsync(item.User, data);
         }
 
-        protected override async Task<IEnumerable<ITweetModel>> LoadDataFromDatabase()
+        protected override async Task<IList<ITweetModel>> LoadDataFromDatabase()
         {
             return null;
         }
 
-        protected override async Task<IEnumerable<ITweetModel>> LoadDataFromWeb(IDictionary<string, object> options)
+        protected override async Task<IList<ITweetModel>> LoadDataFromWeb(IDictionary<string, object> options)
         {
             var tweets = await statusController.HomeTimelineAsync(options);
-            return tweets;
+            if (tweets != null)
+                return tweets.ToList();
+            return null;
         }
     }
 }

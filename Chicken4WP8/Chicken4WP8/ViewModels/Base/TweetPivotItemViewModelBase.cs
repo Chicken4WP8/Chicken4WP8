@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
@@ -12,26 +11,10 @@ namespace Chicken4WP8.ViewModels.Base
     public abstract class TweetPivotItemViewModelBase : PivotItemViewModelBase<ITweetModel>
     {
         #region properties
-        private long? sinceId, maxId, missedSinceId, missedMaxId;
-        /// <summary>
-        /// index of to be inserted missed item
-        /// </summary>
-        private int indexOfMissedItem;
-        private bool isMissedSinceIdInit;
+        private long? sinceId, maxId;
 
         private List<ITweetModel> fetchedItemsCache = new List<ITweetModel>();
         private List<ITweetModel> loadedItemsCache = new List<ITweetModel>();
-
-        private bool isLoadMissedItemsButtonVisible;
-        public bool IsLoadMissedItemsButtonVisible
-        {
-            get { return isLoadMissedItemsButtonVisible; }
-            set
-            {
-                isLoadMissedItemsButtonVisible = value;
-                NotifyOfPropertyChange(() => IsLoadMissedItemsButtonVisible);
-            }
-        }
         #endregion
 
         public TweetPivotItemViewModelBase()
@@ -46,33 +29,21 @@ namespace Chicken4WP8.ViewModels.Base
             await ShowProgressBar();
             //when initialize a pivot item,
             //load data from database first
-            await LoadMoreDataFromDatabase();
-            //then fetch data from web
-            await FetchMoreDataFromWeb();
+            await InitLoadDataFromDatabase();
+            //then load data from web
+            await InitLoadDataFromWeb();
             await HideProgressBar();
         }
 
-        public async virtual void LoadMissedItemButtonClick(object sender, EventArgs e)
-        {
-            if (IsLoading)
-                return;
-            await ShowProgressBar();
-            await LoadMissedDataFromWeb();
-            await HideProgressBar();
-        }
-
-        #region load data from database
-        private async Task LoadMoreDataFromDatabase()
+        #region init load data from database
+        private async Task InitLoadDataFromDatabase()
         {
             //load from database
             var list = await LoadDataFromDatabase();
-            if (list != null && list.Count() != 0)
+            if (list != null && list.Count != 0)
             {
-                maxId = list.Last().Id;
-                //initialize the missedMaxId, only once.
-                //the missedMaxId should not substract 1,
-                //because we need to know the missed max tweet's exact id
-                missedMaxId = list.First().Id;
+                sinceId = list.First().Id - 1;
+                maxId = list.Last().Id - 1;
 
                 foreach (var item in list)
                     Items.Add(item);
@@ -80,31 +51,30 @@ namespace Chicken4WP8.ViewModels.Base
         }
         #endregion
 
-        #region load missed data
-        protected async Task LoadMissedDataFromWeb()
+        #region init load data from web
+        private async Task InitLoadDataFromWeb()
         {
-            Debug.WriteLine("load missed data from web, missedMaxId is : {0}, missedSinceId is : {1}", missedMaxId, missedSinceId);
             var options = TwitterHelper.GetDictionary();
-            options.Add(Const.SINCE_ID, missedSinceId);
-            options.Add(Const.MAX_ID, missedMaxId);
-            var missedList = await LoadDataFromWeb(options);
-            Debug.WriteLine("missed data count is :{0}", missedList.Count());
-            if (missedList.Count() != 0)
+            options.Add(Const.COUNT, ITEMSPERPAGE + 1);
+            if (sinceId != null)
+                options.Add(Const.SINCE_ID, sinceId);
+            var fetchedList = await LoadDataFromWeb(options);
+            int count = fetchedList.Count;
+            Debug.WriteLine("init loaded data count is: {0}", count);
+            if (count >= 1)
             {
-                missedSinceId = missedList.Last().Id;
-                Debug.WriteLine("missedSinceId is :{0}, missedMaxId is :{1}", missedSinceId, missedMaxId);
-
-                if (missedSinceId <= missedMaxId)
-                    IsLoadMissedItemsButtonVisible = false;
-
-                foreach (var item in missedList)
+                if (sinceId != null && fetchedList.Last().Id > sinceId.Value)
                 {
-                    Items.Insert(indexOfMissedItem, item);
-                    indexOfMissedItem++;
+                    maxId = fetchedList.Last().Id - 1;
+                    Items.Clear();
                 }
+                fetchedList.RemoveAt(count - 1);
+                foreach (var item in fetchedList)
+                    Items.Add(item);
+                sinceId = fetchedList.First().Id - 1;
+                if(maxId==null)
+                    maxId = fetchedList.Last().Id - 1;
             }
-            else
-            { }
         }
         #endregion
 
@@ -112,7 +82,7 @@ namespace Chicken4WP8.ViewModels.Base
         protected override async Task FetchMoreDataFromWeb()
         {
             int count = fetchedItemsCache.Count;
-            Debug.WriteLine("realizedFetchedItems' count is: {0}", count);
+            Debug.WriteLine("fetchedItemsCache count is : {0}", count);
             #region add items from cache, with 10 items per action
             if (count > 0)
             {
@@ -121,13 +91,11 @@ namespace Chicken4WP8.ViewModels.Base
                     for (int i = 0; i < ITEMSPERPAGE; i++)
                         Items.Insert(0, fetchedItemsCache[count - 1 - i]);
                     fetchedItemsCache.RemoveRange(count - 1 - ITEMSPERPAGE, ITEMSPERPAGE);
-                    indexOfMissedItem += ITEMSPERPAGE;
                 }
                 else
                 {
                     for (int i = count - 1; i >= 0; i--)
                         Items.Insert(0, fetchedItemsCache[i]);
-                    indexOfMissedItem += count;
                     fetchedItemsCache.Clear();
                 }
             }
@@ -139,27 +107,19 @@ namespace Chicken4WP8.ViewModels.Base
                 var options = TwitterHelper.GetDictionary();
                 if (sinceId != null)
                     options.Add(Const.SINCE_ID, sinceId);
-                if (maxId != null)
-                    options.Add(Const.MAX_ID, maxId);
                 var fetchedList = await LoadDataFromWeb(options);
-                Debug.WriteLine("fetced data count is :{0}", fetchedList.Count());
-                if (fetchedList.Count() != 0)
+                if (fetchedList != null && fetchedList.Count >= 1)
                 {
-                    sinceId = fetchedList.First().Id;
-
-                    if (!isMissedSinceIdInit)
-                    {
-                        isMissedSinceIdInit = true;
-                        missedSinceId = fetchedList.Last().Id;
-                        if (missedSinceId > missedMaxId)
-                            IsLoadMissedItemsButtonVisible = true;
-                    }
-
+                    Debug.WriteLine("fetced data list count is :{0}", fetchedList.Count);
+                    sinceId = fetchedList.First().Id - 1;
+                    fetchedList.RemoveAt(fetchedList.Count - 1);
                     fetchedItemsCache.AddRange(fetchedList);
                     await FetchMoreDataFromWeb();
                 }
                 else
-                { }
+                {
+                    //no new tweets yet
+                }
             }
             #endregion
         }
@@ -169,7 +129,7 @@ namespace Chicken4WP8.ViewModels.Base
         protected override async Task LoadMoreDataFromWeb()
         {
             int count = loadedItemsCache.Count;
-            Debug.WriteLine("realized loaded items' count is: {0}", count);
+            Debug.WriteLine("loadedItemsCache count is : {0}", count);
             #region add items from cache, with 10 items per action
             if (count > 0)
             {
@@ -195,8 +155,8 @@ namespace Chicken4WP8.ViewModels.Base
                 if (maxId != null)
                     options.Add(Const.MAX_ID, maxId);
                 var loadedList = await LoadDataFromWeb(options);
-                Debug.WriteLine("loaded data count is: {0}", loadedList.Count());
-                if (loadedList.Count() != 0)
+                Debug.WriteLine("loaded data count is : {0}", loadedList.Count);
+                if (loadedList.Count != 0)
                 {
                     maxId = loadedList.Last().Id - 1;
 
@@ -204,14 +164,16 @@ namespace Chicken4WP8.ViewModels.Base
                     await LoadMoreDataFromWeb();
                 }
                 else
-                { }
+                {
+                    //no more tweets
+                }
             }
             #endregion
         }
         #endregion
 
-        protected abstract Task<IEnumerable<ITweetModel>> LoadDataFromDatabase();
+        protected abstract Task<IList<ITweetModel>> LoadDataFromDatabase();
 
-        protected abstract Task<IEnumerable<ITweetModel>> LoadDataFromWeb(IDictionary<string, object> options);
+        protected abstract Task<IList<ITweetModel>> LoadDataFromWeb(IDictionary<string, object> options);
     }
 }

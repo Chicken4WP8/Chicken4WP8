@@ -28,6 +28,11 @@ namespace Chicken4WP8
                 .As<IProgressService>()
                 .PropertiesAutowired()
                 .SingleInstance();
+            //register storage service
+            builder.RegisterType<StorageService>()
+                .As<IStorageService>()
+                .PropertiesAutowired()
+                .SingleInstance();
 
             var assembiles = AssemblySource.Instance.ToArray();
             //register services
@@ -37,6 +42,7 @@ namespace Chicken4WP8
                 // namespace ends with services implemention
                     .Where(type => type.Namespace.EndsWith("Implemention"))
                     .Except<ProgressService>()
+                    .Except<StorageService>()
                 // registered as interface
                     .AsImplementedInterfaces()
                 //create new one

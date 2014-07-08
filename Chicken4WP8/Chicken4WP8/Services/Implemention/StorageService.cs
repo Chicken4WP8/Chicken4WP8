@@ -88,22 +88,29 @@ namespace Chicken4WP8.Services.Implemention
 
         public void AddOrUpdateImageCache(string key, byte[] data, string id = null)
         {
-            CachedImage image = null;
-            image = context.CachedImages.FirstOrDefault(c => c.Key == key);
-            if (image == null)
+            try
             {
-                image = new CachedImage()
+                var image = context.CachedImages.FirstOrDefault(c => c.Key == key);
+                if (image == null)
                 {
-                    Key = key,
-                    Id = id
-                };
-                context.CachedImages.InsertOnSubmit(image);
+                    image = new CachedImage()
+                    {
+                        Key = key,
+                        Id = id
+                    };
+                    context.CachedImages.InsertOnSubmit(image);
+                }
+                //update cache
+                if (image.Id != id)
+                    image.Id = id;
+                image.Data = data;
+                context.SubmitChanges();
             }
-            //update cache
-            if (image.Id != id)
-                image.Id = id;
-            image.Data = data;
-            context.SubmitChanges();
+            catch (System.Exception e)
+            {
+                
+                throw;
+            }
         }
     }
 }
