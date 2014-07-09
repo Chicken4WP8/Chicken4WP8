@@ -24,5 +24,10 @@ namespace Chicken4WP8.Controllers
         ///show retweet count, favorite count and location panel
         /// </summary>
         bool NeedShowRetweetIcons { get; }
+
+        /// <summary>
+        /// show load more tweets button
+        /// </summary>
+        bool IsLoadMoreTweetButtonVisible { get; set; }
     }
 }

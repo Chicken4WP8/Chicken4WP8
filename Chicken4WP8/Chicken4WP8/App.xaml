@@ -13,6 +13,8 @@
     <Application.Resources>
         <local:ChickenBootstrapper x:Key="bootstrapper" />
 
+        <ctrls:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+
         <!--controls-->
         <Style TargetType="ctrls:ToastPrompt">
             <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeSmall}" />
@@ -174,69 +176,89 @@
 
         <DataTemplate x:Key="StatusTemplate">
             <Grid Margin="0,4">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="68" />
-                    <ColumnDefinition Width="*"  />
-                </Grid.ColumnDefinitions>
-                <!--avatar-->
-                <Button Grid.Column="0" Style="{StaticResource ProfileImageSmall}"
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <!--list header-->
+                <Border Grid.Row="0">
+
+                </Border>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="68" />
+                        <ColumnDefinition Width="*"  />
+                    </Grid.ColumnDefinitions>
+                    <!--avatar-->
+                    <Button Grid.Column="0" Style="{StaticResource ProfileImageSmall}"
                         cal:Action.TargetWithoutContext="{Binding ElementName=Items, Path=DataContext}"
                         cal:Message.Attach="[Event Click] = [Action AvatarClick($dataContext, $eventArgs)]">
-                    <Button.Template>
-                        <ControlTemplate>
-                            <Grid>
-                                <ctrls:ThemedImage DefaultImage="/Images/dark/cat.png" Source="{Binding User.ImageSource}" />
-                            </Grid>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
-                <!--content-->
-                <Grid Grid.Column="1">
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <Button Grid.Row="0"
-                            cal:Action.TargetWithoutContext="{Binding ElementName=Items, Path=DataContext}"
-                            cal:Message.Attach="[Event Click] = [Action ItemClick($datacontext, $eventArgs)]">
                         <Button.Template>
                             <ControlTemplate>
                                 <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition />
-                                        <RowDefinition />
-                                        <RowDefinition />
-                                        <RowDefinition />
-                                    </Grid.RowDefinitions>
-                                    <Grid.Resources>
-                                        <Style TargetType="TextBlock" BasedOn="{StaticResource TextSmall}" />
-                                    </Grid.Resources>
-                                    <!--user name-->
-                                    <TextBlock Text="{Binding User.Name}" Grid.Row="0" />
-                                    <!--screen name-->
-                                    <TextBlock Text="{Binding User.ScreenName}" Grid.Row="1"
-                                               Style="{StaticResource TweetScreenName}" />
-                                    <!--text-->
-                                    <TextBlock Grid.Row="2" Text="{Binding Path=Text}" TextWrapping="Wrap"
-                                                           HorizontalAlignment="Stretch" TextAlignment="Left" />
-                                    <Grid Grid.Row="3" Opacity="0.6" HorizontalAlignment="Stretch">
-                                        <!--CreatedAt-->
-                                        <TextBlock Text="{Binding CreatedAt}"
-                                                   HorizontalAlignment="Left" TextAlignment="Left"
-                                                   Style="{StaticResource TextSmall}" />
-                                        <!--media retweet count etc-->
-
-                                    </Grid>
+                                    <ctrls:ThemedImage DefaultImage="/Images/dark/cat.png" Source="{Binding User.ImageSource}" />
                                 </Grid>
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
-                    <!--via-->
-                    <HyperlinkButton Grid.Row="1" Content="{Binding Path=Source}"
+                    <!--content-->
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Button Grid.Row="0"
+                            cal:Action.TargetWithoutContext="{Binding ElementName=Items, Path=DataContext}"
+                            cal:Message.Attach="[Event Click] = [Action ItemClick($datacontext, $eventArgs)]">
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <Grid.Resources>
+                                            <Style TargetType="TextBlock" BasedOn="{StaticResource TextSmall}" />
+                                        </Grid.Resources>
+                                        <!--user name-->
+                                        <TextBlock Text="{Binding User.Name}" Grid.Row="0" />
+                                        <!--screen name-->
+                                        <TextBlock Text="{Binding User.ScreenName}" Grid.Row="1"
+                                               Style="{StaticResource TweetScreenName}" />
+                                        <!--text-->
+                                        <TextBlock Grid.Row="2" Text="{Binding Path=Text}" TextWrapping="Wrap"
+                                                           HorizontalAlignment="Stretch" TextAlignment="Left" />
+                                        <Grid Grid.Row="3" Opacity="0.6" HorizontalAlignment="Stretch">
+                                            <!--CreatedAt-->
+                                            <TextBlock Text="{Binding CreatedAt}"
+                                                   HorizontalAlignment="Left" TextAlignment="Left"
+                                                   Style="{StaticResource TextSmall}" />
+                                            <!--media retweet count etc-->
+
+                                        </Grid>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                        <!--via-->
+                        <HyperlinkButton Grid.Row="1" Content="{Binding Path=Source}"
                                      NavigateUri="{Binding Path=SourceUrl}" TargetName="_blank"
                                      Style="{StaticResource HyperLinkButtonSmall}" HorizontalAlignment="Right" />
+                    </Grid>
+                    <!--content end-->
                 </Grid>
-                <!--content end-->
+                <!--list footer-->
+                <Border Grid.Row="2">
+
+                </Border>
+                <!--load more tweets button-->
+                <Button Grid.Row="3" Content="load more tweets"
+                        Visibility="{Binding IsLoadMoreTweetButtonVisible,Converter={StaticResource BooleanToVisibilityConverter}}"
+                        cal:Message.Attach="[Event Click] =[Action LoadMoreTweetsButtonClick($dataContext, $eventArgs)]" />
             </Grid>
         </DataTemplate>
     </Application.Resources>

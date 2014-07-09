@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
@@ -11,9 +12,8 @@ namespace Chicken4WP8.ViewModels.Base
     public abstract class TweetPivotItemViewModelBase : PivotItemViewModelBase<ITweetModel>
     {
         #region properties
-        private long? sinceId, maxId;
-
         private List<ITweetModel> fetchedItemsCache = new List<ITweetModel>();
+        private List<ITweetModel> missedItemsCache = new List<ITweetModel>();
         private List<ITweetModel> loadedItemsCache = new List<ITweetModel>();
         #endregion
 
@@ -39,16 +39,18 @@ namespace Chicken4WP8.ViewModels.Base
             var options = TwitterHelper.GetDictionary();
             options.Add(Const.COUNT, ITEMSPERPAGE);
             var fetchedList = await LoadDataFromWeb(options);
-            int count = fetchedList.Count;
-            Debug.WriteLine("init loaded data count is: {0}", count);
-            if (count >0)
+            if (fetchedList != null && fetchedList.Count != 0)
             {
-                sinceId = fetchedList.First().Id;
-                maxId = fetchedList.Last().Id - 1;
-
-                foreach (var item in fetchedList)
-                    Items.Add(item);
+                int count = fetchedList.Count;
+                Debug.WriteLine("init loaded data count is: {0}", count);
+                if (count > 0)
+                {
+                    foreach (var item in fetchedList)
+                        Items.Add(item);
+                }
             }
+            else
+            { }
         }
         #endregion
 
@@ -77,15 +79,37 @@ namespace Chicken4WP8.ViewModels.Base
             #region fetch data from derived class
             else
             {
+                //step 1: fetch data with since_id:
                 Debug.WriteLine("fetch data from internet");
                 var options = TwitterHelper.GetDictionary();
-                if (sinceId != null)
+                long? sinceId = null;
+                if (Items.Count != 0)
+                {
+                    sinceId = Items.First().Id;
+                    Debug.WriteLine("sinceId is : {0}", sinceId);
                     options.Add(Const.SINCE_ID, sinceId);
+                }
                 var fetchedList = await LoadDataFromWeb(options);
-                if (fetchedList != null && fetchedList.Count >= 0)
+                if (fetchedList != null && fetchedList.Count > 0)
                 {
                     Debug.WriteLine("fetced data list count is :{0}", fetchedList.Count);
-                    sinceId = fetchedList.First().Id;
+                    //step 2: load data using fetchedList's last item as missed_since_id
+                    options.Clear();
+                    var missedSinceId = fetchedList.Last().Id;
+                    Debug.WriteLine("the last fetched tweet is : {0}", missedSinceId);
+                    options.Add(Const.SINCE_ID, missedSinceId);
+                    options.Add(Const.MAX_ID, sinceId);
+                    var missedList = await LoadDataFromWeb(options);
+                    //step 3: no tweets means no gap,
+                    //otherwise, show load more tweets button:
+                    if (missedList != null && missedList.Count != 0)
+                    {
+                        //cache the missed tweets:
+                        missedItemsCache.AddRange(missedList);
+                        var showedItem = fetchedList.Last();
+                        Debug.WriteLine("show load more tweet button at tweet id : {0}", showedItem.Id);
+                        showedItem.IsLoadMoreTweetButtonVisible = true;
+                    }
                     fetchedItemsCache.AddRange(fetchedList);
                     await FetchMoreDataFromWeb();
                 }
@@ -123,16 +147,19 @@ namespace Chicken4WP8.ViewModels.Base
             #region load data from derived class
             else
             {
+                if (Items.Count == 0)
+                {
+                    Debug.WriteLine("no items yet, should fetch data first.");
+                    await FetchMoreDataFromWeb();
+                    return;
+                }
                 Debug.WriteLine("load data from internet");
                 var options = TwitterHelper.GetDictionary();
-                if (maxId != null)
-                    options.Add(Const.MAX_ID, maxId);
+                options.Add(Const.MAX_ID, Items.Last().Id-1);
                 var loadedList = await LoadDataFromWeb(options);
                 Debug.WriteLine("loaded data count is : {0}", loadedList.Count);
-                if (loadedList.Count != 0)
+                if (loadedList != null && loadedList.Count != 0)
                 {
-                    maxId = loadedList.Last().Id - 1;
-
                     loadedItemsCache.AddRange(loadedList);
                     await LoadMoreDataFromWeb();
                 }
@@ -142,6 +169,39 @@ namespace Chicken4WP8.ViewModels.Base
                 }
             }
             #endregion
+        }
+        #endregion
+
+        #region load more tweets button click
+        public async Task LoadMoreTweetsButtonClick(object sender, EventArgs e)
+        {
+            var currentShowedItem = sender as ITweetModel;
+            currentShowedItem.IsLoadMoreTweetButtonVisible = false;
+            var missedSinceId = currentShowedItem.Id;
+            Debug.WriteLine("the current Showed tweet is : {0}", missedSinceId);
+            var index = Items.IndexOf(currentShowedItem) + 1;
+            var maxId = Items.ElementAt(index).Id;
+            Debug.WriteLine("the maxId is : {0}", maxId);
+            foreach (var item in missedItemsCache)
+            {
+                Items.Insert(index, item);
+                index++;
+            }
+            missedItemsCache.Clear();
+            var options = TwitterHelper.GetDictionary();
+            options.Add(Const.SINCE_ID, missedSinceId);
+            options.Add(Const.MAX_ID, maxId);
+            var missedList = await LoadDataFromWeb(options);
+            if (missedList != null && missedList.Count != 0)
+            {
+                //cache the missed tweets:
+                var showedItem = missedList.Last();
+                Debug.WriteLine("show load more tweet button at tweet id : {0}", showedItem.Id);
+                showedItem.IsLoadMoreTweetButtonVisible = true;
+                Items.Insert(index + 1, showedItem);
+                missedList.RemoveAt(0);
+                missedItemsCache.AddRange(missedList);
+            }
         }
         #endregion
 

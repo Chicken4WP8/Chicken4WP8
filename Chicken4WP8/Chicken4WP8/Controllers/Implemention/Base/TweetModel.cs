@@ -112,5 +112,16 @@ namespace Chicken4WP8.Controllers.Implemention.Base
         {
             get { return RetweetCount != 0 || FavoriteCount != 0 || IncludeCoordinates; }
         }
+
+        private bool isLoadMoreTweetButtonVisible;
+        public bool IsLoadMoreTweetButtonVisible
+        {
+            get { return isLoadMoreTweetButtonVisible; }
+            set
+            {
+                isLoadMoreTweetButtonVisible = value;
+                NotifyOfPropertyChange(() => IsLoadMoreTweetButtonVisible);
+            }
+        }
     }
 }
