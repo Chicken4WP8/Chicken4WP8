@@ -28,52 +28,26 @@ namespace Chicken4WP8.ViewModels.Base
 
             await ShowProgressBar();
             //when initialize a pivot item,
-            //load data from database first
-            await InitLoadDataFromDatabase();
-            //then load data from web
+            //load data from web first
             await InitLoadDataFromWeb();
             await HideProgressBar();
         }
-
-        #region init load data from database
-        private async Task InitLoadDataFromDatabase()
-        {
-            //load from database
-            var list = await LoadDataFromDatabase();
-            if (list != null && list.Count != 0)
-            {
-                sinceId = list.First().Id - 1;
-                maxId = list.Last().Id - 1;
-
-                foreach (var item in list)
-                    Items.Add(item);
-            }
-        }
-        #endregion
 
         #region init load data from web
         private async Task InitLoadDataFromWeb()
         {
             var options = TwitterHelper.GetDictionary();
-            options.Add(Const.COUNT, ITEMSPERPAGE + 1);
-            if (sinceId != null)
-                options.Add(Const.SINCE_ID, sinceId);
+            options.Add(Const.COUNT, ITEMSPERPAGE);
             var fetchedList = await LoadDataFromWeb(options);
             int count = fetchedList.Count;
             Debug.WriteLine("init loaded data count is: {0}", count);
-            if (count >= 1)
+            if (count >0)
             {
-                if (sinceId != null && fetchedList.Last().Id > sinceId.Value)
-                {
-                    maxId = fetchedList.Last().Id - 1;
-                    Items.Clear();
-                }
-                fetchedList.RemoveAt(count - 1);
+                sinceId = fetchedList.First().Id;
+                maxId = fetchedList.Last().Id - 1;
+
                 foreach (var item in fetchedList)
                     Items.Add(item);
-                sinceId = fetchedList.First().Id - 1;
-                if(maxId==null)
-                    maxId = fetchedList.Last().Id - 1;
             }
         }
         #endregion
@@ -108,11 +82,10 @@ namespace Chicken4WP8.ViewModels.Base
                 if (sinceId != null)
                     options.Add(Const.SINCE_ID, sinceId);
                 var fetchedList = await LoadDataFromWeb(options);
-                if (fetchedList != null && fetchedList.Count >= 1)
+                if (fetchedList != null && fetchedList.Count >= 0)
                 {
                     Debug.WriteLine("fetced data list count is :{0}", fetchedList.Count);
-                    sinceId = fetchedList.First().Id - 1;
-                    fetchedList.RemoveAt(fetchedList.Count - 1);
+                    sinceId = fetchedList.First().Id;
                     fetchedItemsCache.AddRange(fetchedList);
                     await FetchMoreDataFromWeb();
                 }
@@ -171,8 +144,6 @@ namespace Chicken4WP8.ViewModels.Base
             #endregion
         }
         #endregion
-
-        protected abstract Task<IList<ITweetModel>> LoadDataFromDatabase();
 
         protected abstract Task<IList<ITweetModel>> LoadDataFromWeb(IDictionary<string, object> options);
     }
