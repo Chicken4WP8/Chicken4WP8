@@ -89,16 +89,18 @@ namespace Chicken4WP8.ViewModels.Base
                     Debug.WriteLine("sinceId is : {0}", sinceId);
                     options.Add(Const.SINCE_ID, sinceId);
                 }
+
                 var fetchedList = await LoadDataFromWeb(options);
                 if (fetchedList != null && fetchedList.Count > 0)
                 {
                     Debug.WriteLine("fetced data list count is :{0}", fetchedList.Count);
                     //step 2: load data using fetchedList's last item as missed_since_id
                     options.Clear();
-                    var missedSinceId = fetchedList.Last().Id;
-                    Debug.WriteLine("the last fetched tweet is : {0}", missedSinceId);
-                    options.Add(Const.SINCE_ID, missedSinceId);
-                    options.Add(Const.MAX_ID, sinceId);
+                    var missedMaxId = fetchedList.Last().Id;
+                    Debug.WriteLine("the last fetched tweet is : {0}", missedMaxId);
+                    options.Add(Const.MAX_ID, missedMaxId - 1);
+                    options.Add(Const.SINCE_ID, sinceId);
+
                     var missedList = await LoadDataFromWeb(options);
                     //step 3: no tweets means no gap,
                     //otherwise, show load more tweets button:
@@ -155,7 +157,7 @@ namespace Chicken4WP8.ViewModels.Base
                 }
                 Debug.WriteLine("load data from internet");
                 var options = TwitterHelper.GetDictionary();
-                options.Add(Const.MAX_ID, Items.Last().Id-1);
+                options.Add(Const.MAX_ID, Items.Last().Id - 1);
                 var loadedList = await LoadDataFromWeb(options);
                 Debug.WriteLine("loaded data count is : {0}", loadedList.Count);
                 if (loadedList != null && loadedList.Count != 0)
@@ -177,11 +179,11 @@ namespace Chicken4WP8.ViewModels.Base
         {
             var currentShowedItem = sender as ITweetModel;
             currentShowedItem.IsLoadMoreTweetButtonVisible = false;
-            var missedSinceId = currentShowedItem.Id;
-            Debug.WriteLine("the current Showed tweet is : {0}", missedSinceId);
+            var missedMaxId = currentShowedItem.Id;
+            Debug.WriteLine("the current Showed tweet is : {0}", missedMaxId);
             var index = Items.IndexOf(currentShowedItem) + 1;
-            var maxId = Items.ElementAt(index).Id;
-            Debug.WriteLine("the maxId is : {0}", maxId);
+            var sinceId = Items.ElementAt(index).Id;
+            Debug.WriteLine("the maxId is : {0}", sinceId);
             foreach (var item in missedItemsCache)
             {
                 Items.Insert(index, item);
@@ -189,17 +191,16 @@ namespace Chicken4WP8.ViewModels.Base
             }
             missedItemsCache.Clear();
             var options = TwitterHelper.GetDictionary();
-            options.Add(Const.SINCE_ID, missedSinceId);
-            options.Add(Const.MAX_ID, maxId);
+            options.Add(Const.MAX_ID, missedMaxId - 1);
+            options.Add(Const.SINCE_ID, sinceId);
+
             var missedList = await LoadDataFromWeb(options);
             if (missedList != null && missedList.Count != 0)
             {
                 //cache the missed tweets:
-                var showedItem = missedList.Last();
+                var showedItem = Items[index];
                 Debug.WriteLine("show load more tweet button at tweet id : {0}", showedItem.Id);
                 showedItem.IsLoadMoreTweetButtonVisible = true;
-                Items.Insert(index + 1, showedItem);
-                missedList.RemoveAt(0);
                 missedItemsCache.AddRange(missedList);
             }
         }
