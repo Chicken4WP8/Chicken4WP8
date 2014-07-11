@@ -34,19 +34,19 @@ namespace Chicken4WP8.ViewModels.Home
         {
             if (item.User.ImageSource != null)
             {
-                Debug.WriteLine("user {0} 's avatar already realized, image url is: {1}", item.User.ScreenName, item.User.ProfileImageUrl);
+                //Debug.WriteLine("user {0} 's avatar already realized, image url is: {1}", item.User.ScreenName, item.User.ProfileImageUrl);
                 return;
             }
             //get cached profile image
             var data = ImageCacheService.GetCachedProfileImage(item.User);
             if (data == null)
             {
-                Debug.WriteLine("user {0} 's avatar '{1}' has not been cached, download it from internet", item.User.ScreenName, item.User.ProfileImageUrl);
+                //Debug.WriteLine("user {0} 's avatar '{1}' has not been cached, download it from internet", item.User.ScreenName, item.User.ProfileImageUrl);
                 data = await userController.DownloadProfileImageAsync(item.User);
-                Debug.WriteLine("add user {0} 's  avatar {1}  (data length : {2}) to cache", item.User.ScreenName, item.User.ProfileImageUrl, data.Length);
+                //Debug.WriteLine("add user {0} 's  avatar {1}  (data length : {2}) to cache", item.User.ScreenName, item.User.ProfileImageUrl, data.Length);
                 ImageCacheService.AddProfileImageToCache(item.User, data);
             }
-            Debug.WriteLine("set user {0} 's avatar {1}", item.User.ScreenName, item.User.ProfileImageUrl);
+            //Debug.WriteLine("set user {0} 's avatar {1}", item.User.ScreenName, item.User.ProfileImageUrl);
             await userController.SetProfileImageAsync(item.User, data);
         }
 

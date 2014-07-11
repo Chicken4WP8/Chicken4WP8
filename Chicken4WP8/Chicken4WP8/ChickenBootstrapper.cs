@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Windows;
 using Autofac;
 using Caliburn.Micro;
 using Chicken4WP8.Models.Setting;
@@ -69,6 +70,11 @@ namespace Chicken4WP8
                 .WithMetadata<OAuthTypeMetadata>(
                 meta => meta.For(
                     m => m.OAuthType, OAuthSettingType.TwipOAuth));
+        }
+        
+        protected override void OnUnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
+        {
+            base.OnUnhandledException(sender, e);
         }
     }
 }

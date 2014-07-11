@@ -106,6 +106,21 @@ namespace Chicken4WP8.ViewModels.Base
                     //otherwise, show load more tweets button:
                     if (missedList != null && missedList.Count != 0)
                     {
+                        //remove oldest tweets:
+                        if (missedItemsCache.Count != 0)
+                        {
+                            var oldestTweet = Items.Single(t => t.IsLoadMoreTweetButtonVisible);
+                            oldestTweet.IsLoadMoreTweetButtonVisible = false;
+                            int index = Items.IndexOf(oldestTweet) + 1;
+                            foreach (var item in missedItemsCache)
+                            {
+                                Items.Insert(index, item);
+                                index++;
+                            }
+                            missedItemsCache.Clear();
+                            while (Items.Count - index > 1)
+                                Items.RemoveAt(Items.Count - 1);
+                        }
                         //cache the missed tweets:
                         missedItemsCache.AddRange(missedList);
                         var showedItem = fetchedList.Last();

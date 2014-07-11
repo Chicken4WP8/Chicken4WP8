@@ -235,11 +235,6 @@ namespace Chicken4WP8
         {
         }
 
-        protected override void OnUnhandledException(object sender, System.Windows.ApplicationUnhandledExceptionEventArgs e)
-        {
-            base.OnUnhandledException(sender, e);
-        }
-
         static void AddCustomConventions()
         {
             ConventionManager.AddElementConvention<Pivot>(Pivot.ItemsSourceProperty, "SelectedItem", "SelectionChanged").ApplyBinding =
