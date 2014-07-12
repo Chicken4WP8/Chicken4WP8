@@ -14,6 +14,10 @@
         <local:ChickenBootstrapper x:Key="bootstrapper" />
 
         <ctrls:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <ctrls:InvertBooleanToVisibilityConverter x:Key="InvertBooleanToVisibilityConverter" />
+        <ctrls:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
+        <ctrls:ObjectToVisibilityConverter x:Key="ObjectToVisibilityConverter" />
+        <ctrls:BooleanToFillConverter x:Key="BooleanToFillConverter" />
 
         <!--controls-->
         <Style TargetType="ctrls:ToastPrompt">
@@ -243,6 +247,38 @@
                                                    HorizontalAlignment="Left" TextAlignment="Left"
                                                    Style="{StaticResource TextSmall}" />
                                             <!--media retweet count etc-->
+                                            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                                                <StackPanel.Resources>
+                                                    <Style TargetType="Rectangle" BasedOn="{StaticResource RetweetRectangleSmall}">
+                                                        <Setter Property="Fill" Value="{StaticResource PhoneForegroundBrush}" />
+                                                    </Style>
+                                                </StackPanel.Resources>
+                                                <!--conversation-->
+                                                <Rectangle Visibility="{Binding InReplyToTweetId,Converter={StaticResource ObjectToVisibilityConverter}}">
+                                                    <Rectangle.OpacityMask>
+                                                        <ImageBrush ImageSource="/Images/dark/conversation.png" />
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                                <!--media-->
+                                                <Rectangle Visibility="{Binding IncludeMedia,Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                    <Rectangle.OpacityMask>
+                                                        <ImageBrush ImageSource="/Images/dark/media.png" />
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                                <!--location-->
+                                                <Rectangle Visibility="{Binding IncludeCoordinates,Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                    <Rectangle.OpacityMask>
+                                                        <ImageBrush ImageSource="/Images/dark/location.png" />
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                                <!--retweet-->
+                                                <Rectangle Fill="{StaticResource PhoneAccentBrush}"
+                                                    Visibility="{Binding IsRetweeted,Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                    <Rectangle.OpacityMask>
+                                                        <ImageBrush ImageSource="/Images/dark/retweet.png" />
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                            </StackPanel>
 
                                         </Grid>
                                     </Grid>

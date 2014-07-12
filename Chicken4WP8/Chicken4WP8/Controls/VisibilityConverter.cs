@@ -64,4 +64,36 @@ namespace Chicken4WP8.Controls
             }
         }
     }
+
+    public class InvertBooleanToVisibilityConverter : BooleanToVisibilityConverter
+    {
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return base.InvertConvertBoolean(value);
+        }
+    }
+
+    public class StringToVisibilityConverter : BooleanToVisibilityConverter
+    {
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return converter.ConvertString(value);
+        }
+    }
+
+    public class ObjectToVisibilityConverter : BooleanToVisibilityConverter
+    {
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return converter.ConvertObject(value);
+        }
+    }
+
+    public class BooleanToFillConverter : BooleanToVisibilityConverter
+    {
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return converter.ConvertFill(value);
+        }
+    }
 }
