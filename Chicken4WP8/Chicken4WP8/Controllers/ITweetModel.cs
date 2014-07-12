@@ -29,5 +29,15 @@ namespace Chicken4WP8.Controllers
         /// show load more tweets button
         /// </summary>
         bool IsLoadMoreTweetButtonVisible { get; set; }
+
+        /// <summary>
+        /// show top bounds
+        /// </summary>
+        bool IsTopBoundsVisible { get; set; }
+
+        /// <summary>
+        /// show bottom bounds
+        /// </summary>
+        bool IsBottomBoundsVisible { get; set; }
     }
 }

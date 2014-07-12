@@ -1,7 +1,6 @@
 ﻿using System;
 using Caliburn.Micro;
 using Chicken4WP8.Common;
-using Chicken4WP8.Controllers;
 using CoreTweet;
 
 namespace Chicken4WP8.Controllers.Implemention.Base
@@ -121,6 +120,29 @@ namespace Chicken4WP8.Controllers.Implemention.Base
             {
                 isLoadMoreTweetButtonVisible = value;
                 NotifyOfPropertyChange(() => IsLoadMoreTweetButtonVisible);
+            }
+        }
+
+        private bool isBottomBoundsVisible;
+        public bool IsBottomBoundsVisible
+        {
+            get { return isBottomBoundsVisible; }
+            set
+            {
+                isBottomBoundsVisible = value;
+                NotifyOfPropertyChange(() => IsBottomBoundsVisible);
+            }
+        }
+
+        private bool isTopBoundsVisible;
+        public bool IsTopBoundsVisible
+        {
+            get { return isTopBoundsVisible; }
+            set
+            {
+
+                isTopBoundsVisible = value;
+                NotifyOfPropertyChange(() => IsTopBoundsVisible);
             }
         }
     }

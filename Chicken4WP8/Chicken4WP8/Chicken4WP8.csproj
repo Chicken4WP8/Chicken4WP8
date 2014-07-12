@@ -202,6 +202,8 @@
     <Content Include="Images\dark\appbar.send.png" />
     <Content Include="Images\dark\appbar.top.png" />
     <Content Include="Images\dark\appbar.tweet.new.png" />
+    <Content Include="Images\dark\bound.bottom.png" />
+    <Content Include="Images\dark\bound.top.png" />
     <Content Include="Images\dark\calendar.png" />
     <Content Include="Images\dark\cat.png" />
     <Content Include="Images\dark\conversation.png" />
@@ -234,6 +236,8 @@
     <Content Include="Images\light\appbar.send.png" />
     <Content Include="Images\light\appbar.top.png" />
     <Content Include="Images\light\appbar.tweet.new.png" />
+    <Content Include="Images\light\bound.bottom.png" />
+    <Content Include="Images\light\bounds.top.png" />
     <Content Include="Images\light\conversation.png" />
     <Content Include="Images\light\delete.png" />
     <Content Include="Images\light\favorite.png" />

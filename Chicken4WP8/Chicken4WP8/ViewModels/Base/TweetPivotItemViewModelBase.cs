@@ -89,8 +89,8 @@ namespace Chicken4WP8.ViewModels.Base
                     Debug.WriteLine("sinceId is : {0}", sinceId);
                     options.Add(Const.SINCE_ID, sinceId);
                 }
-
                 var fetchedList = await LoadDataFromWeb(options);
+                #region add to list
                 if (fetchedList != null && fetchedList.Count > 0)
                 {
                     Debug.WriteLine("fetced data list count is :{0}", fetchedList.Count);
@@ -106,7 +106,7 @@ namespace Chicken4WP8.ViewModels.Base
                     //otherwise, show load more tweets button:
                     if (missedList != null && missedList.Count != 0)
                     {
-                        //remove oldest tweets:
+                        #region remove oldest tweets
                         if (missedItemsCache.Count != 0)
                         {
                             var oldestTweet = Items.Single(t => t.IsLoadMoreTweetButtonVisible);
@@ -121,15 +121,20 @@ namespace Chicken4WP8.ViewModels.Base
                             while (Items.Count > index)
                                 Items.RemoveAt(Items.Count - 1);
                         }
-                        //cache the missed tweets:
+                        #endregion
+                        #region cache the missed tweets:
                         missedItemsCache.AddRange(missedList);
                         var showedItem = fetchedList.Last();
                         Debug.WriteLine("show load more tweet button at tweet id : {0}", showedItem.Id);
                         showedItem.IsLoadMoreTweetButtonVisible = true;
+                        #endregion
                     }
                     fetchedItemsCache.AddRange(fetchedList);
+                    Items.First().IsTopBoundsVisible = true;
+                    fetchedList.Last().IsBottomBoundsVisible = true;
                     await FetchMoreDataFromWeb();
                 }
+                #endregion
                 else
                 {
                     //no new tweets yet
@@ -178,6 +183,8 @@ namespace Chicken4WP8.ViewModels.Base
                 if (loadedList != null && loadedList.Count != 0)
                 {
                     loadedItemsCache.AddRange(loadedList);
+                    loadedList.First().IsTopBoundsVisible = true;
+                    Items.Last().IsBottomBoundsVisible = true;
                     await LoadMoreDataFromWeb();
                 }
                 else

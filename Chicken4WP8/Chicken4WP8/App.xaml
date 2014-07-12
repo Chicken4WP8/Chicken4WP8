@@ -174,18 +174,23 @@
         </Style>
 
 
+        <!--tweet bottom style-->
+
         <DataTemplate x:Key="StatusTemplate">
             <Grid Margin="0,4">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="12" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="12" />
                 </Grid.RowDefinitions>
-                <!--list header-->
-                <Border Grid.Row="0">
-
-                </Border>
+                <!--top bounds-->
+                <Rectangle Grid.Row="0" Opacity="0.8" Margin="0,4,0,2" Fill="{StaticResource PhoneForegroundBrush}"
+                           Visibility="{Binding IsTopBoundsVisible,Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <Rectangle.OpacityMask>
+                        <ImageBrush ImageSource="/Images/dark/bound.top.png" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
                 <Grid Grid.Row="1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="68" />
@@ -251,14 +256,17 @@
                     </Grid>
                     <!--content end-->
                 </Grid>
-                <!--list footer-->
-                <Border Grid.Row="2">
-
-                </Border>
                 <!--load more tweets button-->
-                <Button Grid.Row="3" Content="load more tweets"
+                <Button Grid.Row="2" Content="load more tweets"
                         Visibility="{Binding IsLoadMoreTweetButtonVisible,Converter={StaticResource BooleanToVisibilityConverter}}"
                         cal:Message.Attach="[Event Click] =[Action LoadMoreTweetsButtonClick($dataContext, $eventArgs)]" />
+                <!--bottom bounds-->
+                <Rectangle Grid.Row="3" Opacity="0.8" Margin="0,2,0,4" Fill="{StaticResource PhoneForegroundBrush}"
+                           Visibility="{Binding IsBottomBoundsVisible,Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <Rectangle.OpacityMask>
+                        <ImageBrush ImageSource="/Images/dark/bound.bottom.png" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
             </Grid>
         </DataTemplate>
     </Application.Resources>
