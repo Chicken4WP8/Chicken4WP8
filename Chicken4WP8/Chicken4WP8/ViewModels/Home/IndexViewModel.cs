@@ -30,6 +30,11 @@ namespace Chicken4WP8.ViewModels.Home
 
         #endregion
 
+        protected override void SetLanguage()
+        {
+            DisplayName = LanguageHelper["IndexViewModel_Header"];
+        }
+
         protected override async Task RealizeItem(ITweetModel item)
         {
             if (item.User.ImageSource != null)

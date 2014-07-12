@@ -28,7 +28,6 @@ namespace Chicken4WP8.ViewModels.Base
 
         protected PivotItemViewModelBase()
         {
-            SetLanguage();
         }
 
         private bool isLoading;
@@ -57,7 +56,13 @@ namespace Chicken4WP8.ViewModels.Base
                 NotifyOfPropertyChange(() => Items);
             }
         }
-        
+
+        protected override void OnInitialize()
+        {
+            base.OnInitialize();
+            SetLanguage();
+        }
+
         protected override void OnViewAttached(object view, object context)
         {
             base.OnViewAttached(view, context);

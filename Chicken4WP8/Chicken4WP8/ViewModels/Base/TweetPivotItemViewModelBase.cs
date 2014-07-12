@@ -90,8 +90,6 @@ namespace Chicken4WP8.ViewModels.Base
                     options.Add(Const.SINCE_ID, sinceId);
                 }
 
-                options.Add(Const.COUNT, 3);
-
                 var fetchedList = await LoadDataFromWeb(options);
                 if (fetchedList != null && fetchedList.Count > 0)
                 {
@@ -102,8 +100,6 @@ namespace Chicken4WP8.ViewModels.Base
                     Debug.WriteLine("the last fetched tweet is : {0}", missedMaxId);
                     options.Add(Const.MAX_ID, missedMaxId - 1);
                     options.Add(Const.SINCE_ID, sinceId);
-
-                    options.Add(Const.COUNT, 3);
 
                     var missedList = await LoadDataFromWeb(options);
                     //step 3: no tweets means no gap,
@@ -211,8 +207,6 @@ namespace Chicken4WP8.ViewModels.Base
             var options = TwitterHelper.GetDictionary();
             options.Add(Const.MAX_ID, missedMaxId - 1);
             options.Add(Const.SINCE_ID, sinceId);
-
-            options.Add(Const.COUNT, 3);
 
             var missedList = await LoadDataFromWeb(options);
             if (missedList != null && missedList.Count != 0)
