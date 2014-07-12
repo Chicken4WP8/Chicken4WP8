@@ -185,8 +185,8 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="12" />
                     <RowDefinition Height="*" />
-                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="12" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <!--top bounds-->
                 <Rectangle Grid.Row="0" Opacity="0.8" Margin="0,4,0,2" Fill="{StaticResource PhoneForegroundBrush}"
@@ -292,17 +292,27 @@
                     </Grid>
                     <!--content end-->
                 </Grid>
-                <!--load more tweets button-->
-                <Button Grid.Row="2" Content="load more tweets"
-                        Visibility="{Binding IsLoadMoreTweetButtonVisible,Converter={StaticResource BooleanToVisibilityConverter}}"
-                        cal:Message.Attach="[Event Click] =[Action LoadMoreTweetsButtonClick($dataContext, $eventArgs)]" />
                 <!--bottom bounds-->
-                <Rectangle Grid.Row="3" Opacity="0.8" Margin="0,2,0,4" Fill="{StaticResource PhoneForegroundBrush}"
+                <Rectangle Grid.Row="2" Opacity="0.8" Margin="0,2,0,4" Fill="{StaticResource PhoneForegroundBrush}"
                            Visibility="{Binding IsBottomBoundsVisible,Converter={StaticResource BooleanToVisibilityConverter}}">
                     <Rectangle.OpacityMask>
                         <ImageBrush ImageSource="/Images/dark/bound.bottom.png" />
                     </Rectangle.OpacityMask>
                 </Rectangle>
+                <!--load more tweets button-->
+                <Button Grid.Row="3" Content="load more tweets"
+                        Visibility="{Binding IsLoadMoreTweetButtonVisible,Converter={StaticResource BooleanToVisibilityConverter}}"
+                        cal:Message.Attach="[Event Click] =[Action LoadMoreTweetsButtonClick($dataContext, $eventArgs)]">
+                    <Button.Template>
+                        <ControlTemplate>
+                            <Grid>
+                                <Border BorderThickness="1" BorderBrush="Gray" Margin="1">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Border>
+                            </Grid>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
             </Grid>
         </DataTemplate>
     </Application.Resources>
