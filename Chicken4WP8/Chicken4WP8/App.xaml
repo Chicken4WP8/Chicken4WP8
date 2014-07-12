@@ -179,7 +179,6 @@
 
 
         <!--tweet bottom style-->
-
         <DataTemplate x:Key="StatusTemplate">
             <Grid Margin="0,4">
                 <Grid.RowDefinitions>
@@ -300,7 +299,7 @@
                     </Rectangle.OpacityMask>
                 </Rectangle>
                 <!--load more tweets button-->
-                <Button Grid.Row="3" Content="load more tweets"
+                <Button Grid.Row="3" Content="{Binding ElementName=LayoutRoot,Path=DataContext.LanguageHelper[IndexViewModel_LoadMoreTweetsButton]}"
                         Visibility="{Binding IsLoadMoreTweetButtonVisible,Converter={StaticResource BooleanToVisibilityConverter}}"
                         cal:Message.Attach="[Event Click] =[Action LoadMoreTweetsButtonClick($dataContext, $eventArgs)]">
                     <Button.Template>

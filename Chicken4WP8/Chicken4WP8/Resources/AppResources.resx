@@ -132,6 +132,9 @@
   <data name="IndexViewModel_Header" xml:space="preserve">
     <value>Home</value>
   </data>
+  <data name="IndexViewModel_LoadMoreTweetsButton" xml:space="preserve">
+    <value>Load More Tweets</value>
+  </data>
   <data name="OAuthSettingPageView_OAuthSettingTitle" xml:space="preserve">
     <value>OAuth Setting</value>
   </data>

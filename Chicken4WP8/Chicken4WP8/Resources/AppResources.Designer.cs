@@ -106,6 +106,15 @@ namespace Chicken4WP8.Resources {
         }
         
         /// <summary>
+        ///   查找类似 Load More Tweets 的本地化字符串。
+        /// </summary>
+        public static string IndexViewModel_LoadMoreTweetsButton {
+            get {
+                return ResourceManager.GetString("IndexViewModel_LoadMoreTweetsButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 OAuth Setting 的本地化字符串。
         /// </summary>
         public static string OAuthSettingPageView_OAuthSettingTitle {
