@@ -201,6 +201,7 @@ namespace Chicken4WP8.ViewModels.Base
         {
             var currentShowedItem = sender as ITweetModel;
             currentShowedItem.IsLoadMoreTweetButtonVisible = false;
+            currentShowedItem.IsBottomBoundsVisible = true;
             var index = Items.IndexOf(currentShowedItem) + 1;
             foreach (var item in missedItemsCache)
             {
@@ -209,6 +210,7 @@ namespace Chicken4WP8.ViewModels.Base
             }
             missedItemsCache.Clear();
             var showedItem = Items[index - 1];
+            showedItem.IsTopBoundsVisible = true;
             var missedMaxId = showedItem.Id;
             var sinceId = Items[index].Id;
             var options = TwitterHelper.GetDictionary();
