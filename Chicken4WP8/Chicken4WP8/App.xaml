@@ -182,13 +182,14 @@
         <DataTemplate x:Key="StatusTemplate">
             <Grid Margin="0,4">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="12" />
+                    <RowDefinition />
                     <RowDefinition Height="*" />
-                    <RowDefinition Height="12" />
-                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                    <RowDefinition />
                 </Grid.RowDefinitions>
                 <!--top bounds-->
-                <Rectangle Grid.Row="0" Opacity="0.8" Margin="0,4,0,2" Fill="{StaticResource PhoneForegroundBrush}"
+                <Rectangle Grid.Row="0" Opacity="0.8" Margin="0,6,0,3" Height="9"
+                           Fill="{StaticResource PhoneForegroundBrush}"
                            Visibility="{Binding IsTopBoundsVisible,Converter={StaticResource BooleanToVisibilityConverter}}">
                     <Rectangle.OpacityMask>
                         <ImageBrush ImageSource="/Images/dark/bound.top.png" />
@@ -292,19 +293,24 @@
                     <!--content end-->
                 </Grid>
                 <!--bottom bounds-->
-                <Rectangle Grid.Row="2" Opacity="0.8" Margin="0,2,0,4" Fill="{StaticResource PhoneForegroundBrush}"
+                <Rectangle Grid.Row="2" Opacity="0.8" Margin="0,3,0,6" Height="9"
+                           Fill="{StaticResource PhoneForegroundBrush}"
                            Visibility="{Binding IsBottomBoundsVisible,Converter={StaticResource BooleanToVisibilityConverter}}">
                     <Rectangle.OpacityMask>
                         <ImageBrush ImageSource="/Images/dark/bound.bottom.png" />
                     </Rectangle.OpacityMask>
                 </Rectangle>
                 <!--load more tweets button-->
-                <Button Grid.Row="3" Content="{Binding ElementName=LayoutRoot,Path=DataContext.LanguageHelper[IndexViewModel_LoadMoreTweetsButton]}"
+                <Button Grid.Row="3"
+                        Content="{Binding ElementName=LayoutRoot,Path=DataContext.LanguageHelper[IndexViewModel_LoadMoreTweetsButton]}"
                         Visibility="{Binding IsLoadMoreTweetButtonVisible,Converter={StaticResource BooleanToVisibilityConverter}}"
                         cal:Message.Attach="[Event Click] =[Action LoadMoreTweetsButtonClick($dataContext, $eventArgs)]">
                     <Button.Template>
                         <ControlTemplate>
                             <Grid>
+                                <Grid.Resources>
+                                    <Style TargetType="TextBlock" BasedOn="{StaticResource TextSmall}" />
+                                </Grid.Resources>
                                 <Border BorderThickness="1" BorderBrush="Gray" Margin="1">
                                     <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                                 </Border>
