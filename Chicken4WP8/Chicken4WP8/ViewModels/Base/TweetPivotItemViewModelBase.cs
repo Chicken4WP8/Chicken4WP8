@@ -66,7 +66,7 @@ namespace Chicken4WP8.ViewModels.Base
                 {
                     for (int i = 0; i < ITEMSPERPAGE; i++)
                         Items.Insert(0, fetchedItemsCache[count - 1 - i]);
-                    fetchedItemsCache.RemoveRange(count - 1 - ITEMSPERPAGE, ITEMSPERPAGE);
+                    fetchedItemsCache.RemoveRange(count - ITEMSPERPAGE, ITEMSPERPAGE);
                 }
                 else
                 {
@@ -198,6 +198,8 @@ namespace Chicken4WP8.ViewModels.Base
         #region load more tweets button click
         public async Task LoadMoreTweetsButtonClick(object sender, EventArgs e)
         {
+            if (IsLoading)
+                return;
             var currentShowedItem = sender as ITweetModel;
             currentShowedItem.IsLoadMoreTweetButtonVisible = false;
             missedItemsCache.First().IsTopBoundsVisible = true;
