@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Caliburn.Micro;
 using Chicken4WP8.Common;
 using CoreTweet;
@@ -104,6 +105,30 @@ namespace Chicken4WP8.Controllers.Implemention.Base
             get { return coordinates; }
         }
 
+        private List<IEntity> parsedEntities;
+        public List<IEntity> ParsedEntities
+        {
+            get
+            {
+                if (Entities == null) return null;
+                if (parsedEntities != null) return parsedEntities;
+
+                parsedEntities = new List<IEntity>();
+                if (Entities.HashTags != null && Entities.HashTags.Count != 0)
+                    parsedEntities.AddRange(Entities.HashTags);
+                if (Entities.Media != null && Entities.Media.Count != 0)
+                    parsedEntities.AddRange(Entities.Media);
+                if (Entities.Symbols != null && Entities.Symbols.Count != 0)
+                    parsedEntities.AddRange(Entities.Symbols);
+                if (Entities.Urls != null && Entities.Urls.Count != 0)
+                    parsedEntities.AddRange(Entities.Urls);
+                if (Entities.UserMentions != null && Entities.UserMentions.Count != 0)
+                    parsedEntities.AddRange(Entities.UserMentions);
+                return parsedEntities;
+            }
+        }
+
+        #region for template
         /// <summary>
         ///show retweet count, favorite count and location panel
         /// </summary>
@@ -145,5 +170,6 @@ namespace Chicken4WP8.Controllers.Implemention.Base
                 NotifyOfPropertyChange(() => IsTopBoundsVisible);
             }
         }
+        #endregion
     }
 }

@@ -239,8 +239,10 @@
                                         <TextBlock Text="{Binding User.ScreenName}" Grid.Row="1"
                                                Style="{StaticResource TweetScreenName}" />
                                         <!--text-->
-                                        <TextBlock Grid.Row="2" Text="{Binding Path=Text}" TextWrapping="Wrap"
-                                                           HorizontalAlignment="Stretch" TextAlignment="Left" />
+                                        <ctrls:AutoRichTextBox Grid.Row="2"
+                                                               Entities="{Binding ParsedEntities}"
+                                                               Text="{Binding Path=Text}" TextWrapping="Wrap"
+                                                               HorizontalAlignment="Stretch" TextAlignment="Left" />
                                         <Grid Grid.Row="3" Opacity="0.6" HorizontalAlignment="Stretch">
                                             <!--CreatedAt-->
                                             <TextBlock Text="{Binding CreatedAt}"

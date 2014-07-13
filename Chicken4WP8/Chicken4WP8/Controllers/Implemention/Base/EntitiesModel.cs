@@ -92,10 +92,16 @@ namespace Chicken4WP8.Controllers.Implemention.Base
             this.entity = entity;
         }
 
-        public int[] Indices
+        public abstract EntityType EntityType { get; }
+
+        public int Begin
         {
-            get { return entity.Indices; }
-            set { entity.Indices = value; }
+            get { return entity.Indices[0]; }
+        }
+
+        public int End
+        {
+            get { return entity.Indices[1]; }
         }
     }
 
@@ -109,6 +115,11 @@ namespace Chicken4WP8.Controllers.Implemention.Base
             this.entity = entity;
         }
 
+        public override EntityType EntityType
+        {
+            get { return EntityType.Symbol; }
+        }
+
         public string Text
         {
             get { return entity.Text; }
@@ -116,8 +127,60 @@ namespace Chicken4WP8.Controllers.Implemention.Base
         }
     }
 
+    public class UrlEntityModel : EntityModel, IUrlEntity
+    {
+        private UrlEntity entity;
+
+        public UrlEntityModel(UrlEntity entity)
+            : base(entity)
+        {
+            this.entity = entity;
+        }
+
+        public override EntityType EntityType
+        {
+            get { return EntityType.Url; }
+        }
+
+        public string DisplayUrl
+        {
+            get { return entity.DisplayUrl; }
+            set { entity.DisplayUrl = value; }
+        }
+
+        private string truncatedUrl;
+        public string TruncatedUrl
+        {
+            get
+            {
+                int index = DisplayUrl.IndexOf("/");
+                if (index != -1)
+                    truncatedUrl = "[" + DisplayUrl.Remove(index) + "]";
+                else
+                    truncatedUrl = "[" + DisplayUrl + "]";
+                return truncatedUrl;
+            }
+            set
+            {
+                truncatedUrl = value;
+            }
+        }
+
+        public Uri ExpandedUrl
+        {
+            get { return entity.ExpandedUrl; }
+            set { entity.ExpandedUrl = value; }
+        }
+
+        public Uri Url
+        {
+            get { return entity.Url; }
+            set { entity.Url = value; }
+        }
+    }
+
     #region Media Entity
-    public class MediaEntityModel : EntityModel, IMediaEntity
+    public class MediaEntityModel : UrlEntityModel, IMediaEntity
     {
         private MediaEntity entity;
         private IMediaSizes sizes;
@@ -126,6 +189,11 @@ namespace Chicken4WP8.Controllers.Implemention.Base
             : base(entity)
         {
             this.entity = entity;
+        }
+
+        public override EntityType EntityType
+        {
+            get { return EntityType.Media; }
         }
 
         public long Id
@@ -236,35 +304,6 @@ namespace Chicken4WP8.Controllers.Implemention.Base
     }
     #endregion
 
-    public class UrlEntityModel : EntityModel, IUrlEntity
-    {
-        private UrlEntity entity;
-
-        public UrlEntityModel(UrlEntity entity)
-            : base(entity)
-        {
-            this.entity = entity;
-        }
-
-        public string DisplayUrl
-        {
-            get { return entity.DisplayUrl; }
-            set { entity.DisplayUrl = value; }
-        }
-
-        public Uri ExpandedUrl
-        {
-            get { return entity.ExpandedUrl; }
-            set { entity.ExpandedUrl = value; }
-        }
-
-        public Uri Url
-        {
-            get { return entity.Url; }
-            set { entity.Url = value; }
-        }
-    }
-
     public class UserMentionEntityModel : EntityModel, IUserMentionEntity
     {
         private UserMentionEntity entity;
@@ -273,6 +312,11 @@ namespace Chicken4WP8.Controllers.Implemention.Base
             : base(entity)
         {
             this.entity = entity;
+        }
+
+        public override EntityType EntityType
+        {
+            get { return EntityType.UserMention; }
         }
 
         public long Id

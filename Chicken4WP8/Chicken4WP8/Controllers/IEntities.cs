@@ -14,7 +14,19 @@ namespace Chicken4WP8.Controllers
 
     public interface IEntity
     {
-        int[] Indices { get; set; }
+        EntityType EntityType { get; }
+        int Begin { get; }
+        int End { get; }
+    }
+
+    public enum EntityType
+    {
+        None = 0,
+        Media = 1,
+        HashTag = 2,
+        Symbol = 3,
+        Url = 4,
+        UserMention = 5,
     }
 
     public interface ISymbolEntity : IEntity
@@ -22,8 +34,16 @@ namespace Chicken4WP8.Controllers
         string Text { get; set; }
     }
 
+    public interface IUrlEntity : IEntity
+    {
+        string DisplayUrl { get; set; }
+        string TruncatedUrl { get; set; }
+        Uri ExpandedUrl { get; set; }
+        Uri Url { get; set; }
+    }
+
     #region Media Entity
-    public interface IMediaEntity : IEntity
+    public interface IMediaEntity : IUrlEntity
     {
         long Id { get; set; }
         Uri MediaUrl { get; set; }
@@ -48,13 +68,6 @@ namespace Chicken4WP8.Controllers
         int Width { get; set; }
     }
     #endregion
-
-    public interface IUrlEntity : IEntity
-    {
-        string DisplayUrl { get; set; }
-        Uri ExpandedUrl { get; set; }
-        Uri Url { get; set; }
-    }
 
     public interface IUserMentionEntity : IEntity
     {

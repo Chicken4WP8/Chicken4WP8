@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace Chicken4WP8.Controllers
@@ -20,6 +21,10 @@ namespace Chicken4WP8.Controllers
         long? InReplyToTweetId { get; }
         bool IncludeCoordinates { get; }
         ICoordinates Coordinates { get; }
+
+        List<IEntity> ParsedEntities { get; }
+
+        #region for template
         /// <summary>
         ///show retweet count, favorite count and location panel
         /// </summary>
@@ -38,6 +43,7 @@ namespace Chicken4WP8.Controllers
         /// <summary>
         /// show bottom bounds
         /// </summary>
-        bool IsBottomBoundsVisible { get; set; }
+        bool IsBottomBoundsVisible { get; set; } 
+        #endregion
     }
 }
