@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -29,7 +26,7 @@ namespace Chicken4WP8.Controls
 
         #region entity property
         public static DependencyProperty EntitiesProperty =
-            DependencyProperty.Register("Entities", typeof(IList<IEntity>), typeof(AutoRichTextBox), new PropertyMetadata(OnPropertyChanged));
+            DependencyProperty.Register("Entities", typeof(IList<IEntity>), typeof(AutoRichTextBox), null);
 
         public IList<IEntity> Entities
         {
@@ -107,7 +104,7 @@ namespace Chicken4WP8.Controls
                         break;
                     case EntityType.Url:
                         var url = entity as IUrlEntity;
-                        hyperlink.NavigateUri = url.Url;
+                        hyperlink.NavigateUri = url.ExpandedUrl;
                         hyperlink.TargetName = "_blank";
                         hyperlink.Inlines.Add(url.TruncatedUrl);
                         break;

@@ -23,7 +23,7 @@ namespace Chicken4WP8.Controllers.Implemention.Base
                 {
                     hashTags = new List<ISymbolEntity>();
                     foreach (var hashTag in entities.HashTags)
-                        hashTags.Add(new SymbolEntityModel(hashTag));
+                        hashTags.Add(new HashTagEntityModel(hashTag));
                 }
                 if (entities.Media != null && entities.Media.Length != 0)
                 {
@@ -124,6 +124,21 @@ namespace Chicken4WP8.Controllers.Implemention.Base
         {
             get { return entity.Text; }
             set { entity.Text = value; }
+        }
+    }
+
+    public class HashTagEntityModel : SymbolEntityModel, ISymbolEntity
+    {
+        public HashTagEntityModel(SymbolEntity entity)
+            : base(entity)
+        { }
+
+        public override EntityType EntityType
+        {
+            get
+            {
+                return EntityType.HashTag;
+            }
         }
     }
 
