@@ -43,7 +43,7 @@ namespace Chicken4WP8.Controllers.Implemention.Base
 
         public DateTime CreatedAt
         {
-            get { return user.CreatedAt.DateTime; }
+            get { return user.CreatedAt.LocalDateTime; }
         }
 
         public string Location

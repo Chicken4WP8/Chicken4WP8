@@ -31,7 +31,7 @@ namespace Chicken4WP8.Controllers.Implemention.Base
 
         public DateTime CreatedAt
         {
-            get { return tweet.CreatedAt.DateTime; }
+            get { return tweet.CreatedAt.LocalDateTime; }
         }
 
         public IUserModel User
