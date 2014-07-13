@@ -178,7 +178,7 @@
         </Style>
 
 
-        <!--tweet bottom style-->
+        <!--status template-->
         <DataTemplate x:Key="StatusTemplate">
             <Grid Margin="0,4">
                 <Grid.RowDefinitions>
@@ -322,6 +322,159 @@
                 </Button>
             </Grid>
         </DataTemplate>
+        <!--retweet template-->
+        <DataTemplate x:Key="RetweetTemplate">
+            <Grid Margin="0,4">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="*" />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <!--top bounds-->
+                <Rectangle Grid.Row="0" Opacity="0.8" Margin="0,6,0,3" Height="9"
+                           Fill="{StaticResource PhoneForegroundBrush}"
+                           Visibility="{Binding IsTopBoundsVisible,Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <Rectangle.OpacityMask>
+                        <ImageBrush ImageSource="/Images/dark/bound.top.png" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="68" />
+                        <ColumnDefinition Width="*"  />
+                    </Grid.ColumnDefinitions>
+                    <!--avatar-->
+                    <Button Grid.Column="0" Style="{StaticResource ProfileImageSmall}"
+                        cal:Action.TargetWithoutContext="{Binding ElementName=Items, Path=DataContext}"
+                        cal:Message.Attach="[Event Click] = [Action AvatarClick($dataContext, $eventArgs)]">
+                        <Button.Template>
+                            <ControlTemplate>
+                                <Grid>
+                                    <ctrls:ThemedImage DefaultImage="/Images/dark/cat.png" Source="{Binding RetweetedStatus.User.ImageSource}" />
+                                </Grid>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <!--content-->
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Button Grid.Row="0"
+                            cal:Action.TargetWithoutContext="{Binding ElementName=Items, Path=DataContext}"
+                            cal:Message.Attach="[Event Click] = [Action ItemClick($datacontext, $eventArgs)]">
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <Grid.Resources>
+                                            <Style TargetType="TextBlock" BasedOn="{StaticResource TextSmall}" />
+                                        </Grid.Resources>
+                                        <!--user name-->
+                                        <TextBlock Text="{Binding RetweetedStatus.User.Name}" Grid.Row="0" />
+                                        <!--screen name-->
+                                        <TextBlock Text="{Binding RetweetedStatus.User.ScreenName}" Grid.Row="1"
+                                               Style="{StaticResource TweetScreenName}" />
+                                        <!--text-->
+                                        <ctrls:AutoRichTextBox Grid.Row="2"
+                                                               Entities="{Binding RetweetedStatus.ParsedEntities}"
+                                                               Text="{Binding Path=RetweetedStatus.Text}" TextWrapping="Wrap"
+                                                               HorizontalAlignment="Stretch" TextAlignment="Left" />
+                                        <Grid Grid.Row="3" Opacity="0.6" HorizontalAlignment="Stretch">
+                                            <!--CreatedAt-->
+                                            <TextBlock Text="{Binding RetweetedStatus.CreatedAt}"
+                                                   HorizontalAlignment="Left" TextAlignment="Left"
+                                                   Style="{StaticResource TextSmall}" />
+                                            <!--media retweet count etc-->
+                                            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                                                <StackPanel.Resources>
+                                                    <Style TargetType="Rectangle" BasedOn="{StaticResource RetweetRectangleSmall}">
+                                                        <Setter Property="Fill" Value="{StaticResource PhoneForegroundBrush}" />
+                                                    </Style>
+                                                </StackPanel.Resources>
+                                                <!--conversation-->
+                                                <Rectangle Visibility="{Binding RetweetedStatus.InReplyToTweetId,Converter={StaticResource ObjectToVisibilityConverter}}">
+                                                    <Rectangle.OpacityMask>
+                                                        <ImageBrush ImageSource="/Images/dark/conversation.png" />
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                                <!--media-->
+                                                <Rectangle Visibility="{Binding RetweetedStatus.IncludeMedia,Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                    <Rectangle.OpacityMask>
+                                                        <ImageBrush ImageSource="/Images/dark/media.png" />
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                                <!--location-->
+                                                <Rectangle Visibility="{Binding RetweetedStatus.IncludeCoordinates,Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                    <Rectangle.OpacityMask>
+                                                        <ImageBrush ImageSource="/Images/dark/location.png" />
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                                <!--retweet-->
+                                                <Rectangle Fill="{Binding BooleanToFillConverter.IsRetweeted,Converter={StaticResource BooleanToFillConverter}}">
+                                                    <Rectangle.OpacityMask>
+                                                        <ImageBrush ImageSource="/Images/dark/retweet.png" />
+                                                    </Rectangle.OpacityMask>
+                                                </Rectangle>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                        <!--via-->
+                        <HyperlinkButton Grid.Row="1" Content="{Binding Path=RetweetedStatus.Source}"
+                                     NavigateUri="{Binding Path=RetweetedStatus.SourceUrl}" TargetName="_blank"
+                                     Style="{StaticResource HyperLinkButtonSmall}" HorizontalAlignment="Right" />
+                    </Grid>
+                    <!--content end-->
+                </Grid>
+                <!--bottom bounds-->
+                <Rectangle Grid.Row="2" Opacity="0.8" Margin="0,3,0,6" Height="9"
+                           Fill="{StaticResource PhoneForegroundBrush}"
+                           Visibility="{Binding IsBottomBoundsVisible,Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <Rectangle.OpacityMask>
+                        <ImageBrush ImageSource="/Images/dark/bound.bottom.png" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+                <!--load more tweets button-->
+                <Button Grid.Row="3"
+                        Content="{Binding ElementName=LayoutRoot,Path=DataContext.LanguageHelper[IndexViewModel_LoadMoreTweetsButton]}"
+                        Visibility="{Binding IsLoadMoreTweetButtonVisible,Converter={StaticResource BooleanToVisibilityConverter}}"
+                        cal:Message.Attach="[Event Click] =[Action LoadMoreTweetsButtonClick($dataContext, $eventArgs)]">
+                    <Button.Template>
+                        <ControlTemplate>
+                            <Grid>
+                                <Grid.Resources>
+                                    <Style TargetType="TextBlock" BasedOn="{StaticResource TextSmall}" />
+                                </Grid.Resources>
+                                <Border BorderThickness="1" BorderBrush="Gray" Margin="1">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Border>
+                            </Grid>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </Grid>
+        </DataTemplate>
+
+        <!--tweet template-->
+        <DataTemplate x:Key="TweetTemplate">
+            <ctrls:StatusTemplateSelector
+                HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"                
+                Content="{Binding}"
+                StatusTemplate="{StaticResource StatusTemplate}"
+                RetweetTemplate="{StaticResource RetweetTemplate}">
+            </ctrls:StatusTemplateSelector>
+        </DataTemplate>
+
     </Application.Resources>
 
 </Application>

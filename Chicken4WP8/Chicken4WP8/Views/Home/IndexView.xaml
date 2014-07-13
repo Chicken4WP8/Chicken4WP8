@@ -16,12 +16,12 @@
     <Grid x:Name="LayoutRoot">
         <toolkits:LongListSelector x:Name="Items"
                                    IsGroupingEnabled="False" LayoutMode="List"
-                                   ItemTemplate="{StaticResource StatusTemplate}"
+                                   ItemTemplate="{StaticResource TweetTemplate}"
                                    cal:Message.Attach="[Event ItemRealized] = [Action ItemRealized($source, $eventArgs)];
                                    [Event ItemUnrealized] = [Action ItemUnrealized($source, $eventArgs)]">
         </toolkits:LongListSelector>
 
-        <appBar:BindableAppBar>
+        <appBar:BindableAppBar Opacity="0.8">
             <appBar:BindableAppBarButton x:Name="AppBar_Next"
                                          Text="Next" IconUri="/Images/dark/appbar.check.png" />
         </appBar:BindableAppBar>

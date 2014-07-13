@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Windows;
@@ -60,6 +61,7 @@ namespace Chicken4WP8.Controls
             #endregion
             #region add entities
             int index = 0;
+            var stringInfo = new StringInfo(Text);
             foreach (var entity in Entities.OrderBy(v => v.Begin))
             {
                 #region starter
@@ -67,7 +69,7 @@ namespace Chicken4WP8.Controls
                 {
                     var run = new Run
                     {
-                        Text = HttpUtility.HtmlDecode(Text.Substring(index, entity.Begin - index))
+                        Text = HttpUtility.HtmlDecode(stringInfo.s(index, entity.Begin - index))
                     };
                     paragraph.Inlines.Add(run);
                 }

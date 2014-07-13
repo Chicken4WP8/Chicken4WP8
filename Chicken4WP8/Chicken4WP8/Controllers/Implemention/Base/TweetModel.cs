@@ -11,6 +11,7 @@ namespace Chicken4WP8.Controllers.Implemention.Base
         #region private
         private Status tweet;
         private IUserModel user;
+        private ITweetModel retweetedStatus;
         private IEntities entities;
         private ICoordinates coordinates;
         #endregion
@@ -19,6 +20,8 @@ namespace Chicken4WP8.Controllers.Implemention.Base
         {
             this.tweet = tweet;
             this.user = new UserModel(tweet.User);
+            if (tweet.RetweetedStatus != null)
+                this.retweetedStatus = new TweetModel(tweet.RetweetedStatus);
             if (tweet.Entities != null)
                 this.entities = new EntitiesModel(tweet.Entities);
             if (tweet.Coordinates != null)
@@ -73,6 +76,11 @@ namespace Chicken4WP8.Controllers.Implemention.Base
         public int? RetweetCount
         {
             get { return tweet.RetweetCount; }
+        }
+
+        public ITweetModel RetweetedStatus
+        {
+            get { return retweetedStatus; }
         }
 
         public int? FavoriteCount

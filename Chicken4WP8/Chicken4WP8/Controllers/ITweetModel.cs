@@ -15,6 +15,7 @@ namespace Chicken4WP8.Controllers
         bool? IsRetweeted { get; }
         bool? IsFavorited { get; }
         int? RetweetCount { get; }
+        ITweetModel RetweetedStatus { get; }
         int? FavoriteCount { get; }
         string Source { get; }
         Uri SourceUrl { get; }

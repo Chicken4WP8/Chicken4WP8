@@ -108,6 +108,7 @@
     <Compile Include="Controllers\Interface\IStatusController.cs" />
     <Compile Include="Controllers\Interface\IUserController.cs" />
     <Compile Include="Controls\AutoRichTextBox.cs" />
+    <Compile Include="Controls\TemplateSelector.cs" />
     <Compile Include="Controls\VisibilityConverter.cs" />
     <Compile Include="Controls\PopUp.cs" />
     <Compile Include="Controls\ThemedImage.cs" />
