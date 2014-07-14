@@ -418,7 +418,7 @@
                                                     </Rectangle.OpacityMask>
                                                 </Rectangle>
                                                 <!--retweet-->
-                                                <Rectangle Fill="{Binding BooleanToFillConverter.IsRetweeted,Converter={StaticResource BooleanToFillConverter}}">
+                                                <Rectangle Fill="{Binding RetweetedStatus.IsRetweeted,Converter={StaticResource BooleanToFillConverter}}">
                                                     <Rectangle.OpacityMask>
                                                         <ImageBrush ImageSource="/Images/dark/retweet.png" />
                                                     </Rectangle.OpacityMask>

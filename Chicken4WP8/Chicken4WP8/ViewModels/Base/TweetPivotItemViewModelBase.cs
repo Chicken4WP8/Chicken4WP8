@@ -36,7 +36,7 @@ namespace Chicken4WP8.ViewModels.Base
         #region init load data from web
         private async Task InitLoadDataFromWeb()
         {
-            var options = TwitterHelper.GetDictionary();
+            var options = Const.GetDictionary();
             options.Add(Const.COUNT, ITEMSPERPAGE);
             var fetchedList = await LoadDataFromWeb(options);
             if (fetchedList != null && fetchedList.Count != 0)
@@ -81,7 +81,7 @@ namespace Chicken4WP8.ViewModels.Base
             {
                 //step 1: fetch data with since_id:
                 Debug.WriteLine("fetch data from internet");
-                var options = TwitterHelper.GetDictionary();
+                var options = Const.GetDictionary();
                 long? sinceId = null;
                 if (Items.Count != 0)
                 {
@@ -110,6 +110,7 @@ namespace Chicken4WP8.ViewModels.Base
                         {
                             var oldestTweet = Items.Single(t => t.IsLoadMoreTweetButtonVisible);
                             oldestTweet.IsLoadMoreTweetButtonVisible = false;
+                            oldestTweet.IsBottomBoundsVisible = false;
                             int index = Items.IndexOf(oldestTweet) + 1;
                             foreach (var item in missedItemsCache)
                             {
@@ -175,7 +176,7 @@ namespace Chicken4WP8.ViewModels.Base
                     return;
                 }
                 Debug.WriteLine("load data from internet");
-                var options = TwitterHelper.GetDictionary();
+                var options = Const.GetDictionary();
                 options.Add(Const.MAX_ID, Items.Last().Id - 1);
                 var loadedList = await LoadDataFromWeb(options);
                 Debug.WriteLine("loaded data count is : {0}", loadedList.Count);
@@ -214,7 +215,7 @@ namespace Chicken4WP8.ViewModels.Base
             var showedItem = Items[index - 1];
             var missedMaxId = showedItem.Id;
             var sinceId = Items[index].Id;
-            var options = TwitterHelper.GetDictionary();
+            var options = Const.GetDictionary();
             options.Add(Const.MAX_ID, missedMaxId - 1);
             options.Add(Const.SINCE_ID, sinceId);
             var missedList = await LoadDataFromWeb(options);

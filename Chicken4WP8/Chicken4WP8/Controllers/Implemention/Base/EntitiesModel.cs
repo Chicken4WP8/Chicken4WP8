@@ -92,16 +92,23 @@ namespace Chicken4WP8.Controllers.Implemention.Base
             this.entity = entity;
         }
 
-        public abstract EntityType EntityType { get; }
-
-        public int Begin
+        public int Index
         {
             get { return entity.Indices[0]; }
+            set { entity.Indices[0] = value; }
         }
 
-        public int End
+        public abstract EntityType EntityType { get; }
+        public abstract string DisplayText { get; }
+
+        public bool Equals(IEntity other)
         {
-            get { return entity.Indices[1]; }
+            return this.GetHashCode() == other.GetHashCode();
+        }
+
+        public override int GetHashCode()
+        {
+            return DisplayText.GetHashCode();
         }
     }
 
@@ -125,6 +132,11 @@ namespace Chicken4WP8.Controllers.Implemention.Base
             get { return entity.Text; }
             set { entity.Text = value; }
         }
+
+        public override string DisplayText
+        {
+            get { return "$" + Text; }
+        }
     }
 
     public class HashTagEntityModel : SymbolEntityModel, ISymbolEntity
@@ -135,10 +147,12 @@ namespace Chicken4WP8.Controllers.Implemention.Base
 
         public override EntityType EntityType
         {
-            get
-            {
-                return EntityType.HashTag;
-            }
+            get { return EntityType.HashTag; }
+        }
+
+        public override string DisplayText
+        {
+            get { return "#" + Text; }
         }
     }
 
@@ -192,6 +206,16 @@ namespace Chicken4WP8.Controllers.Implemention.Base
             get { return entity.Url; }
             set { entity.Url = value; }
         }
+
+        public override string DisplayText
+        {
+            get
+            {
+                if (Url != null)
+                    return Url.AbsoluteUri;
+                return string.Empty;
+            }
+        }
     }
 
     #region Media Entity
@@ -204,6 +228,8 @@ namespace Chicken4WP8.Controllers.Implemention.Base
             : base(entity)
         {
             this.entity = entity;
+            if (entity.Sizes != null)
+                this.sizes = new MediaSizesModel(entity.Sizes);
         }
 
         public override EntityType EntityType
@@ -350,6 +376,11 @@ namespace Chicken4WP8.Controllers.Implemention.Base
         {
             get { return entity.ScreenName; }
             set { entity.ScreenName = value; }
+        }
+
+        public override string DisplayText
+        {
+            get { return "@" + ScreenName; }
         }
     }
 

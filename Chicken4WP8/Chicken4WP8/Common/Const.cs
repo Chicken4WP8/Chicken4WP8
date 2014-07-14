@@ -1,8 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using Newtonsoft.Json;
 
 namespace Chicken4WP8.Common
 {
-    public class Const
+    public static class Const
     {
         public const string OAUTH_MODE_BASE = "oauth_mode_base";
 
@@ -47,5 +49,51 @@ namespace Chicken4WP8.Common
         public const string SEARCH_QUERY = "q";
         public const string PAGE = "page";
         #endregion
+
+        #region const
+        public static Regex SourceRegex = new Regex(@".*>(?<url>[\s\S]+?)</a>");
+        public static Regex SourceUrlRegex = new Regex(@"<a href=\""(?<link>[^\s>]+)\""");
+        public static Regex UserNameRegex = new Regex(@"([^A-Za-z0-9_]|^)@(?<name>(_*[A-Za-z0-9]{1,15}_*)+)(?![A-Za-z0-9_@])");
+        public static Regex HashTagRegex = new Regex(@"#(?<hashtag>\w+)(?!(\w+))");
+        public const string USERNAMEPATTERN = @"(?<name>{0})(?![A-Za-z0-9_@])";
+        public const string HASHTAGPATTERN = @"(?<hashtag>{0})(?!(\w+))";
+        public const string SYMBOLPATTERN = @"(?<symbol>{0})(?!(\w+))";
+        public const string URLPATTERN = @"(?<text>{0})(?![A-Za-z0-9-_/])";
+        #endregion
+
+        #region parse tweet string
+        public static string ParseToSource(this string source)
+        {
+            if (string.IsNullOrEmpty(source))
+            {
+                return DEFAULTSOURCE;
+            }
+            string result = SourceRegex.Match(source).Groups["url"].Value;
+            if (string.IsNullOrEmpty(result))
+            {
+                return source;
+            }
+            return result;
+        }
+
+        public static string ParseToSourceUrl(this string source)
+        {
+            if (string.IsNullOrEmpty(source))
+            {
+                return DEFAULTSOURCEURL;
+            }
+            string result = SourceUrlRegex.Match(source).Groups["link"].Value;
+            if (string.IsNullOrEmpty(result))
+            {
+                return DEFAULTSOURCEURL;
+            }
+            return result;
+        }
+        #endregion
+
+        public static IDictionary<string, object> GetDictionary()
+        {
+            return new Dictionary<string, object>();
+        }
     }
 }

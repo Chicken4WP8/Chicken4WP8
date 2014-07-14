@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 using Caliburn.Micro;
 using Chicken4WP8.Common;
 using CoreTweet;
@@ -90,12 +92,12 @@ namespace Chicken4WP8.Controllers.Implemention.Base
 
         public string Source
         {
-            get { return TwitterHelper.ParseToSource(tweet.Source); }
+            get { return Const.ParseToSource(tweet.Source); }
         }
 
         public Uri SourceUrl
         {
-            get { return new Uri(TwitterHelper.ParseToSourceUrl(tweet.Source), UriKind.Absolute); }
+            get { return new Uri(Const.ParseToSourceUrl(tweet.Source), UriKind.Absolute); }
         }
 
         public long? InReplyToTweetId
@@ -123,15 +125,15 @@ namespace Chicken4WP8.Controllers.Implemention.Base
 
                 parsedEntities = new List<IEntity>();
                 if (Entities.HashTags != null && Entities.HashTags.Count != 0)
-                    parsedEntities.AddRange(Entities.HashTags);
+                    parsedEntities.AddRange(ParseHashTags(Text, Entities.HashTags));
                 if (Entities.Media != null && Entities.Media.Count != 0)
-                    parsedEntities.AddRange(Entities.Media);
+                    parsedEntities.AddRange(ParseMedias(Text, Entities.Media));
                 if (Entities.Symbols != null && Entities.Symbols.Count != 0)
-                    parsedEntities.AddRange(Entities.Symbols);
+                    parsedEntities.AddRange(ParseSymbols(Text, Entities.Symbols));
                 if (Entities.Urls != null && Entities.Urls.Count != 0)
-                    parsedEntities.AddRange(Entities.Urls);
+                    parsedEntities.AddRange(ParseUrls(Text, Entities.Urls));
                 if (Entities.UserMentions != null && Entities.UserMentions.Count != 0)
-                    parsedEntities.AddRange(Entities.UserMentions);
+                    parsedEntities.AddRange(ParseUserMentions(Text, Entities.UserMentions));
                 return parsedEntities;
             }
         }
@@ -176,6 +178,109 @@ namespace Chicken4WP8.Controllers.Implemention.Base
 
                 isTopBoundsVisible = value;
                 NotifyOfPropertyChange(() => IsTopBoundsVisible);
+            }
+        }
+        #endregion
+
+        #region parse entities
+        private static IEnumerable<IEntity> ParseUserMentions(string text, IList<IUserMentionEntity> mentions)
+        {
+            foreach (var mention in mentions.Distinct())
+            {
+                var matches = Regex.Matches(text, string.Format(Const.USERNAMEPATTERN, Regex.Escape(mention.DisplayText)), RegexOptions.IgnoreCase);
+                foreach (Match match in matches)
+                {
+                    var entity = new UserMentionEntity
+                    {
+                        Id = mention.Id,
+                        Name = mention.Name,
+                        ScreenName = mention.ScreenName,
+                        Indices = new int[] { match.Index, 0 }
+                    };
+                    var model = new UserMentionEntityModel(entity);
+                    yield return model;
+                }
+            }
+        }
+
+        private static IEnumerable<IEntity> ParseHashTags(string text, IList<ISymbolEntity> hashtags)
+        {
+            foreach (var hashtag in hashtags.Distinct())
+            {
+                var matches = Regex.Matches(text, string.Format(Const.HASHTAGPATTERN, Regex.Escape(hashtag.DisplayText)));
+                foreach (Match match in matches)
+                {
+                    var entity = new SymbolEntity
+                    {
+                        Text = hashtag.Text,
+                        Indices = new int[] { match.Index, 0 }
+                    };
+                    var model = new HashTagEntityModel(entity);
+                    yield return model;
+                }
+            }
+        }
+
+        private static IEnumerable<IEntity> ParseSymbols(string text, IList<ISymbolEntity> symbols)
+        {
+            foreach (var symbol in symbols.Distinct())
+            {
+                var matches = Regex.Matches(text, string.Format(Const.HASHTAGPATTERN, Regex.Escape(symbol.DisplayText)));
+                foreach (Match match in matches)
+                {
+                    var entity = new SymbolEntity
+                    {
+                        Text = symbol.Text,
+                        Indices = new int[] { match.Index, 0 }
+                    };
+                    var model = new SymbolEntityModel(entity);
+                    yield return model;
+                }
+            }
+        }
+
+        private static IEnumerable<IEntity> ParseUrls(string text, IList<IUrlEntity> urls)
+        {
+            foreach (var url in urls.Distinct())
+            {
+                var matches = Regex.Matches(text, string.Format(Const.URLPATTERN, Regex.Escape(url.Url.AbsoluteUri)));
+                foreach (Match match in matches)
+                {
+                    var entity = new UrlEntity
+                    {
+                        DisplayUrl = url.DisplayUrl,
+                        ExpandedUrl = url.ExpandedUrl,
+                        Url = url.Url,
+                        Indices = new int[] { match.Index, 0 }
+                    };
+                    var model = new UrlEntityModel(entity);
+                    yield return model;
+                }
+            }
+        }
+
+        private static IEnumerable<IEntity> ParseMedias(string text, IList<IMediaEntity> medias)
+        {
+            foreach (var media in medias)
+            {
+                var matches = Regex.Matches(text, string.Format(Const.URLPATTERN, Regex.Escape(media.Url.AbsoluteUri)));
+                foreach (Match match in matches)
+                {
+                    var entity = new MediaEntity
+                    {
+                        Id = media.Id,
+                        MediaUrl = media.MediaUrl,
+                        MediaUrlHttps = media.MediaUrlHttps,
+                        SourceStatusId = media.SourceStatusId,
+                        Type = media.Type,
+                        DisplayUrl = media.DisplayUrl,
+                        ExpandedUrl = media.ExpandedUrl,
+                        Url = media.Url,
+                        Indices = new int[] { match.Index, 0 }
+                    };
+                    var model = new MediaEntityModel(entity) { Sizes = media.Sizes };
+                    yield return model;
+                }
             }
         }
         #endregion

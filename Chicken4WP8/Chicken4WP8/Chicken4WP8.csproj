@@ -97,7 +97,6 @@
     <Compile Include="AutofacPhoneContainer.cs" />
     <Compile Include="ChickenBootstrapper.cs" />
     <Compile Include="Common\Const.cs" />
-    <Compile Include="Common\TwitterHelper.cs" />
     <Compile Include="Controllers\Implemention\Base\BaseControllerBase.cs" />
     <Compile Include="Controllers\Implemention\Base\BaseOAuthController.cs" />
     <Compile Include="Controllers\Implemention\Base\BaseStatusController.cs" />

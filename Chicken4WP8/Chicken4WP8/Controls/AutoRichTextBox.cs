@@ -62,16 +62,17 @@ namespace Chicken4WP8.Controls
             #region add entities
             int index = 0;
             var stringInfo = new StringInfo(Text);
-            foreach (var entity in Entities.OrderBy(v => v.Begin))
+            foreach (var entity in Entities.OrderBy(v => v.Index))
             {
                 #region starter
-                if (index < entity.Begin)
+                if (index < entity.Index)
                 {
                     var run = new Run
                     {
-                        Text = HttpUtility.HtmlDecode(stringInfo.s(index, entity.Begin - index))
+                        Text = HttpUtility.HtmlDecode(Text.Substring(index, entity.Index - index))
                     };
                     paragraph.Inlines.Add(run);
+                    index = entity.Index;
                 }
                 #endregion
                 #region entity
@@ -81,20 +82,11 @@ namespace Chicken4WP8.Controls
                 switch (entity.EntityType)
                 {
                     #region mention, hashtag,symbol
+                    case EntityType.HashTag:
+                    case EntityType.Symbol:
                     case EntityType.UserMention:
                         hyperlink.CommandParameter = entity;
-                        //hyperlink.Click += this.Hyperlink_Click;
-                        hyperlink.Inlines.Add("@" + (entity as IUserMentionEntity).ScreenName);
-                        break;
-                    case EntityType.HashTag:
-                        hyperlink.CommandParameter = entity;
-                        //hyperlink.Click += this.Hyperlink_Click;
-                        hyperlink.Inlines.Add("#" + (entity as ISymbolEntity).Text);
-                        break;
-                    case EntityType.Symbol:
-                        hyperlink.CommandParameter = entity;
-                        //hyperlink.Click += this.Hyperlink_Click;
-                        hyperlink.Inlines.Add("$" + (entity as ISymbolEntity).Text);
+                        hyperlink.Inlines.Add(entity.DisplayText);
                         break;
                     #endregion
                     #region media, url
@@ -113,7 +105,7 @@ namespace Chicken4WP8.Controls
                     #endregion
                 }
                 paragraph.Inlines.Add(hyperlink);
-                index = entity.End;
+                index += entity.DisplayText.Length;
                 #endregion
             }
             #region ender
