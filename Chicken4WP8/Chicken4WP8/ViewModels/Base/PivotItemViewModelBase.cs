@@ -22,7 +22,7 @@ namespace Chicken4WP8.ViewModels.Base
         /// </summary>
         private ViewportControl container;
 
-        public ILanguageHelper LanguageHelper;
+        public ILanguageHelper LanguageHelper { get; set; }
         public IProgressService ProgressService { get; set; }
         public INavigationService NavigationService { get; set; }
 
