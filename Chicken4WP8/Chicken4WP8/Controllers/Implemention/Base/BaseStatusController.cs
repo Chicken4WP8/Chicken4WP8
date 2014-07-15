@@ -19,5 +19,15 @@ namespace Chicken4WP8.Controllers.Implemention.Base
                     list.Add(new TweetModel(tweet));
             return list;
         }
+
+        public async Task<IEnumerable<ITweetModel>> MentionsTimelineAsync(IDictionary<string, object> parameters = null)
+        {
+            var tweets = await tokens.Statuses.MentionsTimelineAsync(parameters);
+            var list = new List<ITweetModel>(tweets.Count);
+            if (tweets != null)
+                foreach (var tweet in tweets)
+                    list.Add(new TweetModel(tweet));
+            return list;
+        }
     }
 }

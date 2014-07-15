@@ -22,12 +22,14 @@ namespace Chicken4WP8.ViewModels.Base
         /// </summary>
         private ViewportControl container;
 
+        public ILanguageHelper LanguageHelper;
         public IProgressService ProgressService { get; set; }
-        public ILanguageHelper LanguageHelper { get; set; }
         public INavigationService NavigationService { get; set; }
 
-        protected PivotItemViewModelBase()
+        protected PivotItemViewModelBase(ILanguageHelper languageHelper)
         {
+            LanguageHelper = languageHelper;
+            SetLanguage();
         }
 
         private bool isLoading;

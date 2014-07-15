@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Chicken4WP8.Common;
 using Chicken4WP8.Controllers;
+using Chicken4WP8.Services.Interface;
 
 namespace Chicken4WP8.ViewModels.Base
 {
@@ -17,7 +18,8 @@ namespace Chicken4WP8.ViewModels.Base
         private List<ITweetModel> loadedItemsCache = new List<ITweetModel>();
         #endregion
 
-        public TweetPivotItemViewModelBase()
+        public TweetPivotItemViewModelBase(ILanguageHelper languageHelper)
+            : base(languageHelper)
         { }
 
         protected override async void OnInitialize()

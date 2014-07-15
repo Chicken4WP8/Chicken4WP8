@@ -15,14 +15,16 @@ namespace Chicken4WP8.ViewModels.Home
     public class IndexViewModel : TweetPivotItemViewModelBase
     {
         #region properties
-        private IStatusController statusController;
-        private IUserController userController;
+        protected IStatusController statusController;
+        protected IUserController userController;
 
         public IImageCacheService ImageCacheService { get; set; }
 
         public IndexViewModel(
+            ILanguageHelper languageHelper,
             IEnumerable<Lazy<IStatusController, OAuthTypeMetadata>> statusControllers,
             IEnumerable<Lazy<IUserController, OAuthTypeMetadata>> userControllers)
+            : base(languageHelper)
         {
             statusController = statusControllers.Single(c => c.Metadata.OAuthType == App.UserSetting.OAuthSetting.OAuthSettingType).Value;
             userController = userControllers.Single(c => c.Metadata.OAuthType == App.UserSetting.OAuthSetting.OAuthSettingType).Value;

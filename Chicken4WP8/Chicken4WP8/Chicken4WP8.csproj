@@ -146,6 +146,7 @@
     <Compile Include="ViewModels\Home\HomePageViewModel.cs" />
     <Compile Include="ViewModels\Home\IndexViewModel.cs" />
     <Compile Include="ViewModels\Base\PivotItemViewModelBase.cs" />
+    <Compile Include="ViewModels\Home\MentionViewModel.cs" />
     <Compile Include="ViewModels\Setting\OAuthSettingPageViewModel.cs" />
     <Compile Include="ViewModels\Setting\Proxies\BaseOAuthSettingPageViewModel.cs" />
     <Compile Include="ViewModels\Setting\Proxies\TwipOAuthSettingPageViewModel.cs" />
@@ -336,6 +337,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Home\IndexView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Home\MentionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -115,6 +115,15 @@ namespace Chicken4WP8.Resources {
         }
         
         /// <summary>
+        ///   查找类似 Mentions 的本地化字符串。
+        /// </summary>
+        public static string MentionViewModel_Header {
+            get {
+                return ResourceManager.GetString("MentionViewModel_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 OAuth Setting 的本地化字符串。
         /// </summary>
         public static string OAuthSettingPageView_OAuthSettingTitle {
