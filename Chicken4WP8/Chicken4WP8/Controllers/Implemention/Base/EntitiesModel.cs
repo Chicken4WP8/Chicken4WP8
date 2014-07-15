@@ -100,16 +100,6 @@ namespace Chicken4WP8.Controllers.Implemention.Base
 
         public abstract EntityType EntityType { get; }
         public abstract string DisplayText { get; }
-
-        public bool Equals(IEntity other)
-        {
-            return this.GetHashCode() == other.GetHashCode();
-        }
-
-        public override int GetHashCode()
-        {
-            return DisplayText.GetHashCode();
-        }
     }
 
     public class SymbolEntityModel : EntityModel, ISymbolEntity

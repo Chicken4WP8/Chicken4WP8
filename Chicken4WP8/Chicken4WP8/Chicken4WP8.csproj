@@ -101,6 +101,7 @@
     <Compile Include="Controllers\Implemention\Base\BaseOAuthController.cs" />
     <Compile Include="Controllers\Implemention\Base\BaseStatusController.cs" />
     <Compile Include="Controllers\Implemention\Base\BaseUserController.cs" />
+    <Compile Include="Controllers\Implemention\Base\Utils.cs" />
     <Compile Include="Controllers\Implemention\ControllerBase.cs" />
     <Compile Include="Controllers\Implemention\Twip\TwipOAuthController.cs" />
     <Compile Include="Controllers\Interface\IOAuthController.cs" />

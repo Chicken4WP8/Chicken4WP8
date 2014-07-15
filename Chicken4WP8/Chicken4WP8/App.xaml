@@ -309,11 +309,13 @@
                         cal:Message.Attach="[Event Click] =[Action LoadMoreTweetsButtonClick($dataContext, $eventArgs)]">
                     <Button.Template>
                         <ControlTemplate>
-                            <Grid>
-                                <Grid.Resources>
-                                    <Style TargetType="TextBlock" BasedOn="{StaticResource TextSmall}" />
-                                </Grid.Resources>
+                            <Grid Margin="0">
                                 <Border BorderThickness="1" BorderBrush="Gray" Margin="1">
+                                    <Border.Resources>
+                                        <Style TargetType="TextBlock" BasedOn="{StaticResource TextSmall}">
+                                            <Setter Property="FontWeight" Value="Light" />
+                                        </Style>
+                                    </Border.Resources>
                                     <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                                 </Border>
                             </Grid>

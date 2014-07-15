@@ -37,22 +37,23 @@ namespace Chicken4WP8.ViewModels.Home
 
         protected override async Task RealizeItem(ITweetModel item)
         {
-            if (item.User.ImageSource != null)
+            var user = item.RetweetedStatus == null ? item.User : item.RetweetedStatus.User;
+            if (user.ImageSource != null)
             {
                 //Debug.WriteLine("user {0} 's avatar already realized, image url is: {1}", item.User.ScreenName, item.User.ProfileImageUrl);
                 return;
             }
             //get cached profile image
-            var data = ImageCacheService.GetCachedProfileImage(item.User);
+            var data = ImageCacheService.GetCachedProfileImage(user);
             if (data == null)
             {
                 //Debug.WriteLine("user {0} 's avatar '{1}' has not been cached, download it from internet", item.User.ScreenName, item.User.ProfileImageUrl);
-                data = await userController.DownloadProfileImageAsync(item.User);
+                data = await userController.DownloadProfileImageAsync(user);
                 //Debug.WriteLine("add user {0} 's  avatar {1}  (data length : {2}) to cache", item.User.ScreenName, item.User.ProfileImageUrl, data.Length);
-                ImageCacheService.AddProfileImageToCache(item.User, data);
+                ImageCacheService.AddProfileImageToCache(user, data);
             }
             //Debug.WriteLine("set user {0} 's avatar {1}", item.User.ScreenName, item.User.ProfileImageUrl);
-            await userController.SetProfileImageAsync(item.User, data);
+            await userController.SetProfileImageAsync(user, data);
         }
 
         protected override async Task<IList<ITweetModel>> LoadDataFromWeb(IDictionary<string, object> options)

@@ -12,7 +12,7 @@ namespace Chicken4WP8.Controllers
         IList<IUserMentionEntity> UserMentions { get; set; }
     }
 
-    public interface IEntity : IEquatable<IEntity>
+    public interface IEntity
     {
         EntityType EntityType { get; }
         int Index { get; set; }
