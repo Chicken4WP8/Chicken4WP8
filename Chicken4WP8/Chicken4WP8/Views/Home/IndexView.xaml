@@ -21,7 +21,7 @@
                                    [Event ItemUnrealized] = [Action ItemUnrealized($source, $eventArgs)]">
         </toolkits:LongListSelector>
 
-        <appBar:BindableAppBar Opacity="0.8">
+        <appBar:BindableAppBar>
             <appBar:BindableAppBarButton x:Name="AppBar_Next"
                                          Text="Next" IconUri="/Images/dark/appbar.check.png" />
         </appBar:BindableAppBar>

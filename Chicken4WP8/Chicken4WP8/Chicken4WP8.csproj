@@ -253,7 +253,7 @@
     <Content Include="Images\light\private.png" />
     <Content Include="Images\light\retweet.png" />
     <Content Include="Images\light\verified.png" />
-    <Content Include="Images\SplashScreenImage.jpg" />
+    <Content Include="Images\SplashScreenImage.png" />
     <Content Include="Libs\ICSharpCode.SharpZLib.Phone.dll" />
     <Content Include="Libs\ImageTools.Controls.dll" />
     <Content Include="Libs\ImageTools.dll" />

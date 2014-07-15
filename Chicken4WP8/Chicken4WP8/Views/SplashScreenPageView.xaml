@@ -15,10 +15,17 @@
 
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="173" />
+            <RowDefinition Height="3*" />
         </Grid.RowDefinitions>
-        <Image Grid.Row="0"
-               Source="/Images/SplashScreenImage.jpg" Stretch="Fill" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="173" />
+            <ColumnDefinition Width="3*" />
+        </Grid.ColumnDefinitions>
+        <Image Grid.Row="1" Grid.Column="1"
+               Source="/Images/SplashScreenImage.png" Stretch="Fill" />
     </Grid>
 
 </phone:PhoneApplicationPage>
