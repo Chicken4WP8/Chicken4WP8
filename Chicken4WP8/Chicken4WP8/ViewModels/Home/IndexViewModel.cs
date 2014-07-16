@@ -7,6 +7,7 @@ using Chicken4WP8.Common;
 using Chicken4WP8.Controllers;
 using Chicken4WP8.Controllers.Interface;
 using Chicken4WP8.Models.Setting;
+using Chicken4WP8.Services.Implemention;
 using Chicken4WP8.Services.Interface;
 using Chicken4WP8.ViewModels.Base;
 
@@ -18,7 +19,7 @@ namespace Chicken4WP8.ViewModels.Home
         protected IStatusController statusController;
         protected IUserController userController;
 
-        public IImageCacheService ImageCacheService { get; set; }
+        //public IImageCacheService ImageCacheService { get; set; }
 
         public IndexViewModel(
             ILanguageHelper languageHelper,
@@ -41,20 +42,13 @@ namespace Chicken4WP8.ViewModels.Home
         {
             var user = item.RetweetedStatus == null ? item.User : item.RetweetedStatus.User;
             if (user.ImageSource != null)
-            {
-                //Debug.WriteLine("user {0} 's avatar already realized, image url is: {1}", item.User.ScreenName, item.User.ProfileImageUrl);
                 return;
-            }
-            //get cached profile image
-            var data = ImageCacheService.GetCachedProfileImage(user);
+            var data = StorageService.GetCachedImage(user.Id.Value + user.ProfileImageUrl);
             if (data == null)
             {
-                //Debug.WriteLine("user {0} 's avatar '{1}' has not been cached, download it from internet", item.User.ScreenName, item.User.ProfileImageUrl);
                 data = await userController.DownloadProfileImageAsync(user);
-                //Debug.WriteLine("add user {0} 's  avatar {1}  (data length : {2}) to cache", item.User.ScreenName, item.User.ProfileImageUrl, data.Length);
-                ImageCacheService.AddProfileImageToCache(user, data);
+                StorageService.AddOrUpdateImageCache(user.Id.Value + user.ProfileImageUrl, data);
             }
-            //Debug.WriteLine("set user {0} 's avatar {1}", item.User.ScreenName, item.User.ProfileImageUrl);
             await userController.SetProfileImageAsync(user, data);
         }
 

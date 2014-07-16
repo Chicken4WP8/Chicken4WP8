@@ -71,14 +71,14 @@ namespace Chicken4WP8.Controllers.Implemention.Base
             get { return user.IsTranslator; }
         }
 
-        public Uri ProfileImageUrl
+        public string ProfileImageUrl
         {
-            get { return user.ProfileImageUrl; }
-        }
-
-        public Uri ProfileImageUrlHttps
-        {
-            get { return user.ProfileImageUrlHttps; }
+            get
+            {
+                if (user.ProfileImageUrl != null)
+                    return user.ProfileImageUrl.AbsoluteUri.Replace("_normal", "_bigger");
+                return string.Empty;
+            }
         }
 
         private ImageSource profileImage;
@@ -91,5 +91,6 @@ namespace Chicken4WP8.Controllers.Implemention.Base
                 NotifyOfPropertyChange(() => ImageSource);
             }
         }
+
     }
 }

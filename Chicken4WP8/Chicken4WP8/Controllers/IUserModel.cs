@@ -15,7 +15,9 @@ namespace Chicken4WP8.Controllers
         bool IsVerified { get; }
         bool IsPrivate { get; }
         bool IsTranslator { get; }
-        Uri ProfileImageUrl { get; }
-        Uri ProfileImageUrlHttps { get; }
+        /// <summary>
+        /// default, use bigger avatar
+        /// </summary>
+        string ProfileImageUrl { get; }
     }
 }

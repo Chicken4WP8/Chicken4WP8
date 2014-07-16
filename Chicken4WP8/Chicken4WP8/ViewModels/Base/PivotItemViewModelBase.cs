@@ -25,6 +25,7 @@ namespace Chicken4WP8.ViewModels.Base
         public ILanguageHelper LanguageHelper { get; set; }
         public IProgressService ProgressService { get; set; }
         public INavigationService NavigationService { get; set; }
+        public IStorageService StorageService { get; set; }
 
         protected PivotItemViewModelBase(ILanguageHelper languageHelper)
         {

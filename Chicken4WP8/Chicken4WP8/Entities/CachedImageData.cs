@@ -9,14 +9,6 @@ namespace Chicken4WP8.Entities
         public long PrimaryKey { get; set; }
 
         [Column]
-        public string Key { get; set; }
-
-        /// <summary>
-        /// when user updated profile image,
-        /// the ImageUrl changed,
-        /// but userId not.
-        /// </summary>
-        [Column]
         public string Id { get; set; }
 
         [Column(DbType = "image", UpdateCheck = UpdateCheck.Never)]
