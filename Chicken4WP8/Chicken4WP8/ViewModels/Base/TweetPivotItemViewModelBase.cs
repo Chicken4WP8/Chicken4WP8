@@ -39,7 +39,7 @@ namespace Chicken4WP8.ViewModels.Base
         private async Task InitLoadDataFromWeb()
         {
             var options = Const.GetDictionary();
-            options.Add(Const.COUNT, ITEMSPERPAGE);
+            options.Add(Const.COUNT, 20);
             var fetchedList = await LoadDataFromWeb(options);
             if (fetchedList != null && fetchedList.Count != 0)
             {
