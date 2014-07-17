@@ -6,26 +6,28 @@ namespace Chicken4WP8.Controllers
 {
     public interface ITweetModel : INotifyPropertyChanged
     {
-        long? Id { get; }
-        DateTime CreatedAt { get; }
-        IUserModel User { get; }
-        string Text { get; }
-        bool IncludeMedia { get; }
-        IEntities Entities { get; }
-        bool? IsRetweeted { get; }
-        bool? IsFavorited { get; }
-        int? RetweetCount { get; }
-        ITweetModel RetweetedStatus { get; }
-        int? FavoriteCount { get; }
-        string Source { get; }
-        Uri SourceUrl { get; }
-        long? InReplyToTweetId { get; }
+        long Id { get; set; }
+        DateTime CreatedAt { get; set; }
+        IUserModel User { get; set; }
+        string Text { get; set; }
+        IEntities Entities { get; set; }
+        bool? IsRetweeted { get; set; }
+        bool? IsFavorited { get; set; }
+        int? RetweetCount { get; set; }
+        ITweetModel RetweetedStatus { get; set; }
+        int? FavoriteCount { get; set; }
+        string Source { get; set; }
+        Uri SourceUrl { get; set; }
+        long? InReplyToTweetId { get; set; }
+        ICoordinates Coordinates { get; set; }
+
+        #region for template
         bool IncludeCoordinates { get; }
-        ICoordinates Coordinates { get; }
+
+        bool IncludeMedia { get; }
 
         List<IEntity> ParsedEntities { get; }
 
-        #region for template
         /// <summary>
         ///show retweet count, favorite count and location panel
         /// </summary>

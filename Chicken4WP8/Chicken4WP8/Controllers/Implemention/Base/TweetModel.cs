@@ -16,6 +16,11 @@ namespace Chicken4WP8.Controllers.Implemention.Base
         private ICoordinates coordinates;
         #endregion
 
+        public TweetModel()
+        {
+            this.tweet = new Status();
+        }
+
         public TweetModel(Status tweet)
         {
             this.tweet = tweet;
@@ -28,26 +33,103 @@ namespace Chicken4WP8.Controllers.Implemention.Base
                 this.coordinates = new CoordinatesModel(tweet.Coordinates);
         }
 
-        public long? Id
+        public long Id
         {
             get { return tweet.Id; }
+            set { tweet.Id = value; }
         }
 
         public DateTime CreatedAt
         {
             get { return tweet.CreatedAt.LocalDateTime; }
+            set { tweet.CreatedAt = new DateTimeOffset(value); }
         }
 
         public IUserModel User
         {
             get { return this.user; }
+            set { this.user = value; }
         }
 
         public string Text
         {
             get { return tweet.Text; }
+            set { tweet.Text = value; }
         }
 
+        public IEntities Entities
+        {
+            get { return entities; }
+            set { entities = value; }
+        }
+
+        public bool? IsRetweeted
+        {
+            get { return tweet.IsRetweeted; }
+            set { tweet.IsRetweeted = value; }
+        }
+
+        public bool? IsFavorited
+        {
+            get { return tweet.IsFavorited; }
+            set { tweet.IsFavorited = value; }
+        }
+
+        public int? RetweetCount
+        {
+            get { return tweet.RetweetCount; }
+            set { tweet.RetweetCount = value; }
+        }
+
+        public ITweetModel RetweetedStatus
+        {
+            get { return retweetedStatus; }
+            set { retweetedStatus = value; }
+        }
+
+        public int? FavoriteCount
+        {
+            get { return tweet.FavoriteCount; }
+            set { tweet.FavoriteCount = value; }
+        }
+
+        private string source;
+        public string Source
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(source))
+                    source = Const.ParseToSource(tweet.Source);
+                return source;
+            }
+            set { source = value; }
+        }
+
+        private Uri sourceUrl;
+        public Uri SourceUrl
+        {
+            get
+            {
+                if (sourceUrl == null)
+                    sourceUrl = new Uri(Const.ParseToSourceUrl(tweet.Source), UriKind.Absolute);
+                return sourceUrl;
+            }
+            set { sourceUrl = value; }
+        }
+
+        public long? InReplyToTweetId
+        {
+            get { return tweet.InReplyToStatusId; }
+            set { tweet.InReplyToStatusId = value; }
+        }
+
+        public ICoordinates Coordinates
+        {
+            get { return coordinates; }
+            set { coordinates = value; }
+        }
+
+        #region for template
         public bool IncludeMedia
         {
             get
@@ -58,59 +140,9 @@ namespace Chicken4WP8.Controllers.Implemention.Base
             }
         }
 
-        public IEntities Entities
-        {
-            get { return entities; }
-        }
-
-        public bool? IsRetweeted
-        {
-            get { return tweet.IsRetweeted; }
-        }
-
-        public bool? IsFavorited
-        {
-            get { return tweet.IsFavorited; }
-        }
-
-        public int? RetweetCount
-        {
-            get { return tweet.RetweetCount; }
-        }
-
-        public ITweetModel RetweetedStatus
-        {
-            get { return retweetedStatus; }
-        }
-
-        public int? FavoriteCount
-        {
-            get { return tweet.FavoriteCount; }
-        }
-
-        public string Source
-        {
-            get { return Const.ParseToSource(tweet.Source); }
-        }
-
-        public Uri SourceUrl
-        {
-            get { return new Uri(Const.ParseToSourceUrl(tweet.Source), UriKind.Absolute); }
-        }
-
-        public long? InReplyToTweetId
-        {
-            get { return tweet.InReplyToStatusId; }
-        }
-
         public bool IncludeCoordinates
         {
-            get { return tweet.Coordinates != null; }
-        }
-
-        public ICoordinates Coordinates
-        {
-            get { return coordinates; }
+            get { return coordinates != null; }
         }
 
         private List<IEntity> parsedEntities;
@@ -136,7 +168,6 @@ namespace Chicken4WP8.Controllers.Implemention.Base
             }
         }
 
-        #region for template
         /// <summary>
         ///show retweet count, favorite count and location panel
         /// </summary>
