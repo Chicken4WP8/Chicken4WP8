@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Documents;
 using Caliburn.Micro;
+using Chicken4WP8.Controllers;
+using Chicken4WP8.Controls;
 using Chicken4WP8.Services.Interface;
 using Microsoft.Phone.Controls;
 
@@ -171,6 +174,17 @@ namespace Chicken4WP8.ViewModels.Base
             //navigationService.UriFor<StatusPageViewModel>()
             //    .WithParam(o => o.Random, DateTime.Now.Ticks.ToString("x"))
             //    .Navigate();
+        }
+
+        public virtual void AutoRichTextBoxLoaded(object sender, RoutedEventArgs e)
+        {
+            var box = sender as AutoRichTextBox;
+            box.HyperlinkClick += (obj, args) =>
+            {
+                var hyperlink = sender as Hyperlink;
+                var entity = hyperlink.CommandParameter as IEntity;
+                //todo
+            };
         }
         #endregion
 

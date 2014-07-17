@@ -116,6 +116,7 @@ namespace Chicken4WP8.Controls
                     case EntityType.Symbol:
                     case EntityType.UserMention:
                         hyperlink.Click += HyperlinkClicked;
+                        hyperlink.CommandParameter = entity;
                         hyperlink.Inlines.Add(entity.DisplayText);
                         break;
                     #endregion

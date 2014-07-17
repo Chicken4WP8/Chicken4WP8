@@ -28,15 +28,6 @@ namespace Chicken4WP8.ViewModels.Status
             await HideProgressBar();
         }
 
-        public virtual void AutoRichTextBoxLoaded(object sender, RoutedEventArgs e)
-        {
-            var box = sender as AutoRichTextBox;
-            box.HyperlinkClick += (obj, args) =>
-            {
-
-            };
-        }
-
         protected override Task FetchMoreDataFromWeb()
         {
             throw new NotImplementedException();
