@@ -568,6 +568,9 @@
                 <Grid Grid.Row="1" Margin="4">
                     <!--text-->
                     <ctrls:AutoRichTextBox Style="{StaticResource TextContent}"
+                                           cal:Action.TargetWithoutContext="{Binding ElementName=LayoutRoot,Path=DataContext}"
+                                           cal:Message.Attach="[Event Loaded] = [AutoRichTextBoxLoaded($source, $eventArgs)]"
+                                           IsHyperlinkEnable="True"
                                            HorizontalAlignment="Stretch" TextAlignment="Left"
                                            Entities ="{Binding ParsedEntities}" Text="{Binding Text}">
                     </ctrls:AutoRichTextBox>
@@ -714,6 +717,9 @@
                 <Grid Grid.Row="1" Margin="4">
                     <!--text-->
                     <ctrls:AutoRichTextBox Style="{StaticResource TextContent}"
+                                           cal:Action.TargetWithoutContext="{Binding ElementName=LayoutRoot,Path=DataContext}"
+                                           cal:Message.Attach="[Event Loaded] = [AutoRichTextBoxLoaded($source, $eventArgs)]"
+                                           IsHyperlinkEnable="True"
                                            HorizontalAlignment="Stretch" TextAlignment="Left"
                                            Entities ="{Binding RetweetedStatus.ParsedEntities}" Text="{Binding RetweetedStatus.Text}">
                     </ctrls:AutoRichTextBox>

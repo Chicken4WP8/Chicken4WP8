@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.Windows;
 using Chicken4WP8.Controllers;
+using Chicken4WP8.Controls;
 using Chicken4WP8.Services.Interface;
 using Chicken4WP8.ViewModels.Base;
 
@@ -24,6 +26,15 @@ namespace Chicken4WP8.ViewModels.Status
             var tweet = StorageService.GetTempTweet();
             Items.Add(tweet);
             await HideProgressBar();
+        }
+
+        public virtual void AutoRichTextBoxLoaded(object sender, RoutedEventArgs e)
+        {
+            var box = sender as AutoRichTextBox;
+            box.HyperlinkClick += (obj, args) =>
+            {
+
+            };
         }
 
         protected override Task FetchMoreDataFromWeb()

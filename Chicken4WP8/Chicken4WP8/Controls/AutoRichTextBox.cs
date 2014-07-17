@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Windows;
@@ -36,6 +35,15 @@ namespace Chicken4WP8.Controls
         }
         #endregion
 
+        public static DependencyProperty IsHyperlinkEnableProperty =
+            DependencyProperty.Register("IsHyperlinkEnable", typeof(bool), typeof(AutoRichTextBox), null);
+
+        public bool IsHyperlinkEnable
+        {
+            get { return (bool)GetValue(IsHyperlinkEnableProperty); }
+            set { SetValue(IsHyperlinkEnableProperty, value); }
+        }
+
         private static void OnPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             var box = sender as AutoRichTextBox;
@@ -61,7 +69,6 @@ namespace Chicken4WP8.Controls
             #endregion
             #region add entities
             int index = 0;
-            var stringInfo = new StringInfo(Text);
             foreach (var entity in Entities.OrderBy(v => v.Index))
             {
                 #region starter
@@ -76,6 +83,29 @@ namespace Chicken4WP8.Controls
                 }
                 #endregion
                 #region entity
+                var inline = GetInline(entity);
+                paragraph.Inlines.Add(inline);
+                index += entity.DisplayText.Length;
+                #endregion
+            }
+            #region ender
+            if (index < Text.Length)
+            {
+                var run = new Run
+                {
+                    Text = HttpUtility.HtmlDecode(Text.Substring(index, Text.Length - index)),
+                };
+                paragraph.Inlines.Add(run);
+            }
+            #endregion
+            #endregion
+            this.Blocks.Add(paragraph);
+        }
+
+        private Inline GetInline(IEntity entity)
+        {
+            if (IsHyperlinkEnable)
+            {
                 var hyperlink = new Hyperlink();
                 hyperlink.TextDecorations = null;
                 hyperlink.Foreground = accentBrush;
@@ -85,7 +115,7 @@ namespace Chicken4WP8.Controls
                     case EntityType.HashTag:
                     case EntityType.Symbol:
                     case EntityType.UserMention:
-                        hyperlink.CommandParameter = entity;
+                        hyperlink.Click += HyperlinkClicked;
                         hyperlink.Inlines.Add(entity.DisplayText);
                         break;
                     #endregion
@@ -104,22 +134,40 @@ namespace Chicken4WP8.Controls
                         break;
                     #endregion
                 }
-                paragraph.Inlines.Add(hyperlink);
-                index += entity.DisplayText.Length;
+                return hyperlink;
+            }
+            var run = new Run();
+            run.Foreground = accentBrush;
+            switch (entity.EntityType)
+            {
+                #region mention, hashtag,symbol
+                case EntityType.HashTag:
+                case EntityType.Symbol:
+                case EntityType.UserMention:
+                    run.Text = entity.DisplayText;
+                    break;
+                #endregion
+                #region media, url
+                case EntityType.Media:
+                    var media = entity as IMediaEntity;
+                    run.Text = media.TruncatedUrl;
+                    break;
+                case EntityType.Url:
+                    var url = entity as IUrlEntity;
+                    run.Text = url.TruncatedUrl;
+                    break;
                 #endregion
             }
-            #region ender
-            if (index < Text.Length)
-            {
-                var run = new Run
-                {
-                    Text = HttpUtility.HtmlDecode(Text.Substring(index, Text.Length - index)),
-                };
-                paragraph.Inlines.Add(run);
-            }
-            #endregion
-            #endregion
-            this.Blocks.Add(paragraph);
+            run.Text = entity.DisplayText;
+            return run;
         }
+
+        private void HyperlinkClicked(object sender, RoutedEventArgs e)
+        {
+            if (IsHyperlinkEnable && HyperlinkClick != null)
+                HyperlinkClick(sender, e);
+        }
+
+        public event RoutedEventHandler HyperlinkClick;
     }
 }
