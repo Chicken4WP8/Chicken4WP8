@@ -147,6 +147,15 @@
   <data name="ProgressBar_Loading" xml:space="preserve">
     <value>Loading...</value>
   </data>
+  <data name="StatusDetailViewModel_Favorites" xml:space="preserve">
+    <value>FAVORITES</value>
+  </data>
+  <data name="StatusDetailViewModel_Location" xml:space="preserve">
+    <value>LOCATION</value>
+  </data>
+  <data name="StatusDetailViewModel_Retweets" xml:space="preserve">
+    <value>RETWEETS</value>
+  </data>
   <data name="Toast_Msg_HelloUser" xml:space="preserve">
     <value>Hello, {0}~</value>
   </data>

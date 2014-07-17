@@ -33,31 +33,22 @@ namespace Chicken4WP8.Controls
         }
     }
 
-    //public class StatusDetailTemplateSelector : TweetTemplateSelector
-    //{
-    //    private readonly IStorageService storageService;
+    public class StatusDetailTemplateSelector : StatusTemplateSelector
+    {
+        public DataTemplate StatusDetailTemplate { get; set; }
 
-    //    public DataTemplate StatusDetailTemplate { get; set; }
+        public DataTemplate RetweetDetailTemplate { get; set; }
 
-    //    public DataTemplate StatusRetweetDetailTemplate { get; set; }
-
-    //    public StatusDetailTemplateSelector()
-    //    {
-    //        var container = AppBootstrapper.Container;
-    //        this.storageService = container.GetInstance(typeof(IStorageService), null) as IStorageService;
-    //    }
-
-    //    protected override DataTemplate SelectTemplate(DependencyObject sender, object newValue)
-    //    {
-    //        Tweet tweet = newValue as Tweet;
-    //        var temp = storageService.GetTempTweet();
-    //        if (temp.Id == tweet.Id)
-    //        {
-    //            if (temp.RetweetStatus != null)
-    //                return StatusRetweetDetailTemplate;
-    //            return StatusDetailTemplate;
-    //        }
-    //        return base.SelectTemplate(sender, newValue);
-    //    }
-    //}
+        protected override DataTemplate SelectTemplate(DependencyObject sender, object newValue)
+        {
+            var tweet = newValue as ITweetModel;
+            if (tweet.IsStatusDetail)
+            {
+                if (tweet.RetweetedStatus != null)
+                    return RetweetDetailTemplate;
+                return StatusDetailTemplate;
+            }
+            return base.SelectTemplate(sender, newValue);
+        }
+    }
 }

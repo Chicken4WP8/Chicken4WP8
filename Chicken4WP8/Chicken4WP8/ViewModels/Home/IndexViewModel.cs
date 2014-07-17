@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Chicken4WP8.Common;
 using Chicken4WP8.Controllers;
 using Chicken4WP8.Controllers.Interface;
 using Chicken4WP8.Models.Setting;
@@ -18,8 +16,6 @@ namespace Chicken4WP8.ViewModels.Home
         #region properties
         protected IStatusController statusController;
         protected IUserController userController;
-
-        //public IImageCacheService ImageCacheService { get; set; }
 
         public IndexViewModel(
             ILanguageHelper languageHelper,

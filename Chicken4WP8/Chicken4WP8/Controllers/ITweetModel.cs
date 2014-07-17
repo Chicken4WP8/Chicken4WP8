@@ -44,7 +44,12 @@ namespace Chicken4WP8.Controllers
         /// <summary>
         /// show bottom bounds
         /// </summary>
-        bool IsBottomBoundsVisible { get; set; } 
+        bool IsBottomBoundsVisible { get; set; }
+
+        /// <summary>
+        /// whether the current model is in status detail page or not.
+        /// </summary>
+        bool IsStatusDetail { get; set; }
         #endregion
     }
 }

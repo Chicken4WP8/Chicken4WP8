@@ -1,4 +1,5 @@
-﻿using Chicken4WP8.Models.Setting;
+﻿using Chicken4WP8.Controllers;
+using Chicken4WP8.Models.Setting;
 
 namespace Chicken4WP8.Services.Interface
 {
@@ -10,8 +11,8 @@ namespace Chicken4WP8.Services.Interface
         string GetCurrentLanguage();
         void UpdateLanguage(string name);
 
-        //Tweet GetTempTweet();
-        //void UpdateTempTweet(Tweet tweet);
+        ITweetModel GetTempTweet();
+        void UpdateTempTweet(ITweetModel tweet);
 
         //User GetTempUser();
         //void UpdateTempUser(User user);

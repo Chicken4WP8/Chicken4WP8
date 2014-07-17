@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Chicken4WP8.Common;
+using Chicken4WP8.Controllers;
 using Chicken4WP8.Entities;
 using Chicken4WP8.Models.Setting;
 using Chicken4WP8.Services.Interface;
@@ -72,6 +73,19 @@ namespace Chicken4WP8.Services.Implemention
             setting.IsCurrentlyInUsed = true;
             setting.Name = name;
             context.SubmitChanges();
+        }
+
+        public ITweetModel GetTempTweet()
+        {
+            var entity = context.TempDatas.FirstOrDefault(t => t.Type == TempType.TweetDetail);
+            if (entity == null || entity.Data == null)
+                return null;
+            return JsonConvert.DeserializeObject<ITweetModel>(entity.Data, Const.JsonSettings);
+        }
+
+        public void UpdateTempTweet(ITweetModel tweet)
+        {
+            throw new System.NotImplementedException();
         }
 
         public byte[] GetCachedImage(string id)

@@ -178,6 +178,17 @@ namespace Chicken4WP8.Controllers.Implemention.Base
                 NotifyOfPropertyChange(() => IsTopBoundsVisible);
             }
         }
+
+        private bool isStatusDetail;
+        public bool IsStatusDetail
+        {
+            get { return isStatusDetail; }
+            set
+            {
+                isStatusDetail = value;
+                NotifyOfPropertyChange(() => IsStatusDetail);
+            }
+        }
         #endregion
     }
 }

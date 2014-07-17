@@ -12,18 +12,17 @@ namespace Chicken4WP8.Entities
 
         public Table<Setting> Settings
         {
-            get
-            {
-                return this.GetTable<Setting>();
-            }
+            get { return this.GetTable<Setting>(); }
+        }
+
+        public Table<TempData> TempDatas
+        {
+            get { return this.GetTable<TempData>(); }
         }
 
         public Table<CachedImage> CachedImages
         {
-            get
-            {
-                return this.GetTable<CachedImage>();
-            }
+            get { return this.GetTable<CachedImage>(); }
         }
     }
 }

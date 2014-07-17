@@ -119,6 +119,7 @@
     <Compile Include="Controllers\IEntities.cs" />
     <Compile Include="Controllers\ITweetModel.cs" />
     <Compile Include="Controllers\IUserModel.cs" />
+    <Compile Include="Entities\TempData.cs" />
     <Compile Include="Models\Setting\OAuthSessionModel.cs" />
     <Compile Include="Models\Setting\OAuthSetting.cs" />
     <Compile Include="Models\Setting\UserSetting.cs" />
@@ -151,6 +152,8 @@
     <Compile Include="ViewModels\Setting\SettingPageViewModel.cs" />
     <Compile Include="ViewModels\SplashScreenPageViewModel.cs" />
     <Compile Include="ViewModels\Base\PageViewModelBase.cs" />
+    <Compile Include="ViewModels\Status\StatusDetailViewModel.cs" />
+    <Compile Include="ViewModels\Status\StatusPageViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

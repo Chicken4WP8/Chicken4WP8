@@ -151,6 +151,33 @@ namespace Chicken4WP8.Resources {
         }
         
         /// <summary>
+        ///   查找类似 FAVORITES 的本地化字符串。
+        /// </summary>
+        public static string StatusDetailViewModel_Favorites {
+            get {
+                return ResourceManager.GetString("StatusDetailViewModel_Favorites", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 LOCATION 的本地化字符串。
+        /// </summary>
+        public static string StatusDetailViewModel_Location {
+            get {
+                return ResourceManager.GetString("StatusDetailViewModel_Location", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 RETWEETS 的本地化字符串。
+        /// </summary>
+        public static string StatusDetailViewModel_Retweets {
+            get {
+                return ResourceManager.GetString("StatusDetailViewModel_Retweets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Hello, {0}~ 的本地化字符串。
         /// </summary>
         public static string Toast_Msg_HelloUser {
