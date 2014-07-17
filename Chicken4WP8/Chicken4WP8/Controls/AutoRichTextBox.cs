@@ -158,7 +158,6 @@ namespace Chicken4WP8.Controls
                     break;
                 #endregion
             }
-            run.Text = entity.DisplayText;
             return run;
         }
 
