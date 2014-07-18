@@ -5,11 +5,11 @@ namespace Chicken4WP8.Controllers
 {
     public interface IEntities
     {
-        IList<ISymbolEntity> HashTags { get; set; }
-        IList<IMediaEntity> Media { get; set; }
-        IList<ISymbolEntity> Symbols { get; set; }
-        IList<IUrlEntity> Urls { get; set; }
-        IList<IUserMentionEntity> UserMentions { get; set; }
+        List<ISymbolEntity> HashTags { get; set; }
+        List<IMediaEntity> Media { get; set; }
+        List<ISymbolEntity> Symbols { get; set; }
+        List<IUrlEntity> Urls { get; set; }
+        List<IUserMentionEntity> UserMentions { get; set; }
     }
 
     public interface IEntity
@@ -48,24 +48,8 @@ namespace Chicken4WP8.Controllers
         long Id { get; set; }
         Uri MediaUrl { get; set; }
         Uri MediaUrlHttps { get; set; }
-        IMediaSizes Sizes { get; set; }
         long? SourceStatusId { get; set; }
         string Type { get; set; }
-    }
-
-    public interface IMediaSizes
-    {
-        IMediaSize Large { get; set; }
-        IMediaSize Medium { get; set; }
-        IMediaSize Small { get; set; }
-        IMediaSize Thumb { get; set; }
-    }
-
-    public interface IMediaSize
-    {
-        int Height { get; set; }
-        string Resize { get; set; }
-        int Width { get; set; }
     }
     #endregion
 

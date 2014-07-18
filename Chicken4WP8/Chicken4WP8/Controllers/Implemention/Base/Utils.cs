@@ -104,7 +104,7 @@ namespace Chicken4WP8.Controllers.Implemention.Base
                         Url = media.Url,
                         Indices = new int[] { match.Index, 0 }
                     };
-                    var model = new MediaEntityModel(entity) { Sizes = media.Sizes };
+                    var model = new MediaEntityModel(entity);
                     yield return model;
                 }
             }

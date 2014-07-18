@@ -6,84 +6,41 @@ using Newtonsoft.Json;
 
 namespace Chicken4WP8.Controllers.Implemention.Base
 {
-    public class UserModel : PropertyChangedBase, IUserModel, IImageSource
+    public class UserModel : PropertyChangedBase, IUserModel
     {
-        #region private
-        private User user;
-        #endregion
+        public UserModel()
+        { }
 
         public UserModel(User user)
         {
-            this.user = user;
+            Id = user.Id;
+            Name = user.Name;
+            ScreenName = user.ScreenName;
+            Description = user.Description;
+            CreatedAt = user.CreatedAt.LocalDateTime;
+            Location = user.Location;
+            IsVerified = user.IsVerified;
+            IsPrivate = user.IsProtected;
+            IsTranslator = user.IsTranslator;
+            if (user.ProfileImageUrl != null)
+                ProfileImageUrl = user.ProfileImageUrl.AbsoluteUri.Replace("_normal", "_bigger");
         }
 
-        public User User
-        {
-            get { return user; }
-        }
-
-        public long? Id
-        {
-            get { return user.Id; }
-        }
-
-        public string Name
-        {
-            get { return user.Name; }
-        }
-
-        public string ScreenName
-        {
-            get { return user.ScreenName; }
-        }
-
-        public string Description
-        {
-            get { return user.Description; }
-        }
-
-        public DateTime CreatedAt
-        {
-            get { return user.CreatedAt.LocalDateTime; }
-        }
-
-        public string Location
-        {
-            get { return user.Location; }
-        }
-
-        public bool IsFollowing
-        {
-            get { return false; }
-        }
-
-        public bool IsVerified
-        {
-            get { return user.IsVerified; }
-        }
-
-        public bool IsPrivate
-        {
-            get { return user.IsProtected; }
-        }
-
-        public bool IsTranslator
-        {
-            get { return user.IsTranslator; }
-        }
-
-        public string ProfileImageUrl
-        {
-            get
-            {
-                if (user.ProfileImageUrl != null)
-                    return user.ProfileImageUrl.AbsoluteUri.Replace("_normal", "_bigger");
-                return string.Empty;
-            }
-        }
-
+        public long? Id { get; set; }
+        public string Name { get; set; }
+        public string ScreenName { get; set; }
+        public string Description { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public string Location { get; set; }
+        public bool IsFollowing { get; set; }
+        public bool IsVerified { get; set; }
+        public bool IsPrivate { get; set; }
+        public bool IsTranslator { get; set; }
+        /// <summary>
+        /// default, use bigger avatar
+        /// </summary>
+        public string ProfileImageUrl { get; set; }
         private ImageSource profileImage;
-
         [JsonIgnore]
         public ImageSource ImageSource
         {

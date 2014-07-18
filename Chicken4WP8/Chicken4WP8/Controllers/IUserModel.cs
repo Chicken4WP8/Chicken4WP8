@@ -5,19 +5,19 @@ namespace Chicken4WP8.Controllers
 {
     public interface IUserModel : IImageSource, INotifyPropertyChanged
     {
-        long? Id { get; }
-        string Name { get; }
-        string ScreenName { get; }
-        string Description { get; }
-        DateTime CreatedAt { get; }
-        string Location { get; }
-        bool IsFollowing { get; }
-        bool IsVerified { get; }
-        bool IsPrivate { get; }
-        bool IsTranslator { get; }
+        long? Id { get; set; }
+        string Name { get; set; }
+        string ScreenName { get; set; }
+        string Description { get; set; }
+        DateTime CreatedAt { get; set; }
+        string Location { get; set; }
+        bool IsFollowing { get; set; }
+        bool IsVerified { get; set; }
+        bool IsPrivate { get; set; }
+        bool IsTranslator { get; set; }
         /// <summary>
         /// default, use bigger avatar
         /// </summary>
-        string ProfileImageUrl { get; }
+        string ProfileImageUrl { get; set; }
     }
 }
