@@ -56,6 +56,14 @@ namespace Chicken4WP8.Controllers.Implemention.Base
 
     public abstract class EntityModel : PropertyChangedBase, IEntity
     {
+        public EntityModel()
+        { }
+
+        public EntityModel(Entity entity)
+        {
+            Index = entity.Indices[0];
+        }
+
         public int Index { get; set; }
         public abstract EntityType EntityType { get; }
         public abstract string DisplayText { get; }
@@ -67,6 +75,7 @@ namespace Chicken4WP8.Controllers.Implemention.Base
         { }
 
         public SymbolEntityModel(SymbolEntity entity)
+            : base(entity)
         {
             Text = entity.Text;
         }
@@ -107,6 +116,7 @@ namespace Chicken4WP8.Controllers.Implemention.Base
         { }
 
         public UrlEntityModel(UrlEntity entity)
+            : base(entity)
         {
             DisplayUrl = entity.DisplayUrl;
             int index = DisplayUrl.IndexOf("/");
@@ -169,6 +179,7 @@ namespace Chicken4WP8.Controllers.Implemention.Base
         { }
 
         public UserMentionEntityModel(UserMentionEntity entity)
+            : base(entity)
         {
             Id = entity.Id;
             Name = entity.Name;

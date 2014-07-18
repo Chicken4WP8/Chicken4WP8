@@ -22,7 +22,8 @@ namespace Chicken4WP8.Controllers.Implemention.Base
             IsRetweeted = tweet.IsRetweeted;
             IsFavorited = tweet.IsFavorited;
             RetweetCount = tweet.RetweetCount;
-            RetweetedStatus = new TweetModel(tweet.RetweetedStatus);
+            if (tweet.RetweetedStatus != null)
+                RetweetedStatus = new TweetModel(tweet.RetweetedStatus);
             FavoriteCount = tweet.FavoriteCount;
             if (!string.IsNullOrEmpty(tweet.Source))
             {
@@ -30,7 +31,8 @@ namespace Chicken4WP8.Controllers.Implemention.Base
                 SourceUrl = new Uri(Const.ParseToSourceUrl(tweet.Source), UriKind.Absolute);
             }
             InReplyToTweetId = tweet.InReplyToStatusId;
-            Coordinates = new CoordinatesModel(tweet.Coordinates);
+            if (tweet.Coordinates != null)
+                Coordinates = new CoordinatesModel(tweet.Coordinates);
         }
 
         public long Id { get; set; }

@@ -570,7 +570,7 @@
                     <ctrls:AutoRichTextBox Style="{StaticResource TextContent}"
                                            cal:Action.TargetWithoutContext="{Binding ElementName=LayoutRoot,Path=DataContext}"
                                            cal:Message.Attach="[Event Loaded] = [AutoRichTextBoxLoaded($source, $eventArgs)]"
-                                           IsHyperlinkEnable="True"
+                                           IsHyperlinkEnable="{Binding IsStatusDetail}"
                                            HorizontalAlignment="Stretch" TextAlignment="Left"
                                            Entities ="{Binding ParsedEntities}" Text="{Binding Text}">
                     </ctrls:AutoRichTextBox>
@@ -598,21 +598,21 @@
                             <TextBlock>
                                 <Run Text="{Binding RetweetCount}" />
                                 <LineBreak />
-                                <Run Text="{Binding LanguageHelper[StatusDetailViewModel_Retweets]}"/>
+                                <Run Text="{Binding ElementName=LayoutRoot,Path=DataContext.LanguageHelper[StatusDetailViewModel_Retweets]}"/>
                             </TextBlock>
                         </Border>
                         <Border Visibility="{Binding FavoriteCount,Converter={StaticResource ObjectToVisibilityConverter}}">
                             <TextBlock>
                                 <Run Text="{Binding FavoriteCount}" />
                                 <LineBreak />
-                                <Run Text="{Binding LanguageHelper[StatusDetailViewModel_Favorites]}" />
+                                <Run Text="{Binding ElementName=LayoutRoot,Path=DataContext.LanguageHelper[StatusDetailViewModel_Favorites]}" />
                             </TextBlock>
                         </Border>
                         <Border Visibility="{Binding IncludeCoordinates,Converter={StaticResource BooleanToVisibilityConverter}}">
                             <TextBlock>
                                 <Run Text="{Binding Coordinates}" />
                                 <LineBreak />
-                                <Run Text="{Binding LanguageHelper[StatusDetailViewModel_Location]}" />
+                                <Run Text="{Binding ElementName=LayoutRoot,Path=DataContext.LanguageHelper[StatusDetailViewModel_Location]}" />
                             </TextBlock>
                         </Border>
                     </StackPanel>
@@ -620,7 +620,7 @@
                 <!--media-->
                 <StackPanel  Grid.Row="4" Margin="4" HorizontalAlignment="Stretch"
                              Visibility="{Binding IncludeMedia,Converter={StaticResource BooleanToVisibilityConverter},FallbackValue=Collapsed}">
-                    <HyperlinkButton TargetName="_blank" NavigateUri="{Binding Entities.Medias[0].MediaUrl}">
+                    <HyperlinkButton TargetName="_blank" NavigateUri="{Binding Entities.Media[0].MediaUrl}">
                         <HyperlinkButton.Template>
                             <ControlTemplate>
                                 <ctrls:ThemedImage DefaultImage="/Images/dark/cat.png" Source="{Binding Entities.Medias[0].MediaUrl}" />
@@ -719,7 +719,7 @@
                     <ctrls:AutoRichTextBox Style="{StaticResource TextContent}"
                                            cal:Action.TargetWithoutContext="{Binding ElementName=LayoutRoot,Path=DataContext}"
                                            cal:Message.Attach="[Event Loaded] = [AutoRichTextBoxLoaded($source, $eventArgs)]"
-                                           IsHyperlinkEnable="True"
+                                           IsHyperlinkEnable="{Binding RetweetedStatus.IsStatusDetail}"
                                            HorizontalAlignment="Stretch" TextAlignment="Left"
                                            Entities ="{Binding RetweetedStatus.ParsedEntities}" Text="{Binding RetweetedStatus.Text}">
                     </ctrls:AutoRichTextBox>
@@ -747,21 +747,21 @@
                             <TextBlock>
                                 <Run Text="{Binding RetweetedStatus.RetweetCount}" />
                                 <LineBreak />
-                                <Run Text="{Binding LanguageHelper[StatusDetailViewModel_Retweets]}"/>
+                                <Run Text="{Binding ElementName=LayoutRoot,Path=DataContext.LanguageHelper[StatusDetailViewModel_Retweets]}"/>
                             </TextBlock>
                         </Border>
                         <Border Visibility="{Binding RetweetedStatus.FavoriteCount,Converter={StaticResource ObjectToVisibilityConverter}}">
                             <TextBlock>
                                 <Run Text="{Binding RetweetedStatus.FavoriteCount}" />
                                 <LineBreak />
-                                <Run Text="{Binding LanguageHelper[StatusDetailViewModel_Favorites]}" />
+                                <Run Text="{Binding ElementName=LayoutRoot,Path=DataContext.LanguageHelper[StatusDetailViewModel_Favorites]}" />
                             </TextBlock>
                         </Border>
                         <Border Visibility="{Binding RetweetedStatus.IncludeCoordinates,Converter={StaticResource BooleanToVisibilityConverter}}">
                             <TextBlock>
                                 <Run Text="{Binding RetweetedStatus.Coordinates}" />
                                 <LineBreak />
-                                <Run Text="{Binding LanguageHelper[StatusDetailViewModel_Location]}" />
+                                <Run Text="{Binding ElementName=LayoutRoot,Path=DataContext.LanguageHelper[StatusDetailViewModel_Location]}" />
                             </TextBlock>
                         </Border>
                     </StackPanel>
@@ -769,7 +769,7 @@
                 <!--media-->
                 <StackPanel  Grid.Row="4" Margin="4" HorizontalAlignment="Stretch"
                              Visibility="{Binding RetweetedStatus.IncludeMedia,Converter={StaticResource BooleanToVisibilityConverter},FallbackValue=Collapsed}">
-                    <HyperlinkButton TargetName="_blank" NavigateUri="{Binding RetweetedStatus.Entities.Medias[0].MediaUrl}">
+                    <HyperlinkButton TargetName="_blank" NavigateUri="{Binding RetweetedStatus.Entities.Media[0].MediaUrl}">
                         <HyperlinkButton.Template>
                             <ControlTemplate>
                                 <ctrls:ThemedImage DefaultImage="/Images/dark/cat.png" Source="{Binding RetweetedStatus.Entities.Medias[0].MediaUrl}" />

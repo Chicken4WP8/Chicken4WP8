@@ -20,34 +20,26 @@ namespace Chicken4WP8.Controllers
         Uri SourceUrl { get; set; }
         long? InReplyToTweetId { get; set; }
         ICoordinates Coordinates { get; set; }
-
         #region for template
         bool IncludeCoordinates { get; }
-
         bool IncludeMedia { get; }
-
         List<IEntity> ParsedEntities { get; }
-
         /// <summary>
         ///show retweet count, favorite count and location panel
         /// </summary>
         bool NeedShowRetweetIcons { get; }
-
         /// <summary>
         /// show load more tweets button
         /// </summary>
         bool IsLoadMoreTweetButtonVisible { get; set; }
-
         /// <summary>
         /// show top bounds
         /// </summary>
         bool IsTopBoundsVisible { get; set; }
-
         /// <summary>
         /// show bottom bounds
         /// </summary>
         bool IsBottomBoundsVisible { get; set; }
-
         /// <summary>
         /// whether the current model is in status detail page or not.
         /// </summary>

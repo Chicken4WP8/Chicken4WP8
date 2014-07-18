@@ -154,12 +154,6 @@
     <Compile Include="ViewModels\Base\PageViewModelBase.cs" />
     <Compile Include="ViewModels\Status\StatusDetailViewModel.cs" />
     <Compile Include="ViewModels\Status\StatusPageViewModel.cs" />
-    <Compile Include="Views\Status\StatusDetailView.xaml.cs">
-      <DependentUpon>StatusDetailView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Status\StatusPageView.xaml.cs">
-      <DependentUpon>StatusPageView.xaml</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

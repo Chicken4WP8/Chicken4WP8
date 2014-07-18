@@ -26,7 +26,6 @@ namespace Chicken4WP8.ViewModels.Home
             statusController = statusControllers.Single(c => c.Metadata.OAuthType == App.UserSetting.OAuthSetting.OAuthSettingType).Value;
             userController = userControllers.Single(c => c.Metadata.OAuthType == App.UserSetting.OAuthSetting.OAuthSettingType).Value;
         }
-
         #endregion
 
         protected override void SetLanguage()
