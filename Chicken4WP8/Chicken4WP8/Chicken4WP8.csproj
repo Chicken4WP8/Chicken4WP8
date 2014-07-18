@@ -154,6 +154,12 @@
     <Compile Include="ViewModels\Base\PageViewModelBase.cs" />
     <Compile Include="ViewModels\Status\StatusDetailViewModel.cs" />
     <Compile Include="ViewModels\Status\StatusPageViewModel.cs" />
+    <Compile Include="Views\Status\StatusDetailView.xaml.cs">
+      <DependentUpon>StatusDetailView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Status\StatusPageView.xaml.cs">
+      <DependentUpon>StatusPageView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -362,6 +368,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SplashScreenPageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Status\StatusDetailView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Status\StatusPageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

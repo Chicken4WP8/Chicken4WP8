@@ -12,7 +12,7 @@ namespace Chicken4WP8.Common
         {
             NullValueHandling = NullValueHandling.Ignore,
             DefaultValueHandling = DefaultValueHandling.Ignore,
-            TypeNameHandling = TypeNameHandling.Auto
+            TypeNameHandling = TypeNameHandling.Objects
         };
 
         #region defalut value

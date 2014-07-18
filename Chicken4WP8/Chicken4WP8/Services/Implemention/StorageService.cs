@@ -85,7 +85,14 @@ namespace Chicken4WP8.Services.Implemention
 
         public void UpdateTempTweet(ITweetModel tweet)
         {
-            throw new System.NotImplementedException();
+            var entity = context.TempDatas.FirstOrDefault(t => t.Type == TempType.TweetDetail);
+            if (entity == null || entity.Data == null)
+            {
+                entity = new TempData { Type = TempType.TweetDetail };
+                context.TempDatas.InsertOnSubmit(entity);
+            }
+            entity.Data = JsonConvert.SerializeObject(tweet, Const.JsonSettings);
+            context.SubmitChanges();
         }
 
         public byte[] GetCachedImage(string id)

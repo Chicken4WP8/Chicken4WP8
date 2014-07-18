@@ -1,9 +1,9 @@
-﻿using Caliburn.Micro;
-using Caliburn.Micro.BindableAppBar;
+﻿using Caliburn.Micro.BindableAppBar;
+using Chicken4WP8.ViewModels.Base;
 
 namespace Chicken4WP8.ViewModels.Home
 {
-    public class HomePageViewModel : Conductor<Screen>.Collection.OneActive
+    public class HomePageViewModel : PageViewModelBase
     {
         public IndexViewModel IndexViewModel { get; set; }
         public MentionViewModel MentionViewModel { get; set; }

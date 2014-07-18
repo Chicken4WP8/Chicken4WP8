@@ -2,6 +2,7 @@
 using System.Windows.Media;
 using Caliburn.Micro;
 using CoreTweet;
+using Newtonsoft.Json;
 
 namespace Chicken4WP8.Controllers.Implemention.Base
 {
@@ -82,6 +83,8 @@ namespace Chicken4WP8.Controllers.Implemention.Base
         }
 
         private ImageSource profileImage;
+
+        [JsonIgnore]
         public ImageSource ImageSource
         {
             get { return profileImage; }
@@ -91,6 +94,5 @@ namespace Chicken4WP8.Controllers.Implemention.Base
                 NotifyOfPropertyChange(() => ImageSource);
             }
         }
-
     }
 }

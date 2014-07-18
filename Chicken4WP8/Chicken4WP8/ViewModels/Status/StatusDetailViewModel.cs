@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using System.Windows;
 using Chicken4WP8.Controllers;
-using Chicken4WP8.Controls;
 using Chicken4WP8.Services.Interface;
 using Chicken4WP8.ViewModels.Base;
 
@@ -30,12 +27,12 @@ namespace Chicken4WP8.ViewModels.Status
 
         protected override Task FetchMoreDataFromWeb()
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         protected override Task LoadMoreDataFromWeb()
         {
-            throw new NotImplementedException();
+            return null;
         }
     }
 }

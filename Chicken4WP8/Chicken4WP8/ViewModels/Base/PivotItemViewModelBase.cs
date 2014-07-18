@@ -11,6 +11,7 @@ using Caliburn.Micro;
 using Chicken4WP8.Controllers;
 using Chicken4WP8.Controls;
 using Chicken4WP8.Services.Interface;
+using Chicken4WP8.ViewModels.Status;
 using Microsoft.Phone.Controls;
 
 namespace Chicken4WP8.ViewModels.Base
@@ -169,11 +170,11 @@ namespace Chicken4WP8.ViewModels.Base
 
         public virtual void ItemClick(object sender, RoutedEventArgs e)
         {
-            //var tweet = sender as Tweet;
-            //storageService.UpdateTempTweet(tweet);
-            //navigationService.UriFor<StatusPageViewModel>()
-            //    .WithParam(o => o.Random, DateTime.Now.Ticks.ToString("x"))
-            //    .Navigate();
+            var tweet = sender as ITweetModel;
+            StorageService.UpdateTempTweet(tweet);
+            NavigationService.UriFor<StatusPageViewModel>()
+                .WithParam(o => o.Random, DateTime.Now.Ticks.ToString("x"))
+                .Navigate();
         }
 
         public virtual void AutoRichTextBoxLoaded(object sender, RoutedEventArgs e)
