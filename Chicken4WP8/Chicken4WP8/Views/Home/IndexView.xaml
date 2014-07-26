@@ -5,6 +5,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkits="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
     xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro.Platform"
+    xmlns:ctrls="clr-namespace:Chicken4WP8.Controls"
     xmlns:appBar="clr-namespace:Caliburn.Micro.BindableAppBar;assembly=Caliburn.Micro.BindableAppBar"    
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
@@ -13,12 +14,17 @@
     d:DesignHeight="480" d:DesignWidth="480">
 
     <Grid x:Name="LayoutRoot">
-        <toolkits:LongListSelector x:Name="Items"
+        <ctrls:AutoListBox x:Name="Items"
+                           ItemsPanel="{StaticResource ItemsPanelTemplate}"
+                           ItemTemplate="{StaticResource TweetTemplate}">
+
+        </ctrls:AutoListBox>
+        <!--<toolkits:LongListSelector x:Name="Items"
                                    IsGroupingEnabled="False" LayoutMode="List"
                                    ItemTemplate="{StaticResource TweetTemplate}"
                                    cal:Message.Attach="[Event ItemRealized] = [Action ItemRealized($source, $eventArgs)];
                                    [Event ItemUnrealized] = [Action ItemUnrealized($source, $eventArgs)]">
-        </toolkits:LongListSelector>
+        </toolkits:LongListSelector>-->
 
         <appBar:BindableAppBar Mode="Minimized">
             <appBar:BindableAppBarButton x:Name="AppBar_Next"
