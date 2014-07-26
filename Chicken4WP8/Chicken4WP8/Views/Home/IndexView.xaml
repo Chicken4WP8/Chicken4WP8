@@ -15,7 +15,6 @@
 
     <Grid x:Name="LayoutRoot">
         <ctrls:AutoListBox x:Name="Items"
-                           ItemsPanel="{StaticResource ItemsPanelTemplate}"
                            ItemTemplate="{StaticResource TweetTemplate}">
 
         </ctrls:AutoListBox>

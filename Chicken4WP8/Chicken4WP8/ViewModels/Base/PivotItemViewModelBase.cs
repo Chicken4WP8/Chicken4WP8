@@ -5,26 +5,19 @@ using System.Globalization;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using Caliburn.Micro;
 using Chicken4WP8.Controllers;
 using Chicken4WP8.Controls;
 using Chicken4WP8.Services.Interface;
 using Chicken4WP8.ViewModels.Status;
-using Microsoft.Phone.Controls;
 
 namespace Chicken4WP8.ViewModels.Base
 {
     public abstract class PivotItemViewModelBase<T> : Screen, IHandle<CultureInfo> where T : class
     {
         #region properties
-        private const double OFFSET = 20;
         protected const int ITEMSPERPAGE = 10;
-        /// <summary>
-        /// the viewport control of longlistselector
-        /// </summary>
-        private ViewportControl container;
 
         public ILanguageHelper LanguageHelper { get; set; }
         public IProgressService ProgressService { get; set; }
@@ -74,17 +67,22 @@ namespace Chicken4WP8.ViewModels.Base
         {
             base.OnViewAttached(view, context);
             var control = view as FrameworkElement;
-            container = control.GetFirstLogicalChildByType<ViewportControl>(true);
-            if (container != null)
-                container.ManipulationStateChanged += ContainerManipulationStateChanged;
+            var listbox = control.GetFirstLogicalChildByType<AutoListBox>(true);
+            if (listbox != null)
+            {
+                listbox.VerticalCompressionTopHandler += VerticalCompressionTopHandler;
+                listbox.VerticalCompressionBottomHandler += VerticalCompressionBottomHandler;
+                listbox.ItemRealizedEventHandler += ItemRealized;
+                listbox.ItemUnRealizedEventHandler += ItemUnRealized;
+            }
         }
         #endregion
 
         #region realize and unrealize an item
-        public async virtual void ItemRealized(object sender, ItemRealizationEventArgs e)
+        private async void ItemRealized(object sender, RealizedItemEventArgs e)
         {
             //Debug.WriteLine("realize an item");
-            await RealizeItem(e.Container.Content as T);
+            await RealizeItem(e.Item as T);
         }
 
         protected async virtual Task RealizeItem(T item)
@@ -92,10 +90,10 @@ namespace Chicken4WP8.ViewModels.Base
             return;
         }
 
-        public async virtual void ItemUnrealized(object sender, ItemRealizationEventArgs e)
+        private async void ItemUnRealized(object sender, RealizedItemEventArgs e)
         {
             //Debug.WriteLine("unrealize an item");
-            await UnrealizeItem(e.Container.Content as T);
+            await UnrealizeItem(e.Item as T);
         }
 
         protected async virtual Task UnrealizeItem(T item)
@@ -105,40 +103,20 @@ namespace Chicken4WP8.ViewModels.Base
         #endregion
 
         #region fetch data when at top, load data when at bottom
-        private async void ContainerManipulationStateChanged(object sender, ManipulationStateChangedEventArgs e)
+        private async void VerticalCompressionTopHandler(object sender, EventArgs e)
         {
-            if (!IsLoading && container.ManipulationState == ManipulationState.Animating)
-            {
-                if (IsAtTop())
-                {
-                    Debug.WriteLine("now at TOP");
-                    await ShowProgressBar();
-                    await FetchMoreDataFromWeb();
-                    await HideProgressBar();
-
-                }
-                else if (IsAtBottom())
-                {
-                    Debug.WriteLine("now at BOTTOM");
-                    await ShowProgressBar();
-                    await LoadMoreDataFromWeb();
-                    await HideProgressBar();
-                }
-            }
+            Debug.WriteLine("now at TOP");
+            await ShowProgressBar();
+            await FetchMoreDataFromWeb();
+            await HideProgressBar();
         }
 
-        private bool IsAtTop()
+        private async void VerticalCompressionBottomHandler(object sender, EventArgs e)
         {
-            if (Math.Abs(container.Viewport.Top - container.Bounds.Top) <= OFFSET)
-                return true;
-            return false;
-        }
-
-        private bool IsAtBottom()
-        {
-            if (Math.Abs(container.Viewport.Bottom - container.Bounds.Bottom) <= OFFSET)
-                return true;
-            return false;
+            Debug.WriteLine("now at BOTTOM");
+            await ShowProgressBar();
+            await LoadMoreDataFromWeb();
+            await HideProgressBar();
         }
         #endregion
 
@@ -191,7 +169,7 @@ namespace Chicken4WP8.ViewModels.Base
                 {
                     case EntityType.UserMention:
                         break;
-                    default :
+                    default:
                         break;
                 }
             };
@@ -219,12 +197,5 @@ namespace Chicken4WP8.ViewModels.Base
         #region load data
         protected abstract Task LoadMoreDataFromWeb();
         #endregion
-    }
-
-    public enum LongLiseStretch
-    {
-        None,
-        Top,
-        Bottom,
     }
 }

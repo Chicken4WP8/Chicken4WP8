@@ -113,9 +113,22 @@
             </Setter>
         </Style>
 
-        <ItemsPanelTemplate x:Name="ItemsPanelTemplate">
-            <VirtualizingStackPanel />
-        </ItemsPanelTemplate>
+        <Style TargetType="ctrls:AutoListBox">
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel />
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
         <!--media and retweet icon-->
         <Style x:Name="RetweetRectangleSmall" TargetType="Rectangle">

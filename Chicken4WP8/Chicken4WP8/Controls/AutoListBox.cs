@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -13,7 +9,7 @@ namespace Chicken4WP8.Controls
 {
     public class AutoListBox : ListBox
     {
-        private bool alreadyHookedScrollEvents;
+        #region properties
         private bool isScrolling;
         private bool visualTreeCreated;
         private const string ScrollingVisualStateName = "Scrolling";
@@ -26,11 +22,14 @@ namespace Chicken4WP8.Controls
         private VisualStateGroup scrollViewerVisualStateGroup = null;
         private VisualStateGroup verticalCompressionVisualStateGroup = null;
         private ListStretch direction;
+        #endregion
 
+        #region events
         public event EventHandler<EventArgs> VerticalCompressionTopHandler;
         public event EventHandler<EventArgs> VerticalCompressionBottomHandler;
-        public event EventHandler<ReailizedItemEventArgs> ItemReailizedEventHandler;
-        public event EventHandler<ReailizedItemEventArgs> ItemUnReailizedEventHandler;
+        public event EventHandler<RealizedItemEventArgs> ItemRealizedEventHandler;
+        public event EventHandler<RealizedItemEventArgs> ItemUnRealizedEventHandler;
+        #endregion
 
         public override void OnApplyTemplate()
         {
@@ -62,15 +61,15 @@ namespace Chicken4WP8.Controls
         protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
         {
             base.PrepareContainerForItemOverride(element, item);
-            if (ItemReailizedEventHandler != null)
-                ItemReailizedEventHandler(this, new ReailizedItemEventArgs(element, item));
+            if (ItemRealizedEventHandler != null)
+                ItemRealizedEventHandler(this, new RealizedItemEventArgs(element, item));
         }
 
         protected override void ClearContainerForItemOverride(DependencyObject element, object item)
         {
             base.ClearContainerForItemOverride(element, item);
-            if (ItemUnReailizedEventHandler != null)
-                ItemUnReailizedEventHandler(this, new ReailizedItemEventArgs(element, item));
+            if (ItemUnRealizedEventHandler != null)
+                ItemUnRealizedEventHandler(this, new RealizedItemEventArgs(element, item));
         }
 
         private void ScrollingStateChanging(object sender, VisualStateChangedEventArgs e)
@@ -88,7 +87,7 @@ namespace Chicken4WP8.Controls
             {
                 direction = ListStretch.Bottom;
             }
-            if (!isScrolling && e.NewState.Name == NoVerticalCompressionVisualStateName)
+            if (isScrolling && e.NewState.Name == NoVerticalCompressionVisualStateName)
             {
                 switch (direction)
                 {
@@ -170,9 +169,9 @@ namespace Chicken4WP8.Controls
         Bottom,
     }
 
-    public class ReailizedItemEventArgs : EventArgs
+    public class RealizedItemEventArgs : EventArgs
     {
-        public ReailizedItemEventArgs(DependencyObject element, object item)
+        public RealizedItemEventArgs(DependencyObject element, object item)
         {
             Container = element;
             Item = item;
