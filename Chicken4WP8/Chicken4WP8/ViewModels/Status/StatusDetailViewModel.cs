@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Chicken4WP8.Common;
 using Chicken4WP8.Controllers;
 using Chicken4WP8.Controllers.Interface;
 using Chicken4WP8.Models.Setting;
@@ -41,7 +42,12 @@ namespace Chicken4WP8.ViewModels.Status
             await HideProgressBar();
         }
 
-        protected override async Task RealizeItem(ITweetModel item)
+        protected override void SetLanguage()
+        {
+            DisplayName = LanguageHelper["StatusDetailViewModel_Header"];
+        }
+
+        protected async override Task RealizeItem(ITweetModel item)
         {
             var user = item.RetweetedStatus == null ? item.User : item.RetweetedStatus.User;
             if (user.ImageSource != null)
@@ -55,14 +61,15 @@ namespace Chicken4WP8.ViewModels.Status
             await userController.SetProfileImageAsync(user, data);
         }
 
-        protected override Task FetchMoreDataFromWeb()
+        protected async override Task FetchMoreDataFromWeb()
         {
-            return null;
-        }
-
-        protected override Task LoadMoreDataFromWeb()
-        {
-            return null;
+            var id = Items[0].InReplyToTweetId;
+            if (id == null)
+                return;
+            var option = Const.GetDictionary();
+            option.Add(Const.ID, id);
+            var tweet = await statusController.ShowAsync(option);
+            Items.Insert(0, tweet);
         }
     }
 }

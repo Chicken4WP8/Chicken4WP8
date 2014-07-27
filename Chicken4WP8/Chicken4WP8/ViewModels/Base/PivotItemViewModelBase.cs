@@ -191,11 +191,17 @@ namespace Chicken4WP8.ViewModels.Base
         #endregion
 
         #region fetch data
-        protected abstract Task FetchMoreDataFromWeb();
+        protected async virtual Task FetchMoreDataFromWeb()
+        {
+            return;
+        }
         #endregion
 
         #region load data
-        protected abstract Task LoadMoreDataFromWeb();
+        protected async virtual Task LoadMoreDataFromWeb()
+        {
+            return;
+        }
         #endregion
     }
 }

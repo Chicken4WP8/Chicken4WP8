@@ -559,9 +559,16 @@
                     <RowDefinition />
                     <RowDefinition />
                     <RowDefinition />
+                    <RowDefinition />
                 </Grid.RowDefinitions>
+                <!--in reply to screen name-->
+                <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="4"
+                            Visibility="{Binding InReplyToTweetId,Converter={StaticResource ObjectToVisibilityConverter},FallbackValue=Collapsed}">
+                    <TextBlock Text="{Binding ElementName=Root,Path=DataContext.LanguageHelper[StatusDetailViewModel_InReplyToScreenName]}" />
+                    <TextBlock Text="{Binding InReplyToDisplayName}" Foreground="{StaticResource PhoneAccentBrush}" />
+                </StackPanel>
                 <!--profile summary-->
-                <Grid Grid.Row="0">
+                <Grid Grid.Row="1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
@@ -633,7 +640,7 @@
                     </Grid>
                 </Grid>
                 <!--content-->
-                <Grid Grid.Row="1" Margin="4">
+                <Grid Grid.Row="2" Margin="4">
                     <!--text-->
                     <ctrls:AutoRichTextBox Style="{StaticResource TextContent}"
                                            cal:Action.TargetWithoutContext="{Binding ElementName=Root,Path=DataContext}"
@@ -644,13 +651,13 @@
                     </ctrls:AutoRichTextBox>
                 </Grid>
                 <!--via-->
-                <HyperlinkButton Grid.Row="2" Margin="4"
+                <HyperlinkButton Grid.Row="3" Margin="4"
                                  Style="{StaticResource HyperLinkButtonSmall}"
                                  Content="{Binding Path=Source}"
                                  HorizontalAlignment="Right" TargetName="_blank"
                                  NavigateUri="{Binding SourceUrl}" />
                 <!--retweet count, favorite count, location-->
-                <Border Grid.Row="3" BorderThickness="0,1,0,0"
+                <Border Grid.Row="4" BorderThickness="0,1,0,0"
                         Style="{StaticResource RetweetCountBorder}"
                         Visibility="{Binding NeedShowRetweetIcons,Converter={StaticResource BooleanToVisibilityConverter},FallbackValue=Collapsed}">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
@@ -686,7 +693,7 @@
                     </StackPanel>
                 </Border>
                 <!--media-->
-                <StackPanel  Grid.Row="4" Margin="4" HorizontalAlignment="Stretch"
+                <StackPanel  Grid.Row="5" Margin="4" HorizontalAlignment="Stretch"
                              Visibility="{Binding IncludeMedia,Converter={StaticResource BooleanToVisibilityConverter},FallbackValue=Collapsed}">
                     <HyperlinkButton TargetName="_blank" NavigateUri="{Binding Entities.Media[0].MediaUrl}">
                         <HyperlinkButton.Template>

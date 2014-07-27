@@ -29,5 +29,11 @@ namespace Chicken4WP8.Controllers.Implemention.Base
                     list.Add(new TweetModel(tweet));
             return list;
         }
+
+        public async Task<ITweetModel> ShowAsync(IDictionary<string, object> parameters)
+        {
+            var status = await tokens.Statuses.ShowAsync(parameters);
+            return new TweetModel(status);
+        }
     }
 }

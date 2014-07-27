@@ -150,6 +150,12 @@
   <data name="StatusDetailViewModel_Favorites" xml:space="preserve">
     <value>FAVORITES</value>
   </data>
+  <data name="StatusDetailViewModel_Header" xml:space="preserve">
+    <value>Detail</value>
+  </data>
+  <data name="StatusDetailViewModel_InReplyToScreenName" xml:space="preserve">
+    <value>Reply To : </value>
+  </data>
   <data name="StatusDetailViewModel_Location" xml:space="preserve">
     <value>LOCATION</value>
   </data>

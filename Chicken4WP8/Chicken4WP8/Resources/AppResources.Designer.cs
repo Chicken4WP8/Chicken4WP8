@@ -160,6 +160,24 @@ namespace Chicken4WP8.Resources {
         }
         
         /// <summary>
+        ///   查找类似 Detail 的本地化字符串。
+        /// </summary>
+        public static string StatusDetailViewModel_Header {
+            get {
+                return ResourceManager.GetString("StatusDetailViewModel_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Reply To :  的本地化字符串。
+        /// </summary>
+        public static string StatusDetailViewModel_InReplyToScreenName {
+            get {
+                return ResourceManager.GetString("StatusDetailViewModel_InReplyToScreenName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 LOCATION 的本地化字符串。
         /// </summary>
         public static string StatusDetailViewModel_Location {

@@ -19,10 +19,12 @@ namespace Chicken4WP8.Controllers
         string Source { get; set; }
         Uri SourceUrl { get; set; }
         long? InReplyToTweetId { get; set; }
+        string InReplyToScreenName { get; set; }
         ICoordinates Coordinates { get; set; }
         #region for template
         bool IncludeCoordinates { get; }
         bool IncludeMedia { get; }
+        string InReplyToDisplayName { get; }
         List<IEntity> ParsedEntities { get; }
         /// <summary>
         ///show retweet count, favorite count and location panel

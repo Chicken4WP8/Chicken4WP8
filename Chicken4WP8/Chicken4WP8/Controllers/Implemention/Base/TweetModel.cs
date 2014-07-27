@@ -31,6 +31,7 @@ namespace Chicken4WP8.Controllers.Implemention.Base
                 SourceUrl = new Uri(Const.ParseToSourceUrl(tweet.Source), UriKind.Absolute);
             }
             InReplyToTweetId = tweet.InReplyToStatusId;
+            InReplyToScreenName = tweet.InReplyToScreenName;
             if (tweet.Coordinates != null)
                 Coordinates = new CoordinatesModel(tweet.Coordinates);
         }
@@ -48,6 +49,7 @@ namespace Chicken4WP8.Controllers.Implemention.Base
         public string Source { get; set; }
         public Uri SourceUrl { get; set; }
         public long? InReplyToTweetId { get; set; }
+        public string InReplyToScreenName { get; set; }
         public ICoordinates Coordinates { get; set; }
         #region for template
         [JsonIgnore]
@@ -64,6 +66,16 @@ namespace Chicken4WP8.Controllers.Implemention.Base
         public bool IncludeCoordinates
         {
             get { return Coordinates != null; }
+        }
+        [JsonIgnore]
+        public string InReplyToDisplayName
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(InReplyToScreenName))
+                    return "@" + InReplyToScreenName;
+                return string.Empty;
+            }
         }
         private List<IEntity> parsedEntities;
         [JsonIgnore]
