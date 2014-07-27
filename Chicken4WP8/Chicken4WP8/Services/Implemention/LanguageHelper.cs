@@ -45,10 +45,13 @@ namespace Chicken4WP8.Services.Implemention
 
         private void InitCurrentCulture()
         {
-            var cultureInfo = CultureInfo.CurrentUICulture;
+            CultureInfo cultureInfo = null;
+            var system = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
             var current = StorageService.GetCurrentLanguage();
             if (!string.IsNullOrEmpty(current))
                 cultureInfo = new CultureInfo(current);
+            else
+                cultureInfo = new CultureInfo(system);
             Thread.CurrentThread.CurrentCulture = cultureInfo;
             Thread.CurrentThread.CurrentUICulture = cultureInfo;
             AppResources.Culture = cultureInfo;
