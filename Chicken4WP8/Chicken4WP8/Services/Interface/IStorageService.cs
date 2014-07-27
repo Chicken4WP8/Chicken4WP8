@@ -14,8 +14,8 @@ namespace Chicken4WP8.Services.Interface
         ITweetModel GetTempTweet();
         void UpdateTempTweet(ITweetModel tweet);
 
-        IProfileModel GetTempProfile();
-        void UpdateTempProfile(IProfileModel profile);
+        IUserModel GetTempUser();
+        void UpdateTempUser(IUserModel user);
 
         byte[] GetCachedImage(string id);
         void AddOrUpdateImageCache(string id, byte[] data);

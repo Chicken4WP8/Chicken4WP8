@@ -10,6 +10,7 @@ using Caliburn.Micro;
 using Chicken4WP8.Controllers;
 using Chicken4WP8.Controls;
 using Chicken4WP8.Services.Interface;
+using Chicken4WP8.ViewModels.Profile;
 using Chicken4WP8.ViewModels.Status;
 
 namespace Chicken4WP8.ViewModels.Base
@@ -19,6 +20,7 @@ namespace Chicken4WP8.ViewModels.Base
         #region properties
         protected const int ITEMSPERPAGE = 10;
 
+        public IEventAggregator EventAggregator { get; set; }
         public ILanguageHelper LanguageHelper { get; set; }
         public IProgressService ProgressService { get; set; }
         public INavigationService NavigationService { get; set; }
@@ -125,7 +127,7 @@ namespace Chicken4WP8.ViewModels.Base
         #endregion
 
         #region set language
-        public virtual void Handle(CultureInfo message)
+        public void Handle(CultureInfo message)
         {
             SetLanguage();
         }
@@ -140,14 +142,18 @@ namespace Chicken4WP8.ViewModels.Base
         #region Item click
         public virtual void AvatarClick(object sender, RoutedEventArgs e)
         {
-            //var tweet = sender as Tweet;
-            //if (tweet.RetweetStatus != null)
-            //    storageService.UpdateTempUser(tweet.RetweetStatus.User);
-            //else
-            //    storageService.UpdateTempUser(tweet.User);
-            //NavigationService.UriFor<ProfilePageViewModel>()
-            //    .WithParam(o => o.Random, DateTime.Now.Ticks.ToString("x"))
-            //    .Navigate();
+            var tweet = sender as ITweetModel;
+            var user = tweet.RetweetedStatus == null ? tweet.User : tweet.RetweetedStatus.User;
+            var temp = StorageService.GetTempUser();
+            if (user.ScreenName == temp.ScreenName)
+            {
+                EventAggregator.PublishOnBackgroundThread(new ProfilePageNavigationArgs());
+                return;
+            }
+            StorageService.UpdateTempUser(user);
+            NavigationService.UriFor<ProfilePageViewModel>()
+                .WithParam(o => o.Random, DateTime.Now.Ticks.ToString("x"))
+                .Navigate();
         }
 
         public virtual void ItemClick(object sender, RoutedEventArgs e)

@@ -28,6 +28,11 @@ namespace Chicken4WP8.ViewModels.Home
         }
         #endregion
 
+        public void AppBar_Next()
+        {
+            LanguageHelper.SetLanguage(new System.Globalization.CultureInfo("zh-CN"));
+        }
+
         protected override void SetLanguage()
         {
             DisplayName = LanguageHelper["IndexViewModel_Header"];

@@ -102,15 +102,15 @@ namespace Chicken4WP8.Services.Implemention
             context.SubmitChanges();
         }
 
-        public IProfileModel GetTempProfile()
+        public IUserModel GetTempUser()
         {
             var entity = context.TempDatas.FirstOrDefault(t => t.Type == TempType.UserProfile);
             if (entity == null || entity.Data == null)
                 return null;
-            return DeserializeObject<IProfileModel>(entity.Data);
+            return DeserializeObject<IUserModel>(entity.Data);
         }
 
-        public void UpdateTempProfile(IProfileModel profile)
+        public void UpdateTempUser(IUserModel profile)
         {
             var entity = context.TempDatas.FirstOrDefault(t => t.Type == TempType.UserProfile);
             if (entity == null)

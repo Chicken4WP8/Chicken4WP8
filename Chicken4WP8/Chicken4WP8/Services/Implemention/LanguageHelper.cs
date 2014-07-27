@@ -1,6 +1,5 @@
 ﻿using System.Globalization;
 using System.Threading;
-using System.Threading.Tasks;
 using Caliburn.Micro;
 using Chicken4WP8.Resources;
 using Chicken4WP8.Services.Interface;
@@ -9,7 +8,7 @@ namespace Chicken4WP8.Services.Implemention
 {
     public class LanguageHelper : PropertyChangedBase, ILanguageHelper
     {
-        public IEventAggregator Aggregator { get; set; }
+        public IEventAggregator EventAggregator { get; set; }
         public IStorageService StorageService { get; set; }
 
         public LanguageHelper()
@@ -21,7 +20,7 @@ namespace Chicken4WP8.Services.Implemention
             Thread.CurrentThread.CurrentCulture = cultureInfo;
             Thread.CurrentThread.CurrentUICulture = cultureInfo;
             NotifyOfPropertyChange("Item[]");
-            Aggregator.Publish(cultureInfo, action => Task.Factory.StartNew(action));
+            EventAggregator.PublishOnBackgroundThread(cultureInfo);
         }
 
         public string this[string key]
