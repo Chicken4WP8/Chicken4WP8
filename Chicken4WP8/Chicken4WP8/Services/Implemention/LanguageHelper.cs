@@ -9,22 +9,18 @@ namespace Chicken4WP8.Services.Implemention
 {
     public class LanguageHelper : PropertyChangedBase, ILanguageHelper
     {
+        private bool isInit;
+
         public IEventAggregator EventAggregator { get; set; }
         public IStorageService StorageService { get; set; }
 
         public LanguageHelper()
-        {
-            var cultureInfo = new CultureInfo("zh-CN");
-            Thread.CurrentThread.CurrentCulture = cultureInfo;
-            Thread.CurrentThread.CurrentUICulture = cultureInfo;
-            AppResources.Culture = cultureInfo;
-        }
+        { }
 
         public void SetLanguage(CultureInfo cultureInfo)
         {
             StorageService.UpdateLanguage(cultureInfo.Name);
-            Thread.CurrentThread.CurrentCulture = cultureInfo;
-            Thread.CurrentThread.CurrentUICulture = cultureInfo;
+            isInit = false;
             NotifyOfPropertyChange("Item[]");
             EventAggregator.Publish(cultureInfo, action => Task.Factory.StartNew(action));
         }
@@ -39,9 +35,24 @@ namespace Chicken4WP8.Services.Implemention
             return string.Format(GetString(key), parameters);
         }
 
-        private static string GetString(string key)
+        private string GetString(string key)
         {
-            return AppResources.ResourceManager.GetString(key,AppResources.Culture);
+            if (!isInit)
+                InitCurrentCulture();
+
+            return AppResources.ResourceManager.GetString(key, AppResources.Culture);
+        }
+
+        private void InitCurrentCulture()
+        {
+            var cultureInfo = CultureInfo.CurrentUICulture;
+            var current = StorageService.GetCurrentLanguage();
+            if (!string.IsNullOrEmpty(current))
+                cultureInfo = new CultureInfo(current);
+            Thread.CurrentThread.CurrentCulture = cultureInfo;
+            Thread.CurrentThread.CurrentUICulture = cultureInfo;
+            AppResources.Culture = cultureInfo;
+            isInit = true;
         }
     }
 }

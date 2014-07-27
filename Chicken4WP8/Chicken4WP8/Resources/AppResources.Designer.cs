@@ -124,6 +124,15 @@ namespace Chicken4WP8.Resources {
         }
         
         /// <summary>
+        ///   查找类似 Next 的本地化字符串。
+        /// </summary>
+        public static string OAuthSettingPageView_AppBarNext {
+            get {
+                return ResourceManager.GetString("OAuthSettingPageView_AppBarNext", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 OAuth Setting 的本地化字符串。
         /// </summary>
         public static string OAuthSettingPageView_OAuthSettingTitle {

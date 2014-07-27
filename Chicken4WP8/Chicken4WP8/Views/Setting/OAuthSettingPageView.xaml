@@ -46,7 +46,8 @@
 
         <appBar:BindableAppBar>
             <appBar:BindableAppBarButton x:Name="AppBar_Next"
-                                         Text="Next" IconUri="/Images/dark/appbar.check.png" />
+                                         Text="{Binding Path=LanguageHelper[OAuthSettingPageView_AppBarNext]}"
+                                         IconUri="/Images/dark/appbar.check.png" />
         </appBar:BindableAppBar>
     </Grid>
 

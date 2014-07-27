@@ -15,7 +15,7 @@
     <TargetFrameworkVersion>v8.0</TargetFrameworkVersion>
     <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
     <SilverlightApplication>true</SilverlightApplication>
-    <SupportedCultures>en%3bzh-Hans%3bzh-CHS</SupportedCultures>
+    <SupportedCultures>en;zh</SupportedCultures>
     <XapOutputs>true</XapOutputs>
     <GenerateSilverlightManifest>true</GenerateSilverlightManifest>
     <XapFilename>Chicken4WP8_$(Configuration)_$(Platform).xap</XapFilename>
@@ -136,20 +136,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AppResources.en.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\AppResources.zh-CHS.Designer.cs">
+    <Compile Include="Resources\AppResources.zh.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>AppResources.zh-CHS.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\AppResources.zh-CN.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AppResources.zh-CN.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\AppResources.zh-Hans.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AppResources.zh-Hans.resx</DependentUpon>
+      <DependentUpon>AppResources.zh.resx</DependentUpon>
     </Compile>
     <Compile Include="Services\Implemention\LanguageHelper.cs" />
     <Compile Include="Services\Implemention\ProgressService.cs" />
@@ -300,17 +290,9 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\AppResources.zh-CHS.resx">
+    <EmbeddedResource Include="Resources\AppResources.zh.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>AppResources.zh-CHS.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\AppResources.zh-CN.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>AppResources.zh-CN.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\AppResources.zh-Hans.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>AppResources.zh-Hans.Designer.cs</LastGenOutput>
+      <LastGenOutput>AppResources.zh.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

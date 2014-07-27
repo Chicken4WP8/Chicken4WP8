@@ -138,6 +138,9 @@
   <data name="MentionViewModel_Header" xml:space="preserve">
     <value>Mentions</value>
   </data>
+  <data name="OAuthSettingPageView_AppBarNext" xml:space="preserve">
+    <value>Next</value>
+  </data>
   <data name="OAuthSettingPageView_OAuthSettingTitle" xml:space="preserve">
     <value>OAuth Setting</value>
   </data>

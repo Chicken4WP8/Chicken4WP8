@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="BaseOAuthSettingPageView_EnterPinCode" xml:space="preserve">
-    <value>Enter PIN Code</value>
+    <value>Enter PIN Code :</value>
   </data>
   <data name="BaseOAuthSettingPageView_Title" xml:space="preserve">
     <value>Authorize with Twitter</value>
@@ -137,6 +137,9 @@
   </data>
   <data name="MentionViewModel_Header" xml:space="preserve">
     <value>Mentions</value>
+  </data>
+  <data name="OAuthSettingPageView_AppBarNext" xml:space="preserve">
+    <value>Next</value>
   </data>
   <data name="OAuthSettingPageView_OAuthSettingTitle" xml:space="preserve">
     <value>OAuth Setting</value>

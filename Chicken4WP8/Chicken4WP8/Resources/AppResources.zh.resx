@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="BaseOAuthSettingPageView_EnterPinCode" xml:space="preserve">
-    <value>输入PIN</value>
+    <value>输入PIN码：</value>
   </data>
   <data name="BaseOAuthSettingPageView_Title" xml:space="preserve">
-    <value>使用twitter授权</value>
+    <value>使用Twitter账号授权</value>
   </data>
   <data name="Button_Cancel" xml:space="preserve">
     <value>取消</value>
@@ -137,6 +137,9 @@
   </data>
   <data name="MentionViewModel_Header" xml:space="preserve">
     <value>提及</value>
+  </data>
+  <data name="OAuthSettingPageView_AppBarNext" xml:space="preserve">
+    <value>下一步</value>
   </data>
   <data name="OAuthSettingPageView_OAuthSettingTitle" xml:space="preserve">
     <value>OAuth 设置</value>
@@ -154,7 +157,7 @@
     <value>详情</value>
   </data>
   <data name="StatusDetailViewModel_InReplyToScreenName" xml:space="preserve">
-    <value>回复：</value>
+    <value>回复给：</value>
   </data>
   <data name="StatusDetailViewModel_Location" xml:space="preserve">
     <value>位置</value>
@@ -172,7 +175,7 @@
     <value>发生了一个错误</value>
   </data>
   <data name="WaitCursor_GetAuthorizationPage" xml:space="preserve">
-    <value>正在加载Twitter授权页面...</value>
+    <value>正在获取Twitter授权页面...</value>
   </data>
   <data name="WaitCursor_GetCredentials" xml:space="preserve">
     <value>正在授权...</value>
