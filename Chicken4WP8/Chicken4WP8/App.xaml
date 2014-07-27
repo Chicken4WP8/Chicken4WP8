@@ -270,7 +270,7 @@
                     </Grid.ColumnDefinitions>
                     <!--avatar-->
                     <Button Grid.Column="0" Style="{StaticResource ProfileImageSmall}"
-                        cal:Action.TargetWithoutContext="{Binding ElementName=LayoutRoot,Path=DataContext}"
+                        cal:Action.TargetWithoutContext="{Binding ElementName=Root,Path=DataContext}"
                         cal:Message.Attach="[Event Click] = [Action AvatarClick($dataContext, $eventArgs)]">
                         <Button.Template>
                             <ControlTemplate>
@@ -287,7 +287,7 @@
                             <RowDefinition />
                         </Grid.RowDefinitions>
                         <Button Grid.Row="0"
-                            cal:Action.TargetWithoutContext="{Binding ElementName=LayoutRoot,Path=DataContext}"
+                            cal:Action.TargetWithoutContext="{Binding ElementName=Root,Path=DataContext}"
                             cal:Message.Attach="[Event Click] = [Action ItemClick($datacontext, $eventArgs)]">
                             <Button.Template>
                                 <ControlTemplate>
@@ -374,7 +374,7 @@
                         FontWeight="Light"
                         FontSize="{StaticResource PhoneFontSizeSmall}"
                         Foreground="Silver"
-                        Content="{Binding ElementName=LayoutRoot,Path=DataContext.LanguageHelper[IndexViewModel_LoadMoreTweetsButton]}"
+                        Content="{Binding ElementName=Root,Path=DataContext.LanguageHelper[IndexViewModel_LoadMoreTweetsButton]}"
                         Visibility="{Binding IsLoadMoreTweetButtonVisible,Converter={StaticResource BooleanToVisibilityConverter}}"
                         cal:Message.Attach="[Event Click] =[Action LoadMoreTweetsButtonClick($dataContext, $eventArgs)]">
                     <Button.Template>
@@ -524,7 +524,7 @@
                         FontWeight="Light"
                         FontSize="{StaticResource PhoneFontSizeSmall}"
                         Foreground="Silver"
-                        Content="{Binding ElementName=LayoutRoot,Path=DataContext.LanguageHelper[IndexViewModel_LoadMoreTweetsButton]}"
+                        Content="{Binding ElementName=Root,Path=DataContext.LanguageHelper[IndexViewModel_LoadMoreTweetsButton]}"
                         Visibility="{Binding IsLoadMoreTweetButtonVisible,Converter={StaticResource BooleanToVisibilityConverter}}"
                         cal:Message.Attach="[Event Click] =[Action LoadMoreTweetsButtonClick($dataContext, $eventArgs)]">
                     <Button.Template>
@@ -568,7 +568,7 @@
                     </Grid.ColumnDefinitions>
                     <!--profile image-->
                     <Button Grid.Column="0" Style="{StaticResource ProfileImageBigger}"
-                            cal:Action.TargetWithoutContext="{Binding ElementName=LayoutRoot,Path=DataContext}"
+                            cal:Action.TargetWithoutContext="{Binding ElementName=Root,Path=DataContext}"
                             cal:Message.Attach="[Event Click] = [Action AvatarClick($datacontext, $eventArgs)]">
                         <Button.Template>
                             <ControlTemplate>
@@ -636,7 +636,7 @@
                 <Grid Grid.Row="1" Margin="4">
                     <!--text-->
                     <ctrls:AutoRichTextBox Style="{StaticResource TextContent}"
-                                           cal:Action.TargetWithoutContext="{Binding ElementName=LayoutRoot,Path=DataContext}"
+                                           cal:Action.TargetWithoutContext="{Binding ElementName=Root,Path=DataContext}"
                                            cal:Message.Attach="[Event Loaded] = [AutoRichTextBoxLoaded($source, $eventArgs)]"
                                            IsHyperlinkEnable="{Binding IsStatusDetail}"
                                            HorizontalAlignment="Stretch" TextAlignment="Left"
@@ -666,21 +666,21 @@
                             <TextBlock>
                                 <Run Text="{Binding RetweetCount}" />
                                 <LineBreak />
-                                <Run Text="{Binding ElementName=LayoutRoot,Path=DataContext.LanguageHelper[StatusDetailViewModel_Retweets]}"/>
+                                <Run Text="{Binding ElementName=Root,Path=DataContext.LanguageHelper[StatusDetailViewModel_Retweets]}"/>
                             </TextBlock>
                         </Border>
                         <Border Visibility="{Binding FavoriteCount,Converter={StaticResource ObjectToVisibilityConverter}}">
                             <TextBlock>
                                 <Run Text="{Binding FavoriteCount}" />
                                 <LineBreak />
-                                <Run Text="{Binding ElementName=LayoutRoot,Path=DataContext.LanguageHelper[StatusDetailViewModel_Favorites]}" />
+                                <Run Text="{Binding ElementName=Root,Path=DataContext.LanguageHelper[StatusDetailViewModel_Favorites]}" />
                             </TextBlock>
                         </Border>
                         <Border Visibility="{Binding IncludeCoordinates,Converter={StaticResource BooleanToVisibilityConverter}}">
                             <TextBlock>
                                 <Run Text="{Binding Coordinates}" />
                                 <LineBreak />
-                                <Run Text="{Binding ElementName=LayoutRoot,Path=DataContext.LanguageHelper[StatusDetailViewModel_Location]}" />
+                                <Run Text="{Binding ElementName=Root,Path=DataContext.LanguageHelper[StatusDetailViewModel_Location]}" />
                             </TextBlock>
                         </Border>
                     </StackPanel>
@@ -717,7 +717,7 @@
                     </Grid.ColumnDefinitions>
                     <!--profile image-->
                     <Button Grid.Column="0" Style="{StaticResource ProfileImageBigger}"
-                            cal:Action.TargetWithoutContext="{Binding ElementName=LayoutRoot,Path=DataContext}"
+                            cal:Action.TargetWithoutContext="{Binding ElementName=Root,Path=DataContext}"
                             cal:Message.Attach="[Event Click] = [Action AvatarClick($datacontext, $eventArgs)]">
                         <Button.Template>
                             <ControlTemplate>
@@ -785,7 +785,7 @@
                 <Grid Grid.Row="1" Margin="4">
                     <!--text-->
                     <ctrls:AutoRichTextBox Style="{StaticResource TextContent}"
-                                           cal:Action.TargetWithoutContext="{Binding ElementName=LayoutRoot,Path=DataContext}"
+                                           cal:Action.TargetWithoutContext="{Binding ElementName=Root,Path=DataContext}"
                                            cal:Message.Attach="[Event Loaded] = [AutoRichTextBoxLoaded($source, $eventArgs)]"
                                            IsHyperlinkEnable="{Binding RetweetedStatus.IsStatusDetail}"
                                            HorizontalAlignment="Stretch" TextAlignment="Left"
@@ -815,21 +815,21 @@
                             <TextBlock>
                                 <Run Text="{Binding RetweetedStatus.RetweetCount}" />
                                 <LineBreak />
-                                <Run Text="{Binding ElementName=LayoutRoot,Path=DataContext.LanguageHelper[StatusDetailViewModel_Retweets]}"/>
+                                <Run Text="{Binding ElementName=Root,Path=DataContext.LanguageHelper[StatusDetailViewModel_Retweets]}"/>
                             </TextBlock>
                         </Border>
                         <Border Visibility="{Binding RetweetedStatus.FavoriteCount,Converter={StaticResource ObjectToVisibilityConverter}}">
                             <TextBlock>
                                 <Run Text="{Binding RetweetedStatus.FavoriteCount}" />
                                 <LineBreak />
-                                <Run Text="{Binding ElementName=LayoutRoot,Path=DataContext.LanguageHelper[StatusDetailViewModel_Favorites]}" />
+                                <Run Text="{Binding ElementName=Root,Path=DataContext.LanguageHelper[StatusDetailViewModel_Favorites]}" />
                             </TextBlock>
                         </Border>
                         <Border Visibility="{Binding RetweetedStatus.IncludeCoordinates,Converter={StaticResource BooleanToVisibilityConverter}}">
                             <TextBlock>
                                 <Run Text="{Binding RetweetedStatus.Coordinates}" />
                                 <LineBreak />
-                                <Run Text="{Binding ElementName=LayoutRoot,Path=DataContext.LanguageHelper[StatusDetailViewModel_Location]}" />
+                                <Run Text="{Binding ElementName=Root,Path=DataContext.LanguageHelper[StatusDetailViewModel_Location]}" />
                             </TextBlock>
                         </Border>
                     </StackPanel>

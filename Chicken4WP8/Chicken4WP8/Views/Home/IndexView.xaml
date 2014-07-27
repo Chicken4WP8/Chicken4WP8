@@ -13,17 +13,10 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     d:DesignHeight="480" d:DesignWidth="480">
 
-    <Grid x:Name="LayoutRoot">
+    <Grid x:Name="Root">
         <ctrls:AutoListBox x:Name="Items"
                            ItemTemplate="{StaticResource TweetTemplate}">
-
         </ctrls:AutoListBox>
-        <!--<toolkits:LongListSelector x:Name="Items"
-                                   IsGroupingEnabled="False" LayoutMode="List"
-                                   ItemTemplate="{StaticResource TweetTemplate}"
-                                   cal:Message.Attach="[Event ItemRealized] = [Action ItemRealized($source, $eventArgs)];
-                                   [Event ItemUnrealized] = [Action ItemUnrealized($source, $eventArgs)]">
-        </toolkits:LongListSelector>-->
 
         <appBar:BindableAppBar Mode="Minimized">
             <appBar:BindableAppBarButton x:Name="AppBar_Next"
