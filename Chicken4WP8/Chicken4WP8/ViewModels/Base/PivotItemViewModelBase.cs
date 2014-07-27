@@ -26,8 +26,11 @@ namespace Chicken4WP8.ViewModels.Base
         public INavigationService NavigationService { get; set; }
         public IStorageService StorageService { get; set; }
 
-        protected PivotItemViewModelBase(ILanguageHelper languageHelper)
+        protected PivotItemViewModelBase(
+            IEventAggregator eventAggregator,
+            ILanguageHelper languageHelper)
         {
+            eventAggregator.Subscribe(this);
             LanguageHelper = languageHelper;
             SetLanguage();
         }
@@ -58,13 +61,7 @@ namespace Chicken4WP8.ViewModels.Base
                 NotifyOfPropertyChange(() => Items);
             }
         }
-
-        protected override void OnInitialize()
-        {
-            base.OnInitialize();
-            SetLanguage();
-        }
-
+        
         protected override void OnViewAttached(object view, object context)
         {
             base.OnViewAttached(view, context);
@@ -145,7 +142,7 @@ namespace Chicken4WP8.ViewModels.Base
             var tweet = sender as ITweetModel;
             var user = tweet.RetweetedStatus == null ? tweet.User : tweet.RetweetedStatus.User;
             var temp = StorageService.GetTempUser();
-            if (user.ScreenName == temp.ScreenName)
+            if (temp != null && user.ScreenName == temp.ScreenName)
             {
                 EventAggregator.PublishOnBackgroundThread(new ProfilePageNavigationArgs());
                 return;
@@ -160,7 +157,7 @@ namespace Chicken4WP8.ViewModels.Base
         {
             var tweet = sender as ITweetModel;
             var temp = StorageService.GetTempTweet();
-            if (temp.Id == tweet.Id)
+            if (temp != null && tweet.Id == temp.Id)
                 return;
             tweet.IsStatusDetail = true;
             if (tweet.RetweetedStatus != null)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Caliburn.Micro;
 using Chicken4WP8.Common;
 using Chicken4WP8.Controllers;
 using Chicken4WP8.Controllers.Interface;
@@ -19,10 +20,11 @@ namespace Chicken4WP8.ViewModels.Status
         protected IUserController userController;
 
         public StatusDetailViewModel(
+            IEventAggregator eventAggregator,
             ILanguageHelper languageHelper,
             IEnumerable<Lazy<IStatusController, OAuthTypeMetadata>> statusControllers,
             IEnumerable<Lazy<IUserController, OAuthTypeMetadata>> userControllers)
-            : base(languageHelper)
+            : base(eventAggregator, languageHelper)
         {
             statusController = statusControllers.Single(c => c.Metadata.OAuthType == App.UserSetting.OAuthSetting.OAuthSettingType).Value;
             userController = userControllers.Single(c => c.Metadata.OAuthType == App.UserSetting.OAuthSetting.OAuthSettingType).Value;

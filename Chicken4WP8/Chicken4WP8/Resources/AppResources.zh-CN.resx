@@ -118,69 +118,69 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="BaseOAuthSettingPageView_EnterPinCode" xml:space="preserve">
-    <value>Enter PIN Code</value>
+    <value>输入PIN</value>
   </data>
   <data name="BaseOAuthSettingPageView_Title" xml:space="preserve">
-    <value>Authorize with Twitter</value>
+    <value>使用twitter授权</value>
   </data>
   <data name="Button_Cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>取消</value>
   </data>
   <data name="Button_OK" xml:space="preserve">
-    <value>OK</value>
+    <value>好的</value>
   </data>
   <data name="IndexViewModel_Header" xml:space="preserve">
-    <value>Home</value>
+    <value>首页</value>
   </data>
   <data name="IndexViewModel_LoadMoreTweetsButton" xml:space="preserve">
-    <value>Load More Tweets</value>
+    <value>加载更多推文</value>
   </data>
   <data name="MentionViewModel_Header" xml:space="preserve">
-    <value>Mentions</value>
+    <value>提及</value>
   </data>
   <data name="OAuthSettingPageView_OAuthSettingTitle" xml:space="preserve">
-    <value>OAuth Setting</value>
+    <value>OAuth 设置</value>
   </data>
   <data name="OAuthSettingPageView_OAuthTypesPickerHeader" xml:space="preserve">
-    <value>Select Authorization Type</value>
+    <value>选择授权类型</value>
   </data>
   <data name="ProgressBar_Loading" xml:space="preserve">
-    <value>Loading...</value>
+    <value>加载中...</value>
   </data>
   <data name="StatusDetailViewModel_Favorites" xml:space="preserve">
-    <value>FAVORITES</value>
+    <value>收藏</value>
   </data>
   <data name="StatusDetailViewModel_Header" xml:space="preserve">
-    <value>Detail</value>
+    <value>详情</value>
   </data>
   <data name="StatusDetailViewModel_InReplyToScreenName" xml:space="preserve">
-    <value>Reply To : </value>
+    <value>回复：</value>
   </data>
   <data name="StatusDetailViewModel_Location" xml:space="preserve">
-    <value>LOCATION</value>
+    <value>位置</value>
   </data>
   <data name="StatusDetailViewModel_Retweets" xml:space="preserve">
-    <value>RETWEETS</value>
+    <value>转推</value>
   </data>
   <data name="Toast_Msg_HelloUser" xml:space="preserve">
-    <value>Hello, {0}~</value>
+    <value>你好，{0}~</value>
   </data>
   <data name="TwipOAuthSettingPageView_Title" xml:space="preserve">
-    <value>Twip Base URL</value>
+    <value>Twip代理的链接</value>
   </data>
   <data name="WaitCursor_AnErrorHappened" xml:space="preserve">
-    <value>An Error Happened</value>
+    <value>发生了一个错误</value>
   </data>
   <data name="WaitCursor_GetAuthorizationPage" xml:space="preserve">
-    <value>Getting Twitter Authorization Page...</value>
+    <value>正在加载Twitter授权页面...</value>
   </data>
   <data name="WaitCursor_GetCredentials" xml:space="preserve">
-    <value>Authorizing...</value>
+    <value>正在授权...</value>
   </data>
   <data name="WaitCursor_GetCurrentUser" xml:space="preserve">
-    <value>Getting User Information...</value>
+    <value>正在获取用户信息...</value>
   </data>
   <data name="WaitCursor_Loading" xml:space="preserve">
-    <value>Loading...</value>
+    <value>加载中...</value>
   </data>
 </root>

@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.Threading;
+using System.Threading.Tasks;
 using Caliburn.Micro;
 using Chicken4WP8.Resources;
 using Chicken4WP8.Services.Interface;
@@ -12,7 +13,12 @@ namespace Chicken4WP8.Services.Implemention
         public IStorageService StorageService { get; set; }
 
         public LanguageHelper()
-        { }
+        {
+            var cultureInfo = new CultureInfo("zh-CN");
+            Thread.CurrentThread.CurrentCulture = cultureInfo;
+            Thread.CurrentThread.CurrentUICulture = cultureInfo;
+            AppResources.Culture = cultureInfo;
+        }
 
         public void SetLanguage(CultureInfo cultureInfo)
         {
@@ -20,7 +26,7 @@ namespace Chicken4WP8.Services.Implemention
             Thread.CurrentThread.CurrentCulture = cultureInfo;
             Thread.CurrentThread.CurrentUICulture = cultureInfo;
             NotifyOfPropertyChange("Item[]");
-            EventAggregator.PublishOnBackgroundThread(cultureInfo);
+            EventAggregator.Publish(cultureInfo, action => Task.Factory.StartNew(action));
         }
 
         public string this[string key]
@@ -35,7 +41,7 @@ namespace Chicken4WP8.Services.Implemention
 
         private static string GetString(string key)
         {
-            return AppResources.ResourceManager.GetString(key);
+            return AppResources.ResourceManager.GetString(key,AppResources.Culture);
         }
     }
 }

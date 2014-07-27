@@ -22,6 +22,7 @@ namespace Chicken4WP8
             //register language helper
             builder.RegisterType<LanguageHelper>()
                 .As<ILanguageHelper>()
+                .PropertiesAutowired()
                 .SingleInstance();
 
             //register progress service

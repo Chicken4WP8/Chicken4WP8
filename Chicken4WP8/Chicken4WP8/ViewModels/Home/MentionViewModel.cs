@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Caliburn.Micro;
 using Chicken4WP8.Controllers;
 using Chicken4WP8.Controllers.Interface;
 using Chicken4WP8.Models.Setting;
@@ -12,12 +13,12 @@ namespace Chicken4WP8.ViewModels.Home
     public class MentionViewModel : IndexViewModel
     {
         #region properties
-
         public MentionViewModel(
+            IEventAggregator eventAggregator,
             ILanguageHelper languageHelper,
             IEnumerable<Lazy<IStatusController, OAuthTypeMetadata>> statusControllers,
             IEnumerable<Lazy<IUserController, OAuthTypeMetadata>> userControllers)
-            : base(languageHelper, statusControllers, userControllers)
+            : base(eventAggregator, languageHelper, statusControllers, userControllers)
         { }
         #endregion
 
