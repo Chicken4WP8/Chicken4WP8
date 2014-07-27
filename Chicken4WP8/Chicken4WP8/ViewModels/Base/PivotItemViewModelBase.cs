@@ -149,12 +149,15 @@ namespace Chicken4WP8.ViewModels.Base
         public virtual void ItemClick(object sender, RoutedEventArgs e)
         {
             var tweet = sender as ITweetModel;
+            var temp = StorageService.GetTempTweet();
+            if (temp.Id == tweet.Id)
+                return;
             tweet.IsStatusDetail = true;
             if (tweet.RetweetedStatus != null)
                 tweet.RetweetedStatus.IsStatusDetail = true;
             StorageService.UpdateTempTweet(tweet);
             NavigationService.UriFor<StatusPageViewModel>()
-                //.WithParam(o => o.Random, DateTime.Now.Ticks.ToString("x"))
+                .WithParam(o => o.Random, DateTime.Now.Ticks.ToString("x"))
                 .Navigate();
         }
 
@@ -163,7 +166,7 @@ namespace Chicken4WP8.ViewModels.Base
             var box = sender as AutoRichTextBox;
             box.HyperlinkClick += (obj, args) =>
             {
-                var hyperlink = sender as Hyperlink;
+                var hyperlink = obj as Hyperlink;
                 var entity = hyperlink.CommandParameter as IEntity;
                 switch (entity.EntityType)
                 {
