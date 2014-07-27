@@ -17,8 +17,8 @@ namespace Chicken4WP8.Entities
         [Column]
         public string Name { get; set; }
 
-        [Column]
-        public string Data { get; set; }
+        [Column(DbType = "image", UpdateCheck = UpdateCheck.Never)]
+        public byte[] Data { get; set; }
     }
 
     public enum SettingCategory

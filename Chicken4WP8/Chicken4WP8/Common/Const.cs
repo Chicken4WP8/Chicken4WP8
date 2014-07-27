@@ -11,7 +11,7 @@ namespace Chicken4WP8.Common
     {
         public const string OAUTH_MODE_BASE = "oauth_mode_base";
 
-        public static JsonSerializerSettings JsonSettings = new JsonSerializerSettings
+        public static readonly JsonSerializerSettings JsonSettings = new JsonSerializerSettings
         {
             NullValueHandling = NullValueHandling.Ignore,
             DefaultValueHandling = DefaultValueHandling.Ignore,

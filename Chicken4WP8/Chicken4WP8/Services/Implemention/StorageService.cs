@@ -1,19 +1,24 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using Chicken4WP8.Common;
 using Chicken4WP8.Controllers;
 using Chicken4WP8.Entities;
 using Chicken4WP8.Models.Setting;
 using Chicken4WP8.Services.Interface;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Bson;
 
 namespace Chicken4WP8.Services.Implemention
 {
     public class StorageService : IStorageService
     {
+        private static JsonSerializer serializer;
         private ChickenDataContext context;
 
         static StorageService()
         {
+            serializer = JsonSerializer.Create(Const.JsonSettings);
+
             var ctx = new ChickenDataContext();
             if (!ctx.DatabaseExists())
             {
@@ -31,7 +36,7 @@ namespace Chicken4WP8.Services.Implemention
             var entity = context.Settings.FirstOrDefault(s => s.Category == SettingCategory.CurrentUserSetting && s.IsCurrentlyInUsed);
             if (entity == null || entity.Data == null)
                 return null;
-            return JsonConvert.DeserializeObject<UserSetting>(entity.Data, Const.JsonSettings);
+            return DeserializeObject<UserSetting>(entity.Data);
         }
 
         public void UpdateCurrentUserSetting(UserSetting setting)
@@ -47,7 +52,7 @@ namespace Chicken4WP8.Services.Implemention
                 context.Settings.InsertOnSubmit(entity);
             }
             entity.IsCurrentlyInUsed = true;
-            entity.Data = JsonConvert.SerializeObject(setting, Const.JsonSettings);
+            entity.Data = SerializeObject(setting);
             context.SubmitChanges();
         }
 
@@ -80,7 +85,7 @@ namespace Chicken4WP8.Services.Implemention
             var entity = context.TempDatas.FirstOrDefault(t => t.Type == TempType.TweetDetail);
             if (entity == null || entity.Data == null)
                 return null;
-            return JsonConvert.DeserializeObject<ITweetModel>(entity.Data, Const.JsonSettings);
+            return DeserializeObject<ITweetModel>(entity.Data);
         }
 
         public void UpdateTempTweet(ITweetModel tweet)
@@ -91,7 +96,7 @@ namespace Chicken4WP8.Services.Implemention
                 entity = new TempData { Type = TempType.TweetDetail };
                 context.TempDatas.InsertOnSubmit(entity);
             }
-            entity.Data = JsonConvert.SerializeObject(tweet, Const.JsonSettings);
+            entity.Data = SerializeObject(tweet);
             context.SubmitChanges();
         }
 
@@ -115,6 +120,28 @@ namespace Chicken4WP8.Services.Implemention
             }
             image.Data = data;
             context.SubmitChanges();
+        }
+
+        private byte[] SerializeObject(object value)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                BsonWriter writer = new BsonWriter(memoryStream);
+                serializer.Serialize(writer, value);
+                return memoryStream.ToArray();
+            }
+        }
+
+        private T DeserializeObject<T>(byte[] data)
+        {
+            var result = default(T);
+            using (var memoryStream = new MemoryStream(data))
+            {
+                memoryStream.Seek(0, SeekOrigin.Begin);
+                BsonReader reader = new BsonReader(memoryStream);
+                result = serializer.Deserialize<T>(reader);
+            }
+            return result;
         }
     }
 }

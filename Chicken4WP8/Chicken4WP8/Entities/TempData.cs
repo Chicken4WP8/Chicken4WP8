@@ -11,8 +11,8 @@ namespace Chicken4WP8.Entities
         [Column]
         public TempType Type { get; set; }
 
-        [Column]
-        public string Data { get; set; }
+        [Column(DbType = "image", UpdateCheck = UpdateCheck.Never)]
+        public byte[] Data { get; set; }
     }
 
     public enum TempType
