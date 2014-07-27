@@ -698,7 +698,7 @@
                     <HyperlinkButton TargetName="_blank" NavigateUri="{Binding Entities.Media[0].MediaUrl}">
                         <HyperlinkButton.Template>
                             <ControlTemplate>
-                                <ctrls:ThemedImage DefaultImage="/Images/dark/cat.png" Source="{Binding Entities.Medias[0].MediaUrl}" />
+                                <ctrls:ThemedImage Source="{Binding Entities.Media[0].MediaUrl}" />
                             </ControlTemplate>
                         </HyperlinkButton.Template>
                     </HyperlinkButton>
@@ -847,7 +847,7 @@
                     <HyperlinkButton TargetName="_blank" NavigateUri="{Binding RetweetedStatus.Entities.Media[0].MediaUrl}">
                         <HyperlinkButton.Template>
                             <ControlTemplate>
-                                <ctrls:ThemedImage DefaultImage="/Images/dark/cat.png" Source="{Binding RetweetedStatus.Entities.Medias[0].MediaUrl}" />
+                                <ctrls:ThemedImage Source="{Binding RetweetedStatus.Entities.Media[0].MediaUrl}" />
                             </ControlTemplate>
                         </HyperlinkButton.Template>
                     </HyperlinkButton>
