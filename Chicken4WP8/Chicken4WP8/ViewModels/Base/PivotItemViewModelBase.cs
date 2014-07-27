@@ -105,6 +105,8 @@ namespace Chicken4WP8.ViewModels.Base
         #region fetch data when at top, load data when at bottom
         private async void VerticalCompressionTopHandler(object sender, EventArgs e)
         {
+            if (IsLoading)
+                return;
             Debug.WriteLine("now at TOP");
             await ShowProgressBar();
             await FetchMoreDataFromWeb();
@@ -113,6 +115,8 @@ namespace Chicken4WP8.ViewModels.Base
 
         private async void VerticalCompressionBottomHandler(object sender, EventArgs e)
         {
+            if (IsLoading)
+                return;
             Debug.WriteLine("now at BOTTOM");
             await ShowProgressBar();
             await LoadMoreDataFromWeb();

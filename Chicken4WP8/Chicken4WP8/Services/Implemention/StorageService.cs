@@ -12,6 +12,7 @@ namespace Chicken4WP8.Services.Implemention
 {
     public class StorageService : IStorageService
     {
+        #region properties
         private static JsonSerializer serializer;
         private ChickenDataContext context;
 
@@ -30,6 +31,7 @@ namespace Chicken4WP8.Services.Implemention
         {
             this.context = new ChickenDataContext();
         }
+        #endregion
 
         public UserSetting GetCurrentUserSetting()
         {
@@ -91,12 +93,32 @@ namespace Chicken4WP8.Services.Implemention
         public void UpdateTempTweet(ITweetModel tweet)
         {
             var entity = context.TempDatas.FirstOrDefault(t => t.Type == TempType.TweetDetail);
-            if (entity == null || entity.Data == null)
+            if (entity == null)
             {
                 entity = new TempData { Type = TempType.TweetDetail };
                 context.TempDatas.InsertOnSubmit(entity);
             }
             entity.Data = SerializeObject(tweet);
+            context.SubmitChanges();
+        }
+
+        public IProfileModel GetTempProfile()
+        {
+            var entity = context.TempDatas.FirstOrDefault(t => t.Type == TempType.UserProfile);
+            if (entity == null || entity.Data == null)
+                return null;
+            return DeserializeObject<IProfileModel>(entity.Data);
+        }
+
+        public void UpdateTempProfile(IProfileModel profile)
+        {
+            var entity = context.TempDatas.FirstOrDefault(t => t.Type == TempType.UserProfile);
+            if (entity == null)
+            {
+                entity = new TempData { Type = TempType.UserProfile };
+                context.TempDatas.InsertOnSubmit(entity);
+            }
+            entity.Data = SerializeObject(profile);
             context.SubmitChanges();
         }
 
@@ -122,6 +144,7 @@ namespace Chicken4WP8.Services.Implemention
             context.SubmitChanges();
         }
 
+        #region private
         private byte[] SerializeObject(object value)
         {
             using (var memoryStream = new MemoryStream())
@@ -143,5 +166,6 @@ namespace Chicken4WP8.Services.Implemention
             }
             return result;
         }
+        #endregion
     }
 }

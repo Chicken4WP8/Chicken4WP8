@@ -18,6 +18,6 @@ namespace Chicken4WP8.Entities
     public enum TempType
     {
         TweetDetail = 1,
-        User = 2,
+        UserProfile = 2,
     }
 }

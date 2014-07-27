@@ -101,12 +101,14 @@
     <Compile Include="Controllers\Implemention\Base\BaseOAuthController.cs" />
     <Compile Include="Controllers\Implemention\Base\BaseStatusController.cs" />
     <Compile Include="Controllers\Implemention\Base\BaseUserController.cs" />
+    <Compile Include="Controllers\Implemention\Base\UserEntititesModel.cs" />
     <Compile Include="Controllers\Implemention\Base\Utils.cs" />
     <Compile Include="Controllers\Implemention\ControllerBase.cs" />
     <Compile Include="Controllers\Implemention\Twip\TwipOAuthController.cs" />
     <Compile Include="Controllers\Interface\IOAuthController.cs" />
     <Compile Include="Controllers\Interface\IStatusController.cs" />
     <Compile Include="Controllers\Interface\IUserController.cs" />
+    <Compile Include="Controllers\IUserEntities.cs" />
     <Compile Include="Controls\AutoListBox.cs" />
     <Compile Include="Controls\AutoRichTextBox.cs" />
     <Compile Include="Controls\TemplateSelector.cs" />
@@ -147,6 +149,8 @@
     <Compile Include="ViewModels\Home\IndexViewModel.cs" />
     <Compile Include="ViewModels\Base\PivotItemViewModelBase.cs" />
     <Compile Include="ViewModels\Home\MentionViewModel.cs" />
+    <Compile Include="ViewModels\Profile\ProfileDetailViewModel.cs" />
+    <Compile Include="ViewModels\Profile\ProfilePageViewModel.cs" />
     <Compile Include="ViewModels\Setting\OAuthSettingPageViewModel.cs" />
     <Compile Include="ViewModels\Setting\Proxies\BaseOAuthSettingPageViewModel.cs" />
     <Compile Include="ViewModels\Setting\Proxies\TwipOAuthSettingPageViewModel.cs" />
