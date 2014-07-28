@@ -19,6 +19,7 @@ namespace Chicken4WP8.ViewModels.Base
     {
         #region properties
         protected const int ITEMSPERPAGE = 10;
+        protected AutoListBox listbox;
 
         public IEventAggregator EventAggregator { get; set; }
         public ILanguageHelper LanguageHelper { get; set; }
@@ -66,7 +67,7 @@ namespace Chicken4WP8.ViewModels.Base
         {
             base.OnViewAttached(view, context);
             var control = view as FrameworkElement;
-            var listbox = control.GetFirstLogicalChildByType<AutoListBox>(true);
+            listbox = control.GetFirstLogicalChildByType<AutoListBox>(true);
             if (listbox != null)
             {
                 listbox.VerticalCompressionTopHandler += VerticalCompressionTopHandler;
@@ -109,6 +110,9 @@ namespace Chicken4WP8.ViewModels.Base
             Debug.WriteLine("now at TOP");
             await ShowProgressBar();
             await FetchMoreDataFromWeb();
+            if (Items != null && Items.Count != 0)
+                listbox.ScrollIntoView(Items[0]);
+            listbox.UpdateLayout();
             await HideProgressBar();
         }
 

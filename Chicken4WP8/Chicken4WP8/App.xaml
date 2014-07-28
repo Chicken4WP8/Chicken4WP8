@@ -251,7 +251,7 @@
             <Grid Margin="0,4">
                 <Grid.RowDefinitions>
                     <RowDefinition />
-                    <RowDefinition Height="*" />
+                    <RowDefinition />
                     <RowDefinition />
                     <RowDefinition />
                 </Grid.RowDefinitions>
@@ -355,9 +355,8 @@
                             </Button.Template>
                         </Button>
                         <!--via-->
-                        <HyperlinkButton Grid.Row="1" Content="{Binding Path=Source}"
-                                     NavigateUri="{Binding Path=SourceUrl}" TargetName="_blank"
-                                     Style="{StaticResource HyperLinkButtonSmall}" HorizontalAlignment="Right" />
+                        <TextBlock Grid.Row="1" Text="{Binding Path=Source}"
+                                   Style="{StaticResource HyperLinkTextSmall}" HorizontalAlignment="Right" />
                     </Grid>
                     <!--content end-->
                 </Grid>
@@ -370,7 +369,7 @@
                     </Rectangle.OpacityMask>
                 </Rectangle>
                 <!--load more tweets button-->
-                <Button Grid.Row="3"
+                <Button Grid.Row="3" Margin="4"
                         FontWeight="Light"
                         FontSize="{StaticResource PhoneFontSizeSmall}"
                         Foreground="Silver"
@@ -379,7 +378,7 @@
                         cal:Message.Attach="[Event Click] =[Action LoadMoreTweetsButtonClick($dataContext, $eventArgs)]">
                     <Button.Template>
                         <ControlTemplate>
-                            <Grid Margin="3">
+                            <Grid>
                                 <Border BorderThickness="1" BorderBrush="Gray" Margin="1">
                                     <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                                 </Border>
@@ -395,7 +394,7 @@
             <Grid Margin="0,4">
                 <Grid.RowDefinitions>
                     <RowDefinition />
-                    <RowDefinition Height="*" />
+                    <RowDefinition />
                     <RowDefinition />
                     <RowDefinition />
                 </Grid.RowDefinitions>
@@ -505,9 +504,8 @@
                             </Button.Template>
                         </Button>
                         <!--via-->
-                        <HyperlinkButton Grid.Row="1" Content="{Binding Path=RetweetedStatus.Source}"
-                                     NavigateUri="{Binding Path=RetweetedStatus.SourceUrl}" TargetName="_blank"
-                                     Style="{StaticResource HyperLinkButtonSmall}" HorizontalAlignment="Right" />
+                        <TextBlock Grid.Row="1" Text="{Binding Path=RetweetedStatus.Source}"
+                                   Style="{StaticResource HyperLinkTextSmall}" HorizontalAlignment="Right" />
                     </Grid>
                     <!--content end-->
                 </Grid>
@@ -520,7 +518,7 @@
                     </Rectangle.OpacityMask>
                 </Rectangle>
                 <!--load more tweets button-->
-                <Button Grid.Row="3"
+                <Button Grid.Row="3" Margin="4"
                         FontWeight="Light"
                         FontSize="{StaticResource PhoneFontSizeSmall}"
                         Foreground="Silver"
@@ -529,7 +527,7 @@
                         cal:Message.Attach="[Event Click] =[Action LoadMoreTweetsButtonClick($dataContext, $eventArgs)]">
                     <Button.Template>
                         <ControlTemplate>
-                            <Grid Margin="3">
+                            <Grid>
                                 <Border BorderThickness="1" BorderBrush="Gray" Margin="1">
                                     <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                                 </Border>
