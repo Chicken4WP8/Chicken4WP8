@@ -61,7 +61,7 @@ namespace Chicken4WP8.ViewModels.Base
                 NotifyOfPropertyChange(() => Items);
             }
         }
-        
+
         protected override void OnViewAttached(object view, object context)
         {
             base.OnViewAttached(view, context);
@@ -137,28 +137,35 @@ namespace Chicken4WP8.ViewModels.Base
         #endregion
 
         #region Item click
-        public virtual void AvatarClick(object sender, RoutedEventArgs e)
+        public void AvatarClick(object sender, RoutedEventArgs e)
         {
-            var tweet = sender as ITweetModel;
+            AvatarClicked(sender);
+        }
+
+        protected virtual void AvatarClicked(object item)
+        {
+            var tweet = item as ITweetModel;
             var user = tweet.RetweetedStatus == null ? tweet.User : tweet.RetweetedStatus.User;
-            var temp = StorageService.GetTempUser();
-            if (temp != null && user.ScreenName == temp.ScreenName)
-            {
-                EventAggregator.PublishOnBackgroundThread(new ProfilePageNavigationArgs());
-                return;
-            }
+            //var temp = StorageService.GetTempUser();
+            //if (temp != null && user.ScreenName == temp.ScreenName)
+            //{
+            //    EventAggregator.PublishOnBackgroundThread(new ProfilePageNavigationArgs());
+            //    return;
+            //}
             StorageService.UpdateTempUser(user);
             NavigationService.UriFor<ProfilePageViewModel>()
                 .WithParam(o => o.Random, DateTime.Now.Ticks.ToString("x"))
                 .Navigate();
         }
 
-        public virtual void ItemClick(object sender, RoutedEventArgs e)
+        public void ItemClick(object sender, RoutedEventArgs e)
         {
-            var tweet = sender as ITweetModel;
-            var temp = StorageService.GetTempTweet();
-            if (temp != null && tweet.Id == temp.Id)
-                return;
+            ItemClicked(sender);
+        }
+
+        protected virtual void ItemClicked(object item)
+        {
+            var tweet = item as ITweetModel;
             tweet.IsStatusDetail = true;
             if (tweet.RetweetedStatus != null)
                 tweet.RetweetedStatus.IsStatusDetail = true;

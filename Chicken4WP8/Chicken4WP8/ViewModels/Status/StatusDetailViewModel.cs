@@ -16,6 +16,7 @@ namespace Chicken4WP8.ViewModels.Status
     public class StatusDetailViewModel : PivotItemViewModelBase<ITweetModel>
     {
         #region properties
+        protected ITweetModel status;
         protected IStatusController statusController;
         protected IUserController userController;
 
@@ -39,14 +40,22 @@ namespace Chicken4WP8.ViewModels.Status
 
             await ShowProgressBar();
             //initialize the tweet from cache
-            var tweet = StorageService.GetTempTweet();
-            Items.Add(tweet);
+            status = StorageService.GetTempTweet();
+            Items.Add(status);
             await HideProgressBar();
         }
 
         protected override void SetLanguage()
         {
             DisplayName = LanguageHelper["StatusDetailViewModel_Header"];
+        }
+
+        protected override void ItemClicked(object item)
+        {
+            var tweet = item as ITweetModel;
+            if (tweet.Id == status.Id)
+                return;
+            base.ItemClicked(item);
         }
 
         protected async override Task RealizeItem(ITweetModel item)
