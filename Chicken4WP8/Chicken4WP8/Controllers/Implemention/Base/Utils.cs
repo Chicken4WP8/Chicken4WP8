@@ -110,5 +110,39 @@ namespace Chicken4WP8.Controllers.Implemention.Base
             }
         }
         #endregion
+
+        #region parse entities in profile description
+        public static IEnumerable<IEntity> ParseUserMentions(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+                yield break;
+            var matches = Const.UserNameRegex.Matches(text);
+            foreach (Match match in matches)
+            {
+                var entity = new UserMentionEntity
+                {
+                    ScreenName = match.Groups["name"].Value,
+                    Indices = new int[] { match.Groups["name"].Index - 1, 0 }//remove @
+                };
+                yield return new UserMentionEntityModel(entity);
+            }
+        }
+
+        public static IEnumerable<IEntity> ParseHashTags(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+                yield break;
+            var matches = Const.HashTagRegex.Matches(text);
+            foreach (Match match in matches)
+            {
+                var entity = new SymbolEntity
+                {
+                    Text = match.Groups["hashtag"].Value,
+                    Indices = new int[] { match.Index, 0 }
+                };
+                yield return new HashTagEntityModel(entity);
+            }
+        }
+        #endregion
     }
 }

@@ -147,6 +147,21 @@
   <data name="OAuthSettingPageView_OAuthTypesPickerHeader" xml:space="preserve">
     <value>Select Authorization Type</value>
   </data>
+  <data name="ProfileDetailViewModel_FavoritesCount" xml:space="preserve">
+    <value>FAVORITES</value>
+  </data>
+  <data name="ProfileDetailViewModel_FollowersCount" xml:space="preserve">
+    <value>FOLLOWERS</value>
+  </data>
+  <data name="ProfileDetailViewModel_FollowingCount" xml:space="preserve">
+    <value>FOLLOWING</value>
+  </data>
+  <data name="ProfileDetailViewModel_Header" xml:space="preserve">
+    <value>Profile</value>
+  </data>
+  <data name="ProfileDetailViewModel_TweetsCount" xml:space="preserve">
+    <value>TWEETS</value>
+  </data>
   <data name="ProgressBar_Loading" xml:space="preserve">
     <value>Loading...</value>
   </data>

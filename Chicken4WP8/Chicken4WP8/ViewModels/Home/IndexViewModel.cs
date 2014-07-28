@@ -45,11 +45,12 @@ namespace Chicken4WP8.ViewModels.Home
             var user = item.RetweetedStatus == null ? item.User : item.RetweetedStatus.User;
             if (user.ImageSource != null)
                 return;
-            var data = StorageService.GetCachedImage(user.Id.Value + user.ProfileImageUrl);
+            string id = user.Id.Value + user.ProfileImageUrl;
+            var data = StorageService.GetCachedImage(id);
             if (data == null)
             {
-                data = await userController.DownloadProfileImageAsync(user);
-                StorageService.AddOrUpdateImageCache(user.Id.Value + user.ProfileImageUrl, data);
+                data = await userController.DownloadProfileImageAsync(user.ProfileImageUrl);
+                StorageService.AddOrUpdateImageCache(id, data);
             }
             await userController.SetProfileImageAsync(user, data);
         }

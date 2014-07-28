@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Media;
 using Caliburn.Micro;
 using CoreTweet;
@@ -31,7 +32,7 @@ namespace Chicken4WP8.Controllers.Implemention.Base
             if (user.Url != null)
                 Url = user.Url.AbsoluteUri;
             if (user.ProfileBannerUrl != null)
-                UserProfileBannerImage = user.ProfileBannerUrl.AbsoluteUri;
+                UserProfileBannerImageUrl = user.ProfileBannerUrl.AbsoluteUri;
             if (user.Entities != null)
                 Entities = new UserEntititesModel(user.Entities);
         }
@@ -48,7 +49,7 @@ namespace Chicken4WP8.Controllers.Implemention.Base
         /// default, use bigger avatar
         /// </summary>
         public string ProfileImageUrl { get; set; }
-        public string UserProfileBannerImage { get; set; }
+        public string UserProfileBannerImageUrl { get; set; }
         public string Location { get; set; }
         public string Url { get; set; }
         public IUserEntities Entities { get; set; }
@@ -57,7 +58,6 @@ namespace Chicken4WP8.Controllers.Implemention.Base
         public int FollowersCount { get; set; }
         public int FavoritesCount { get; set; }
         private bool isFollowing;
-        [JsonIgnore]
         public bool IsFollowing
         {
             get { return isFollowing; }
@@ -68,7 +68,6 @@ namespace Chicken4WP8.Controllers.Implemention.Base
             }
         }
         private bool isFollowedBy;
-        [JsonIgnore]
         public bool IsFollowedBy
         {
             get { return isFollowedBy; }
@@ -76,6 +75,37 @@ namespace Chicken4WP8.Controllers.Implemention.Base
             {
                 isFollowedBy = value;
                 NotifyOfPropertyChange(() => IsFollowedBy);
+            }
+        }
+        private List<IEntity> parsedEntities;
+        [JsonIgnore]
+        public List<IEntity> ParsedEntities
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(Description)) return null;
+                if (parsedEntities != null) return parsedEntities;
+                parsedEntities = new List<IEntity>();
+                parsedEntities.AddRange(Utils.ParseUserMentions(Description));
+                parsedEntities.AddRange(Utils.ParseHashTags(Description));
+                if (Entities != null &&
+                    Entities.Description != null &&
+                    Entities.Description.Urls != null)
+                {
+                    var parsedUrls = Utils.ParseUrls(Description, Entities.Description.Urls);
+                    parsedEntities.AddRange(parsedUrls);
+                }
+                return parsedEntities;
+            }
+        }
+        private bool isProfileDetail;
+        public bool IsProfileDetail
+        {
+            get { return isProfileDetail; }
+            set
+            {
+                isProfileDetail = value;
+                NotifyOfPropertyChange(() => IsProfileDetail);
             }
         }
         private ImageSource profileImage;

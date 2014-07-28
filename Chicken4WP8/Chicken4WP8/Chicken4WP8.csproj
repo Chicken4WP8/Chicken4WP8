@@ -169,6 +169,9 @@
     <Compile Include="ViewModels\Base\PageViewModelBase.cs" />
     <Compile Include="ViewModels\Status\StatusDetailViewModel.cs" />
     <Compile Include="ViewModels\Status\StatusPageViewModel.cs" />
+    <Compile Include="Views\Profile\ProfileDetailView.xaml.cs">
+      <DependentUpon>ProfileDetailView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -365,6 +368,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Home\MentionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Profile\ProfileDetailView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Profile\ProfilePageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

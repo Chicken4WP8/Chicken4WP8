@@ -1,0 +1,193 @@
+﻿<UserControl x:Class="Chicken4WP8.Views.Profile.ProfileDetailView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+     xmlns:toolkits="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro.Platform"
+    xmlns:ctrls="clr-namespace:Chicken4WP8.Controls"
+    xmlns:appBar="clr-namespace:Caliburn.Micro.BindableAppBar;assembly=Caliburn.Micro.BindableAppBar" 
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    d:DesignHeight="480" d:DesignWidth="480">
+
+    <Grid x:Name="Root">
+        <Grid.Resources>
+            <DataTemplate x:Name="ProfileDetailTemplate">
+                <!--Description-->
+                <ScrollViewer Grid.Row="0"
+                              VerticalContentAlignment="Stretch" VerticalAlignment="Stretch"
+                              HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                    <ScrollViewer.Content>
+                        <Grid VerticalAlignment="Stretch">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Grid.Resources>
+                                <Style TargetType="TextBlock" BasedOn="{StaticResource ProfileScreenName}">
+                                    <Setter Property="TextAlignment" Value="Center" />
+                                    <Setter Property="Margin" Value="2" />
+                                </Style>
+                            </Grid.Resources>
+                            <!--profile banner-->
+                            <ctrls:ThemedImage Grid.Row="1" Opacity="0.6"
+                                               Source="{Binding UserProfileBannerImageUrl}" />
+                            <Grid Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="104" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <!--Profile Image-->
+                                <HyperlinkButton Grid.Row="0"
+                                                     NavigateUri="{Binding ProfileImageUrl}" TargetName="_blank">
+                                    <HyperlinkButton.Template>
+                                        <ControlTemplate>
+                                            <ctrls:ThemedImage Width="124" Height="124" Margin="0,-40,0,0"
+                                                               DefaultImage="/Images/dark/cat.png" Source="{Binding ImageSource}">
+                                                <ctrls:ThemedImage.Clip>
+                                                    <RectangleGeometry Rect="0,0,124,124" RadiusX="6" RadiusY="6" />
+                                                </ctrls:ThemedImage.Clip>
+                                            </ctrls:ThemedImage>
+                                        </ControlTemplate>
+                                    </HyperlinkButton.Template>
+                                </HyperlinkButton>
+                                <!--is private, is verified, etc-->
+                                <StackPanel Grid.Row="1" Margin="0,4,0,0" Opacity="0.6"
+                                                Orientation="Horizontal" HorizontalAlignment="Center"
+                                                Visibility="{Binding ElementName=Root,Path=DataContext.IsLoading,Converter={StaticResource InvertBooleanToVisibilityConverter},FallbackValue=Collapsed}">
+                                    <StackPanel.Resources>
+                                        <Style TargetType="Rectangle" BasedOn="{StaticResource RetweetRectangleSmall}">
+                                            <Setter Property="Fill" Value="{StaticResource PhoneForegroundBrush}" />
+                                            <Setter Property="Margin" Value="2,0" />
+                                            <Setter Property="VerticalAlignment" Value="Bottom" />
+                                        </Style>
+                                    </StackPanel.Resources>
+                                    <!--private-->
+                                    <Rectangle
+                                            Visibility="{Binding IsPrivate,Converter={StaticResource BooleanToVisibilityConverter}}">
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush ImageSource="/Images/dark/private.png" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <!--Is Translator-->
+                                    <Rectangle
+                                            Visibility="{Binding IsTranslator,Converter={StaticResource BooleanToVisibilityConverter}}">
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush ImageSource="/Images/dark/global.png" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <!--Is Verified-->
+                                    <Rectangle
+                                            Visibility="{Binding IsVerified,Converter={StaticResource BooleanToVisibilityConverter}}">
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush ImageSource="/Images/dark/verified.png" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <!--following-->
+                                    <Rectangle
+                                            Visibility="{Binding IsFollowing,Converter={StaticResource BooleanToVisibilityConverter}}">
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush ImageSource="/Images/dark/following.png" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <!--followedby-->
+                                    <Rectangle
+                                            Visibility="{Binding IsFollowedBy,Converter={StaticResource BooleanToVisibilityConverter}}">
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush ImageSource="/Images/dark/followedby.png" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </StackPanel>
+                                <!--Name-->
+                                <TextBlock Grid.Row="2"
+                                               Text="{Binding Name}" />
+                                <!--Created Date-->
+                                <TextBlock Grid.Row="3"
+                                               Text="{Binding CreatedAt}" />
+                                <!--Location-->
+                                <TextBlock Grid.Row="4"
+                                               Text="{Binding Location}"
+                                               Visibility="{Binding Location,Converter={StaticResource StringToVisibilityConverter}}" />
+                                <!--Url-->
+                                <HyperlinkButton Grid.Row="5"
+                                                     Visibility="{Binding Path=Url,Converter={StaticResource StringToVisibilityConverter}}"
+                                                     Content="{Binding Path=Entities.Url.Urls[0].TruncatedUrl}"
+                                                     NavigateUri="{Binding Path=Entities.Url.Urls[0].ExpandedUrl}"
+                                                     TargetName="_blank" Style="{StaticResource HyperLinkNoUnderlineCenter}">
+                                </HyperlinkButton>
+                                <!--Tweets, Following, Followers, Favorites-->
+                                <!--please don't use fallbackvalue here-->
+                                <Border Grid.Row="6"
+                                            Style="{StaticResource RetweetCountBorder}"
+                                            BorderThickness="0,1,0,1">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.Resources>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Margin" Value="2,0" />
+                                                <Setter Property="TextAlignment" Value="Left" />
+                                                <Setter Property="Foreground" Value="{StaticResource PhoneAccentBrush}" />
+                                            </Style>
+                                        </Grid.Resources>
+                                        <TextBlock Grid.Column="0">
+                                            <Run Text="{Binding TweetsCount}" />
+                                            <LineBreak />
+                                            <Run
+                                                Text="{Binding  ElementName=Root,Path=DataContext.LanguageHelper[ProfileDetailViewModel_TweetsCount]}" />
+                                        </TextBlock>
+                                        <TextBlock Grid.Column="1">
+                                            <Run Text="{Binding FollowingCount}" />
+                                            <LineBreak />
+                                            <Run
+                                                Text="{Binding  ElementName=Root,Path=DataContext.LanguageHelper[ProfileDetailViewModel_FollowingCount]}" />
+                                        </TextBlock>
+                                        <TextBlock Grid.Column="2">
+                                            <Run Text="{Binding FollowersCount}" />
+                                            <LineBreak />
+                                            <Run
+                                                Text="{Binding  ElementName=Root,Path=DataContext.LanguageHelper[ProfileDetailViewModel_FollowersCount]}" />
+                                        </TextBlock>
+                                        <TextBlock Grid.Column="3">
+                                            <Run Text="{Binding FavoritesCount}" />
+                                            <LineBreak />
+                                            <Run
+                                                Text="{Binding ElementName=Root,Path=DataContext.LanguageHelper[ProfileDetailViewModel_FavoritesCount]}" />
+                                        </TextBlock>
+                                    </Grid>
+                                </Border>
+                            </Grid>
+                            <!--description-->
+                            <ctrls:AutoRichTextBox  Grid.Row="2" Margin="0,6,0,0"
+                                                    Style="{StaticResource TextContent}" IsHyperlinkEnable="{Binding IsProfileDetail}"
+                                                    HorizontalAlignment="Stretch" VerticalAlignment="Center" TextAlignment="Center"
+                                                        Entities ="{Binding ParsedEntities}" Text="{Binding Description}" />
+                        </Grid>
+                    </ScrollViewer.Content>
+                </ScrollViewer>
+            </DataTemplate>
+        </Grid.Resources>
+        <ctrls:AutoListBox x:Name="Items"
+                           ItemTemplate="{StaticResource ProfileDetailTemplate}">
+        </ctrls:AutoListBox>
+
+        <appBar:BindableAppBar Mode="Minimized">
+            <appBar:BindableAppBarButton x:Name="AppBar_Next"
+                                         Text="Detail" IconUri="/Images/dark/appbar.check.png" />
+        </appBar:BindableAppBar>
+
+    </Grid>
+</UserControl>

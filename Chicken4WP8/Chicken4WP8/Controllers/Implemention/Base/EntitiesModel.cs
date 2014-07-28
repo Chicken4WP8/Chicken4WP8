@@ -214,5 +214,10 @@ namespace Chicken4WP8.Controllers.Implemention.Base
         public double Latitude { get; set; }
         public double Longtitude { get; set; }
         public string Type { get; set; }
+
+        public override string ToString()
+        {
+            return Latitude + "," + Longtitude;
+        }
     }
 }

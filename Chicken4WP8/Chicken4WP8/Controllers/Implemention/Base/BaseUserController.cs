@@ -8,9 +8,9 @@ namespace Chicken4WP8.Controllers.Implemention.Base
         public BaseUserController()
         { }
 
-        public async Task<byte[]> DownloadProfileImageAsync(IUserModel user)
+        public async Task<byte[]> DownloadProfileImageAsync(string url)
         {
-            return await base.DownloadImage(user.ProfileImageUrl);
+            return await base.DownloadImage(url);
         }
 
         public async Task SetProfileImageAsync(IUserModel user, byte[] data)

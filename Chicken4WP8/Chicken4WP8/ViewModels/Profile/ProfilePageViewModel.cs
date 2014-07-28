@@ -6,17 +6,19 @@ namespace Chicken4WP8.ViewModels.Profile
 {
     public class ProfilePageViewModel : PageViewModelBase, IHandle<ProfilePageNavigationArgs>
     {
+        #region properties
         public IEventAggregator EventAggregator { get; set; }
         public ProfileDetailViewModel ProfileDetailViewModel { get; set; }
 
-        public ProfilePageViewModel()
-        { }
+        public ProfilePageViewModel(IEventAggregator eventAggregator)
+        {
+            eventAggregator.Subscribe(this);
+        }
 
+        #endregion
         protected override void OnInitialize()
         {
             base.OnInitialize();
-
-            EventAggregator.Subscribe(this);
 
             Items.Add(ProfileDetailViewModel);
 

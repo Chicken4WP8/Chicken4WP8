@@ -147,6 +147,21 @@
   <data name="OAuthSettingPageView_OAuthTypesPickerHeader" xml:space="preserve">
     <value>选择授权类型</value>
   </data>
+  <data name="ProfileDetailViewModel_FavoritesCount" xml:space="preserve">
+    <value>收藏</value>
+  </data>
+  <data name="ProfileDetailViewModel_FollowersCount" xml:space="preserve">
+    <value>关注者</value>
+  </data>
+  <data name="ProfileDetailViewModel_FollowingCount" xml:space="preserve">
+    <value>关注</value>
+  </data>
+  <data name="ProfileDetailViewModel_Header" xml:space="preserve">
+    <value>资料</value>
+  </data>
+  <data name="ProfileDetailViewModel_TweetsCount" xml:space="preserve">
+    <value>推文</value>
+  </data>
   <data name="ProgressBar_Loading" xml:space="preserve">
     <value>加载中...</value>
   </data>

@@ -151,6 +151,51 @@ namespace Chicken4WP8.Resources {
         }
         
         /// <summary>
+        ///   查找类似 FAVORITES 的本地化字符串。
+        /// </summary>
+        public static string ProfileDetailViewModel_FavoritesCount {
+            get {
+                return ResourceManager.GetString("ProfileDetailViewModel_FavoritesCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 FOLLOWERS 的本地化字符串。
+        /// </summary>
+        public static string ProfileDetailViewModel_FollowersCount {
+            get {
+                return ResourceManager.GetString("ProfileDetailViewModel_FollowersCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 FOLLOWING 的本地化字符串。
+        /// </summary>
+        public static string ProfileDetailViewModel_FollowingCount {
+            get {
+                return ResourceManager.GetString("ProfileDetailViewModel_FollowingCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Profile 的本地化字符串。
+        /// </summary>
+        public static string ProfileDetailViewModel_Header {
+            get {
+                return ResourceManager.GetString("ProfileDetailViewModel_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 TWEETS 的本地化字符串。
+        /// </summary>
+        public static string ProfileDetailViewModel_TweetsCount {
+            get {
+                return ResourceManager.GetString("ProfileDetailViewModel_TweetsCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Loading... 的本地化字符串。
         /// </summary>
         public static string ProgressBar_Loading {

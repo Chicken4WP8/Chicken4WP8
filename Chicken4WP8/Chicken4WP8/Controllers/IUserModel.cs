@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace Chicken4WP8.Controllers
@@ -20,12 +21,14 @@ namespace Chicken4WP8.Controllers
         /// default, use bigger avatar
         /// </summary>
         string ProfileImageUrl { get; set; }
-        string UserProfileBannerImage { get; set; }
+        string UserProfileBannerImageUrl { get; set; }
         string Location { get; set; }
         string Url { get; set; }
         int TweetsCount { get; set; }
         int FollowingCount { get; set; }
         int FollowersCount { get; set; }
         int FavoritesCount { get; set; }
+        List<IEntity> ParsedEntities { get; }
+        bool IsProfileDetail { get; set; }
     }
 }
