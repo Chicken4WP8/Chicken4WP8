@@ -180,9 +180,14 @@
                 </ScrollViewer>
             </DataTemplate>
         </Grid.Resources>
-        <ctrls:AutoListBox x:Name="Items"
-                           ItemTemplate="{StaticResource ProfileDetailTemplate}">
-        </ctrls:AutoListBox>
+
+        <toolkits:LongListSelector x:Name="Items"
+                                   IsGroupingEnabled="False" LayoutMode="List"
+                                   ItemTemplate="{StaticResource ProfileDetailTemplate}">
+            <toolkits:LongListSelector.ListFooter>
+                <Border />
+            </toolkits:LongListSelector.ListFooter>
+        </toolkits:LongListSelector>
 
         <appBar:BindableAppBar Mode="Minimized">
             <appBar:BindableAppBarButton x:Name="AppBar_Next"

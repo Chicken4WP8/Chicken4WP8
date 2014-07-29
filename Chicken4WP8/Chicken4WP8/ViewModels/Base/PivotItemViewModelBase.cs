@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using Caliburn.Micro;
 using Chicken4WP8.Controllers;
@@ -12,6 +13,7 @@ using Chicken4WP8.Controls;
 using Chicken4WP8.Services.Interface;
 using Chicken4WP8.ViewModels.Profile;
 using Chicken4WP8.ViewModels.Status;
+using Microsoft.Phone.Controls;
 
 namespace Chicken4WP8.ViewModels.Base
 {
@@ -19,7 +21,11 @@ namespace Chicken4WP8.ViewModels.Base
     {
         #region properties
         protected const int ITEMSPERPAGE = 10;
-        protected AutoListBox listbox;
+        private const double OFFSET = 25;
+        private double height, maxHeight;
+        private LongListSelector listbox;
+        private ViewportControl container;
+        private FrameworkElement footer;
 
         public IEventAggregator EventAggregator { get; set; }
         public ILanguageHelper LanguageHelper { get; set; }
@@ -67,22 +73,35 @@ namespace Chicken4WP8.ViewModels.Base
         {
             base.OnViewAttached(view, context);
             var control = view as FrameworkElement;
-            listbox = control.GetFirstLogicalChildByType<AutoListBox>(true);
-            if (listbox != null)
-            {
-                listbox.VerticalCompressionTopHandler += VerticalCompressionTopHandler;
-                listbox.VerticalCompressionBottomHandler += VerticalCompressionBottomHandler;
-                listbox.ItemRealizedEventHandler += ItemRealized;
-                listbox.ItemUnRealizedEventHandler += ItemUnRealized;
-            }
+            listbox = control.GetFirstLogicalChildByType<LongListSelector>(true);
+            container = listbox.GetFirstLogicalChildByType<ViewportControl>(true);
+            footer = listbox.ListFooter as FrameworkElement;
+            footer.Height = 0;
+
+            container.ManipulationStateChanged += ManipulationStateChanged;
+            listbox.Loaded += ListboxLoaded;
+            listbox.ItemRealized += ItemRealized;
+            listbox.ItemUnrealized += ItemUnrealized;
         }
         #endregion
 
         #region realize and unrealize an item
-        private async void ItemRealized(object sender, RealizedItemEventArgs e)
+        void ListboxLoaded(object sender, RoutedEventArgs e)
         {
-            //Debug.WriteLine("realize an item");
-            await RealizeItem(e.Item as T);
+            maxHeight = listbox.ActualHeight;
+        }
+
+        private async void ItemRealized(object sender, ItemRealizationEventArgs e)
+        {
+            if (e.ItemKind == LongListSelectorItemKind.Item)
+            {
+                height += e.Container.DesiredSize.Height;
+                if (height < maxHeight)
+                    footer.Height = maxHeight + OFFSET - height;
+                else
+                    footer.Height = 0;
+                await RealizeItem(e.Container.Content as T);
+            }
         }
 
         protected async virtual Task RealizeItem(T item)
@@ -90,10 +109,12 @@ namespace Chicken4WP8.ViewModels.Base
             return;
         }
 
-        private async void ItemUnRealized(object sender, RealizedItemEventArgs e)
+        private async void ItemUnrealized(object sender, ItemRealizationEventArgs e)
         {
-            //Debug.WriteLine("unrealize an item");
-            await UnrealizeItem(e.Item as T);
+            if (e.ItemKind == LongListSelectorItemKind.Item)
+            {
+                await UnrealizeItem(e.Container.Content as T);
+            }
         }
 
         protected async virtual Task UnrealizeItem(T item)
@@ -103,27 +124,39 @@ namespace Chicken4WP8.ViewModels.Base
         #endregion
 
         #region fetch data when at top, load data when at bottom
-        private async void VerticalCompressionTopHandler(object sender, EventArgs e)
+        private async void ManipulationStateChanged(object sender, ManipulationStateChangedEventArgs e)
         {
-            if (IsLoading)
-                return;
-            Debug.WriteLine("now at TOP");
-            await ShowProgressBar();
-            await FetchMoreDataFromWeb();
-            if (Items != null && Items.Count != 0)
-                listbox.ScrollIntoView(Items[0]);
-            listbox.UpdateLayout();
-            await HideProgressBar();
+            if (!IsLoading && container.ManipulationState == ManipulationState.Animating)
+            {
+                if (IsAtTop())
+                {
+                    Debug.WriteLine("now at TOP");
+                    await ShowProgressBar();
+                    await FetchMoreDataFromWeb();
+                    await HideProgressBar();
+                }
+                else if (IsAtBottom())
+                {
+                    Debug.WriteLine("now at BOTTOM");
+                    await ShowProgressBar();
+                    await LoadMoreDataFromWeb();
+                    await HideProgressBar();
+                }
+            }
         }
 
-        private async void VerticalCompressionBottomHandler(object sender, EventArgs e)
+        private bool IsAtTop()
         {
-            if (IsLoading)
-                return;
-            Debug.WriteLine("now at BOTTOM");
-            await ShowProgressBar();
-            await LoadMoreDataFromWeb();
-            await HideProgressBar();
+            if (Math.Abs(container.Viewport.Top - container.Bounds.Top) <= OFFSET)
+                return true;
+            return false;
+        }
+
+        private bool IsAtBottom()
+        {
+            if (Math.Abs(container.Viewport.Bottom - container.Bounds.Bottom) <= OFFSET)
+                return true;
+            return false;
         }
         #endregion
 

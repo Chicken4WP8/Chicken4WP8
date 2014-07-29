@@ -14,9 +14,13 @@
     d:DesignHeight="480" d:DesignWidth="480">
 
     <Grid x:Name="Root">
-        <ctrls:AutoListBox x:Name="Items"
-                           ItemTemplate="{StaticResource TweetTemplate}">
-        </ctrls:AutoListBox>
+        <toolkits:LongListSelector x:Name="Items"
+                                   IsGroupingEnabled="False" LayoutMode="List"
+                                   ItemTemplate="{StaticResource TweetTemplate}">
+            <toolkits:LongListSelector.ListFooter>
+                <Border />
+            </toolkits:LongListSelector.ListFooter>
+        </toolkits:LongListSelector>
 
         <appBar:BindableAppBar  Mode="Minimized">
             <appBar:BindableAppBarButton x:Name="AppBar_Next"
