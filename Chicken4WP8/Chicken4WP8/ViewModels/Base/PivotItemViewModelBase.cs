@@ -89,6 +89,7 @@ namespace Chicken4WP8.ViewModels.Base
         void ListboxLoaded(object sender, RoutedEventArgs e)
         {
             maxHeight = listbox.ActualHeight;
+            footer.Height = maxHeight + OFFSET;
         }
 
         private async void ItemRealized(object sender, ItemRealizationEventArgs e)
