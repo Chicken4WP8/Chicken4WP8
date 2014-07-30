@@ -41,6 +41,9 @@ namespace Chicken4WP8.ViewModels.Status
             await ShowProgressBar();
             //initialize the tweet from cache
             status = StorageService.GetTempTweet();
+            status.IsStatusDetail = true;
+            if (status.RetweetedStatus != null)
+                status.RetweetedStatus.IsStatusDetail = true;
             Items.Add(status);
             await HideProgressBar();
         }

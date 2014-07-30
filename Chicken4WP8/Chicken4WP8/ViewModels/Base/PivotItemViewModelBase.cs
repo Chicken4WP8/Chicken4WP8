@@ -243,9 +243,6 @@ namespace Chicken4WP8.ViewModels.Base
         protected virtual void ItemClicked(object item)
         {
             var tweet = item as ITweetModel;
-            tweet.IsStatusDetail = true;
-            if (tweet.RetweetedStatus != null)
-                tweet.RetweetedStatus.IsStatusDetail = true;
             StorageService.UpdateTempTweet(tweet);
             NavigationService.UriFor<StatusPageViewModel>()
                 .WithParam(o => o.Random, DateTime.Now.Ticks.ToString("x"))
