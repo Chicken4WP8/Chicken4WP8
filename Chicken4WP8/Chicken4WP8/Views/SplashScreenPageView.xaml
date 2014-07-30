@@ -16,12 +16,12 @@
     <Grid x:Name="Root" Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition Height="2*" />
-            <RowDefinition Height="173" />
+            <RowDefinition Height="280" />
             <RowDefinition Height="3*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*" />
-            <ColumnDefinition Width="173" />
+            <ColumnDefinition Width="280" />
             <ColumnDefinition Width="3*" />
         </Grid.ColumnDefinitions>
         <Image Grid.Row="1" Grid.Column="1"

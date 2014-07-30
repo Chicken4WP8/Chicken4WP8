@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
@@ -21,11 +22,12 @@ namespace Chicken4WP8.ViewModels.Base
     {
         #region properties
         protected const int ITEMSPERPAGE = 10;
-        private const double OFFSET = 25;
+        private const double OFFSET = 10;
         private double height, maxHeight;
-        private LongListSelector listbox;
+        protected LongListSelector listbox;
         private ViewportControl container;
         private FrameworkElement footer;
+        private List<T> realizedItems = new List<T>();
 
         public IEventAggregator EventAggregator { get; set; }
         public ILanguageHelper LanguageHelper { get; set; }
@@ -86,7 +88,7 @@ namespace Chicken4WP8.ViewModels.Base
         #endregion
 
         #region realize and unrealize an item
-        void ListboxLoaded(object sender, RoutedEventArgs e)
+        private void ListboxLoaded(object sender, RoutedEventArgs e)
         {
             maxHeight = listbox.ActualHeight;
             footer.Height = maxHeight + OFFSET;
@@ -96,13 +98,25 @@ namespace Chicken4WP8.ViewModels.Base
         {
             if (e.ItemKind == LongListSelectorItemKind.Item)
             {
-                height += e.Container.DesiredSize.Height;
-                if (height < maxHeight)
-                    footer.Height = maxHeight + OFFSET - height;
-                else
-                    footer.Height = 0;
-                await RealizeItem(e.Container.Content as T);
+                var item = e.Container.Content as T;
+                if (!realizedItems.Contains(item))
+                {
+                    var grid = e.Container.GetFirstLogicalChildByType<Grid>(true);
+                    realizedItems.Add(item);
+                    grid.SizeChanged += ItemSizeChanged;
+                }
+
+                await RealizeItem(item);
             }
+        }
+
+        private void ItemSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            height += e.NewSize.Height - e.PreviousSize.Height;
+            if (height < maxHeight)
+                footer.Height = maxHeight + OFFSET - height;
+            else
+                footer.Height = 0;
         }
 
         protected async virtual Task RealizeItem(T item)
@@ -132,30 +146,54 @@ namespace Chicken4WP8.ViewModels.Base
                 if (IsAtTop())
                 {
                     Debug.WriteLine("now at TOP");
-                    await ShowProgressBar();
-                    await FetchMoreDataFromWeb();
-                    await HideProgressBar();
+                    await FetchDataFromWeb();
                 }
                 else if (IsAtBottom())
                 {
                     Debug.WriteLine("now at BOTTOM");
-                    await ShowProgressBar();
-                    await LoadMoreDataFromWeb();
-                    await HideProgressBar();
+                    await LoadDataFromWeb();
                 }
             }
         }
 
+        #region fetch data
+        protected async virtual Task FetchDataFromWeb()
+        {
+            await ShowProgressBar();
+            await FetchMoreDataFromWeb();
+            await HideProgressBar();
+        }
+
+        protected async virtual Task FetchMoreDataFromWeb()
+        {
+            return;
+        }
+        #endregion
+
+        #region load data
+        protected async virtual Task LoadDataFromWeb()
+        {
+            await ShowProgressBar();
+            await LoadMoreDataFromWeb();
+            await HideProgressBar();
+        }
+
+        protected async virtual Task LoadMoreDataFromWeb()
+        {
+            return;
+        }
+        #endregion
+
         private bool IsAtTop()
         {
-            if (Math.Abs(container.Viewport.Top - container.Bounds.Top) <= OFFSET)
+            if ((container.Viewport.Top <= container.Bounds.Top))
                 return true;
             return false;
         }
 
         private bool IsAtBottom()
         {
-            if (Math.Abs(container.Viewport.Bottom - container.Bounds.Bottom) <= OFFSET)
+            if (container.Viewport.Bottom >= container.Bounds.Bottom)
                 return true;
             return false;
         }
@@ -243,20 +281,6 @@ namespace Chicken4WP8.ViewModels.Base
         {
             IsLoading = false;
             await ProgressService.HideAsync();
-        }
-        #endregion
-
-        #region fetch data
-        protected async virtual Task FetchMoreDataFromWeb()
-        {
-            return;
-        }
-        #endregion
-
-        #region load data
-        protected async virtual Task LoadMoreDataFromWeb()
-        {
-            return;
         }
         #endregion
     }

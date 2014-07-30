@@ -32,7 +32,7 @@ namespace Chicken4WP8.ViewModels.Status
         }
         #endregion
 
-        protected override async void OnInitialize()
+        protected async override void OnInitialize()
         {
             base.OnInitialize();
             if (Items == null)
@@ -73,15 +73,23 @@ namespace Chicken4WP8.ViewModels.Status
             await userController.SetProfileImageAsync(user, data);
         }
 
-        protected async override Task FetchMoreDataFromWeb()
+        protected async override Task FetchDataFromWeb()
         {
             var id = Items[0].InReplyToTweetId;
             if (id == null)
                 return;
+            await ShowProgressBar();
             var option = Const.GetDictionary();
             option.Add(Const.ID, id);
             var tweet = await statusController.ShowAsync(option);
             Items.Insert(0, tweet);
+            listbox.ScrollTo(Items[0]);
+            await HideProgressBar();
+        }
+
+        protected async override Task LoadDataFromWeb()
+        {
+            return;
         }
     }
 }
