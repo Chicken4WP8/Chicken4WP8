@@ -18,6 +18,6 @@ namespace Chicken4WP8.Services.Interface
         void UpdateTempUser(IUserModel user);
 
         byte[] GetCachedImage(string id);
-        void AddOrUpdateImageCache(string id, byte[] data);
+        byte[] AddOrUpdateImageCache(string id, byte[] data);
     }
 }

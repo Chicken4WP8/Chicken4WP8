@@ -49,17 +49,9 @@ namespace Chicken4WP8.ViewModels.Profile
 
         protected async override Task RealizeItem(IUserModel item)
         {
-            if (user.ImageSource != null)
-                return;
-            string url = user.ProfileImageUrl.Replace("_bigger", "");
-            string id = user.Id.Value + url;
-            var data = StorageService.GetCachedImage(id);
-            if (data == null)
-            {
-                data = await userController.DownloadProfileImageAsync(url);
-                StorageService.AddOrUpdateImageCache(id, data);
-            }
-            await userController.SetProfileImageAsync(user, data);
+            await Task.Run(()=>userController.SetProfileImageAsync(user));
+            await Task.Run(() => userController.SetProfileBannerImageAsync(user));
+            return;
         }
     }
 }

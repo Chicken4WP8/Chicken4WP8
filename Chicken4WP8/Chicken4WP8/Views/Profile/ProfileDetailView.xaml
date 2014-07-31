@@ -31,7 +31,7 @@
                     </Grid.Resources>
                     <!--profile banner-->
                     <ctrls:ThemedImage Grid.Row="1" Opacity="0.5"
-                                               Source="{Binding UserProfileBannerImageUrl}" />
+                                               Source="{Binding UserProfileBannerImageData}" />
                     <Grid Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="104" />
@@ -48,7 +48,7 @@
                             <HyperlinkButton.Template>
                                 <ControlTemplate>
                                     <ctrls:ThemedImage Width="124" Height="124" Margin="0,-40,0,0"
-                                                               DefaultImage="/Images/dark/cat.png" Source="{Binding ImageSource}">
+                                                               DefaultImage="/Images/dark/cat.png" Source="{Binding ProfileImageData}">
                                         <ctrls:ThemedImage.Clip>
                                             <RectangleGeometry Rect="0,0,124,124" RadiusX="6" RadiusY="6" />
                                         </ctrls:ThemedImage.Clip>

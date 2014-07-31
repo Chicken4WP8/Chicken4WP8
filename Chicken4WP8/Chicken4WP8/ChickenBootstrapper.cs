@@ -59,6 +59,7 @@ namespace Chicken4WP8
                 //starts with base
                 .Where(type => type.Name.StartsWith("Base"))
                 .AsImplementedInterfaces()
+                .PropertiesAutowired()
                 .WithMetadata<OAuthTypeMetadata>(
                 meta => meta.For(
                     m => m.OAuthType, OAuthSettingType.BaseOAuth));
@@ -68,11 +69,12 @@ namespace Chicken4WP8
                 //starts with base
                 .Where(type => type.Name.StartsWith("Twip"))
                 .AsImplementedInterfaces()
+                .PropertiesAutowired()
                 .WithMetadata<OAuthTypeMetadata>(
                 meta => meta.For(
                     m => m.OAuthType, OAuthSettingType.TwipOAuth));
         }
-        
+
         protected override void OnUnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
         {
             base.OnUnhandledException(sender, e);

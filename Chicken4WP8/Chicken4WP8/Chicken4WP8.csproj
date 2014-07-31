@@ -148,7 +148,6 @@
     <Compile Include="Services\Interface\IProgressService.cs" />
     <Compile Include="Services\Interface\IStorageService.cs" />
     <Compile Include="Services\Interface\IToastMessageService.cs" />
-    <Compile Include="Controllers\IImageSource.cs" />
     <Compile Include="Controllers\Implemention\Base\EntitiesModel.cs" />
     <Compile Include="Controllers\Implemention\Base\TweetModel.cs" />
     <Compile Include="Controllers\Implemention\Base\UserModel.cs" />

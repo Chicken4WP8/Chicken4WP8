@@ -1,5 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
+using System.Threading;
 using Chicken4WP8.Common;
 using Chicken4WP8.Controllers;
 using Chicken4WP8.Entities;
@@ -14,6 +16,7 @@ namespace Chicken4WP8.Services.Implemention
     {
         #region properties
         private static JsonSerializer serializer;
+        public static AutoResetEvent resetEvent = new AutoResetEvent(true);
         private ChickenDataContext context;
 
         static StorageService()
@@ -132,16 +135,28 @@ namespace Chicken4WP8.Services.Implemention
             return null;
         }
 
-        public void AddOrUpdateImageCache(string id, byte[] data)
+        public byte[] AddOrUpdateImageCache(string id, byte[] data)
         {
-            var image = context.CachedImages.FirstOrDefault(c => c.Id == id);
-            if (image == null)
+            try
             {
-                image = new CachedImage { Id = id };
-                context.CachedImages.InsertOnSubmit(image);
+                resetEvent.WaitOne();
+                var image = context.CachedImages.FirstOrDefault(c => c.Id == id);
+                if (image == null)
+                {
+                    image = new CachedImage { Id = id };
+                    context.CachedImages.InsertOnSubmit(image);
+                }
+                image.Data = data;
+                context.SubmitChanges();
             }
-            image.Data = data;
-            context.SubmitChanges();
+            catch (Exception e)
+            {
+            }
+            finally
+            {
+                resetEvent.Set();
+            }
+            return data;
         }
 
         #region private
