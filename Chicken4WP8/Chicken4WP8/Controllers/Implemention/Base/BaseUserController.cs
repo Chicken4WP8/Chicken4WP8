@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Chicken4WP8.Controllers.Interface;
 using Chicken4WP8.Services.Interface;
 
@@ -10,6 +11,14 @@ namespace Chicken4WP8.Controllers.Implemention.Base
 
         public BaseUserController()
         { }
+
+        public async Task<IUserModel> ShowAsync(IDictionary<string, object> parameters)
+        {
+            var user = await tokens.Users.ShowAsync(parameters);
+            if (user != null)
+                return new UserModel(user);
+            return null;
+        }
 
         public async Task SetProfileImageAsync(IUserModel user)
         {
