@@ -26,6 +26,7 @@ namespace Chicken4WP8.Common
         #region rest api
         public const string DEFAULT_VALUE_TRUE = "true";
         public const string DEFAULT_VALUE_FALSE = "false";
+        public const string FOLLOWING = "following";
         public const string FOLLOWED_BY = "followed_by";
         #endregion
 

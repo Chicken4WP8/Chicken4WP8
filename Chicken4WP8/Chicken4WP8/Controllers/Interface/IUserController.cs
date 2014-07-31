@@ -8,5 +8,6 @@ namespace Chicken4WP8.Controllers.Interface
         Task<IUserModel> ShowAsync(IDictionary<string, object> parameters);
         Task SetProfileImageAsync(IUserModel user);
         Task SetProfileBannerImageAsync(IUserModel user);
+        Task LookupFriendshipAsync(IUserModel user);
     }
 }
