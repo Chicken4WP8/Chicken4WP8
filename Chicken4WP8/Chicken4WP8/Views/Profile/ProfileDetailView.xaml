@@ -30,8 +30,8 @@
                         </Style>
                     </Grid.Resources>
                     <!--profile banner-->
-                    <ctrls:ThemedImage Grid.Row="1" Opacity="0.5"
-                                               Source="{Binding UserProfileBannerImageData}" />
+                    <ctrls:ThemedImage Grid.Row="1" Opacity="0.4"
+                                       Stretch="Fill" Source="{Binding ProfileBannerImageData}" />
                     <Grid Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="104" />
@@ -174,7 +174,6 @@
                         VerticalAlignment="Center" VerticalContentAlignment="Stretch"
                         Entities ="{Binding ParsedEntities}" Text="{Binding Description}" />
                 </Grid>
-
             </DataTemplate>
         </Grid.Resources>
 

@@ -23,7 +23,7 @@ namespace Chicken4WP8.Controllers
         string ProfileImageUrl { get; set; }
         byte[] ProfileImageData { get; set; }
         string UserProfileBannerImageUrl { get; set; }
-        byte[] ProfileImageBannerImageData { get; set; }
+        byte[] ProfileBannerImageData { get; set; }
         string Location { get; set; }
         string Url { get; set; }
         int TweetsCount { get; set; }

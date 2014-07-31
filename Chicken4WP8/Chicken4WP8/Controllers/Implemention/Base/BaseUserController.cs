@@ -14,6 +14,8 @@ namespace Chicken4WP8.Controllers.Implemention.Base
         public async Task SetProfileImageAsync(IUserModel user)
         {
             string url = user.ProfileImageUrl;
+            if (string.IsNullOrEmpty(url))
+                return;
             string id = user.Id.Value + url;
             user.ProfileImageData = await GetImageAsync(id, url);
         }
@@ -21,8 +23,10 @@ namespace Chicken4WP8.Controllers.Implemention.Base
         public async Task SetProfileBannerImageAsync(IUserModel user)
         {
             string url = user.UserProfileBannerImageUrl;
+            if (string.IsNullOrEmpty(url))
+                return;
             string id = user.Id.Value + url;
-            user.ProfileImageBannerImageData = await GetImageAsync(id, url);
+            user.ProfileBannerImageData = await GetImageAsync(id, url);
         }
 
         private async Task<byte[]> GetImageAsync(string id, string url)

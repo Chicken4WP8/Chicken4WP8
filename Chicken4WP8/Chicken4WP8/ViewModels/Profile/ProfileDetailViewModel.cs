@@ -53,5 +53,16 @@ namespace Chicken4WP8.ViewModels.Profile
             await Task.Run(() => userController.SetProfileBannerImageAsync(user));
             return;
         }
+
+        protected override async Task FetchMoreDataFromWeb()
+        {
+            //userController.getprofiledetail();
+            return;
+        }
+
+        protected async override Task LoadDataFromWeb()
+        {
+            return;
+        }
     }
 }

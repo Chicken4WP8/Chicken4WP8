@@ -31,7 +31,7 @@ namespace Chicken4WP8.Controllers.Implemention.Base
             if (user.Url != null)
                 Url = user.Url.AbsoluteUri;
             if (user.ProfileBannerUrl != null)
-                UserProfileBannerImageUrl = user.ProfileBannerUrl.AbsoluteUri;
+                UserProfileBannerImageUrl = user.ProfileBannerUrl.AbsoluteUri + "/ipad_retina";
             if (user.Entities != null)
                 Entities = new UserEntititesModel(user.Entities);
         }
@@ -121,13 +121,13 @@ namespace Chicken4WP8.Controllers.Implemention.Base
         }
         private byte[] profileImageBannerImageData;
         [JsonIgnore]
-        public byte[] ProfileImageBannerImageData
+        public byte[] ProfileBannerImageData
         {
             get { return profileImageBannerImageData; }
             set
             {
                 profileImageBannerImageData = value;
-                NotifyOfPropertyChange(() => ProfileImageBannerImageData);
+                NotifyOfPropertyChange(() => ProfileBannerImageData);
             }
         }
         #endregion
