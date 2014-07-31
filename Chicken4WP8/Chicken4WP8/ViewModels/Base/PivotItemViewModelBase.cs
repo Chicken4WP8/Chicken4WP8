@@ -221,8 +221,7 @@ namespace Chicken4WP8.ViewModels.Base
         protected virtual void AvatarClicked(object item)
         {
             var tweet = item as ITweetModel;
-            var user = tweet.RetweetedStatus == null ? tweet.User : tweet.RetweetedStatus.User;
-            user.IsProfileDetail = true;
+            var user = tweet.RetweetedStatus == null ? tweet.User : tweet.RetweetedStatus.User;            
             //var temp = StorageService.GetTempUser();
             //if (temp != null && user.ScreenName == temp.ScreenName)
             //{

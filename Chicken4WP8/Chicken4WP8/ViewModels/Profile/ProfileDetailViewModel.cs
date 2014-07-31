@@ -37,6 +37,7 @@ namespace Chicken4WP8.ViewModels.Profile
             await ShowProgressBar();
             //initialize the user from cache
             user = StorageService.GetTempUser();
+            user.IsProfileDetail = true;
             Items.Add(user);
             await HideProgressBar();
         }
