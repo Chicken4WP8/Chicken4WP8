@@ -77,7 +77,7 @@ namespace Chicken4WP8
 
         protected override void OnUnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
         {
-            base.OnUnhandledException(sender, e);
+            //base.OnUnhandledException(sender, e);
         }
     }
 }

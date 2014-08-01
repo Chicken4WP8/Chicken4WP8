@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Caliburn.Micro;
 using CoreTweet;
+using Newtonsoft.Json;
 
 namespace Chicken4WP8.Controllers.Implemention.Base
 {
@@ -171,6 +172,17 @@ namespace Chicken4WP8.Controllers.Implemention.Base
         public Uri MediaUrlHttps { get; set; }
         public long? SourceStatusId { get; set; }
         public string Type { get; set; }
+        private byte[] mediaData;
+        [JsonIgnore]
+        public byte[] MediaData
+        {
+            get { return mediaData; }
+            set
+            {
+                mediaData = value;
+                NotifyOfPropertyChange(() => MediaData);
+            }
+        }
     }
 
     public class UserMentionEntityModel : EntityModel, IUserMentionEntity

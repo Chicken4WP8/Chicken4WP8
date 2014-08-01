@@ -50,6 +50,7 @@ namespace Chicken4WP8.Controllers
         Uri MediaUrlHttps { get; set; }
         long? SourceStatusId { get; set; }
         string Type { get; set; }
+        byte[] MediaData { get; set; }
     }
     #endregion
 

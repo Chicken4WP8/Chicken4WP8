@@ -57,12 +57,12 @@
                             </HyperlinkButton.Template>
                         </HyperlinkButton>
                         <!--is private, is verified, etc-->
-                        <StackPanel Grid.Row="1" Margin="0,4,0,0" Opacity="0.6"
+                        <StackPanel Grid.Row="1" Margin="0,4,0,0" Opacity="0.8"
                                                 Orientation="Horizontal" HorizontalAlignment="Center"
                                                 Visibility="{Binding ElementName=Root,Path=DataContext.IsLoading,Converter={StaticResource InvertBooleanToVisibilityConverter},FallbackValue=Collapsed}">
                             <StackPanel.Resources>
                                 <Style TargetType="Rectangle" BasedOn="{StaticResource RetweetRectangleSmall}">
-                                    <Setter Property="Fill" Value="{StaticResource PhoneForegroundBrush}" />
+                                    <Setter Property="Fill" Value="{StaticResource PhoneAccentBrush}" />
                                     <Setter Property="Margin" Value="2,0" />
                                     <Setter Property="VerticalAlignment" Value="Bottom" />
                                 </Style>
