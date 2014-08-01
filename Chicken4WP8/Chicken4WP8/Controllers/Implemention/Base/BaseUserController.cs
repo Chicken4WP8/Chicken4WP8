@@ -3,14 +3,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Chicken4WP8.Common;
 using Chicken4WP8.Controllers.Interface;
-using Chicken4WP8.Services.Interface;
 
 namespace Chicken4WP8.Controllers.Implemention.Base
 {
     public class BaseUserController : BaseControllerBase, IUserController
     {
-        public IStorageService StorageService { get; set; }
-
         public BaseUserController()
         { }
 
@@ -28,7 +25,7 @@ namespace Chicken4WP8.Controllers.Implemention.Base
             if (string.IsNullOrEmpty(url))
                 return;
             string id = user.Id.Value + url;
-            user.ProfileImageData = await GetImageAsync(id, url);
+            user.ProfileImageData = await base.GetImageAsync(id, url);
         }
 
         public async Task SetProfileBannerImageAsync(IUserModel user)
@@ -37,7 +34,7 @@ namespace Chicken4WP8.Controllers.Implemention.Base
             if (string.IsNullOrEmpty(url))
                 return;
             string id = user.Id.Value + url;
-            user.ProfileBannerImageData = await GetImageAsync(id, url);
+            user.ProfileBannerImageData = await base.GetImageAsync(id, url);
         }
 
         public async Task LookupFriendshipAsync(IUserModel user)
@@ -53,17 +50,6 @@ namespace Chicken4WP8.Controllers.Implemention.Base
                 user.IsFollowing = connections.Contains(Const.FOLLOWING);
                 user.IsFollowedBy = connections.Contains(Const.FOLLOWED_BY);
             }
-        }
-
-        private async Task<byte[]> GetImageAsync(string id, string url)
-        {
-            var data = StorageService.GetCachedImage(id);
-            if (data == null)
-            {
-                data = await base.DownloadImage(url);
-                data = StorageService.AddOrUpdateImageCache(id, data);
-            }
-            return data;
         }
     }
 }

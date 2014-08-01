@@ -2,12 +2,26 @@
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
+using Chicken4WP8.Services.Interface;
 
 namespace Chicken4WP8.Controllers.Implemention
 {
-    public class ControllerBase
+    public abstract class ControllerBase
     {
-        protected async Task<byte[]> DownloadImage(string url)
+        public IStorageService StorageService { get; set; }
+
+        protected async Task<byte[]> GetImageAsync(string id, string url)
+        {
+            var data = StorageService.GetCachedImage(id);
+            if (data == null)
+            {
+                data = await DownloadImage(url);
+                data = StorageService.AddOrUpdateImageCache(id, data);
+            }
+            return data;
+        }
+
+        private async Task<byte[]> DownloadImage(string url)
         {
             WebRequest httpWebRequest = WebRequest.Create(new Uri(url, UriKind.Absolute));
             Task<WebResponse> requestTask =

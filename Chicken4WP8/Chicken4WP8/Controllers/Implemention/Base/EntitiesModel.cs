@@ -161,6 +161,8 @@ namespace Chicken4WP8.Controllers.Implemention.Base
             MediaUrlHttps = entity.MediaUrlHttps;
             SourceStatusId = entity.SourceStatusId;
             Type = entity.Type;
+            if (entity.Sizes != null)
+                Sizes = new MediaSizesModel(entity.Sizes);
         }
 
         public override EntityType EntityType
@@ -170,19 +172,56 @@ namespace Chicken4WP8.Controllers.Implemention.Base
         public long Id { get; set; }
         public Uri MediaUrl { get; set; }
         public Uri MediaUrlHttps { get; set; }
+        public IMediaSizes Sizes { get; set; }
         public long? SourceStatusId { get; set; }
         public string Type { get; set; }
-        private byte[] mediaData;
+        private byte[] imageData;
         [JsonIgnore]
-        public byte[] MediaData
+        public byte[] ImageData
         {
-            get { return mediaData; }
+            get { return imageData; }
             set
             {
-                mediaData = value;
-                NotifyOfPropertyChange(() => MediaData);
+                imageData = value;
+                NotifyOfPropertyChange(() => ImageData);
             }
         }
+    }
+
+    public class MediaSizesModel : PropertyChangedBase, IMediaSizes
+    {
+        public MediaSizesModel()
+        { }
+
+        public MediaSizesModel(MediaSizes sizes)
+        {
+            Large = new MediaSizeModel(sizes.Large);
+            Medium = new MediaSizeModel(sizes.Medium);
+            Small = new MediaSizeModel(sizes.Small);
+            Thumb = new MediaSizeModel(sizes.Thumb);
+        }
+
+        public IMediaSize Large { get; set; }
+        public IMediaSize Medium { get; set; }
+        public IMediaSize Small { get; set; }
+        public IMediaSize Thumb { get; set; }
+    }
+
+    public class MediaSizeModel : PropertyChangedBase, IMediaSize
+    {
+        public MediaSizeModel()
+        { }
+
+        public MediaSizeModel(MediaSize size)
+        {
+            Height = size.Height;
+            Width = size.Width;
+            Resize = size.Resize;
+        }
+
+        public int Height { get; set; }
+        public int Width { get; set; }
+        public string Resize { get; set; }
     }
 
     public class UserMentionEntityModel : EntityModel, IUserMentionEntity
@@ -229,7 +268,7 @@ namespace Chicken4WP8.Controllers.Implemention.Base
 
         public override string ToString()
         {
-            return Latitude + "," + Longtitude;
+            return (int)Latitude + "," + (int)Longtitude;
         }
     }
 }

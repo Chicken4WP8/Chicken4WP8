@@ -65,12 +65,14 @@
                                    Style="{StaticResource TweetScreenName}" />
                             <!--tweet created date, media icon, etc-->
                             <Grid Grid.Row="2" Opacity="0.6" HorizontalAlignment="Stretch">
+                                <Grid.Resources>
+                                    <Style TargetType="TextBlock" BasedOn="{StaticResource TextSmall}" />
+                                </Grid.Resources>
                                 <!--date-->
                                 <TextBlock Text="{Binding CreatedAt}"
-                                       HorizontalAlignment="Left" TextAlignment="Left"
-                                       Style="{StaticResource TextSmall}" />
+                                       HorizontalAlignment="Left" TextAlignment="Left" />
                                 <!--media retweet count etc-->
-                                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                                <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal">
                                     <StackPanel.Resources>
                                         <Style TargetType="Rectangle" BasedOn="{StaticResource RetweetRectangleSmall}">
                                             <Setter Property="Fill" Value="{StaticResource PhoneAccentBrush}" />
@@ -88,6 +90,7 @@
                                             <ImageBrush ImageSource="/Images/dark/media.png" />
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
+                                    <TextBlock Text="{Binding Entities.Media.Count}" Foreground="{StaticResource PhoneAccentBrush}" />
                                     <!--location-->
                                     <Rectangle Visibility="{Binding IncludeCoordinates,Converter={StaticResource BooleanToVisibilityConverter}}">
                                         <Rectangle.OpacityMask>
@@ -163,7 +166,9 @@
                         <HyperlinkButton TargetName="_blank" NavigateUri="{Binding Entities.Media[0].MediaUrl}">
                             <HyperlinkButton.Template>
                                 <ControlTemplate>
-                                    <ctrls:ThemedImage Source="{Binding Entities.Media[0].MediaUrl}" />
+                                    <Grid>
+                                        <ctrls:ThemedImage Source="{Binding Entities.Media[0].ImageData}" />
+                                    </Grid>
                                 </ControlTemplate>
                             </HyperlinkButton.Template>
                         </HyperlinkButton>
@@ -214,12 +219,14 @@
                                    Style="{StaticResource TweetScreenName}" />
                             <!--tweet created date, media icon, etc-->
                             <Grid Grid.Row="2" Opacity="0.6" HorizontalAlignment="Stretch">
+                                <Grid.Resources>
+                                    <Style TargetType="TextBlock" BasedOn="{StaticResource TextSmall}" />
+                                </Grid.Resources>
                                 <!--date-->
                                 <TextBlock Text="{Binding RetweetedStatus.CreatedAt}"
-                                       HorizontalAlignment="Left" TextAlignment="Left"
-                                       Style="{StaticResource TextSmall}" />
+                                           HorizontalAlignment="Left" TextAlignment="Left" />
                                 <!--media retweet count etc-->
-                                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                                <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal">
                                     <StackPanel.Resources>
                                         <Style TargetType="Rectangle" BasedOn="{StaticResource RetweetRectangleSmall}">
                                             <Setter Property="Fill" Value="{StaticResource PhoneAccentBrush}" />
@@ -237,6 +244,7 @@
                                             <ImageBrush ImageSource="/Images/dark/media.png" />
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
+                                    <TextBlock Text="{Binding Entities.Media.Count}" Foreground="{StaticResource PhoneAccentBrush}" />
                                     <!--location-->
                                     <Rectangle Visibility="{Binding RetweetedStatus.IncludeCoordinates,Converter={StaticResource BooleanToVisibilityConverter}}">
                                         <Rectangle.OpacityMask>
@@ -312,7 +320,7 @@
                         <HyperlinkButton TargetName="_blank" NavigateUri="{Binding RetweetedStatus.Entities.Media[0].MediaUrl}">
                             <HyperlinkButton.Template>
                                 <ControlTemplate>
-                                    <ctrls:ThemedImage Source="{Binding RetweetedStatus.Entities.Media[0].MediaUrl}" />
+                                    <ctrls:ThemedImage Source="{Binding RetweetedStatus.Entities.Media[0].ImageData}" />
                                 </ControlTemplate>
                             </HyperlinkButton.Template>
                         </HyperlinkButton>

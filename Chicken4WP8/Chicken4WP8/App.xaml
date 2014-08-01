@@ -55,7 +55,7 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="ctrls:ThemedImage">
                         <Grid>
-                            <Image x:Name="ImageBrush" Stretch="Fill" />
+                            <Image x:Name="ImageBrush" />
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>

@@ -48,9 +48,25 @@ namespace Chicken4WP8.Controllers
         long Id { get; set; }
         Uri MediaUrl { get; set; }
         Uri MediaUrlHttps { get; set; }
+        IMediaSizes Sizes { get; set; }
         long? SourceStatusId { get; set; }
         string Type { get; set; }
-        byte[] MediaData { get; set; }
+        byte[] ImageData { get; set; }
+    }
+
+    public interface IMediaSizes
+    {
+        IMediaSize Large { get; set; }
+        IMediaSize Medium { get; set; }
+        IMediaSize Small { get; set; }
+        IMediaSize Thumb { get; set; }
+    }
+
+    public interface IMediaSize
+    {
+        int Height { get; set; }
+        string Resize { get; set; }
+        int Width { get; set; }
     }
     #endregion
 

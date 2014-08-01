@@ -7,8 +7,7 @@ namespace Chicken4WP8.Controllers.Implemention.Base
     public class BaseStatusController : BaseControllerBase, IStatusController
     {
         public BaseStatusController()
-        {
-        }
+        { }
 
         public async Task<IEnumerable<ITweetModel>> HomeTimelineAsync(IDictionary<string, object> parameters = null)
         {
@@ -34,6 +33,28 @@ namespace Chicken4WP8.Controllers.Implemention.Base
         {
             var status = await tokens.Statuses.ShowAsync(parameters);
             return new TweetModel(status);
+        }
+
+        public async Task SetStatusImagesAsync(ITweetModel status)
+        {
+            List<IMediaEntity> medias = null;
+            if (status.RetweetedStatus != null
+                && status.RetweetedStatus.Entities != null
+                && status.RetweetedStatus.Entities.Media != null
+                && status.RetweetedStatus.Entities.Media.Count != 0)
+                medias = status.RetweetedStatus.Entities.Media;
+            else if (status.Entities != null
+                && status.Entities.Media != null
+                && status.Entities.Media.Count != 0)
+                medias = status.Entities.Media;
+            if (medias != null && medias.Count != 0)
+            {
+                if (medias[0].MediaUrlHttps != null)
+                {
+                    string url = medias[0].MediaUrlHttps.AbsoluteUri;
+                    medias[0].ImageData = await base.GetImageAsync(url, url);
+                }
+            }
         }
     }
 }

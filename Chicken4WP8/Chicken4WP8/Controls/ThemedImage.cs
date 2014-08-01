@@ -85,6 +85,7 @@ namespace Chicken4WP8.Controls
                     ElementImageBrush.Stretch = Stretch;
                     if (Source == null)
                     {
+                        ElementImageBrush.Stretch = Stretch.Uniform;
                         ElementImageBrush.Source = DefaultImage;
                         return;
                     }
