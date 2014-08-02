@@ -14,10 +14,9 @@ using Chicken4WP8.ViewModels.Base;
 
 namespace Chicken4WP8.ViewModels.Profile
 {
-    public class ProfileDetailViewModel : PivotItemViewModelBase<IUserModel>
+    public class ProfileDetailViewModel : PivotItemViewModelBase<IUserModel>, IHandle<IUserModel>
     {
         #region properties
-        private ProfilePageNavigationArgs args;
         protected IUserController userController;
 
         public ProfileDetailViewModel(
@@ -29,75 +28,60 @@ namespace Chicken4WP8.ViewModels.Profile
             userController = userControllers.Single(c => c.Metadata.OAuthType == App.UserSetting.OAuthSetting.OAuthSettingType).Value;
         }
 
-        #endregion
-
-        protected override async void OnInitialize()
+        protected override void OnInitialize()
         {
             base.OnInitialize();
             if (Items == null)
                 Items = new ObservableCollection<IUserModel>();
-            Items.Clear();
-
-            await ShowProgressBar();
-            //initialize the user from cache
-            args = StorageService.GetTempUser();
-            if (args.Mention != null)
-            {
-                await Task.Factory.StartNew(() => FetchMoreDataFromWeb());
-            }
-            else
-            {
-                args.User.IsProfileDetail = true;
-                Items.Add(args.User);
-            }
-            await HideProgressBar();
         }
+        #endregion
 
         protected override void SetLanguage()
         {
             DisplayName = LanguageHelper["ProfileDetailViewModel_Header"];
         }
 
-        protected async override Task RealizeItem(IUserModel item)
+        public void Handle(IUserModel message)
         {
-            Task.Factory.StartNew(() => userController.SetProfileImageAsync(args.User));
-            Task.Factory.StartNew(() => userController.SetProfileBannerImageAsync(args.User));
-            if (args.User.Id != App.UserSetting.Id)
-                Task.Factory.StartNew(() => userController.LookupFriendshipAsync(args.User));
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
+            {
+                Items.Clear();
+                Items.Add(message);
+            });
+        }
+
+        protected override Task RealizeItem(IUserModel item)
+        {
+            Task.Factory.StartNew(() => userController.SetProfileImageAsync(item));
+            Task.Factory.StartNew(() => userController.SetProfileBannerImageAsync(item));
+            if (item.Id != App.UserSetting.Id)
+                Task.Factory.StartNew(() => userController.LookupFriendshipAsync(item));
+            return Task.Delay(0);
         }
 
         protected override async Task FetchMoreDataFromWeb()
         {
+            if (Items.Count == 0)
+                return;
             var option = Const.GetDictionary();
-            if (args.User != null)
-            {
-                option.Add(Const.USER_ID, args.User.Id);
-                option.Add(Const.USER_SCREEN_NAME, args.User.ScreenName);
-            }
-            else if (args.Mention != null)
-            {
-                if (args.Mention.Id != 0)
-                    option.Add(Const.USER_ID, args.Mention.Id);
-                if (!string.IsNullOrEmpty(args.Mention.ScreenName))
-                    option.Add(Const.USER_SCREEN_NAME, args.Mention.ScreenName);
-            }
+            option.Add(Const.USER_ID, Items[0].Id);
+            option.Add(Const.USER_SCREEN_NAME, Items[0].ScreenName);
             option.Add(Const.INCLUDE_ENTITIES, Const.DEFAULT_VALUE_FALSE);
             var profile = await userController.ShowAsync(option);
             if (profile != null)
             {
                 profile.IsProfileDetail = true;
-                args.User = profile;
                 Deployment.Current.Dispatcher.BeginInvoke(() =>
                     {
                         Items.Clear();
-                        Items.Add(args.User);
+                        Items.Add(profile);
                     });
             }
         }
 
-        protected async override Task LoadDataFromWeb()
+        protected override Task LoadDataFromWeb()
         {
-            return;
+            return Task.Delay(0);
         }
     }
 }
