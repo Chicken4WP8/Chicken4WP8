@@ -75,7 +75,7 @@
                                 <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal">
                                     <StackPanel.Resources>
                                         <Style TargetType="Rectangle" BasedOn="{StaticResource RetweetRectangleSmall}">
-                                            <Setter Property="Fill" Value="{StaticResource PhoneAccentBrush}" />
+                                            <Setter Property="Fill" Value="{StaticResource PhoneForegroundBrush}" />
                                         </Style>
                                     </StackPanel.Resources>
                                     <!--conversation-->
@@ -90,7 +90,7 @@
                                             <ImageBrush ImageSource="/Images/dark/media.png" />
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
-                                    <TextBlock Text="{Binding Entities.Media.Count}" Foreground="{StaticResource PhoneAccentBrush}" />
+                                    <TextBlock Text="{Binding Entities.Media.Count}" />
                                     <!--location-->
                                     <Rectangle Visibility="{Binding IncludeCoordinates,Converter={StaticResource BooleanToVisibilityConverter}}">
                                         <Rectangle.OpacityMask>
@@ -229,7 +229,7 @@
                                 <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal">
                                     <StackPanel.Resources>
                                         <Style TargetType="Rectangle" BasedOn="{StaticResource RetweetRectangleSmall}">
-                                            <Setter Property="Fill" Value="{StaticResource PhoneAccentBrush}" />
+                                            <Setter Property="Fill" Value="{StaticResource PhoneForegroundBrush}" />
                                         </Style>
                                     </StackPanel.Resources>
                                     <!--conversation-->
@@ -251,8 +251,15 @@
                                             <ImageBrush ImageSource="/Images/dark/location.png" />
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
+                                    <!--retweet-->
+                                    <Rectangle Fill="{Binding RetweetedStatus.IsRetweeted,Converter={StaticResource BooleanToFillConverter}}">
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush ImageSource="/Images/dark/retweet.png" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
                                     <!--favorited by me-->
-                                    <Rectangle Visibility="{Binding RetweetedStatus.IsFavorited,Converter={StaticResource BooleanToVisibilityConverter}}">
+                                    <Rectangle Fill="{StaticResource PhoneForegroundBrush}"
+                                               Visibility="{Binding RetweetedStatus.IsFavorited,Converter={StaticResource BooleanToVisibilityConverter}}">
                                         <Rectangle.OpacityMask>
                                             <ImageBrush ImageSource="/Images/dark/favorite.png" />
                                         </Rectangle.OpacityMask>

@@ -193,7 +193,7 @@ namespace Chicken4WP8.ViewModels.Base
 
         private bool IsAtBottom()
         {
-            if (container.Viewport.Bottom >= container.Bounds.Bottom)
+            if (Math.Abs( container.Viewport.Bottom - container.Bounds.Bottom)<=OFFSET)
                 return true;
             return false;
         }

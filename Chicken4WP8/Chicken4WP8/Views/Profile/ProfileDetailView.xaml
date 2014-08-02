@@ -17,7 +17,7 @@
         <Grid.Resources>
             <DataTemplate x:Name="ProfileDetailTemplate">
                 <!--Description-->
-                <Grid Height="{Binding ElementName=Root,Path=ActualHeight}">
+                <Grid MinHeight="{Binding ElementName=Root,Path=ActualHeight}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="40" />
                         <RowDefinition Height="Auto" />
@@ -62,7 +62,7 @@
                                                 Visibility="{Binding ElementName=Root,Path=DataContext.IsLoading,Converter={StaticResource InvertBooleanToVisibilityConverter},FallbackValue=Collapsed}">
                             <StackPanel.Resources>
                                 <Style TargetType="Rectangle" BasedOn="{StaticResource RetweetRectangleSmall}">
-                                    <Setter Property="Fill" Value="{StaticResource PhoneAccentBrush}" />
+                                    <Setter Property="Fill" Value="{StaticResource PhoneForegroundBrush}" />
                                     <Setter Property="Margin" Value="2,0" />
                                     <Setter Property="VerticalAlignment" Value="Bottom" />
                                 </Style>
