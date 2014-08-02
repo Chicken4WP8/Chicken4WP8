@@ -65,9 +65,9 @@ namespace Chicken4WP8.ViewModels.Status
         {
             var user = item.RetweetedStatus == null ? item.User : item.RetweetedStatus.User;
             if (user.ProfileImageData == null)
-                await Task.Run(() => userController.SetProfileImageAsync(user));
+                Task.Factory.StartNew(() => userController.SetProfileImageAsync(user));
             if (item.IsStatusDetail)
-                await Task.Run(() => statusController.SetStatusImagesAsync(item));
+                Task.Factory.StartNew(() => statusController.SetStatusImagesAsync(item));
         }
 
         protected async override Task FetchDataFromWeb()

@@ -46,7 +46,7 @@ namespace Chicken4WP8.ViewModels.Home
             var user = item.RetweetedStatus == null ? item.User : item.RetweetedStatus.User;
             if (user.ProfileImageData != null)
                 return;
-            await Task.Run(() => userController.SetProfileImageAsync(user));
+            Task.Factory.StartNew(() => userController.SetProfileImageAsync(user));
         }
 
         protected override async Task<IList<ITweetModel>> LoadDataFromWeb(IDictionary<string, object> options)

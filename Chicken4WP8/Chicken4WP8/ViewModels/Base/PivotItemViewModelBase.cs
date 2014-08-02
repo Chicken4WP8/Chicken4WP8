@@ -113,7 +113,7 @@ namespace Chicken4WP8.ViewModels.Base
         private void ItemSizeChanged(object sender, SizeChangedEventArgs e)
         {
             height += e.NewSize.Height - e.PreviousSize.Height;
-            if (height < maxHeight)
+            if (height <= maxHeight)
                 footer.Height = maxHeight + OFFSET - height;
             else
                 footer.Height = 0;
@@ -193,7 +193,7 @@ namespace Chicken4WP8.ViewModels.Base
 
         private bool IsAtBottom()
         {
-            if (Math.Abs( container.Viewport.Bottom - container.Bounds.Bottom)<=OFFSET)
+            if (Math.Abs(container.Viewport.Bottom - container.Bounds.Bottom) <= OFFSET)
                 return true;
             return false;
         }
@@ -221,14 +221,15 @@ namespace Chicken4WP8.ViewModels.Base
         protected virtual void AvatarClicked(object item)
         {
             var tweet = item as ITweetModel;
-            var user = tweet.RetweetedStatus == null ? tweet.User : tweet.RetweetedStatus.User;            
+            var user = tweet.RetweetedStatus == null ? tweet.User : tweet.RetweetedStatus.User;
             //var temp = StorageService.GetTempUser();
             //if (temp != null && user.ScreenName == temp.ScreenName)
             //{
             //    EventAggregator.PublishOnBackgroundThread(new ProfilePageNavigationArgs());
             //    return;
             //}
-            StorageService.UpdateTempUser(user);
+            var args = new ProfilePageNavigationArgs { User = user };
+            StorageService.UpdateTempUser(args);
             NavigationService.UriFor<ProfilePageViewModel>()
                 .WithParam(o => o.Random, DateTime.Now.Ticks.ToString("x"))
                 .Navigate();
@@ -248,21 +249,31 @@ namespace Chicken4WP8.ViewModels.Base
                 .Navigate();
         }
 
-        public virtual void AutoRichTextBoxLoaded(object sender, RoutedEventArgs e)
+        public void AutoRichTextBoxLoaded(object sender, RoutedEventArgs e)
         {
             var box = sender as AutoRichTextBox;
             box.HyperlinkClick += (obj, args) =>
             {
                 var hyperlink = obj as Hyperlink;
                 var entity = hyperlink.CommandParameter as IEntity;
-                switch (entity.EntityType)
-                {
-                    case EntityType.UserMention:
-                        break;
-                    default:
-                        break;
-                }
+                EntityClicked(entity);
             };
+        }
+
+        protected virtual void EntityClicked(IEntity entity)
+        {
+            switch (entity.EntityType)
+            {
+                case EntityType.UserMention:
+                    var args = new ProfilePageNavigationArgs { Mention = entity as IUserMentionEntity };
+                    StorageService.UpdateTempUser(args);
+                    NavigationService.UriFor<ProfilePageViewModel>()
+                .WithParam(o => o.Random, DateTime.Now.Ticks.ToString("x"))
+                .Navigate();
+                    break;
+                default:
+                    break;
+            }
         }
         #endregion
 

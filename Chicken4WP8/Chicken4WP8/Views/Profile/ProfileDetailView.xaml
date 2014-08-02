@@ -170,6 +170,8 @@
                     <ctrls:AutoRichTextBox
                         Grid.Row="2" Margin="0,6,0,0" TextAlignment="Center"
                         Style="{StaticResource TextContent}" IsHyperlinkEnable="{Binding IsProfileDetail}"
+                        cal:Action.TargetWithoutContext="{Binding ElementName=Root,Path=DataContext}"
+                        cal:Message.Attach="[Event Loaded] = [AutoRichTextBoxLoaded($source, $eventArgs)]"
                         HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
                         VerticalAlignment="Center" VerticalContentAlignment="Stretch"
                         Entities ="{Binding ParsedEntities}" Text="{Binding Description}" />

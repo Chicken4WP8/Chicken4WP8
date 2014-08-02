@@ -7,6 +7,7 @@ using Chicken4WP8.Controllers;
 using Chicken4WP8.Entities;
 using Chicken4WP8.Models.Setting;
 using Chicken4WP8.Services.Interface;
+using Chicken4WP8.ViewModels.Base;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Bson;
 
@@ -105,15 +106,15 @@ namespace Chicken4WP8.Services.Implemention
             context.SubmitChanges();
         }
 
-        public IUserModel GetTempUser()
+        public ProfilePageNavigationArgs GetTempUser()
         {
             var entity = context.TempDatas.FirstOrDefault(t => t.Type == TempType.UserProfile);
             if (entity == null || entity.Data == null)
                 return null;
-            return DeserializeObject<IUserModel>(entity.Data);
+            return DeserializeObject<ProfilePageNavigationArgs>(entity.Data);
         }
 
-        public void UpdateTempUser(IUserModel profile)
+        public void UpdateTempUser(ProfilePageNavigationArgs profile)
         {
             var entity = context.TempDatas.FirstOrDefault(t => t.Type == TempType.UserProfile);
             if (entity == null)
