@@ -15,7 +15,9 @@
     shell:SystemTray.IsVisible="True">
 
     <Grid x:Name="Root" Background="Transparent">
-        <ctrls:Pivot x:Name="Items" SelectedItem="{Binding ActiveItem, Mode=TwoWay}">
+        <ctrls:Pivot x:Name="Items"
+                     Title="{Binding DisplayName}"
+                     SelectedItem="{Binding ActiveItem, Mode=TwoWay}">
         </ctrls:Pivot>
     </Grid>
 

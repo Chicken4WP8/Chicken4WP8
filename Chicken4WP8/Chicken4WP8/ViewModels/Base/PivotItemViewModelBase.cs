@@ -232,6 +232,7 @@ namespace Chicken4WP8.ViewModels.Base
             StorageService.UpdateTempUser(args);
             NavigationService.UriFor<ProfilePageViewModel>()
                 .WithParam(o => o.Random, DateTime.Now.Ticks.ToString("x"))
+                .WithParam(o => o.DisplayName, user.ScreenName)
                 .Navigate();
         }
 
@@ -265,10 +266,12 @@ namespace Chicken4WP8.ViewModels.Base
             switch (entity.EntityType)
             {
                 case EntityType.UserMention:
-                    var args = new ProfilePageNavigationArgs { Mention = entity as IUserMentionEntity };
+                    var mention = entity as IUserMentionEntity;
+                    var args = new ProfilePageNavigationArgs { Mention = mention };
                     StorageService.UpdateTempUser(args);
                     NavigationService.UriFor<ProfilePageViewModel>()
                 .WithParam(o => o.Random, DateTime.Now.Ticks.ToString("x"))
+                .WithParam(o => o.DisplayName, mention.ScreenName)
                 .Navigate();
                     break;
                 default:

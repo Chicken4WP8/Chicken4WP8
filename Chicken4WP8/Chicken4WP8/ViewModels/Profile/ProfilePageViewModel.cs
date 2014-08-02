@@ -15,6 +15,17 @@ namespace Chicken4WP8.ViewModels.Profile
             eventAggregator.Subscribe(this);
         }
 
+        private string screenName;
+        public string DisplayName
+        {
+            get { return screenName; }
+            set
+            {
+                screenName = value;
+                NotifyOfPropertyChange(() => DisplayName);
+            }
+        }
+
         #endregion
         protected override void OnInitialize()
         {
