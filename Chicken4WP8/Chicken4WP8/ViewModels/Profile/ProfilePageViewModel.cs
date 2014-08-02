@@ -83,7 +83,10 @@ namespace Chicken4WP8.ViewModels.Profile
             }
 
             args.User.IsProfileDetail = true;
-            //////EventAggregator.Publish(args.User, action => Task.Factory.StartNew(action));
+
+            foreach (var item in Items)
+                (item as IHaveAUser).User = args.User;
+
             await ProgressService.HideAsync();
         }
     }
