@@ -30,13 +30,13 @@ namespace Chicken4WP8.ViewModels.Profile
         }
 
         private string screenName;
-        public string DisplayName
+        public string ScreenName
         {
             get { return screenName; }
             set
             {
                 screenName = "@" + value;
-                NotifyOfPropertyChange(() => DisplayName);
+                NotifyOfPropertyChange(() => ScreenName);
             }
         }
 
@@ -51,7 +51,7 @@ namespace Chicken4WP8.ViewModels.Profile
             AppBarConductor.Mixin(this);
 
             //initialize the user from cache
-            var args = StorageService.GetTempUser();
+            var args = StorageService.GetTempProfilePageNavigationArgs();
             Task.Factory.StartNew(() => SetProfileDetail(args));
         }
         #endregion
@@ -64,18 +64,26 @@ namespace Chicken4WP8.ViewModels.Profile
         private async void SetProfileDetail(ProfilePageNavigationArgs args)
         {
             await ProgressService.ShowAsync();
-            if (args.User == null)
+            if (args.User != null)
+                StorageService.AddOrUpdateUserCache(args.User);
+            else
             {
-                var option = Const.GetDictionary();
-                if (args.Mention.Id != 0)
-                    option.Add(Const.USER_ID, args.Mention.Id);
-                if (!string.IsNullOrEmpty(args.Mention.ScreenName))
-                    option.Add(Const.USER_SCREEN_NAME, args.Mention.ScreenName);
-                option.Add(Const.INCLUDE_ENTITIES, Const.DEFAULT_VALUE_FALSE);
-                args.User = await userController.ShowAsync(option);
+                args.User = StorageService.GetCachedUser(args.Mention.Id.ToString());
+                if (args.User == null)
+                {
+                    var option = Const.GetDictionary();
+                    if (args.Mention.Id != 0)
+                        option.Add(Const.USER_ID, args.Mention.Id);
+                    if (!string.IsNullOrEmpty(args.Mention.ScreenName))
+                        option.Add(Const.USER_SCREEN_NAME, args.Mention.ScreenName);
+                    option.Add(Const.INCLUDE_ENTITIES, Const.DEFAULT_VALUE_FALSE);
+                    args.User = await userController.ShowAsync(option);
+                    StorageService.AddOrUpdateUserCache(args.User);
+                }
             }
+
             args.User.IsProfileDetail = true;
-            EventAggregator.Publish(args.User, action => Task.Factory.StartNew(action));
+            //////EventAggregator.Publish(args.User, action => Task.Factory.StartNew(action));
             await ProgressService.HideAsync();
         }
     }

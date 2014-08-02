@@ -229,10 +229,10 @@ namespace Chicken4WP8.ViewModels.Base
             //    return;
             //}
             var args = new ProfilePageNavigationArgs { User = user };
-            StorageService.UpdateTempUser(args);
+            StorageService.UpdateTempProfilePageNavigationArgs(args);
             NavigationService.UriFor<ProfilePageViewModel>()
                 .WithParam(o => o.Random, DateTime.Now.Ticks.ToString("x"))
-                .WithParam(o => o.DisplayName, user.ScreenName)
+                .WithParam(o => o.ScreenName, user.ScreenName)
                 .Navigate();
         }
 
@@ -268,10 +268,10 @@ namespace Chicken4WP8.ViewModels.Base
                 case EntityType.UserMention:
                     var mention = entity as IUserMentionEntity;
                     var args = new ProfilePageNavigationArgs { Mention = mention };
-                    StorageService.UpdateTempUser(args);
+                    StorageService.UpdateTempProfilePageNavigationArgs(args);
                     NavigationService.UriFor<ProfilePageViewModel>()
                 .WithParam(o => o.Random, DateTime.Now.Ticks.ToString("x"))
-                .WithParam(o => o.DisplayName, mention.ScreenName)
+                .WithParam(o => o.ScreenName, mention.ScreenName)
                 .Navigate();
                     break;
                 default:

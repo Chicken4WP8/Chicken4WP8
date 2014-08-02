@@ -16,7 +16,7 @@
 
     <Grid x:Name="Root" Background="Transparent">
         <ctrls:Pivot x:Name="Items"
-                     Title="{Binding DisplayName}"
+                     Title="{Binding ScreenName}"
                      SelectedItem="{Binding ActiveItem, Mode=TwoWay}">
         </ctrls:Pivot>
     </Grid>

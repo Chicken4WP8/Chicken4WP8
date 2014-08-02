@@ -115,6 +115,7 @@
     <Compile Include="Controls\ThemedImage.cs" />
     <Compile Include="Controls\ToastPrompt.cs" />
     <Compile Include="Entities\CachedImageData.cs" />
+    <Compile Include="Entities\CachedUserData.cs" />
     <Compile Include="Entities\ChickenDataContext.cs" />
     <Compile Include="Entities\Setting.cs" />
     <Compile Include="Controllers\IEntities.cs" />

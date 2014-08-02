@@ -106,7 +106,7 @@ namespace Chicken4WP8.Services.Implemention
             context.SubmitChanges();
         }
 
-        public ProfilePageNavigationArgs GetTempUser()
+        public ProfilePageNavigationArgs GetTempProfilePageNavigationArgs()
         {
             var entity = context.TempDatas.FirstOrDefault(t => t.Type == TempType.UserProfile);
             if (entity == null || entity.Data == null)
@@ -114,7 +114,7 @@ namespace Chicken4WP8.Services.Implemention
             return DeserializeObject<ProfilePageNavigationArgs>(entity.Data);
         }
 
-        public void UpdateTempUser(ProfilePageNavigationArgs profile)
+        public void UpdateTempProfilePageNavigationArgs(ProfilePageNavigationArgs profile)
         {
             var entity = context.TempDatas.FirstOrDefault(t => t.Type == TempType.UserProfile);
             if (entity == null)
@@ -124,6 +124,37 @@ namespace Chicken4WP8.Services.Implemention
             }
             entity.Data = SerializeObject(profile);
             context.SubmitChanges();
+        }
+
+        public IUserModel GetCachedUser(string id)
+        {
+            var entity = context.CachedUsers.FirstOrDefault(u => u.Id == id);
+            if (entity == null || entity.Data == null)
+                return null;
+            return DeserializeObject<IUserModel>(entity.Data);
+        }
+
+        public void AddOrUpdateUserCache(IUserModel user)
+        {
+            try
+            {
+                resetEvent.WaitOne();
+                var id = ((long)user.Id).ToString();
+                var entity = context.CachedUsers.FirstOrDefault(u => u.Id == id);
+                if (entity == null)
+                {
+                    entity = new CachedUser { Id = id };
+                    context.CachedUsers.InsertOnSubmit(entity);
+                }
+                entity.Data = SerializeObject(user);
+                context.SubmitChanges();
+            }
+            catch (Exception)
+            { }
+            finally
+            {
+                resetEvent.Set();
+            }
         }
 
         public byte[] GetCachedImage(string id)
@@ -151,8 +182,7 @@ namespace Chicken4WP8.Services.Implemention
                 context.SubmitChanges();
             }
             catch (Exception e)
-            {
-            }
+            { }
             finally
             {
                 resetEvent.Set();

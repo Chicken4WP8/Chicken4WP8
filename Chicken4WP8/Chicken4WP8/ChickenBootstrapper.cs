@@ -47,6 +47,7 @@ namespace Chicken4WP8
                     .Except<StorageService>()
                 // registered as interface
                     .AsImplementedInterfaces()
+                    .InstancePerDependency()
                 //create new one
                     .InstancePerDependency()
                 //auto inject property
@@ -59,6 +60,7 @@ namespace Chicken4WP8
                 //starts with base
                 .Where(type => type.Name.StartsWith("Base"))
                 .AsImplementedInterfaces()
+                .InstancePerDependency()
                 .PropertiesAutowired()
                 .WithMetadata<OAuthTypeMetadata>(
                 meta => meta.For(
@@ -69,6 +71,7 @@ namespace Chicken4WP8
                 //starts with base
                 .Where(type => type.Name.StartsWith("Twip"))
                 .AsImplementedInterfaces()
+                .InstancePerDependency()
                 .PropertiesAutowired()
                 .WithMetadata<OAuthTypeMetadata>(
                 meta => meta.For(

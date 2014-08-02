@@ -14,10 +14,21 @@ using Chicken4WP8.ViewModels.Base;
 
 namespace Chicken4WP8.ViewModels.Profile
 {
-    public class ProfileDetailViewModel : PivotItemViewModelBase<IUserModel>, IHandle<IUserModel>
+    public class ProfileDetailViewModel : PivotItemViewModelBase<IUserModel>
     {
         #region properties
         protected IUserController userController;
+        private IUserModel user;
+        public IUserModel User
+        {
+            get { return user; }
+            set
+            {
+                user = value;
+                SetUserProfile();
+                NotifyOfPropertyChange(() => User);
+            }
+        }
 
         public ProfileDetailViewModel(
             IEventAggregator eventAggregator,
@@ -41,12 +52,12 @@ namespace Chicken4WP8.ViewModels.Profile
             DisplayName = LanguageHelper["ProfileDetailViewModel_Header"];
         }
 
-        public void Handle(IUserModel message)
+        private void SetUserProfile()
         {
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
                 Items.Clear();
-                Items.Add(message);
+                Items.Add(User);
             });
         }
 
