@@ -1,5 +1,6 @@
 ﻿using Chicken4WP8.Controllers;
 using Chicken4WP8.Models.Setting;
+using Chicken4WP8.ViewModels.Base;
 
 namespace Chicken4WP8.Services.Interface
 {
@@ -14,10 +15,13 @@ namespace Chicken4WP8.Services.Interface
         ITweetModel GetTempTweet();
         void UpdateTempTweet(ITweetModel tweet);
 
-        IUserModel GetTempUser();
-        void UpdateTempUser(IUserModel user);
+        ProfilePageNavigationArgs GetTempProfilePageNavigationArgs();
+        void UpdateTempProfilePageNavigationArgs(ProfilePageNavigationArgs args);
+
+        IUserModel GetCachedUser(string id);
+        void AddOrUpdateUserCache(IUserModel user);
 
         byte[] GetCachedImage(string id);
-        void AddOrUpdateImageCache(string id, byte[] data);
+        byte[] AddOrUpdateImageCache(string id, byte[] data);
     }
 }

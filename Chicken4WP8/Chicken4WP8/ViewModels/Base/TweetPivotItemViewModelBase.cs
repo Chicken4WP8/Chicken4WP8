@@ -17,7 +17,6 @@ namespace Chicken4WP8.ViewModels.Base
         private List<ITweetModel> fetchedItemsCache = new List<ITweetModel>();
         private List<ITweetModel> missedItemsCache = new List<ITweetModel>();
         private List<ITweetModel> loadedItemsCache = new List<ITweetModel>();
-        #endregion
 
         public TweetPivotItemViewModelBase(
             IEventAggregator eventAggregator,
@@ -37,6 +36,7 @@ namespace Chicken4WP8.ViewModels.Base
             await InitLoadDataFromWeb();
             await HideProgressBar();
         }
+        #endregion
 
         #region init load data from web
         private async Task InitLoadDataFromWeb()

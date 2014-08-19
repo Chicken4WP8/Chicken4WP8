@@ -20,6 +20,11 @@ namespace Chicken4WP8.Entities
             get { return this.GetTable<TempData>(); }
         }
 
+        public Table<CachedUser> CachedUsers
+        {
+            get { return this.GetTable<CachedUser>(); }
+        }
+
         public Table<CachedImage> CachedImages
         {
             get { return this.GetTable<CachedImage>(); }

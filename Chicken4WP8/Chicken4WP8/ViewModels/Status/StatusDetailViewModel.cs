@@ -64,16 +64,10 @@ namespace Chicken4WP8.ViewModels.Status
         protected async override Task RealizeItem(ITweetModel item)
         {
             var user = item.RetweetedStatus == null ? item.User : item.RetweetedStatus.User;
-            if (user.ImageSource != null)
-                return;
-            string id = user.Id.Value + user.ProfileImageUrl;
-            var data = StorageService.GetCachedImage(id);
-            if (data == null)
-            {
-                data = await userController.DownloadProfileImageAsync(user.ProfileImageUrl);
-                StorageService.AddOrUpdateImageCache(id, data);
-            }
-            await userController.SetProfileImageAsync(user, data);
+            if (user.ProfileImageData == null)
+                Task.Factory.StartNew(() => userController.SetProfileImageAsync(user));
+            if (item.IsStatusDetail)
+                Task.Factory.StartNew(() => statusController.SetStatusImagesAsync(item));
         }
 
         protected async override Task FetchDataFromWeb()

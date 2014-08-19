@@ -47,6 +47,7 @@ namespace Chicken4WP8
                     .Except<StorageService>()
                 // registered as interface
                     .AsImplementedInterfaces()
+                    .InstancePerDependency()
                 //create new one
                     .InstancePerDependency()
                 //auto inject property
@@ -59,6 +60,8 @@ namespace Chicken4WP8
                 //starts with base
                 .Where(type => type.Name.StartsWith("Base"))
                 .AsImplementedInterfaces()
+                .InstancePerDependency()
+                .PropertiesAutowired()
                 .WithMetadata<OAuthTypeMetadata>(
                 meta => meta.For(
                     m => m.OAuthType, OAuthSettingType.BaseOAuth));
@@ -68,14 +71,16 @@ namespace Chicken4WP8
                 //starts with base
                 .Where(type => type.Name.StartsWith("Twip"))
                 .AsImplementedInterfaces()
+                .InstancePerDependency()
+                .PropertiesAutowired()
                 .WithMetadata<OAuthTypeMetadata>(
                 meta => meta.For(
                     m => m.OAuthType, OAuthSettingType.TwipOAuth));
         }
-        
+
         protected override void OnUnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
         {
-            base.OnUnhandledException(sender, e);
+            //base.OnUnhandledException(sender, e);
         }
     }
 }

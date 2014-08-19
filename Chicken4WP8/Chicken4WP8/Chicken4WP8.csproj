@@ -115,6 +115,7 @@
     <Compile Include="Controls\ThemedImage.cs" />
     <Compile Include="Controls\ToastPrompt.cs" />
     <Compile Include="Entities\CachedImageData.cs" />
+    <Compile Include="Entities\CachedUserData.cs" />
     <Compile Include="Entities\ChickenDataContext.cs" />
     <Compile Include="Entities\Setting.cs" />
     <Compile Include="Controllers\IEntities.cs" />
@@ -148,7 +149,6 @@
     <Compile Include="Services\Interface\IProgressService.cs" />
     <Compile Include="Services\Interface\IStorageService.cs" />
     <Compile Include="Services\Interface\IToastMessageService.cs" />
-    <Compile Include="Controllers\IImageSource.cs" />
     <Compile Include="Controllers\Implemention\Base\EntitiesModel.cs" />
     <Compile Include="Controllers\Implemention\Base\TweetModel.cs" />
     <Compile Include="Controllers\Implemention\Base\UserModel.cs" />
@@ -160,6 +160,7 @@
     <Compile Include="ViewModels\Home\MentionViewModel.cs" />
     <Compile Include="ViewModels\Profile\ProfileDetailViewModel.cs" />
     <Compile Include="ViewModels\Profile\ProfilePageViewModel.cs" />
+    <Compile Include="ViewModels\Profile\ProfileViewModelBase.cs" />
     <Compile Include="ViewModels\Setting\OAuthSettingPageViewModel.cs" />
     <Compile Include="ViewModels\Setting\Proxies\BaseOAuthSettingPageViewModel.cs" />
     <Compile Include="ViewModels\Setting\Proxies\TwipOAuthSettingPageViewModel.cs" />
@@ -202,7 +203,6 @@
     <Content Include="Assets\Tiles\IconicTileSmall.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Images\dark\appbar.bottom.png" />
     <Content Include="Images\dark\appbar.camera.png" />
     <Content Include="Images\dark\appbar.cancel.png" />
     <Content Include="Images\dark\appbar.check.png" />
@@ -218,11 +218,9 @@
     <Content Include="Images\dark\appbar.reply.png" />
     <Content Include="Images\dark\appbar.retweet.png" />
     <Content Include="Images\dark\appbar.send.png" />
-    <Content Include="Images\dark\appbar.top.png" />
     <Content Include="Images\dark\appbar.tweet.new.png" />
     <Content Include="Images\dark\bound.top.png" />
     <Content Include="Images\dark\bound.bottom.png" />
-    <Content Include="Images\dark\calendar.png" />
     <Content Include="Images\dark\cat.png" />
     <Content Include="Images\dark\conversation.png" />
     <Content Include="Images\dark\delete.png" />
@@ -234,13 +232,11 @@
     <Content Include="Images\dark\link.png" />
     <Content Include="Images\dark\location.png" />
     <Content Include="Images\dark\media.png" />
-    <Content Include="Images\dark\people.png" />
     <Content Include="Images\dark\private.png" />
     <Content Include="Images\dark\retweet.png" />
     <Content Include="Images\dark\search.png" />
     <Content Include="Images\dark\verified.png" />
     <Content Include="Images\light\appbar.at.png" />
-    <Content Include="Images\light\appbar.buttom.png" />
     <Content Include="Images\light\appbar.camera.png" />
     <Content Include="Images\light\appbar.delete.png" />
     <Content Include="Images\light\appbar.edit.png" />
@@ -252,7 +248,6 @@
     <Content Include="Images\light\appbar.reply.png" />
     <Content Include="Images\light\appbar.retweet.png" />
     <Content Include="Images\light\appbar.send.png" />
-    <Content Include="Images\light\appbar.top.png" />
     <Content Include="Images\light\appbar.tweet.new.png" />
     <Content Include="Images\light\bound.bottom.png" />
     <Content Include="Images\light\bound.top.png" />

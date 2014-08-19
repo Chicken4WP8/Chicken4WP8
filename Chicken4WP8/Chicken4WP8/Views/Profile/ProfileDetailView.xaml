@@ -17,7 +17,7 @@
         <Grid.Resources>
             <DataTemplate x:Name="ProfileDetailTemplate">
                 <!--Description-->
-                <Grid Height="{Binding ElementName=Root,Path=ActualHeight}">
+                <Grid MinHeight="{Binding ElementName=Root,Path=ActualHeight}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="40" />
                         <RowDefinition Height="Auto" />
@@ -30,8 +30,8 @@
                         </Style>
                     </Grid.Resources>
                     <!--profile banner-->
-                    <ctrls:ThemedImage Grid.Row="1" Opacity="0.5"
-                                               Source="{Binding UserProfileBannerImageUrl}" />
+                    <ctrls:ThemedImage Grid.Row="1" Opacity="0.4"
+                                       Stretch="Fill" Source="{Binding ProfileBannerImageData}" />
                     <Grid Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="104" />
@@ -48,7 +48,7 @@
                             <HyperlinkButton.Template>
                                 <ControlTemplate>
                                     <ctrls:ThemedImage Width="124" Height="124" Margin="0,-40,0,0"
-                                                               DefaultImage="/Images/dark/cat.png" Source="{Binding ImageSource}">
+                                                               DefaultImage="/Images/dark/cat.png" Source="{Binding ProfileImageData}">
                                         <ctrls:ThemedImage.Clip>
                                             <RectangleGeometry Rect="0,0,124,124" RadiusX="6" RadiusY="6" />
                                         </ctrls:ThemedImage.Clip>
@@ -57,7 +57,7 @@
                             </HyperlinkButton.Template>
                         </HyperlinkButton>
                         <!--is private, is verified, etc-->
-                        <StackPanel Grid.Row="1" Margin="0,4,0,0" Opacity="0.6"
+                        <StackPanel Grid.Row="1" Margin="0,4,0,0" Opacity="0.8"
                                                 Orientation="Horizontal" HorizontalAlignment="Center"
                                                 Visibility="{Binding ElementName=Root,Path=DataContext.IsLoading,Converter={StaticResource InvertBooleanToVisibilityConverter},FallbackValue=Collapsed}">
                             <StackPanel.Resources>
@@ -170,11 +170,12 @@
                     <ctrls:AutoRichTextBox
                         Grid.Row="2" Margin="0,6,0,0" TextAlignment="Center"
                         Style="{StaticResource TextContent}" IsHyperlinkEnable="{Binding IsProfileDetail}"
+                        cal:Action.TargetWithoutContext="{Binding ElementName=Root,Path=DataContext}"
+                        cal:Message.Attach="[Event Loaded] = [AutoRichTextBoxLoaded($source, $eventArgs)]"
                         HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
                         VerticalAlignment="Center" VerticalContentAlignment="Stretch"
                         Entities ="{Binding ParsedEntities}" Text="{Binding Description}" />
                 </Grid>
-
             </DataTemplate>
         </Grid.Resources>
 

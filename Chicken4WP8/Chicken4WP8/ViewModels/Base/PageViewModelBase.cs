@@ -8,8 +8,7 @@ namespace Chicken4WP8.ViewModels.Base
     public abstract class PageViewModelBase : Conductor<Screen>.Collection.OneActive
     {
         public PageViewModelBase()
-        {
-        }
+        { }
 
         public string Random { get; set; }
     }

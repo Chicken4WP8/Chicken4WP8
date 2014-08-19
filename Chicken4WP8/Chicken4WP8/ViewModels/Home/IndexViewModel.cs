@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Caliburn.Micro;
@@ -32,7 +33,7 @@ namespace Chicken4WP8.ViewModels.Home
 
         public void AppBar_Next()
         {
-            LanguageHelper.SetLanguage(new System.Globalization.CultureInfo("zh-CN"));
+            LanguageHelper.SetLanguage(new CultureInfo("zh-CN"));
         }
 
         protected override void SetLanguage()
@@ -43,16 +44,9 @@ namespace Chicken4WP8.ViewModels.Home
         protected override async Task RealizeItem(ITweetModel item)
         {
             var user = item.RetweetedStatus == null ? item.User : item.RetweetedStatus.User;
-            if (user.ImageSource != null)
+            if (user.ProfileImageData != null)
                 return;
-            string id = user.Id.Value + user.ProfileImageUrl;
-            var data = StorageService.GetCachedImage(id);
-            if (data == null)
-            {
-                data = await userController.DownloadProfileImageAsync(user.ProfileImageUrl);
-                StorageService.AddOrUpdateImageCache(id, data);
-            }
-            await userController.SetProfileImageAsync(user, data);
+            Task.Factory.StartNew(() => userController.SetProfileImageAsync(user));
         }
 
         protected override async Task<IList<ITweetModel>> LoadDataFromWeb(IDictionary<string, object> options)

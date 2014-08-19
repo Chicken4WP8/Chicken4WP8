@@ -1,6 +1,15 @@
-﻿using System.Windows;
+﻿using System;
+using System.Diagnostics;
+using System.IO;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using ImageTools;
+using ImageTools.IO;
+using ImageTools.IO.Bmp;
+using ImageTools.IO.Gif;
+using ImageTools.IO.Png;
 
 namespace Chicken4WP8.Controls
 {
@@ -9,18 +18,25 @@ namespace Chicken4WP8.Controls
         private const string ElementImageBrushName = "ImageBrush";
         private Image ElementImageBrush;
 
+        static ThemedImage()
+        {
+            Decoders.AddDecoder<BmpDecoder>();
+            Decoders.AddDecoder<PngDecoder>();
+            Decoders.AddDecoder<GifDecoder>();
+        }
+
         public ThemedImage()
         {
             DefaultStyleKey = typeof(ThemedImage);
         }
 
-        #region Image Source
+        #region image data
         public static readonly DependencyProperty SourceProperty =
-            DependencyProperty.Register("Source", typeof(ImageSource), typeof(ThemedImage), new PropertyMetadata(SourceChanged));
+            DependencyProperty.Register("Source", typeof(byte[]), typeof(ThemedImage), new PropertyMetadata(SourceChanged));
 
-        public ImageSource Source
+        public byte[] Source
         {
-            get { return (ImageSource)GetValue(SourceProperty); }
+            get { return GetValue(SourceProperty) as byte[]; }
             set { SetValue(SourceProperty, value); }
         }
 
@@ -31,7 +47,7 @@ namespace Chicken4WP8.Controls
         }
         #endregion
 
-        #region Default Image Source
+        #region default image source
         public static readonly DependencyProperty DefaultImageProperty =
             DependencyProperty.Register("DefaultImage", typeof(ImageSource), typeof(ThemedImage), null);
 
@@ -39,6 +55,17 @@ namespace Chicken4WP8.Controls
         {
             get { return (ImageSource)GetValue(DefaultImageProperty); }
             set { SetValue(DefaultImageProperty, value); }
+        }
+        #endregion
+
+        #region stretch
+        public static readonly DependencyProperty StretchProperty =
+            DependencyProperty.Register("Stretch", typeof(Stretch), typeof(ThemedImage), new PropertyMetadata(Stretch.Fill));
+
+        public Stretch Stretch
+        {
+            get { return (Stretch)GetValue(StretchProperty); }
+            set { SetValue(StretchProperty, value); }
         }
         #endregion
 
@@ -53,8 +80,45 @@ namespace Chicken4WP8.Controls
         {
             if (ElementImageBrush != null)
             {
-                ElementImageBrush.Source = Source == null ? DefaultImage : Source;
-                ElementImageBrush.Stretch = Stretch.Fill;
+                Deployment.Current.Dispatcher.BeginInvoke(() =>
+                {
+                    ElementImageBrush.Stretch = Stretch;
+                    if (Source == null)
+                    {
+                        ElementImageBrush.Stretch = Stretch.Uniform;
+                        ElementImageBrush.Source = DefaultImage;
+                        return;
+                    }
+                    #region jpeg/png
+                    try
+                    {
+                        using (var memStream = new MemoryStream(Source))
+                        {
+                            memStream.Position = 0;
+                            var bitmapImage = new BitmapImage();
+                            bitmapImage.SetSource(memStream);
+                            ElementImageBrush.Source = bitmapImage;
+                        }
+                    }
+                    #endregion
+                    #region others
+                    catch (Exception exception)
+                    {
+                        Debug.WriteLine("set gif image. length: {0}", Source.Length);
+                        using (var memStream = new MemoryStream(Source))
+                        {
+                            memStream.Position = 0;
+                            var extendedImage = new ExtendedImage();
+                            extendedImage.SetSource(memStream);
+                            extendedImage.LoadingCompleted += (o, e) =>
+                            {
+                                var ei = o as ExtendedImage;
+                                ElementImageBrush.Source = ei.ToBitmap();
+                            };
+                        }
+                    }
+                    #endregion
+                });
             }
         }
     }

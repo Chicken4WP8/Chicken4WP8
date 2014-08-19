@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Media;
 using Caliburn.Micro;
 using CoreTweet;
 using Newtonsoft.Json;
@@ -32,7 +31,7 @@ namespace Chicken4WP8.Controllers.Implemention.Base
             if (user.Url != null)
                 Url = user.Url.AbsoluteUri;
             if (user.ProfileBannerUrl != null)
-                UserProfileBannerImageUrl = user.ProfileBannerUrl.AbsoluteUri;
+                UserProfileBannerImageUrl = user.ProfileBannerUrl.AbsoluteUri + "/ipad_retina";
             if (user.Entities != null)
                 Entities = new UserEntititesModel(user.Entities);
         }
@@ -57,6 +56,7 @@ namespace Chicken4WP8.Controllers.Implemention.Base
         public int FollowingCount { get; set; }
         public int FollowersCount { get; set; }
         public int FavoritesCount { get; set; }
+        #region for template
         private bool isFollowing;
         public bool IsFollowing
         {
@@ -108,16 +108,28 @@ namespace Chicken4WP8.Controllers.Implemention.Base
                 NotifyOfPropertyChange(() => IsProfileDetail);
             }
         }
-        private ImageSource profileImage;
+        private byte[] profileImageData;
         [JsonIgnore]
-        public ImageSource ImageSource
+        public byte[] ProfileImageData
         {
-            get { return profileImage; }
+            get { return profileImageData; }
             set
             {
-                profileImage = value;
-                NotifyOfPropertyChange(() => ImageSource);
+                profileImageData = value;
+                NotifyOfPropertyChange(() => ProfileImageData);
             }
         }
+        private byte[] profileImageBannerImageData;
+        [JsonIgnore]
+        public byte[] ProfileBannerImageData
+        {
+            get { return profileImageBannerImageData; }
+            set
+            {
+                profileImageBannerImageData = value;
+                NotifyOfPropertyChange(() => ProfileBannerImageData);
+            }
+        }
+        #endregion
     }
 }

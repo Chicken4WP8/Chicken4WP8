@@ -1,10 +1,13 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
+using System.Threading;
 using Chicken4WP8.Common;
 using Chicken4WP8.Controllers;
 using Chicken4WP8.Entities;
 using Chicken4WP8.Models.Setting;
 using Chicken4WP8.Services.Interface;
+using Chicken4WP8.ViewModels.Base;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Bson;
 
@@ -14,6 +17,7 @@ namespace Chicken4WP8.Services.Implementation
     {
         #region properties
         private static JsonSerializer serializer;
+        public static AutoResetEvent resetEvent = new AutoResetEvent(true);
         private ChickenDataContext context;
 
         static StorageService()
@@ -102,15 +106,15 @@ namespace Chicken4WP8.Services.Implementation
             context.SubmitChanges();
         }
 
-        public IUserModel GetTempUser()
+        public ProfilePageNavigationArgs GetTempProfilePageNavigationArgs()
         {
             var entity = context.TempDatas.FirstOrDefault(t => t.Type == TempType.UserProfile);
             if (entity == null || entity.Data == null)
                 return null;
-            return DeserializeObject<IUserModel>(entity.Data);
+            return DeserializeObject<ProfilePageNavigationArgs>(entity.Data);
         }
 
-        public void UpdateTempUser(IUserModel profile)
+        public void UpdateTempProfilePageNavigationArgs(ProfilePageNavigationArgs profile)
         {
             var entity = context.TempDatas.FirstOrDefault(t => t.Type == TempType.UserProfile);
             if (entity == null)
@@ -120,6 +124,37 @@ namespace Chicken4WP8.Services.Implementation
             }
             entity.Data = SerializeObject(profile);
             context.SubmitChanges();
+        }
+
+        public IUserModel GetCachedUser(string id)
+        {
+            var entity = context.CachedUsers.FirstOrDefault(u => u.Id == id);
+            if (entity == null || entity.Data == null)
+                return null;
+            return DeserializeObject<IUserModel>(entity.Data);
+        }
+
+        public void AddOrUpdateUserCache(IUserModel user)
+        {
+            try
+            {
+                resetEvent.WaitOne();
+                var id = ((long)user.Id).ToString();
+                var entity = context.CachedUsers.FirstOrDefault(u => u.Id == id);
+                if (entity == null)
+                {
+                    entity = new CachedUser { Id = id };
+                    context.CachedUsers.InsertOnSubmit(entity);
+                }
+                entity.Data = SerializeObject(user);
+                context.SubmitChanges();
+            }
+            catch (Exception)
+            { }
+            finally
+            {
+                resetEvent.Set();
+            }
         }
 
         public byte[] GetCachedImage(string id)
@@ -132,16 +167,27 @@ namespace Chicken4WP8.Services.Implementation
             return null;
         }
 
-        public void AddOrUpdateImageCache(string id, byte[] data)
+        public byte[] AddOrUpdateImageCache(string id, byte[] data)
         {
-            var image = context.CachedImages.FirstOrDefault(c => c.Id == id);
-            if (image == null)
+            try
             {
-                image = new CachedImage { Id = id };
-                context.CachedImages.InsertOnSubmit(image);
+                resetEvent.WaitOne();
+                var image = context.CachedImages.FirstOrDefault(c => c.Id == id);
+                if (image == null)
+                {
+                    image = new CachedImage { Id = id };
+                    context.CachedImages.InsertOnSubmit(image);
+                }
+                image.Data = data;
+                context.SubmitChanges();
             }
-            image.Data = data;
-            context.SubmitChanges();
+            catch (Exception e)
+            { }
+            finally
+            {
+                resetEvent.Set();
+            }
+            return data;
         }
 
         #region private

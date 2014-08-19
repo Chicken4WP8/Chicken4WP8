@@ -4,7 +4,7 @@ using System.ComponentModel;
 
 namespace Chicken4WP8.Controllers
 {
-    public interface IUserModel : IImageSource, INotifyPropertyChanged
+    public interface IUserModel : INotifyPropertyChanged
     {
         long? Id { get; set; }
         string Name { get; set; }
@@ -21,7 +21,9 @@ namespace Chicken4WP8.Controllers
         /// default, use bigger avatar
         /// </summary>
         string ProfileImageUrl { get; set; }
+        byte[] ProfileImageData { get; set; }
         string UserProfileBannerImageUrl { get; set; }
+        byte[] ProfileBannerImageData { get; set; }
         string Location { get; set; }
         string Url { get; set; }
         int TweetsCount { get; set; }
