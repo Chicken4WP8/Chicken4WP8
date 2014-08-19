@@ -1,4 +1,5 @@
-﻿using System.Data.Linq.Mapping;
+﻿using System;
+using System.Data.Linq.Mapping;
 
 namespace Chicken4WP8.Entities
 {
@@ -10,6 +11,9 @@ namespace Chicken4WP8.Entities
 
         [Column]
         public string Id { get; set; }
+
+        [Column]
+        public DateTime InsertedTime { get; set; }
 
         [Column(DbType = "image", UpdateCheck = UpdateCheck.Never)]
         public byte[] Data { get; set; }

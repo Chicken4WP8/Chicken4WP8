@@ -222,14 +222,8 @@ namespace Chicken4WP8.ViewModels.Base
         {
             var tweet = item as ITweetModel;
             var user = tweet.RetweetedStatus == null ? tweet.User : tweet.RetweetedStatus.User;
-            //var temp = StorageService.GetTempUser();
-            //if (temp != null && user.ScreenName == temp.ScreenName)
-            //{
-            //    EventAggregator.PublishOnBackgroundThread(new ProfilePageNavigationArgs());
-            //    return;
-            //}
-            var args = new ProfilePageNavigationArgs { User = user };
-            StorageService.UpdateTempProfilePageNavigationArgs(args);
+            StorageService.AddOrUpdateUserName(user.ScreenName);
+            StorageService.AddOrUpdateUserCache(user);
             NavigationService.UriFor<ProfilePageViewModel>()
                 .WithParam(o => o.Random, DateTime.Now.Ticks.ToString("x"))
                 .WithParam(o => o.ScreenName, user.ScreenName)
@@ -267,8 +261,7 @@ namespace Chicken4WP8.ViewModels.Base
             {
                 case EntityType.UserMention:
                     var mention = entity as IUserMentionEntity;
-                    var args = new ProfilePageNavigationArgs { Mention = mention };
-                    StorageService.UpdateTempProfilePageNavigationArgs(args);
+                    StorageService.AddOrUpdateUserName(mention.ScreenName);
                     NavigationService.UriFor<ProfilePageViewModel>()
                 .WithParam(o => o.Random, DateTime.Now.Ticks.ToString("x"))
                 .WithParam(o => o.ScreenName, mention.ScreenName)

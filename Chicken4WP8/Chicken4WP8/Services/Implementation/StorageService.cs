@@ -1,13 +1,13 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using Chicken4WP8.Common;
 using Chicken4WP8.Controllers;
 using Chicken4WP8.Entities;
 using Chicken4WP8.Models.Setting;
 using Chicken4WP8.Services.Interface;
-using Chicken4WP8.ViewModels.Base;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Bson;
 
@@ -106,15 +106,13 @@ namespace Chicken4WP8.Services.Implementation
             context.SubmitChanges();
         }
 
-        public ProfilePageNavigationArgs GetTempProfilePageNavigationArgs()
+        public string GetCachedUserName()
         {
             var entity = context.TempDatas.FirstOrDefault(t => t.Type == TempType.UserProfile);
-            if (entity == null || entity.Data == null)
-                return null;
-            return DeserializeObject<ProfilePageNavigationArgs>(entity.Data);
+            return Encoding.Unicode.GetString(entity.Data, 0, entity.Data.Length);
         }
 
-        public void UpdateTempProfilePageNavigationArgs(ProfilePageNavigationArgs profile)
+        public void AddOrUpdateUserName(string name)
         {
             var entity = context.TempDatas.FirstOrDefault(t => t.Type == TempType.UserProfile);
             if (entity == null)
@@ -122,14 +120,14 @@ namespace Chicken4WP8.Services.Implementation
                 entity = new TempData { Type = TempType.UserProfile };
                 context.TempDatas.InsertOnSubmit(entity);
             }
-            entity.Data = SerializeObject(profile);
+            entity.Data = Encoding.Unicode.GetBytes(name);
             context.SubmitChanges();
         }
 
-        public IUserModel GetCachedUser(string id)
+        public IUserModel GetCachedUser(string name)
         {
-            var entity = context.CachedUsers.FirstOrDefault(u => u.Id == id);
-            if (entity == null || entity.Data == null)
+            var entity = context.CachedUsers.FirstOrDefault(u => u.Id == name);
+            if (entity == null || entity.Data == null || DateTime.Now - entity.InsertedTime > Const.EXPERIEDTIME)
                 return null;
             return DeserializeObject<IUserModel>(entity.Data);
         }
@@ -139,14 +137,15 @@ namespace Chicken4WP8.Services.Implementation
             try
             {
                 resetEvent.WaitOne();
-                var id = ((long)user.Id).ToString();
-                var entity = context.CachedUsers.FirstOrDefault(u => u.Id == id);
+                var entity = context.CachedUsers.FirstOrDefault(u => u.Id == user.ScreenName);
                 if (entity == null)
                 {
-                    entity = new CachedUser { Id = id };
+                    entity = new CachedUser { Id = user.ScreenName };
                     context.CachedUsers.InsertOnSubmit(entity);
                 }
                 entity.Data = SerializeObject(user);
+                entity.InsertedTime = DateTime.Now;
+
                 context.SubmitChanges();
             }
             catch (Exception)

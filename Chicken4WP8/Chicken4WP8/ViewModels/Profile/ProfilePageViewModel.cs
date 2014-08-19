@@ -50,9 +50,7 @@ namespace Chicken4WP8.ViewModels.Profile
 
             AppBarConductor.Mixin(this);
 
-            //initialize the user from cache
-            var args = StorageService.GetTempProfilePageNavigationArgs();
-            Task.Factory.StartNew(() => SetProfileDetail(args));
+            Task.Factory.StartNew(() => SetProfileDetail());
         }
         #endregion
 
@@ -61,31 +59,25 @@ namespace Chicken4WP8.ViewModels.Profile
             ActivateItem(ProfileDetailViewModel);
         }
 
-        private async void SetProfileDetail(ProfilePageNavigationArgs args)
+        private async void SetProfileDetail()
         {
             await ProgressService.ShowAsync();
-            if (args.User != null)
-                StorageService.AddOrUpdateUserCache(args.User);
-            else
+            //initialize the user from cache
+            var name = StorageService.GetCachedUserName();
+            var user = StorageService.GetCachedUser(name);
+            if (user == null)
             {
-                args.User = StorageService.GetCachedUser(args.Mention.Id.ToString());
-                if (args.User == null)
-                {
-                    var option = Const.GetDictionary();
-                    if (args.Mention.Id != 0)
-                        option.Add(Const.USER_ID, args.Mention.Id);
-                    if (!string.IsNullOrEmpty(args.Mention.ScreenName))
-                        option.Add(Const.USER_SCREEN_NAME, args.Mention.ScreenName);
-                    option.Add(Const.INCLUDE_ENTITIES, Const.DEFAULT_VALUE_FALSE);
-                    args.User = await userController.ShowAsync(option);
-                    StorageService.AddOrUpdateUserCache(args.User);
-                }
+                var option = Const.GetDictionary();
+                option.Add(Const.USER_SCREEN_NAME, name);
+                option.Add(Const.INCLUDE_ENTITIES, Const.DEFAULT_VALUE_FALSE);
+                user = await userController.ShowAsync(option);
+                StorageService.AddOrUpdateUserCache(user);
             }
 
-            args.User.IsProfileDetail = true;
+            user.IsProfileDetail = true;
 
             foreach (var item in Items)
-                (item as IHaveAUser).User = args.User;
+                (item as IHaveAUser).User = user;
 
             await ProgressService.HideAsync();
         }
