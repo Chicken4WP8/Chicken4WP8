@@ -6,7 +6,7 @@ using Caliburn.Micro;
 using Chicken4WP8.Controllers;
 using Chicken4WP8.Controllers.Interface;
 using Chicken4WP8.Models.Setting;
-using Chicken4WP8.Services.Implemention;
+using Chicken4WP8.Services.Implementation;
 using Chicken4WP8.Services.Interface;
 using Chicken4WP8.ViewModels.Base;
 

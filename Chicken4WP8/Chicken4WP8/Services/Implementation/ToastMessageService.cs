@@ -3,7 +3,7 @@ using System.Windows;
 using Chicken4WP8.Controls;
 using Chicken4WP8.Services.Interface;
 
-namespace Chicken4WP8.Services.Implemention
+namespace Chicken4WP8.Services.Implementation
 {
     public class ToastMessageService : IToastMessageService
     {

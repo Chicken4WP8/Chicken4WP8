@@ -8,7 +8,7 @@ using Chicken4WP8.Services.Interface;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Bson;
 
-namespace Chicken4WP8.Services.Implemention
+namespace Chicken4WP8.Services.Implementation
 {
     public class StorageService : IStorageService
     {

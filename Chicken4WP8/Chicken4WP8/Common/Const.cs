@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -21,6 +22,7 @@ namespace Chicken4WP8.Common
         #region defalut value
         public const string DEFAULTSOURCE = "web";
         public const string DEFAULTSOURCEURL = "https://github.com/";
+        public static TimeSpan EXPERIEDTIME = new TimeSpan(0, 5, 0);
         #endregion
 
         #region rest api

@@ -3,7 +3,7 @@ using System.Windows;
 using Autofac;
 using Caliburn.Micro;
 using Chicken4WP8.Models.Setting;
-using Chicken4WP8.Services.Implemention;
+using Chicken4WP8.Services.Implementation;
 using Chicken4WP8.Services.Interface;
 
 namespace Chicken4WP8
@@ -42,7 +42,7 @@ namespace Chicken4WP8
                 // must be a type which name ends with service
                 .Where(type => type.Name.EndsWith("Service"))
                 // namespace ends with services implemention
-                    .Where(type => type.Namespace.EndsWith("Implemention"))
+                    .Where(type => type.Namespace.EndsWith("Implementation"))
                     .Except<ProgressService>()
                     .Except<StorageService>()
                 // registered as interface

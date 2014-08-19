@@ -5,7 +5,7 @@ using Chicken4WP8.Services.Interface;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 
-namespace Chicken4WP8.Services.Implemention
+namespace Chicken4WP8.Services.Implementation
 {
     public class ProgressService : IProgressService
     {

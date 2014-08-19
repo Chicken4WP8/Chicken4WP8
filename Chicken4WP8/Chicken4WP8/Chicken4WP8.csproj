@@ -140,10 +140,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AppResources.zh.resx</DependentUpon>
     </Compile>
-    <Compile Include="Services\Implemention\LanguageHelper.cs" />
-    <Compile Include="Services\Implemention\ProgressService.cs" />
-    <Compile Include="Services\Implemention\StorageService.cs" />
-    <Compile Include="Services\Implemention\ToastMessageService.cs" />
+    <Compile Include="Services\Implementation\LanguageHelper.cs" />
+    <Compile Include="Services\Implementation\ProgressService.cs" />
+    <Compile Include="Services\Implementation\StorageService.cs" />
+    <Compile Include="Services\Implementation\ToastMessageService.cs" />
     <Compile Include="Services\Interface\ILanguageHelper.cs" />
     <Compile Include="Services\Interface\IProgressService.cs" />
     <Compile Include="Services\Interface\IStorageService.cs" />
