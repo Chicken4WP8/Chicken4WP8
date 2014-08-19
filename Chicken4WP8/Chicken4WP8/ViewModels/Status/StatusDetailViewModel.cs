@@ -61,13 +61,14 @@ namespace Chicken4WP8.ViewModels.Status
             base.ItemClicked(item);
         }
 
-        protected async override Task RealizeItem(ITweetModel item)
+        protected override Task RealizeItem(ITweetModel item)
         {
             var user = item.RetweetedStatus == null ? item.User : item.RetweetedStatus.User;
             if (user.ProfileImageData == null)
                 Task.Factory.StartNew(() => userController.SetProfileImageAsync(user));
             if (item.IsStatusDetail)
                 Task.Factory.StartNew(() => statusController.SetStatusImagesAsync(item));
+            return Task.Delay(0);
         }
 
         protected async override Task FetchDataFromWeb()

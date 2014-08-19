@@ -28,6 +28,16 @@ namespace Chicken4WP8.Controllers.Implemention.Base
             user.ProfileImageData = await base.GetImageAsync(id, url);
         }
 
+        public async Task SetProfileImageDetailAsync(IUserModel user)
+        {
+            string url = user.ProfileImageUrl;
+            if (string.IsNullOrEmpty(url))
+                return;
+            url = url.Replace("_bigger", "_200x200");
+            string id = user.Id.Value + url;
+            user.ProfileImageData = await base.GetImageAsync(id, url);
+        }
+
         public async Task SetProfileBannerImageAsync(IUserModel user)
         {
             string url = user.UserProfileBannerImageUrl;

@@ -46,10 +46,11 @@ namespace Chicken4WP8.ViewModels.Profile
 
         protected override Task RealizeItem(IUserModel item)
         {
-            Task.Factory.StartNew(() => userController.SetProfileImageAsync(item));
+            Task.Factory.StartNew(() => item.IsProfileDetail ? userController.SetProfileImageDetailAsync(item) : userController.SetProfileImageAsync(item));
             Task.Factory.StartNew(() => userController.SetProfileBannerImageAsync(item));
             if (item.Id != App.UserSetting.Id)
                 Task.Factory.StartNew(() => userController.LookupFriendshipAsync(item));
+            listbox.ScrollTo(item);
             return Task.Delay(0);
         }
 
