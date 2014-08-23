@@ -90,7 +90,6 @@
                                             <ImageBrush ImageSource="/Images/dark/media.png" />
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
-                                    <TextBlock Text="{Binding Entities.Media.Count}" />
                                     <!--location-->
                                     <Rectangle Visibility="{Binding IncludeCoordinates,Converter={StaticResource BooleanToVisibilityConverter}}">
                                         <Rectangle.OpacityMask>
@@ -244,7 +243,6 @@
                                             <ImageBrush ImageSource="/Images/dark/media.png" />
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
-                                    <TextBlock Text="{Binding Entities.Media.Count}" Foreground="{StaticResource PhoneAccentBrush}" />
                                     <!--location-->
                                     <Rectangle Visibility="{Binding RetweetedStatus.IncludeCoordinates,Converter={StaticResource BooleanToVisibilityConverter}}">
                                         <Rectangle.OpacityMask>

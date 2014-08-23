@@ -41,6 +41,7 @@ namespace Chicken4WP8.ViewModels.Profile
             {
                 Items.Clear();
                 Items.Add(User);
+                listbox.ScrollTo(Items[0]);
             });
         }
 
@@ -50,7 +51,6 @@ namespace Chicken4WP8.ViewModels.Profile
             Task.Factory.StartNew(() => userController.SetProfileBannerImageAsync(item));
             if (item.Id != App.UserSetting.Id)
                 Task.Factory.StartNew(() => userController.LookupFriendshipAsync(item));
-            listbox.ScrollTo(item);
             return Task.Delay(0);
         }
 
