@@ -12,7 +12,7 @@ namespace Chicken4WP8.Controllers.Implementation.Base
         public async Task<IEnumerable<ITweetModel>> HomeTimelineAsync(IDictionary<string, object> parameters = null)
         {
             var tweets = await tokens.Statuses.HomeTimelineAsync(parameters);
-            var list = new List<ITweetModel>(tweets.Count);
+            var list = new List<ITweetModel>();
             if (tweets != null)
                 foreach (var tweet in tweets)
                     list.Add(new TweetModel(tweet));
@@ -22,7 +22,7 @@ namespace Chicken4WP8.Controllers.Implementation.Base
         public async Task<IEnumerable<ITweetModel>> MentionsTimelineAsync(IDictionary<string, object> parameters = null)
         {
             var tweets = await tokens.Statuses.MentionsTimelineAsync(parameters);
-            var list = new List<ITweetModel>(tweets.Count);
+            var list = new List<ITweetModel>();
             if (tweets != null)
                 foreach (var tweet in tweets)
                     list.Add(new TweetModel(tweet));

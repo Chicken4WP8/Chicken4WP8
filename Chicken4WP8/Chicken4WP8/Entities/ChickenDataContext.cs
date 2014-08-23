@@ -29,5 +29,13 @@ namespace Chicken4WP8.Entities
         {
             get { return this.GetTable<CachedImage>(); }
         }
+
+        public Table<CachedDirectMessage> CachedDirectMessages
+        {
+            get
+            {
+                return GetTable<CachedDirectMessage>();
+            }
+        }
     }
 }

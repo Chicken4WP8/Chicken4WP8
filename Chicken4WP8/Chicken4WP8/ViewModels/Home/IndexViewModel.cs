@@ -41,12 +41,12 @@ namespace Chicken4WP8.ViewModels.Home
             DisplayName = LanguageHelper["IndexViewModel_Header"];
         }
 
-        protected override async Task RealizeItem(ITweetModel item)
+        protected override Task RealizeItem(ITweetModel item)
         {
             var user = item.RetweetedStatus == null ? item.User : item.RetweetedStatus.User;
-            if (user.ProfileImageData != null)
-                return;
-            Task.Factory.StartNew(() => userController.SetProfileImageAsync(user));
+            if (user.ProfileImageData == null)
+                Task.Factory.StartNew(() => userController.SetProfileImageAsync(user));
+            return Task.Delay(0);
         }
 
         protected override async Task<IList<ITweetModel>> LoadDataFromWeb(IDictionary<string, object> options)
