@@ -4,7 +4,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Chicken4WP8.Services.Interface;
 
-namespace Chicken4WP8.Controllers.Implemention
+namespace Chicken4WP8.Controllers.Implementation
 {
     public abstract class ControllerBase
     {

@@ -1,7 +1,7 @@
 ﻿using Caliburn.Micro;
 using CoreTweet;
 
-namespace Chicken4WP8.Controllers.Implemention.Base
+namespace Chicken4WP8.Controllers.Implementation.Base
 {
     public class UserEntititesModel : PropertyChangedBase, IUserEntities
     {

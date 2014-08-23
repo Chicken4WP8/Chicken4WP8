@@ -1,10 +1,9 @@
 ﻿using System.Threading.Tasks;
-using Chicken4WP8.Controllers.Implemention.Base;
 using Chicken4WP8.Controllers.Interface;
 using Chicken4WP8.Models.Setting;
 using CoreTweet;
 
-namespace Chicken4WP8.Controllers.Implemention
+namespace Chicken4WP8.Controllers.Implementation.Base
 {
     public class BaseOAuthController : IOAuthController
     {

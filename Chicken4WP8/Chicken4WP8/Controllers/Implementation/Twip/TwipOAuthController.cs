@@ -4,7 +4,7 @@ using Chicken4WP8.Controllers.Interface;
 using Chicken4WP8.Models;
 using Chicken4WP8.Models.Setting;
 
-namespace Chicken4WP8.Controllers.Implemention
+namespace Chicken4WP8.Controllers.Implementation
 {
     public class TwipOAuthController : IOAuthController
     {

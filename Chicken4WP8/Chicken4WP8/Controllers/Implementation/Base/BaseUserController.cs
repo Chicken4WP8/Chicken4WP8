@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Chicken4WP8.Common;
 using Chicken4WP8.Controllers.Interface;
 
-namespace Chicken4WP8.Controllers.Implemention.Base
+namespace Chicken4WP8.Controllers.Implementation.Base
 {
     public class BaseUserController : BaseControllerBase, IUserController
     {

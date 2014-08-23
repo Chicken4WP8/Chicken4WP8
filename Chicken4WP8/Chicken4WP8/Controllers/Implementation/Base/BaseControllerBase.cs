@@ -1,7 +1,7 @@
 ﻿using Chicken4WP8.Models.Setting;
 using CoreTweet;
 
-namespace Chicken4WP8.Controllers.Implemention.Base
+namespace Chicken4WP8.Controllers.Implementation.Base
 {
     public abstract class BaseControllerBase : ControllerBase
     {

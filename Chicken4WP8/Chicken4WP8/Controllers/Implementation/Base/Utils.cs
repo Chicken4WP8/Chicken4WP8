@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 using Chicken4WP8.Common;
 using CoreTweet;
 
-namespace Chicken4WP8.Controllers.Implemention.Base
+namespace Chicken4WP8.Controllers.Implementation.Base
 {
     public class Utils
     {
