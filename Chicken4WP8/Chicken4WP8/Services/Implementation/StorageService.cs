@@ -240,7 +240,8 @@ namespace Chicken4WP8.Services.Implementation
             var entities = context.CachedDirectMessages
                 .OrderByDescending(m => m.Id)
                 .GroupBy(m => m.UserId)
-                .Select(g => g.First());
+                .Select(g => g.First())
+                .ToList();
             foreach (var entity in entities)
             {
                 list.Add(DeserializeObject<IDirectMessageModel>(entity.Data));

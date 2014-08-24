@@ -10,6 +10,7 @@ using Chicken4WP8.Controllers.Interface;
 using Chicken4WP8.Models.Setting;
 using Chicken4WP8.Services.Interface;
 using Chicken4WP8.ViewModels.Base;
+using Chicken4WP8.ViewModels.Profile;
 
 namespace Chicken4WP8.ViewModels.Home
 {
@@ -49,11 +50,29 @@ namespace Chicken4WP8.ViewModels.Home
             DisplayName = LanguageHelper["DirectMessageViewModel_Header"];
         }
 
+        protected override Task RealizeItem(IDirectMessageModel item)
+        {
+            if (item.User.ProfileImageData == null)
+                Task.Factory.StartNew(() => userController.SetProfileImageAsync(item.User));
+            return Task.Delay(0);
+        }
+
+        protected override void AvatarClicked(object item)
+        {
+            var message = item as IDirectMessageModel;
+            var user = message.User;
+            StorageService.AddOrUpdateUserName(user.ScreenName);
+            StorageService.AddOrUpdateUserCache(user);
+            NavigationService.UriFor<ProfilePageViewModel>()
+                .WithParam(o => o.Random, DateTime.Now.Ticks.ToString("x"))
+                .WithParam(o => o.ScreenName, user.ScreenName)
+                .Navigate();
+        }
+
         protected override async Task FetchMoreDataFromWeb()
         {
             var msgs = new List<IDirectMessageModel>();
             var options = Const.GetDictionary();
-            options.Add(Const.COUNT, 20);
             var sinceId = StorageService.GetSendDirectMessageSinceId();
             if (sinceId != null)
                 options.Add(Const.SINCE_ID, sinceId);
@@ -61,7 +80,6 @@ namespace Chicken4WP8.ViewModels.Home
             if (sendMsgs != null && sendMsgs.Count() != 0)
                 msgs.AddRange(sendMsgs);
             options.Clear();
-            options.Add(Const.COUNT, 20);
             sinceId = StorageService.GetReceivedDirectMessageSinceId();
             if (sinceId != null)
                 options.Add(Const.SINCE_ID, sinceId);
@@ -72,9 +90,39 @@ namespace Chicken4WP8.ViewModels.Home
             var list = StorageService.GetGroupedDirectMessages();
             if (list != null && list.Count != 0)
             {
+                Items.Clear();
+                foreach (var item in list.OrderBy(m => m.Id))
+                    Items.Insert(0, item);
+                listbox.ScrollTo(Items[0]);
+            }
+        }
+
+        protected override async Task LoadMoreDataFromWeb()
+        {
+            var msgs = new List<IDirectMessageModel>();
+            var options = Const.GetDictionary();
+            var maxId = StorageService.GetSendDirectMessageMaxId();
+            if (maxId != null)
+                options.Add(Const.MAX_ID, maxId);
+            var sendMsgs = await messageController.SentAsync(options);
+            if (sendMsgs != null && sendMsgs.Count() != 0)
+                msgs.AddRange(sendMsgs);
+            options.Clear();
+            maxId = StorageService.GetReceivedDirectMessageMaxId();
+            if (maxId != null)
+                options.Add(Const.MAX_ID, maxId);
+            var receivedMsgs = await messageController.ReceivedAsync(options);
+            if (receivedMsgs != null && receivedMsgs.Count() != 0)
+                msgs.AddRange(receivedMsgs);
+            StorageService.AddCachedDirectMessages(msgs);
+            int skip = Items.Count;
+            var list = StorageService.GetGroupedDirectMessages();
+            if (list != null && list.Count != 0)
+            {
+                Items.Clear();
                 foreach (var item in list)
                     Items.Add(item);
-                listbox.ScrollTo(Items[0]);
+                listbox.ScrollTo(Items[Items.Count - 1]);
             }
         }
     }
