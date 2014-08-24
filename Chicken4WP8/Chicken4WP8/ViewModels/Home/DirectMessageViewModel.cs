@@ -69,6 +69,17 @@ namespace Chicken4WP8.ViewModels.Home
                 .Navigate();
         }
 
+        protected override void ItemClicked(object item)
+        {
+            var message = item as IDirectMessageModel;
+            var user = message.User;
+            StorageService.AddOrUpdateDirectMessageUserName(user.ScreenName);
+            NavigationService.UriFor<NewDirectMessagePageViewModel>()
+                .WithParam(o => o.Random, DateTime.Now.Ticks.ToString("x"))
+                .WithParam(o => o.ScreenName, user.ScreenName)
+                .Navigate();
+        }
+
         protected override async Task FetchMoreDataFromWeb()
         {
             var msgs = new List<IDirectMessageModel>();

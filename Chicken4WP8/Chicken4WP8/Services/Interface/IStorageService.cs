@@ -31,5 +31,8 @@ namespace Chicken4WP8.Services.Interface
 
         void AddCachedDirectMessages(IEnumerable<IDirectMessageModel> messages);
         List<IDirectMessageModel> GetGroupedDirectMessages();
+
+        string GetDirectMessageUserName();
+        void AddOrUpdateDirectMessageUserName(string name);
     }
 }

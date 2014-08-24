@@ -19,5 +19,6 @@ namespace Chicken4WP8.Entities
     {
         TweetDetail = 1,
         UserProfile = 2,
+        DirectMessage = 3,
     }
 }

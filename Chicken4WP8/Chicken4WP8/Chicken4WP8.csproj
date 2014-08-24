@@ -164,6 +164,7 @@
     <Compile Include="ViewModels\Home\IndexViewModel.cs" />
     <Compile Include="ViewModels\Base\PivotItemViewModelBase.cs" />
     <Compile Include="ViewModels\Home\MentionViewModel.cs" />
+    <Compile Include="ViewModels\Home\NewDirectMessagePageViewModel.cs" />
     <Compile Include="ViewModels\Profile\ProfileDetailViewModel.cs" />
     <Compile Include="ViewModels\Profile\ProfilePageViewModel.cs" />
     <Compile Include="ViewModels\Profile\ProfileViewModelBase.cs" />
@@ -369,6 +370,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Home\MentionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Home\NewDirectMessagePageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

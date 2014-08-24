@@ -249,6 +249,24 @@ namespace Chicken4WP8.Services.Implementation
             return list;
         }
 
+        public string GetDirectMessageUserName()
+        {
+            var entity = context.TempDatas.FirstOrDefault(t => t.Type == TempType.DirectMessage);
+            return Encoding.Unicode.GetString(entity.Data, 0, entity.Data.Length);
+        }
+
+        public void AddOrUpdateDirectMessageUserName(string name)
+        {
+            var entity = context.TempDatas.FirstOrDefault(t => t.Type == TempType.DirectMessage);
+            if (entity == null)
+            {
+                entity = new TempData { Type = TempType.DirectMessage };
+                context.TempDatas.InsertOnSubmit(entity);
+            }
+            entity.Data = Encoding.Unicode.GetBytes(name);
+            context.SubmitChanges();
+        }
+
         #region private
         private byte[] SerializeObject(object value)
         {
