@@ -1,4 +1,5 @@
-﻿using Chicken4WP8.Controllers;
+﻿using System.Collections.Generic;
+using Chicken4WP8.Controllers;
 using Chicken4WP8.Models.Setting;
 
 namespace Chicken4WP8.Services.Interface
@@ -22,5 +23,13 @@ namespace Chicken4WP8.Services.Interface
 
         byte[] GetCachedImage(string id);
         byte[] AddOrUpdateImageCache(string id, byte[] data);
+
+        long? GetSendDirectMessageSinceId();
+        long? GetSendDirectMessageMaxId();
+        long? GetReceivedDirectMessageSinceId();
+        long? GetReceivedDirectMessageMaxId();
+
+        void AddCachedDirectMessages(IEnumerable<IDirectMessageModel> messages);
+        List<IDirectMessageModel> GetGroupedDirectMessages();
     }
 }

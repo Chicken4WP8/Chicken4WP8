@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -187,6 +188,64 @@ namespace Chicken4WP8.Services.Implementation
                 resetEvent.Set();
             }
             return data;
+        }
+
+        public long? GetSendDirectMessageSinceId()
+        {
+            if (context.CachedDirectMessages.Count() == 0)
+                return null;
+            return context.CachedDirectMessages.Where(m => m.IsSentByMe).Max(m => m.Id);
+        }
+
+        public long? GetSendDirectMessageMaxId()
+        {
+            if (context.CachedDirectMessages.Count() == 0)
+                return null;
+            return context.CachedDirectMessages.Where(m => m.IsSentByMe).Min(m => m.Id);
+        }
+
+        public long? GetReceivedDirectMessageMaxId()
+        {
+            if (context.CachedDirectMessages.Count() == 0)
+                return null;
+            return context.CachedDirectMessages.Where(m => !m.IsSentByMe).Max(m => m.Id);
+        }
+
+        public long? GetReceivedDirectMessageSinceId()
+        {
+            if (context.CachedDirectMessages.Count() == 0)
+                return null;
+            return context.CachedDirectMessages.Where(m => !m.IsSentByMe).Max(m => m.Id);
+        }
+
+        public void AddCachedDirectMessages(IEnumerable<IDirectMessageModel> messages)
+        {
+            foreach (var message in messages)
+            {
+                var entity = new CachedDirectMessage
+                {
+                    Id = message.Id,
+                    UserId = message.User.Id.Value,
+                    IsSentByMe = message.IsSentByMe,
+                    Data = SerializeObject(message)
+                };
+                context.CachedDirectMessages.InsertOnSubmit(entity);
+            }
+            context.SubmitChanges();
+        }
+
+        public List<IDirectMessageModel> GetGroupedDirectMessages()
+        {
+            var list = new List<IDirectMessageModel>();
+            var entities = context.CachedDirectMessages
+                .OrderByDescending(m => m.Id)
+                .GroupBy(m => m.UserId)
+                .Select(g => g.First());
+            foreach (var entity in entities)
+            {
+                list.Add(DeserializeObject<IDirectMessageModel>(entity.Data));
+            }
+            return list;
         }
 
         #region private

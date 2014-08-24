@@ -356,6 +356,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\Home\DirectMessageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Home\HomePageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Caliburn.Micro;
+using Chicken4WP8.Common;
 using Chicken4WP8.Controllers;
 using Chicken4WP8.Controllers.Interface;
 using Chicken4WP8.Models.Setting;
@@ -31,7 +32,31 @@ namespace Chicken4WP8.ViewModels.Home
 
         protected override async Task FetchMoreDataFromWeb()
         {
-            return base.FetchMoreDataFromWeb();
+            var msgs = new List<IDirectMessageModel>();
+            var options = Const.GetDictionary();
+            options.Add(Const.COUNT, 50);
+            var sinceId = StorageService.GetSendDirectMessageSinceId();
+            if (sinceId != null)
+                options.Add(Const.SINCE_ID, sinceId);
+            var sendMsgs = await messageController.SentAsync(options);
+            if (sendMsgs != null && sendMsgs.Count() != 0)
+                msgs.AddRange(sendMsgs);
+            options.Clear();
+            options.Add(Const.COUNT, 50);
+            sinceId = StorageService.GetReceivedDirectMessageSinceId();
+            if (sinceId != null)
+                options.Add(Const.SINCE_ID, sinceId);
+            var receivedMsgs = await messageController.ReceivedAsync(options);
+            if (receivedMsgs != null && receivedMsgs.Count() != 0)
+                msgs.AddRange(receivedMsgs);
+            StorageService.AddCachedDirectMessages(msgs);
+            var list = StorageService.GetGroupedDirectMessages();
+            if (list != null && list.Count != 0)
+            {
+                foreach (var item in list)
+                    Items.Add(item);
+                listbox.ScrollTo(Items[0]);
+            }
         }
     }
 }
