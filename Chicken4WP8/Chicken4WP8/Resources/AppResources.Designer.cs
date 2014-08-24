@@ -97,6 +97,15 @@ namespace Chicken4WP8.Resources {
         }
         
         /// <summary>
+        ///   查找类似 Messages 的本地化字符串。
+        /// </summary>
+        public static string DirectMessageViewModel_Header {
+            get {
+                return ResourceManager.GetString("DirectMessageViewModel_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Home 的本地化字符串。
         /// </summary>
         public static string IndexViewModel_Header {

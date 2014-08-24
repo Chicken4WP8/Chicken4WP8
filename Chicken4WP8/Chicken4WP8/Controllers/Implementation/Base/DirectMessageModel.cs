@@ -18,8 +18,15 @@ namespace Chicken4WP8.Controllers.Implementation.Base
             Text = message.Text;
             if (message.Entities != null)
                 Entities = new EntitiesModel(message.Entities);
-            if (message.Sender != null && message.Sender.Id == App.UserSetting.Id)
+            if (message.Sender.Id == App.UserSetting.Id)
+            {
                 IsSentByMe = true;
+                User = new UserModel(message.Recipient);
+            }
+            else
+            {
+                User = new UserModel(message.Sender);
+            }
         }
 
         public DateTime CreatedAt { get; set; }
@@ -29,6 +36,17 @@ namespace Chicken4WP8.Controllers.Implementation.Base
         public string Text { get; set; }
         public bool IsSentByMe { get; set; }
 
+        #region for template
+        [JsonIgnore]
+        public bool IncludeMedia
+        {
+            get
+            {
+                return Entities != null
+                    && Entities.Media != null
+                    && Entities.Media.Count != 0;
+            }
+        }
         private List<IEntity> parsedEntities;
         [JsonIgnore]
         public List<IEntity> ParsedEntities
@@ -52,5 +70,6 @@ namespace Chicken4WP8.Controllers.Implementation.Base
                 return parsedEntities;
             }
         }
+        #endregion
     }
 }

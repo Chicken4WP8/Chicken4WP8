@@ -7,6 +7,7 @@ namespace Chicken4WP8.ViewModels.Home
     {
         public IndexViewModel IndexViewModel { get; set; }
         public MentionViewModel MentionViewModel { get; set; }
+        public DirectMessageViewModel DirectMessageViewModel { get; set; }
 
         public HomePageViewModel()
         {
@@ -18,6 +19,7 @@ namespace Chicken4WP8.ViewModels.Home
 
             Items.Add(IndexViewModel);
             Items.Add(MentionViewModel);
+            Items.Add(DirectMessageViewModel);
 
             ActivateItem(IndexViewModel);
 

@@ -129,6 +129,9 @@
   <data name="Button_OK" xml:space="preserve">
     <value>好的</value>
   </data>
+  <data name="DirectMessageViewModel_Header" xml:space="preserve">
+    <value>私信</value>
+  </data>
   <data name="IndexViewModel_Header" xml:space="preserve">
     <value>首页</value>
   </data>

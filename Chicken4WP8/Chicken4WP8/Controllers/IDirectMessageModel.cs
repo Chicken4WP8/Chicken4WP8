@@ -12,6 +12,9 @@ namespace Chicken4WP8.Controllers
         IUserModel User { get; set; }
         string Text { get; set; }
         bool IsSentByMe { get; set; }
-        List<IEntity> ParsedEntities { get; }
+        #region for template
+        bool IncludeMedia { get; }
+        List<IEntity> ParsedEntities { get; } 
+        #endregion
     }
 }
