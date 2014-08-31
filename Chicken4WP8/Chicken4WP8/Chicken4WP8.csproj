@@ -174,8 +174,11 @@
     <Compile Include="ViewModels\Setting\SettingPageViewModel.cs" />
     <Compile Include="ViewModels\SplashScreenPageViewModel.cs" />
     <Compile Include="ViewModels\Base\PageViewModelBase.cs" />
+    <Compile Include="ViewModels\Status\EmotionViewModel.cs" />
+    <Compile Include="ViewModels\Status\NewStatusPageViewModel.cs" />
     <Compile Include="ViewModels\Status\StatusDetailViewModel.cs" />
     <Compile Include="ViewModels\Status\StatusPageViewModel.cs" />
+    <Compile Include="ViewModels\Status\TextViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -184,6 +187,7 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Data\emotions.json" />
     <None Include="packages.config" />
     <None Include="Properties\AppManifest.xml" />
     <None Include="Properties\WMAppManifest.xml">
@@ -405,11 +409,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Status\EmotionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Status\NewStatusPageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Status\StatusDetailView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Status\StatusPageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Status\TextView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

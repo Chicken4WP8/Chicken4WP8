@@ -34,5 +34,7 @@ namespace Chicken4WP8.Services.Interface
 
         string GetDirectMessageUserName();
         void AddOrUpdateDirectMessageUserName(string name);
+
+        List<string> GetEmotions();
     }
 }

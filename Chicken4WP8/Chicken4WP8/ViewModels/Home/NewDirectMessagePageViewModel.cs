@@ -1,4 +1,6 @@
-﻿using Chicken4WP8.Controllers;
+﻿using Caliburn.Micro;
+using Chicken4WP8.Controllers;
+using Chicken4WP8.Services.Interface;
 using Chicken4WP8.ViewModels.Base;
 
 namespace Chicken4WP8.ViewModels.Home
@@ -46,6 +48,12 @@ namespace Chicken4WP8.ViewModels.Home
                 NotifyOfPropertyChange(() => HasError);
             }
         }
+
+        public NewDirectMessagePageViewModel(
+             IEventAggregator eventAggregator,
+            ILanguageHelper languageHelper)
+            : base(eventAggregator, languageHelper)
+        { }
         #endregion
     }
 }

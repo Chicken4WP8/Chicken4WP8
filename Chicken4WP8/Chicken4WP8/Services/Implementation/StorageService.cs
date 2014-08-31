@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Windows;
 using Chicken4WP8.Common;
 using Chicken4WP8.Controllers;
 using Chicken4WP8.Entities;
@@ -20,6 +22,7 @@ namespace Chicken4WP8.Services.Implementation
         private static JsonSerializer serializer;
         public static AutoResetEvent resetEvent = new AutoResetEvent(true);
         private ChickenDataContext context;
+        private const string EMOTIONS_FILE_NAME = "emotions.json";
 
         static StorageService()
         {
@@ -265,6 +268,34 @@ namespace Chicken4WP8.Services.Implementation
             }
             entity.Data = Encoding.Unicode.GetBytes(name);
             context.SubmitChanges();
+        }
+
+        public List<string> GetEmotions()
+        {
+            List<string> result = new List<string>();
+            string filepath = Path.Combine(EMOTIONS_FILE_NAME);
+            IsolatedStorageFile fileSystem = IsolatedStorageFile.GetUserStoreForApplication();
+            using (var fileStream = fileSystem.OpenFile(filepath, FileMode.OpenOrCreate))
+            {
+                if (fileStream == null || fileStream.Length == 0)
+                {
+                    var resource = Application.GetResourceStream(new Uri(Path.Combine("Data", filepath), UriKind.Relative));
+                    resource.Stream.CopyTo(fileStream);
+                }
+                using (var streamReader = new StreamReader(fileStream))
+                {
+                    fileStream.Position = 0;
+                    while (!streamReader.EndOfStream)
+                    {
+                        string s = streamReader.ReadLine();
+                        if (!string.IsNullOrEmpty(s))
+                        {
+                            result.Add(s.Trim());
+                        }
+                    }
+                }
+            }
+            return result;
         }
 
         #region private
