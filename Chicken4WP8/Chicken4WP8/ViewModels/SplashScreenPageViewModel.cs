@@ -2,7 +2,6 @@
 using Chicken4WP8.Services.Interface;
 using Chicken4WP8.ViewModels.Home;
 using Chicken4WP8.ViewModels.Setting;
-using Chicken4WP8.ViewModels.Status;
 
 namespace Chicken4WP8.ViewModels
 {
@@ -28,8 +27,7 @@ namespace Chicken4WP8.ViewModels
             else
             {
                 App.UpdateSetting(setting);
-                //NavigationService.UriFor<HomePageViewModel>().Navigate();
-                NavigationService.UriFor<NewStatusPageViewModel>().Navigate();
+                NavigationService.UriFor<HomePageViewModel>().Navigate();
             }
         }
     }

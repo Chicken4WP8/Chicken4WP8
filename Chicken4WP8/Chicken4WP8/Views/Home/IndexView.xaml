@@ -23,8 +23,9 @@
         </toolkits:LongListSelector>
 
         <appBar:BindableAppBar Mode="Minimized">
-            <appBar:BindableAppBarButton x:Name="AppBar_Next"
-                                         Text="Refresh" IconUri="/Images/dark/appbar.check.png" />
+            <appBar:BindableAppBarButton x:Name="AppBar_NewTweet"
+                                         Text="{Binding ElementName=Root,Path=DataContext.LanguageHelper[AppBarButton_NewTweet]}"
+                                         IconUri="/Images/dark/appbar.tweet.new.png" />
         </appBar:BindableAppBar>
 
     </Grid>

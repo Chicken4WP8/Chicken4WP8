@@ -10,6 +10,7 @@ using Chicken4WP8.Models.Setting;
 using Chicken4WP8.Services.Implementation;
 using Chicken4WP8.Services.Interface;
 using Chicken4WP8.ViewModels.Base;
+using Chicken4WP8.ViewModels.Status;
 
 namespace Chicken4WP8.ViewModels.Home
 {
@@ -55,6 +56,11 @@ namespace Chicken4WP8.ViewModels.Home
             if (tweets != null)
                 return tweets.ToList();
             return null;
+        }
+
+        public void AppBar_NewTweet()
+        {
+            NavigationService.UriFor<NewStatusPageViewModel>().Navigate();
         }
     }
 }
