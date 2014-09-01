@@ -6,8 +6,9 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:toolkits="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     xmlns:ctrls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
+    xmlns:appBar="clr-namespace:Caliburn.Micro.BindableAppBar;assembly=Caliburn.Micro.BindableAppBar" 
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
@@ -21,7 +22,8 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <!--context-->
-        <toolkit:PhoneTextBox Grid.Row="0" Margin="8,4"
+        <toolkits:PhoneTextBox x:Name="Text"
+            Grid.Row="0" Margin="8,4"
                               MinHeight="200"
                               MaxHeight="300"
                               MaxLength="140"
@@ -38,6 +40,15 @@
                 </DataTemplate>
             </ctrls:Pivot.HeaderTemplate>
         </ctrls:Pivot>
+
+        <appBar:BindableAppBar>
+            <appBar:BindableAppBarButton x:Name="AppBar_Send"
+                                         Text="Send" IconUri="/Images/dark/appbar.send.png" />
+        </appBar:BindableAppBar>
     </Grid>
+
+    <toolkits:WaitCursorService.WaitCursor>
+        <toolkits:WaitCursor x:Name="WaitIndicator"/>
+    </toolkits:WaitCursorService.WaitCursor>
 
 </phone:PhoneApplicationPage>

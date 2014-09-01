@@ -204,4 +204,7 @@
   <data name="WaitCursor_Loading" xml:space="preserve">
     <value>加载中...</value>
   </data>
+  <data name="WaitCursor_SendNewTweet" xml:space="preserve">
+    <value>正在发送...</value>
+  </data>
 </root>

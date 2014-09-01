@@ -204,4 +204,7 @@
   <data name="WaitCursor_Loading" xml:space="preserve">
     <value>Loading...</value>
   </data>
+  <data name="WaitCursor_SendNewTweet" xml:space="preserve">
+    <value>Sending...</value>
+  </data>
 </root>

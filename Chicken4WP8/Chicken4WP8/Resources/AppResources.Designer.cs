@@ -320,5 +320,14 @@ namespace Chicken4WP8.Resources {
                 return ResourceManager.GetString("WaitCursor_Loading", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   查找类似 Sending... 的本地化字符串。
+        /// </summary>
+        public static string WaitCursor_SendNewTweet {
+            get {
+                return ResourceManager.GetString("WaitCursor_SendNewTweet", resourceCulture);
+            }
+        }
     }
 }

@@ -56,5 +56,11 @@ namespace Chicken4WP8.Controllers.Implementation.Base
                 }
             }
         }
+
+        public async Task<ITweetModel> UpdateAsync(IDictionary<string, object> parameters)
+        {
+            var status = await tokens.Statuses.UpdateAsync(parameters);
+            return new TweetModel(status);
+        }
     }
 }
