@@ -10,11 +10,7 @@ namespace Chicken4WP8.ViewModels.Status
     public class TextViewModel : Screen
     {
         public TextViewModel()
-        { }
-
-        protected override void OnActivate()
-        {
-            base.OnActivate();
+        { 
             DisplayName = "A";
         }
     }

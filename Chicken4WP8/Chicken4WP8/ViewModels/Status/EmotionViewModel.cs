@@ -15,11 +15,7 @@ namespace Chicken4WP8.ViewModels.Status
         public IStorageService StorageService { get; set; }
 
         public EmotionViewModel()
-        { }
-
-        protected override void OnActivate()
-        {
-            base.OnActivate();
+        { 
             DisplayName = "^_^";
         }
 

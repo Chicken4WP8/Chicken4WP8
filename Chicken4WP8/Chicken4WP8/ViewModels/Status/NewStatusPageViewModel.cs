@@ -6,6 +6,7 @@ using Chicken4WP8.Controllers.Interface;
 using Chicken4WP8.Services.Interface;
 using Chicken4WP8.ViewModels.Base;
 using Chicken4WP8.ViewModels.Home;
+using Chicken4WP8.Views.Status;
 using Microsoft.Phone.Controls;
 
 namespace Chicken4WP8.ViewModels.Status
@@ -55,13 +56,14 @@ namespace Chicken4WP8.ViewModels.Status
         protected override void OnViewAttached(object view, object context)
         {
             base.OnViewAttached(view, context);
-            var control = view as FrameworkElement;
-            textbox = control.GetFirstLogicalChildByType<PhoneTextBox>(true);
+            var control = view as NewStatusPageView;
+            textbox = control.Text;
+            textbox.GotFocus += Textbox_GotFocus;
         }
 
-        protected override void OnActivate()
+        protected override void OnInitialize()
         {
-            base.OnActivate();
+            base.OnInitialize();
 
             EmotionViewModel.AddEmotionHandler = this.AddEmotion;
 
@@ -82,6 +84,11 @@ namespace Chicken4WP8.ViewModels.Status
             await StatusController.UpdateAsync(options);
             waitCursorService.IsVisible = false;
             NavigationService.UriFor<HomePageViewModel>().Navigate();
+        }
+
+        private void Textbox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            ActivateItem(TextViewModel);
         }
 
         private void AddEmotion(string emotion)
