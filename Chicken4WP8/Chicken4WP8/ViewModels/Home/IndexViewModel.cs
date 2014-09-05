@@ -60,7 +60,11 @@ namespace Chicken4WP8.ViewModels.Home
 
         public void AppBar_NewTweet()
         {
-            NavigationService.UriFor<NewStatusPageViewModel>().Navigate();
+            var status = new NewStatusModel();
+            StorageService.UpdateTempNewStatus(status);
+            NavigationService.UriFor<NewStatusPageViewModel>()
+                 .WithParam(o => o.Random, DateTime.Now.Ticks.ToString("x"))
+                .Navigate();
         }
     }
 }

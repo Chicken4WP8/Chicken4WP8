@@ -270,15 +270,15 @@ namespace Chicken4WP8.Services.Implementation
             context.SubmitChanges();
         }
 
-        public INewStatusModel GetTempNewStatus()
+        public NewStatusModel GetTempNewStatus()
         {
             var entity = context.TempDatas.FirstOrDefault(t => t.Type == TempType.NewStatus);
             if (entity == null || entity.Data == null)
                 return null;
-            return DeserializeObject<INewStatusModel>(entity.Data);
+            return DeserializeObject<NewStatusModel>(entity.Data);
         }
 
-        public void UpdateTempNewStatus(INewStatusModel status)
+        public void UpdateTempNewStatus(NewStatusModel status)
         {
             var entity = context.TempDatas.FirstOrDefault(t => t.Type == TempType.NewStatus);
             if (entity == null)

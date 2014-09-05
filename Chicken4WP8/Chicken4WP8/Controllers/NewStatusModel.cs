@@ -1,7 +1,7 @@
 ﻿
 namespace Chicken4WP8.Controllers
 {
-    public interface INewStatusModel
+    public class NewStatusModel
     {
         NewStatusType Type { get; set; }
         long? InReplyToStatusId { get; set; }
