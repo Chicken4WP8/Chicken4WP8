@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 using Caliburn.Micro;
 using Chicken4WP8.Common;
 using Chicken4WP8.Controllers.Interface;
@@ -15,6 +14,7 @@ namespace Chicken4WP8.ViewModels.Status
     {
         #region properties
         private PhoneTextBox textbox;
+        private long? inReplyToStatusId;
 
         private string title;
         public string Title
@@ -46,6 +46,7 @@ namespace Chicken4WP8.ViewModels.Status
         public IStatusController StatusController { get; set; }
         public INavigationService NavigationService { get; set; }
         public ILanguageHelper LanguageHelper { get; set; }
+        public IStorageService StorageService { get; set; }
         #endregion
 
         public NewStatusPageViewModel()
@@ -70,7 +71,25 @@ namespace Chicken4WP8.ViewModels.Status
             Items.Add(TextViewModel);
             Items.Add(EmotionViewModel);
 
-            ActivateItem(TextViewModel);
+            var status = StorageService.GetTempNewStatus();
+            if (status != null)
+            {
+                Text = status.Text;
+                inReplyToStatusId = status.InReplyToStatusId;
+                switch (status.Type)
+                {
+                    case Controllers.NewStatusType.Reply:
+                    case Controllers.NewStatusType.Quote:
+                        Title = LanguageHelper["NewStatusPageViewModel_InReplyToScreenName"] + status.InReplyToUserName;
+                        break;
+                    case Controllers.NewStatusType.New:
+                    default:
+                        Title = LanguageHelper["NewStatusPageViewModel_Title"];
+                        break;
+                }
+            }
+            textbox.SelectionStart = string.IsNullOrEmpty(textbox.Text) ? 0 : textbox.Text.Length + 1;
+            textbox.Focus();
         }
 
         public async void AppBar_Send()
@@ -79,6 +98,8 @@ namespace Chicken4WP8.ViewModels.Status
                 return;
             var options = Const.GetDictionary();
             options.Add(Const.STATUS, Text);
+            if (inReplyToStatusId.HasValue)
+                options.Add(Const.IN_REPLY_TO_STATUS_ID, inReplyToStatusId);
             waitCursorService.IsVisible = true;
             waitCursorService.Text = LanguageHelper["WaitCursor_SendNewTweet"];
             await StatusController.UpdateAsync(options);
@@ -93,17 +114,17 @@ namespace Chicken4WP8.ViewModels.Status
 
         private void AddEmotion(string emotion)
         {
-            if (string.IsNullOrEmpty(this.textbox.Text))
+            if (string.IsNullOrEmpty(textbox.Text))
             {
-                this.textbox.Text = emotion;
-                this.textbox.SelectionStart = emotion.Length;
+                textbox.Text = emotion;
+                textbox.SelectionStart = emotion.Length;
                 return;
             }
-            if (this.textbox.Text.Length + emotion.Length > this.textbox.MaxLength)
+            if (this.textbox.Text.Length + emotion.Length > textbox.MaxLength)
                 return;
-            int start = this.textbox.SelectionStart;
-            this.textbox.Text = this.textbox.Text.Insert(start, emotion);
-            this.textbox.SelectionStart = start + emotion.Length;
+            int start = textbox.SelectionStart;
+            textbox.Text = textbox.Text.Insert(start, emotion);
+            textbox.SelectionStart = start + emotion.Length;
         }
     }
 }

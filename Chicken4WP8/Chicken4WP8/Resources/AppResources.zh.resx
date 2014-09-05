@@ -120,6 +120,9 @@
   <data name="AppBarButton_NewTweet" xml:space="preserve">
     <value>撰写</value>
   </data>
+  <data name="AppBarButton_Reply" xml:space="preserve">
+    <value>回复</value>
+  </data>
   <data name="BaseOAuthSettingPageView_EnterPinCode" xml:space="preserve">
     <value>输入PIN码：</value>
   </data>
@@ -143,6 +146,12 @@
   </data>
   <data name="MentionViewModel_Header" xml:space="preserve">
     <value>提及</value>
+  </data>
+  <data name="NewStatusPageViewModel_InReplyToScreenName" xml:space="preserve">
+    <value>回复给：</value>
+  </data>
+  <data name="NewStatusPageViewModel_Title" xml:space="preserve">
+    <value>发生了什么事情？</value>
   </data>
   <data name="OAuthSettingPageView_AppBarNext" xml:space="preserve">
     <value>下一步</value>

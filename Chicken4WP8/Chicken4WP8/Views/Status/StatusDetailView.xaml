@@ -354,8 +354,9 @@
         </toolkits:LongListSelector>
 
         <appBar:BindableAppBar Mode="Minimized">
-            <appBar:BindableAppBarButton x:Name="AppBar_Next"
-                                         Text="Detail" IconUri="/Images/dark/appbar.check.png" />
+            <appBar:BindableAppBarButton x:Name="AppBar_Reply"
+                                         Text="{Binding ElementName=Root,Path=DataContext.LanguageHelper[AppBarButton_Reply]}"
+                                         IconUri="/Images/dark/appbar.reply.png" />
         </appBar:BindableAppBar>
 
     </Grid>

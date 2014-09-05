@@ -70,6 +70,15 @@ namespace Chicken4WP8.Resources {
         }
         
         /// <summary>
+        ///   查找类似 Reply 的本地化字符串。
+        /// </summary>
+        public static string AppBarButton_Reply {
+            get {
+                return ResourceManager.GetString("AppBarButton_Reply", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Enter PIN Code 的本地化字符串。
         /// </summary>
         public static string BaseOAuthSettingPageView_EnterPinCode {
@@ -138,6 +147,24 @@ namespace Chicken4WP8.Resources {
         public static string MentionViewModel_Header {
             get {
                 return ResourceManager.GetString("MentionViewModel_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Reply To :  的本地化字符串。
+        /// </summary>
+        public static string NewStatusPageViewModel_InReplyToScreenName {
+            get {
+                return ResourceManager.GetString("NewStatusPageViewModel_InReplyToScreenName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 What&apos;s Happening? 的本地化字符串。
+        /// </summary>
+        public static string NewStatusPageViewModel_Title {
+            get {
+                return ResourceManager.GetString("NewStatusPageViewModel_Title", resourceCulture);
             }
         }
         

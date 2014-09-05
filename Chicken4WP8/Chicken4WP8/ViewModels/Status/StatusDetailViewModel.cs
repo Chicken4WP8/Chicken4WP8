@@ -85,9 +85,34 @@ namespace Chicken4WP8.ViewModels.Status
             await HideProgressBar();
         }
 
-        protected async override Task LoadDataFromWeb()
+        protected override Task LoadDataFromWeb()
         {
-            return;
+            return Task.Delay(0);
+        }
+
+        public void AppBar_Reply()
+        {
+            var newTweet = new NewStatusModel();
+            newTweet.InReplyToStatusId = status.Id;
+            var names = new List<string>();
+            names.Add("@" + status.User.ScreenName);
+            if (status.Entities.UserMentions != null && status.Entities.UserMentions.Count != 0)
+            {
+                var users = status.Entities.UserMentions.Select(m => "@" + m.ScreenName);
+                foreach (var user in users)
+                {
+                    if (!names.Contains(user))
+                        names.Add(user);
+                }
+            }
+            string text = string.Join(" ", names);
+            newTweet.InReplyToUserName = text;
+            newTweet.Text = text;
+            newTweet.Type = NewStatusType.Reply;
+            StorageService.UpdateTempNewStatus(newTweet);
+            NavigationService.UriFor<NewStatusPageViewModel>()
+                 .WithParam(o => o.Random, DateTime.Now.Ticks.ToString("x"))
+                 .Navigate();
         }
     }
 }
