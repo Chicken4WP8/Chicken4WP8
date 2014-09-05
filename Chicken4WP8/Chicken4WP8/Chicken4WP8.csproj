@@ -103,10 +103,12 @@
     <Compile Include="Controllers\Implementation\Base\BaseStatusController.cs" />
     <Compile Include="Controllers\Implementation\Base\BaseUserController.cs" />
     <Compile Include="Controllers\Implementation\Base\DirectMessageModel.cs" />
+    <Compile Include="Controllers\Implementation\Base\NewStatusModel.cs" />
     <Compile Include="Controllers\Implementation\Base\UserEntititesModel.cs" />
     <Compile Include="Controllers\Implementation\Base\Utils.cs" />
     <Compile Include="Controllers\Implementation\ControllerBase.cs" />
     <Compile Include="Controllers\Implementation\Twip\TwipOAuthController.cs" />
+    <Compile Include="Controllers\INewStatusModel.cs" />
     <Compile Include="Controllers\Interface\IDirectMessageController.cs" />
     <Compile Include="Controllers\Interface\IOAuthController.cs" />
     <Compile Include="Controllers\Interface\IStatusController.cs" />
