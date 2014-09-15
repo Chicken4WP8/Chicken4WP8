@@ -42,7 +42,7 @@ namespace Chicken4WP8.ViewModels.Base
         private async Task InitLoadDataFromWeb()
         {
             var options = Const.GetDictionary();
-            options.Add(Const.COUNT, 20);
+            options.Add(Const.COUNT, Const.DEFAULTCOUNT);
             var fetchedList = await LoadDataFromWeb(options);
             if (fetchedList != null && fetchedList.Count != 0)
             {
@@ -87,6 +87,7 @@ namespace Chicken4WP8.ViewModels.Base
                 //step 1: fetch data with since_id:
                 Debug.WriteLine("fetch data from internet");
                 var options = Const.GetDictionary();
+                options.Add(Const.COUNT, Const.DEFAULTCOUNT);
                 long? sinceId = null;
                 if (Items.Count != 0)
                 {
@@ -105,6 +106,7 @@ namespace Chicken4WP8.ViewModels.Base
                     Debug.WriteLine("the last fetched tweet is : {0}", missedMaxId);
                     options.Add(Const.MAX_ID, missedMaxId - 1);
                     options.Add(Const.SINCE_ID, sinceId);
+                    options.Add(Const.COUNT, Const.DEFAULTCOUNT);
                     var missedList = await LoadDataFromWeb(options);
                     //step 3: no tweets means no gap,
                     //otherwise, show load more tweets button:
@@ -182,6 +184,7 @@ namespace Chicken4WP8.ViewModels.Base
                 }
                 Debug.WriteLine("load data from internet");
                 var options = Const.GetDictionary();
+                options.Add(Const.COUNT, Const.DEFAULTCOUNT);
                 options.Add(Const.MAX_ID, Items.Last().Id - 1);
                 var loadedList = await LoadDataFromWeb(options);
                 Debug.WriteLine("loaded data count is : {0}", loadedList.Count);
@@ -221,6 +224,7 @@ namespace Chicken4WP8.ViewModels.Base
             var missedMaxId = showedItem.Id;
             var sinceId = Items[index].Id;
             var options = Const.GetDictionary();
+            options.Add(Const.COUNT, Const.DEFAULTCOUNT);
             options.Add(Const.MAX_ID, missedMaxId - 1);
             options.Add(Const.SINCE_ID, sinceId);
             var missedList = await LoadDataFromWeb(options);
