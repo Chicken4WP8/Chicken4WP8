@@ -68,6 +68,17 @@ namespace Chicken4WP8
             builder.RegisterAssemblyTypes(assembiles)
                 //must be a type which name ends with controller
                 .Where(type => type.Name.EndsWith("Controller"))
+                //starts with Customer
+                .Where(type => type.Name.StartsWith("Customer"))
+                .AsImplementedInterfaces()
+                .InstancePerDependency()
+                .PropertiesAutowired()
+                .WithMetadata<OAuthTypeMetadata>(
+                meta => meta.For(
+                    m => m.OAuthType, OAuthSettingType.CustomerOAuth));
+            builder.RegisterAssemblyTypes(assembiles)
+                //must be a type which name ends with controller
+                .Where(type => type.Name.EndsWith("Controller"))
                 //starts with base
                 .Where(type => type.Name.StartsWith("Twip"))
                 .AsImplementedInterfaces()

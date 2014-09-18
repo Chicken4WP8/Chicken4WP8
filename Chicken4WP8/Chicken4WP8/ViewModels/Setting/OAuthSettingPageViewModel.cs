@@ -44,10 +44,12 @@ namespace Chicken4WP8.ViewModels.Setting
             base.OnInitialize();
 
             var @base = new BaseOAuthSetting();
+            var customer = new CustomerOAuthSetting();
             var twip = new TwipOAuthSetting();
 
             Items = new ObservableCollection<OAuthSetting>();
             Items.Add(@base);
+            Items.Add(customer);
             Items.Add(twip);
 
             SelectedItem = Items[0];
@@ -60,6 +62,9 @@ namespace Chicken4WP8.ViewModels.Setting
             {
                 case OAuthSettingType.BaseOAuth:
                     NavigationService.UriFor<BaseOAuthSettingPageViewModel>().Navigate();
+                    break;
+                case OAuthSettingType.CustomerOAuth:
+                    NavigationService.UriFor<CustomerKeyAndSecretPageViewModel>().Navigate();
                     break;
                 case OAuthSettingType.TwipOAuth:
                     NavigationService.UriFor<TwipOAuthSettingPageViewModel>().Navigate();

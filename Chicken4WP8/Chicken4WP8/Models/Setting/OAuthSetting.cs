@@ -11,7 +11,8 @@ namespace Chicken4WP8.Models.Setting
     public enum OAuthSettingType
     {
         BaseOAuth = 1,
-        TwipOAuth = 2,
+        CustomerOAuth = 2,
+        TwipOAuth = 3,
     }
 
     public class OAuthTypeMetadata
@@ -31,6 +32,29 @@ namespace Chicken4WP8.Models.Setting
         { get { return OAuthSettingType.BaseOAuth; } }
 
         private string description = "Authorization with your twitter user name and password";
+        public override string Description
+        {
+            get { return description; }
+        }
+
+        public string ConsumerKey { get; set; }
+        public string ConsumerSecret { get; set; }
+        public string AccessToken { get; set; }
+        public string AccessTokenSecret { get; set; }
+    }
+
+    public class CustomerOAuthSetting : OAuthSetting
+    {
+        private string name = "CUSTOMER";
+        public override string Name
+        {
+            get { return name; }
+        }
+
+        public override OAuthSettingType OAuthSettingType
+        { get { return OAuthSettingType.CustomerOAuth; } }
+
+        private string description = "Authorization with customer key and secret";
         public override string Description
         {
             get { return description; }

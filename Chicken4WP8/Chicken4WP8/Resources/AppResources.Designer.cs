@@ -88,7 +88,7 @@ namespace Chicken4WP8.Resources {
         }
         
         /// <summary>
-        ///   查找类似 Authorize with Twitter 的本地化字符串。
+        ///   查找类似 Authorize With Twitter 的本地化字符串。
         /// </summary>
         public static string BaseOAuthSettingPageView_Title {
             get {
@@ -111,6 +111,33 @@ namespace Chicken4WP8.Resources {
         public static string Button_OK {
             get {
                 return ResourceManager.GetString("Button_OK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Enter Customer Key : 的本地化字符串。
+        /// </summary>
+        public static string CustomerKeyAndSecretPageView_EnterCustomerKey {
+            get {
+                return ResourceManager.GetString("CustomerKeyAndSecretPageView_EnterCustomerKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Enter Customer Secret : 的本地化字符串。
+        /// </summary>
+        public static string CustomerKeyAndSecretPageView_EnterCustomerSecret {
+            get {
+                return ResourceManager.GetString("CustomerKeyAndSecretPageView_EnterCustomerSecret", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Authorize With Customer Key 的本地化字符串。
+        /// </summary>
+        public static string CustomerKeyAndSecretPageView_Title {
+            get {
+                return ResourceManager.GetString("CustomerKeyAndSecretPageView_Title", resourceCulture);
             }
         }
         

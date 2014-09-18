@@ -127,13 +127,22 @@
     <value>Enter PIN Code :</value>
   </data>
   <data name="BaseOAuthSettingPageView_Title" xml:space="preserve">
-    <value>Authorize with Twitter</value>
+    <value>Authorize With Twitter</value>
   </data>
   <data name="Button_Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
   <data name="Button_OK" xml:space="preserve">
     <value>OK</value>
+  </data>
+  <data name="CustomerKeyAndSecretPageView_EnterCustomerKey" xml:space="preserve">
+    <value>Enter Customer Key :</value>
+  </data>
+  <data name="CustomerKeyAndSecretPageView_EnterCustomerSecret" xml:space="preserve">
+    <value>Enter Customer Secret :</value>
+  </data>
+  <data name="CustomerKeyAndSecretPageView_Title" xml:space="preserve">
+    <value>Authorize with Customer Key</value>
   </data>
   <data name="DirectMessageViewModel_Header" xml:space="preserve">
     <value>Messages</value>
