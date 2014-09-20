@@ -69,13 +69,13 @@ namespace Chicken4WP8
                 //must be a type which name ends with controller
                 .Where(type => type.Name.EndsWith("Controller"))
                 //starts with Customer
-                .Where(type => type.Name.StartsWith("Customer"))
+                .Where(type => type.Name.StartsWith("Custom"))
                 .AsImplementedInterfaces()
                 .InstancePerDependency()
                 .PropertiesAutowired()
                 .WithMetadata<OAuthTypeMetadata>(
                 meta => meta.For(
-                    m => m.OAuthType, OAuthSettingType.CustomerOAuth));
+                    m => m.OAuthType, OAuthSettingType.CustomOAuth));
             builder.RegisterAssemblyTypes(assembiles)
                 //must be a type which name ends with controller
                 .Where(type => type.Name.EndsWith("Controller"))

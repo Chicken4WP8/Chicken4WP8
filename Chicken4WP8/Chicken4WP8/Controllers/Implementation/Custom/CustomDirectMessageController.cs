@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using Chicken4WP8.Controllers.Implementation.Base;
 using Chicken4WP8.Controllers.Interface;
 
-namespace Chicken4WP8.Controllers.Implementation.Customer
+namespace Chicken4WP8.Controllers.Implementation.Custom
 {
-    public class CustomerDirectMessageController : CustomerControllerBase, IDirectMessageController
+    public class CustomDirectMessageController : CustomControllerBase, IDirectMessageController
     {
         public async Task<IEnumerable<IDirectMessageModel>> SentAsync(IDictionary<string, object> parameters)
         {

@@ -3,11 +3,11 @@ using System.Threading.Tasks;
 using Chicken4WP8.Controllers.Implementation.Base;
 using Chicken4WP8.Controllers.Interface;
 
-namespace Chicken4WP8.Controllers.Implementation.Customer
+namespace Chicken4WP8.Controllers.Implementation.Custom
 {
-    public class CustomerStatusController : CustomerControllerBase, IStatusController
+    public class CustomStatusController : CustomControllerBase, IStatusController
     {
-        public CustomerStatusController()
+        public CustomStatusController()
         { }
 
         public async Task<IEnumerable<ITweetModel>> HomeTimelineAsync(IDictionary<string, object> parameters = null)

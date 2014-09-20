@@ -106,11 +106,11 @@
     <Compile Include="Controllers\Implementation\Base\UserEntititesModel.cs" />
     <Compile Include="Controllers\Implementation\Base\Utils.cs" />
     <Compile Include="Controllers\Implementation\ControllerBase.cs" />
-    <Compile Include="Controllers\Implementation\Customer\CustomerControllerBase.cs" />
-    <Compile Include="Controllers\Implementation\Customer\CustomerDirectMessageController.cs" />
-    <Compile Include="Controllers\Implementation\Customer\CustomerOAuthController.cs" />
-    <Compile Include="Controllers\Implementation\Customer\CustomerStatusController.cs" />
-    <Compile Include="Controllers\Implementation\Customer\CustomerUserController.cs" />
+    <Compile Include="Controllers\Implementation\Custom\CustomControllerBase.cs" />
+    <Compile Include="Controllers\Implementation\Custom\CustomDirectMessageController.cs" />
+    <Compile Include="Controllers\Implementation\Custom\CustomOAuthController.cs" />
+    <Compile Include="Controllers\Implementation\Custom\CustomStatusController.cs" />
+    <Compile Include="Controllers\Implementation\Custom\CustomerUserController.cs" />
     <Compile Include="Controllers\Implementation\Twip\TwipOAuthController.cs" />
     <Compile Include="Controllers\NewStatusModel.cs" />
     <Compile Include="Controllers\Interface\IDirectMessageController.cs" />

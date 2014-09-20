@@ -29,7 +29,7 @@ namespace Chicken4WP8.ViewModels.Setting.Proxies
         public CustomerOAuthSettingPageViewModel(IEnumerable<Lazy<IOAuthController, OAuthTypeMetadata>> oauthControllers)
         {
             waitCursorService = WaitCursorService.WaitCursor;
-            baseOAuthController = oauthControllers.Single(c => c.Metadata.OAuthType == OAuthSettingType.CustomerOAuth).Value;
+            baseOAuthController = oauthControllers.Single(c => c.Metadata.OAuthType == OAuthSettingType.CustomOAuth).Value;
         }
         #endregion
 

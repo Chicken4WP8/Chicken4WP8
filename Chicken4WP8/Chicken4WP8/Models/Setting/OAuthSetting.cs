@@ -11,7 +11,7 @@ namespace Chicken4WP8.Models.Setting
     public enum OAuthSettingType
     {
         BaseOAuth = 1,
-        CustomerOAuth = 2,
+        CustomOAuth = 2,
         TwipOAuth = 3,
     }
 
@@ -43,16 +43,16 @@ namespace Chicken4WP8.Models.Setting
         public string AccessTokenSecret { get; set; }
     }
 
-    public class CustomerOAuthSetting : OAuthSetting
+    public class CustomOAuthSetting : OAuthSetting
     {
-        private string name = "CUSTOMER";
+        private string name = "CUSTOM";
         public override string Name
         {
             get { return name; }
         }
 
         public override OAuthSettingType OAuthSettingType
-        { get { return OAuthSettingType.CustomerOAuth; } }
+        { get { return OAuthSettingType.CustomOAuth; } }
 
         private string description = "Authorization with customer key and secret";
         public override string Description

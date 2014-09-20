@@ -5,9 +5,9 @@ using Chicken4WP8.Common;
 using Chicken4WP8.Controllers.Implementation.Base;
 using Chicken4WP8.Controllers.Interface;
 
-namespace Chicken4WP8.Controllers.Implementation.Customer
+namespace Chicken4WP8.Controllers.Implementation.Custom
 {
-    public class CustomerUserController : CustomerControllerBase, IUserController
+    public class CustomUserController : CustomControllerBase, IUserController
     {
         public async Task<IUserModel> ShowAsync(IDictionary<string, object> parameters)
         {
