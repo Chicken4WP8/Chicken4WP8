@@ -63,15 +63,14 @@ namespace Chicken4WP8.ViewModels.Profile
         {
             await ProgressService.ShowAsync();
             //initialize the user from cache
-            var name = StorageService.GetCachedUserName();
-            var user = StorageService.GetCachedUser(name);
+            var user = StorageService.GetTempUser();
             if (user == null)
             {
                 var option = Const.GetDictionary();
-                option.Add(Const.USER_SCREEN_NAME, name);
+                option.Add(Const.USER_SCREEN_NAME, user.ScreenName);
                 option.Add(Const.INCLUDE_ENTITIES, Const.DEFAULT_VALUE_FALSE);
                 user = await userController.ShowAsync(option);
-                StorageService.AddOrUpdateUserCache(user);
+                StorageService.AddOrUpdateCachedUser(user);
             }
 
             user.IsProfileDetail = true;

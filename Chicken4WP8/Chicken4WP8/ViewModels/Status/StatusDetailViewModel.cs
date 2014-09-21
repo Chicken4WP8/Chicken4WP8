@@ -17,13 +17,13 @@ namespace Chicken4WP8.ViewModels.Status
     {
         #region properties
         protected ITweetModel status;
-        protected IStatusController statusController;
+        protected ITweetController statusController;
         protected IUserController userController;
 
         public StatusDetailViewModel(
             IEventAggregator eventAggregator,
             ILanguageHelper languageHelper,
-            IEnumerable<Lazy<IStatusController, OAuthTypeMetadata>> statusControllers,
+            IEnumerable<Lazy<ITweetController, OAuthTypeMetadata>> statusControllers,
             IEnumerable<Lazy<IUserController, OAuthTypeMetadata>> userControllers)
             : base(eventAggregator, languageHelper)
         {
@@ -92,7 +92,7 @@ namespace Chicken4WP8.ViewModels.Status
 
         public void AppBar_Reply()
         {
-            var newTweet = new NewStatusModel();
+            var newTweet = new NewTweetModel();
             newTweet.InReplyToStatusId = status.Id;
             var names = new List<string>();
             names.Add("@" + status.User.ScreenName);
@@ -108,8 +108,8 @@ namespace Chicken4WP8.ViewModels.Status
             string text = string.Join(" ", names);
             newTweet.InReplyToUserName = text;
             newTweet.Text = text;
-            newTweet.Type = NewStatusType.Reply;
-            StorageService.UpdateTempNewStatus(newTweet);
+            newTweet.Type = NewTweetType.Reply;
+            StorageService.UpdateTempNewTweet(newTweet);
             NavigationService.UriFor<NewStatusPageViewModel>()
                  .WithParam(o => o.Random, DateTime.Now.Ticks.ToString("x"))
                  .Navigate();

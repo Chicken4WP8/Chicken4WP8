@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Chicken4WP8.Controllers.Implementation.Base;
 using Chicken4WP8.Controllers.Interface;
 
-namespace Chicken4WP8.Controllers.Implementation.Custom
+namespace Chicken4WP8.Controllers.Implementation.Base
 {
-    public class CustomStatusController : CustomControllerBase, IStatusController
+    public class BaseTweetController : BaseControllerBase, ITweetController
     {
-        public CustomStatusController()
+        public BaseTweetController()
         { }
 
         public async Task<IEnumerable<ITweetModel>> HomeTimelineAsync(IDictionary<string, object> parameters = null)

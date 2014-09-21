@@ -61,8 +61,8 @@ namespace Chicken4WP8.ViewModels.Home
         {
             var message = item as IDirectMessageModel;
             var user = message.User;
-            StorageService.AddOrUpdateUserName(user.ScreenName);
-            StorageService.AddOrUpdateUserCache(user);
+            StorageService.AddOrUpdateTempUserName(user.ScreenName);
+            StorageService.AddOrUpdateCachedUser(user);
             NavigationService.UriFor<ProfilePageViewModel>()
                 .WithParam(o => o.Random, DateTime.Now.Ticks.ToString("x"))
                 .WithParam(o => o.ScreenName, user.ScreenName)
@@ -73,7 +73,7 @@ namespace Chicken4WP8.ViewModels.Home
         {
             var message = item as IDirectMessageModel;
             var user = message.User;
-            StorageService.AddOrUpdateDirectMessageUserName(user.ScreenName);
+            StorageService.AddOrUpdateTempDirectMessageUserName(user.ScreenName);
             NavigationService.UriFor<NewDirectMessagePageViewModel>()
                 .WithParam(o => o.Random, DateTime.Now.Ticks.ToString("x"))
                 .WithParam(o => o.ScreenName, user.ScreenName)

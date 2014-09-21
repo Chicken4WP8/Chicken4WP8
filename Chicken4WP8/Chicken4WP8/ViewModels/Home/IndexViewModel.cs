@@ -19,13 +19,13 @@ namespace Chicken4WP8.ViewModels.Home
     public class IndexViewModel : TweetPivotItemViewModelBase
     {
         #region properties
-        protected IStatusController statusController;
+        protected ITweetController statusController;
         protected IUserController userController;
 
         public IndexViewModel(
             IEventAggregator eventAggregator,
             ILanguageHelper languageHelper,
-            IEnumerable<Lazy<IStatusController, OAuthTypeMetadata>> statusControllers,
+            IEnumerable<Lazy<ITweetController, OAuthTypeMetadata>> statusControllers,
             IEnumerable<Lazy<IUserController, OAuthTypeMetadata>> userControllers)
             : base(eventAggregator, languageHelper)
         {
@@ -72,8 +72,8 @@ namespace Chicken4WP8.ViewModels.Home
 
         public void AppBar_NewTweet()
         {
-            var status = new NewStatusModel();
-            StorageService.UpdateTempNewStatus(status);
+            var status = new NewTweetModel();
+            StorageService.UpdateTempNewTweet(status);
             NavigationService.UriFor<NewStatusPageViewModel>()
                  .WithParam(o => o.Random, DateTime.Now.Ticks.ToString("x"))
                 .Navigate();

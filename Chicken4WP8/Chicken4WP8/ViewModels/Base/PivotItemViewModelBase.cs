@@ -222,8 +222,8 @@ namespace Chicken4WP8.ViewModels.Base
         {
             var tweet = item as ITweetModel;
             var user = tweet.RetweetedStatus == null ? tweet.User : tweet.RetweetedStatus.User;
-            StorageService.AddOrUpdateUserName(user.ScreenName);
-            StorageService.AddOrUpdateUserCache(user);
+            StorageService.AddOrUpdateTempUserName(user.ScreenName);
+            //StorageService.AddOrUpdateUserCache(user);
             NavigationService.UriFor<ProfilePageViewModel>()
                 .WithParam(o => o.Random, DateTime.Now.Ticks.ToString("x"))
                 .WithParam(o => o.ScreenName, user.ScreenName)
@@ -261,7 +261,7 @@ namespace Chicken4WP8.ViewModels.Base
             {
                 case EntityType.UserMention:
                     var mention = entity as IUserMentionEntity;
-                    StorageService.AddOrUpdateUserName(mention.ScreenName);
+                    StorageService.AddOrUpdateTempUserName(mention.ScreenName);
                     NavigationService.UriFor<ProfilePageViewModel>()
                 .WithParam(o => o.Random, DateTime.Now.Ticks.ToString("x"))
                 .WithParam(o => o.ScreenName, mention.ScreenName)

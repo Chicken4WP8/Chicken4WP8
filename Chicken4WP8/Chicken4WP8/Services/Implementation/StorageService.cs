@@ -42,6 +42,7 @@ namespace Chicken4WP8.Services.Implementation
         }
         #endregion
 
+        #region settings
         public UserSetting GetCurrentUserSetting()
         {
             var entity = context.Settings.FirstOrDefault(s => s.Category == SettingCategory.CurrentUserSetting && s.IsCurrentlyInUsed);
@@ -90,7 +91,9 @@ namespace Chicken4WP8.Services.Implementation
             setting.Name = name;
             context.SubmitChanges();
         }
+        #endregion
 
+        #region temp data
         public ITweetModel GetTempTweet()
         {
             var entity = context.TempDatas.FirstOrDefault(t => t.Type == TempType.TweetDetail);
@@ -111,13 +114,14 @@ namespace Chicken4WP8.Services.Implementation
             context.SubmitChanges();
         }
 
-        public string GetCachedUserName()
+        public IUserModel GetTempUser()
         {
             var entity = context.TempDatas.FirstOrDefault(t => t.Type == TempType.UserProfile);
-            return Encoding.Unicode.GetString(entity.Data, 0, entity.Data.Length);
+            var name = Encoding.Unicode.GetString(entity.Data, 0, entity.Data.Length);
+            return GetCachedUser(name);
         }
 
-        public void AddOrUpdateUserName(string name)
+        public void AddOrUpdateTempUserName(string name)
         {
             var entity = context.TempDatas.FirstOrDefault(t => t.Type == TempType.UserProfile);
             if (entity == null)
@@ -129,6 +133,99 @@ namespace Chicken4WP8.Services.Implementation
             context.SubmitChanges();
         }
 
+        public string GetTempDirectMessageUserName()
+        {
+            var entity = context.TempDatas.FirstOrDefault(t => t.Type == TempType.DirectMessage);
+            return Encoding.Unicode.GetString(entity.Data, 0, entity.Data.Length);
+        }
+
+        public void AddOrUpdateTempDirectMessageUserName(string name)
+        {
+            var entity = context.TempDatas.FirstOrDefault(t => t.Type == TempType.DirectMessage);
+            if (entity == null)
+            {
+                entity = new TempData { Type = TempType.DirectMessage };
+                context.TempDatas.InsertOnSubmit(entity);
+            }
+            entity.Data = Encoding.Unicode.GetBytes(name);
+            context.SubmitChanges();
+        }
+
+        public NewTweetModel GetTempNewTweet()
+        {
+            var entity = context.TempDatas.FirstOrDefault(t => t.Type == TempType.NewStatus);
+            if (entity == null || entity.Data == null)
+                return null;
+            return DeserializeObject<NewTweetModel>(entity.Data);
+        }
+
+        public void UpdateTempNewTweet(NewTweetModel status)
+        {
+            var entity = context.TempDatas.FirstOrDefault(t => t.Type == TempType.NewStatus);
+            if (entity == null)
+            {
+                entity = new TempData { Type = TempType.NewStatus };
+                context.TempDatas.InsertOnSubmit(entity);
+            }
+            entity.Data = SerializeObject(status);
+            context.SubmitChanges();
+        }
+        #endregion
+
+        #region cached data
+        public void AddCachedTweets(IEnumerable<ITweetModel> tweets)
+        {
+            try
+            {
+                resetEvent.WaitOne();
+                foreach (var tweet in tweets)
+                {
+                    #region cache tweets
+                    var entity = context.CachedTweets.FirstOrDefault(t => t.Id == tweet.Id);
+                    if (entity == null)
+                    {
+                        entity = new CachedTweet { Id = tweet.Id };
+                        context.CachedTweets.InsertOnSubmit(entity);
+                    }
+                    entity.Data = SerializeObject(tweet);
+                    entity.InsertedTime = DateTime.Now;
+                    #endregion
+
+                    #region cache users
+                    var user = context.CachedUsers.FirstOrDefault(u => u.Id == tweet.User.ScreenName);
+                    if (user == null)
+                    {
+                        user = new CachedUser { Id = tweet.User.ScreenName };
+                        context.CachedUsers.InsertOnSubmit(user);
+                    }
+                    user.Data = SerializeObject(tweet.User);
+                    user.InsertedTime = DateTime.Now;
+
+                    #region retweet users
+                    if (tweet.RetweetedStatus != null && tweet.RetweetedStatus.User != null)
+                    {
+                        var origin = context.CachedUsers.FirstOrDefault(u => u.Id == tweet.RetweetedStatus.User.ScreenName);
+                        if (origin == null)
+                        {
+                            origin = new CachedUser { Id = tweet.RetweetedStatus.User.ScreenName };
+                            context.CachedUsers.InsertOnSubmit(origin);
+                        }
+                        origin.Data = SerializeObject(tweet.RetweetedStatus.User);
+                        origin.InsertedTime = DateTime.Now;
+                    }
+                    #endregion
+                    #endregion
+                }
+                context.SubmitChanges();
+            }
+            catch (Exception)
+            { }
+            finally
+            {
+                resetEvent.Set();
+            }
+        }
+
         public IUserModel GetCachedUser(string name)
         {
             var entity = context.CachedUsers.FirstOrDefault(u => u.Id == name);
@@ -137,7 +234,7 @@ namespace Chicken4WP8.Services.Implementation
             return DeserializeObject<IUserModel>(entity.Data);
         }
 
-        public void AddOrUpdateUserCache(IUserModel user)
+        public void AddOrUpdateCachedUser(IUserModel user)
         {
             try
             {
@@ -151,6 +248,32 @@ namespace Chicken4WP8.Services.Implementation
                 entity.Data = SerializeObject(user);
                 entity.InsertedTime = DateTime.Now;
 
+                context.SubmitChanges();
+            }
+            catch (Exception)
+            { }
+            finally
+            {
+                resetEvent.Set();
+            }
+        }
+
+        public void AddCachedUsers(IEnumerable<IUserModel> users)
+        {
+            try
+            {
+                resetEvent.WaitOne();
+                foreach (var user in users)
+                {
+                    var entity = context.CachedUsers.FirstOrDefault(u => u.Id == user.ScreenName);
+                    if (entity == null)
+                    {
+                        entity = new CachedUser { Id = user.ScreenName };
+                        context.CachedUsers.InsertOnSubmit(entity);
+                    }
+                    entity.Data = SerializeObject(user);
+                    entity.InsertedTime = DateTime.Now;
+                }
                 context.SubmitChanges();
             }
             catch (Exception)
@@ -252,47 +375,11 @@ namespace Chicken4WP8.Services.Implementation
             }
             return list;
         }
+        #endregion
 
-        public string GetDirectMessageUserName()
-        {
-            var entity = context.TempDatas.FirstOrDefault(t => t.Type == TempType.DirectMessage);
-            return Encoding.Unicode.GetString(entity.Data, 0, entity.Data.Length);
-        }
-
-        public void AddOrUpdateDirectMessageUserName(string name)
-        {
-            var entity = context.TempDatas.FirstOrDefault(t => t.Type == TempType.DirectMessage);
-            if (entity == null)
-            {
-                entity = new TempData { Type = TempType.DirectMessage };
-                context.TempDatas.InsertOnSubmit(entity);
-            }
-            entity.Data = Encoding.Unicode.GetBytes(name);
-            context.SubmitChanges();
-        }
-
-        public NewStatusModel GetTempNewStatus()
-        {
-            var entity = context.TempDatas.FirstOrDefault(t => t.Type == TempType.NewStatus);
-            if (entity == null || entity.Data == null)
-                return null;
-            return DeserializeObject<NewStatusModel>(entity.Data);
-        }
-
-        public void UpdateTempNewStatus(NewStatusModel status)
-        {
-            var entity = context.TempDatas.FirstOrDefault(t => t.Type == TempType.NewStatus);
-            if (entity == null)
-            {
-                entity = new TempData { Type = TempType.NewStatus };
-                context.TempDatas.InsertOnSubmit(entity);
-            }
-            entity.Data = SerializeObject(status);
-            context.SubmitChanges();
-        }
-
+        #region tombstoning
         public T GetTombstoningData<T>(TombstoningType type, string id)
-            where T : TombstoningDataBase
+    where T : TombstoningDataBase
         {
             var entity = context.TombstoningDatas.FirstOrDefault(t => t.Type == type && t.Key == id);
             if (entity == null || entity.Data == null)
@@ -312,6 +399,7 @@ namespace Chicken4WP8.Services.Implementation
             entity.Data = SerializeObject(data);
             context.SubmitChanges();
         }
+        #endregion
 
         public List<string> GetEmotions()
         {

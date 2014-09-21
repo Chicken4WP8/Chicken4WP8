@@ -100,7 +100,7 @@
     <Compile Include="Controllers\Implementation\Base\BaseControllerBase.cs" />
     <Compile Include="Controllers\Implementation\Base\BaseDirectMessageController.cs" />
     <Compile Include="Controllers\Implementation\Base\BaseOAuthController.cs" />
-    <Compile Include="Controllers\Implementation\Base\BaseStatusController.cs" />
+    <Compile Include="Controllers\Implementation\Base\BaseTweetController.cs" />
     <Compile Include="Controllers\Implementation\Base\BaseUserController.cs" />
     <Compile Include="Controllers\Implementation\Base\DirectMessageModel.cs" />
     <Compile Include="Controllers\Implementation\Base\UserEntititesModel.cs" />
@@ -109,13 +109,13 @@
     <Compile Include="Controllers\Implementation\Custom\CustomControllerBase.cs" />
     <Compile Include="Controllers\Implementation\Custom\CustomDirectMessageController.cs" />
     <Compile Include="Controllers\Implementation\Custom\CustomOAuthController.cs" />
-    <Compile Include="Controllers\Implementation\Custom\CustomStatusController.cs" />
+    <Compile Include="Controllers\Implementation\Custom\CustomTweetController.cs" />
     <Compile Include="Controllers\Implementation\Custom\CustomUserController.cs" />
     <Compile Include="Controllers\Implementation\Twip\TwipOAuthController.cs" />
     <Compile Include="Controllers\NewStatusModel.cs" />
     <Compile Include="Controllers\Interface\IDirectMessageController.cs" />
     <Compile Include="Controllers\Interface\IOAuthController.cs" />
-    <Compile Include="Controllers\Interface\IStatusController.cs" />
+    <Compile Include="Controllers\Interface\ITweetController.cs" />
     <Compile Include="Controllers\Interface\IUserController.cs" />
     <Compile Include="Controllers\IUserEntities.cs" />
     <Compile Include="Controls\AutoRichTextBox.cs" />
@@ -126,6 +126,7 @@
     <Compile Include="Controls\ToastPrompt.cs" />
     <Compile Include="Entities\CachedDirectMessage.cs" />
     <Compile Include="Entities\CachedImage.cs" />
+    <Compile Include="Entities\CachedStatus.cs" />
     <Compile Include="Entities\CachedUser.cs" />
     <Compile Include="Entities\ChickenDataContext.cs" />
     <Compile Include="Entities\Setting.cs" />

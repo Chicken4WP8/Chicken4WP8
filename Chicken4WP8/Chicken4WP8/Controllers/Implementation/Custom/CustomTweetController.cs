@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Chicken4WP8.Controllers.Implementation.Base;
 using Chicken4WP8.Controllers.Interface;
 
-namespace Chicken4WP8.Controllers.Implementation.Base
+namespace Chicken4WP8.Controllers.Implementation.Custom
 {
-    public class BaseStatusController : BaseControllerBase, IStatusController
+    public class CustomTweetController : CustomControllerBase, ITweetController
     {
-        public BaseStatusController()
+        public CustomTweetController()
         { }
 
         public async Task<IEnumerable<ITweetModel>> HomeTimelineAsync(IDictionary<string, object> parameters = null)
@@ -16,6 +17,7 @@ namespace Chicken4WP8.Controllers.Implementation.Base
             if (tweets != null)
                 foreach (var tweet in tweets)
                     list.Add(new TweetModel(tweet));
+            StorageService.AddCachedTweets(list);
             return list;
         }
 

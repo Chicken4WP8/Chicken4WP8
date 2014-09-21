@@ -43,7 +43,7 @@ namespace Chicken4WP8.ViewModels.Status
 
         public TextViewModel TextViewModel { get; set; }
         public EmotionViewModel EmotionViewModel { get; set; }
-        public IStatusController StatusController { get; set; }
+        public ITweetController StatusController { get; set; }
         public INavigationService NavigationService { get; set; }
         public ILanguageHelper LanguageHelper { get; set; }
         public IStorageService StorageService { get; set; }
@@ -71,18 +71,18 @@ namespace Chicken4WP8.ViewModels.Status
             Items.Add(TextViewModel);
             Items.Add(EmotionViewModel);
 
-            var status = StorageService.GetTempNewStatus();
+            var status = StorageService.GetTempNewTweet();
             if (status != null)
             {
                 Text = status.Text;
                 inReplyToStatusId = status.InReplyToStatusId;
                 switch (status.Type)
                 {
-                    case Controllers.NewStatusType.Reply:
-                    case Controllers.NewStatusType.Quote:
+                    case Controllers.NewTweetType.Reply:
+                    case Controllers.NewTweetType.Quote:
                         Title = LanguageHelper["NewStatusPageViewModel_InReplyToScreenName"] + status.InReplyToUserName;
                         break;
-                    case Controllers.NewStatusType.New:
+                    case Controllers.NewTweetType.New:
                     default:
                         Title = LanguageHelper["NewStatusPageViewModel_Title"];
                         break;

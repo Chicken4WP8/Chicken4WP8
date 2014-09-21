@@ -16,7 +16,7 @@ namespace Chicken4WP8.ViewModels.Home
         public MentionViewModel(
             IEventAggregator eventAggregator,
             ILanguageHelper languageHelper,
-            IEnumerable<Lazy<IStatusController, OAuthTypeMetadata>> statusControllers,
+            IEnumerable<Lazy<ITweetController, OAuthTypeMetadata>> statusControllers,
             IEnumerable<Lazy<IUserController, OAuthTypeMetadata>> userControllers)
             : base(eventAggregator, languageHelper, statusControllers, userControllers)
         { }

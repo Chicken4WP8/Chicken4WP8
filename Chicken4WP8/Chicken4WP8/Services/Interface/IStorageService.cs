@@ -8,20 +8,34 @@ namespace Chicken4WP8.Services.Interface
 {
     public interface IStorageService
     {
+        #region settings
         UserSetting GetCurrentUserSetting();
         void UpdateCurrentUserSetting(UserSetting setting);
 
         string GetCurrentLanguage();
         void UpdateLanguage(string name);
+        #endregion
 
+        #region temp data
         ITweetModel GetTempTweet();
         void UpdateTempTweet(ITweetModel tweet);
 
-        string GetCachedUserName();
-        void AddOrUpdateUserName(string name);
+        IUserModel GetTempUser();
+        void AddOrUpdateTempUserName(string name);
+
+        string GetTempDirectMessageUserName();
+        void AddOrUpdateTempDirectMessageUserName(string name);
+
+        NewTweetModel GetTempNewTweet();
+        void UpdateTempNewTweet(NewTweetModel tweet);
+        #endregion
+
+        #region cached data
+        void AddCachedTweets(IEnumerable<ITweetModel> tweets);
 
         IUserModel GetCachedUser(string name);
-        void AddOrUpdateUserCache(IUserModel user);
+        void AddOrUpdateCachedUser(IUserModel user);
+        void AddCachedUsers(IEnumerable<IUserModel> users);
 
         byte[] GetCachedImage(string id);
         byte[] AddOrUpdateImageCache(string id, byte[] data);
@@ -33,12 +47,7 @@ namespace Chicken4WP8.Services.Interface
 
         void AddCachedDirectMessages(IEnumerable<IDirectMessageModel> messages);
         List<IDirectMessageModel> GetGroupedDirectMessages();
-
-        string GetDirectMessageUserName();
-        void AddOrUpdateDirectMessageUserName(string name);
-
-        NewStatusModel GetTempNewStatus();
-        void UpdateTempNewStatus(NewStatusModel status);
+        #endregion
 
         T GetTombstoningData<T>(TombstoningType type, string id) where T : TombstoningDataBase;
         void AddOrUpdateTombstoningData<T>(TombstoningType type, string id, T data) where T : TombstoningDataBase;
