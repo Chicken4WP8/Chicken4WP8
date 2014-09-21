@@ -18,13 +18,13 @@ namespace Chicken4WP8.Services.Interface
 
         #region temp data
         ITweetModel GetTempTweet();
-        void UpdateTempTweet(ITweetModel tweet);
+        void UpdateTempTweetId(long tweetId);
 
         IUserModel GetTempUser();
-        void AddOrUpdateTempUserName(string name);
+        void UpdateTempUserName(string name);
 
         string GetTempDirectMessageUserName();
-        void AddOrUpdateTempDirectMessageUserName(string name);
+        void UpdateTempDirectMessageUserName(string name);
 
         NewTweetModel GetTempNewTweet();
         void UpdateTempNewTweet(NewTweetModel tweet);

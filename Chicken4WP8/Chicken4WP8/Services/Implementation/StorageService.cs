@@ -97,12 +97,11 @@ namespace Chicken4WP8.Services.Implementation
         public ITweetModel GetTempTweet()
         {
             var entity = context.TempDatas.FirstOrDefault(t => t.Type == TempType.TweetDetail);
-            if (entity == null || entity.Data == null)
-                return null;
-            return DeserializeObject<ITweetModel>(entity.Data);
+            var tweetId = Encoding.Unicode.GetString(entity.Data, 0, entity.Data.Length);
+            return GetCachedTweet(tweetId);
         }
 
-        public void UpdateTempTweet(ITweetModel tweet)
+        public void UpdateTempTweetId(long tweetId)
         {
             var entity = context.TempDatas.FirstOrDefault(t => t.Type == TempType.TweetDetail);
             if (entity == null)
@@ -110,7 +109,7 @@ namespace Chicken4WP8.Services.Implementation
                 entity = new TempData { Type = TempType.TweetDetail };
                 context.TempDatas.InsertOnSubmit(entity);
             }
-            entity.Data = SerializeObject(tweet);
+            entity.Data = Encoding.Unicode.GetBytes(tweetId.ToString());
             context.SubmitChanges();
         }
 
@@ -121,7 +120,7 @@ namespace Chicken4WP8.Services.Implementation
             return GetCachedUser(name);
         }
 
-        public void AddOrUpdateTempUserName(string name)
+        public void UpdateTempUserName(string name)
         {
             var entity = context.TempDatas.FirstOrDefault(t => t.Type == TempType.UserProfile);
             if (entity == null)
@@ -139,7 +138,7 @@ namespace Chicken4WP8.Services.Implementation
             return Encoding.Unicode.GetString(entity.Data, 0, entity.Data.Length);
         }
 
-        public void AddOrUpdateTempDirectMessageUserName(string name)
+        public void UpdateTempDirectMessageUserName(string name)
         {
             var entity = context.TempDatas.FirstOrDefault(t => t.Type == TempType.DirectMessage);
             if (entity == null)
@@ -173,6 +172,15 @@ namespace Chicken4WP8.Services.Implementation
         #endregion
 
         #region cached data
+        public ITweetModel GetCachedTweet(string tweetId)
+        {
+            long id = long.Parse(tweetId);
+            var entity = context.CachedTweets.FirstOrDefault(u => u.Id == id);
+            if (entity == null || entity.Data == null || DateTime.Now - entity.InsertedTime > Const.EXPERIEDTIME)
+                return null;
+            return DeserializeObject<ITweetModel>(entity.Data);
+        }
+
         public void AddCachedTweets(IEnumerable<ITweetModel> tweets)
         {
             try

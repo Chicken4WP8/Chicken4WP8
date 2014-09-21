@@ -126,7 +126,7 @@
     <Compile Include="Controls\ToastPrompt.cs" />
     <Compile Include="Entities\CachedDirectMessage.cs" />
     <Compile Include="Entities\CachedImage.cs" />
-    <Compile Include="Entities\CachedStatus.cs" />
+    <Compile Include="Entities\CachedTweet.cs" />
     <Compile Include="Entities\CachedUser.cs" />
     <Compile Include="Entities\ChickenDataContext.cs" />
     <Compile Include="Entities\Setting.cs" />
