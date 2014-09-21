@@ -33,6 +33,12 @@ namespace Chicken4WP8.Entities
             get { return this.GetTable<CachedUser>(); }
         }
 
+        public Table<CachedFriendship> CachedFriendships
+        {
+            get
+            { return GetTable<CachedFriendship>(); }
+        }
+
         public Table<CachedImage> CachedImages
         {
             get { return this.GetTable<CachedImage>(); }

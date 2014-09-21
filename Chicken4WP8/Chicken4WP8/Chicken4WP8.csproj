@@ -97,12 +97,14 @@
     <Compile Include="ChickenBootstrapper.cs" />
     <Compile Include="Common\Const.cs" />
     <Compile Include="Controllers\IDirectMessageModel.cs" />
+    <Compile Include="Controllers\IFriendshipModel.cs" />
     <Compile Include="Controllers\Implementation\Base\BaseControllerBase.cs" />
     <Compile Include="Controllers\Implementation\Base\BaseDirectMessageController.cs" />
     <Compile Include="Controllers\Implementation\Base\BaseOAuthController.cs" />
     <Compile Include="Controllers\Implementation\Base\BaseTweetController.cs" />
     <Compile Include="Controllers\Implementation\Base\BaseUserController.cs" />
     <Compile Include="Controllers\Implementation\Base\DirectMessageModel.cs" />
+    <Compile Include="Controllers\Implementation\Base\FriendshipModel.cs" />
     <Compile Include="Controllers\Implementation\Base\UserEntititesModel.cs" />
     <Compile Include="Controllers\Implementation\Base\Utils.cs" />
     <Compile Include="Controllers\Implementation\ControllerBase.cs" />
@@ -125,6 +127,7 @@
     <Compile Include="Controls\ThemedImage.cs" />
     <Compile Include="Controls\ToastPrompt.cs" />
     <Compile Include="Entities\CachedDirectMessage.cs" />
+    <Compile Include="Entities\CachedFriendship.cs" />
     <Compile Include="Entities\CachedImage.cs" />
     <Compile Include="Entities\CachedTweet.cs" />
     <Compile Include="Entities\CachedUser.cs" />

@@ -37,7 +37,8 @@ namespace Chicken4WP8.Services.Interface
         void AddOrUpdateCachedUser(IUserModel user);
         void AddCachedUsers(IEnumerable<IUserModel> users);
 
-
+        IFriendshipModel GetCachedFriendship(string name);
+        void AddOrUpdateCachedFriendship(IFriendshipModel friendship);
 
         byte[] GetCachedImage(string id);
         byte[] AddOrUpdateImageCache(string id, byte[] data);

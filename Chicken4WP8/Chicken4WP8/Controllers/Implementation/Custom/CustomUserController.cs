@@ -54,17 +54,24 @@ namespace Chicken4WP8.Controllers.Implementation.Custom
 
         public async Task LookupFriendshipAsync(IUserModel user)
         {
-            var option = Const.GetDictionary();
-            option.Add(Const.USER_ID, user.Id);
-            var friendships = await tokens.Friendships.LookupAsync(option);
-            if (friendships != null && friendships.Count != 0
-                && friendships[0].Connections != null && friendships[0].Connections.Length != 0)
+            IFriendshipModel model = StorageService.GetCachedFriendship(user.ScreenName);
+            if (model == null)
             {
-                var connections = friendships[0].Connections.Select(c => c.ToLower()).ToList();
-
-                user.IsFollowing = connections.Contains(Const.FOLLOWING);
-                user.IsFollowedBy = connections.Contains(Const.FOLLOWED_BY);
+                var option = Const.GetDictionary();
+                option.Add(Const.USER_ID, user.Id);
+                var friendships = await tokens.Friendships.LookupAsync(option);
+                if (friendships != null && friendships.Count != 0)
+                    model = new FriendshipModel(friendships[0]);
             }
+            if (model == null)
+                return;
+
+            var connections = model.Connections.Select(c => c.ToLower()).ToList();
+
+            user.IsFollowing = connections.Contains(Const.FOLLOWING);
+            user.IsFollowedBy = connections.Contains(Const.FOLLOWED_BY);
+
+            StorageService.AddOrUpdateCachedFriendship(model);
         }
     }
 }

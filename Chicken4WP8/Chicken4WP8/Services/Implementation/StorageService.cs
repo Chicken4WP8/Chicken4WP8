@@ -103,14 +103,24 @@ namespace Chicken4WP8.Services.Implementation
 
         public void UpdateTempTweetId(long tweetId)
         {
-            var entity = context.TempDatas.FirstOrDefault(t => t.Type == TempType.TweetDetail);
-            if (entity == null)
+            try
             {
-                entity = new TempData { Type = TempType.TweetDetail };
-                context.TempDatas.InsertOnSubmit(entity);
+                resetEvent.WaitOne();
+                var entity = context.TempDatas.FirstOrDefault(t => t.Type == TempType.TweetDetail);
+                if (entity == null)
+                {
+                    entity = new TempData { Type = TempType.TweetDetail };
+                    context.TempDatas.InsertOnSubmit(entity);
+                }
+                entity.Data = Encoding.Unicode.GetBytes(tweetId.ToString());
+                context.SubmitChanges();
             }
-            entity.Data = Encoding.Unicode.GetBytes(tweetId.ToString());
-            context.SubmitChanges();
+            catch (Exception)
+            { }
+            finally
+            {
+                resetEvent.Set();
+            }
         }
 
         public string GetTempUserName()
@@ -122,14 +132,24 @@ namespace Chicken4WP8.Services.Implementation
 
         public void UpdateTempUserName(string name)
         {
-            var entity = context.TempDatas.FirstOrDefault(t => t.Type == TempType.UserProfile);
-            if (entity == null)
+            try
             {
-                entity = new TempData { Type = TempType.UserProfile };
-                context.TempDatas.InsertOnSubmit(entity);
+                resetEvent.WaitOne();
+                var entity = context.TempDatas.FirstOrDefault(t => t.Type == TempType.UserProfile);
+                if (entity == null)
+                {
+                    entity = new TempData { Type = TempType.UserProfile };
+                    context.TempDatas.InsertOnSubmit(entity);
+                }
+                entity.Data = Encoding.Unicode.GetBytes(name);
+                context.SubmitChanges();
             }
-            entity.Data = Encoding.Unicode.GetBytes(name);
-            context.SubmitChanges();
+            catch (Exception)
+            { }
+            finally
+            {
+                resetEvent.Set();
+            }
         }
 
         public string GetTempDirectMessageUserName()
@@ -140,14 +160,24 @@ namespace Chicken4WP8.Services.Implementation
 
         public void UpdateTempDirectMessageUserName(string name)
         {
-            var entity = context.TempDatas.FirstOrDefault(t => t.Type == TempType.DirectMessage);
-            if (entity == null)
+            try
             {
-                entity = new TempData { Type = TempType.DirectMessage };
-                context.TempDatas.InsertOnSubmit(entity);
+                resetEvent.WaitOne();
+                var entity = context.TempDatas.FirstOrDefault(t => t.Type == TempType.DirectMessage);
+                if (entity == null)
+                {
+                    entity = new TempData { Type = TempType.DirectMessage };
+                    context.TempDatas.InsertOnSubmit(entity);
+                }
+                entity.Data = Encoding.Unicode.GetBytes(name);
+                context.SubmitChanges();
             }
-            entity.Data = Encoding.Unicode.GetBytes(name);
-            context.SubmitChanges();
+            catch (Exception)
+            { }
+            finally
+            {
+                resetEvent.Set();
+            }
         }
 
         public NewTweetModel GetTempNewTweet()
@@ -160,14 +190,24 @@ namespace Chicken4WP8.Services.Implementation
 
         public void UpdateTempNewTweet(NewTweetModel status)
         {
-            var entity = context.TempDatas.FirstOrDefault(t => t.Type == TempType.NewStatus);
-            if (entity == null)
+            try
             {
-                entity = new TempData { Type = TempType.NewStatus };
-                context.TempDatas.InsertOnSubmit(entity);
+                resetEvent.WaitOne();
+                var entity = context.TempDatas.FirstOrDefault(t => t.Type == TempType.NewStatus);
+                if (entity == null)
+                {
+                    entity = new TempData { Type = TempType.NewStatus };
+                    context.TempDatas.InsertOnSubmit(entity);
+                }
+                entity.Data = SerializeObject(status);
+                context.SubmitChanges();
             }
-            entity.Data = SerializeObject(status);
-            context.SubmitChanges();
+            catch (Exception)
+            { }
+            finally
+            {
+                resetEvent.Set();
+            }
         }
         #endregion
 
@@ -292,6 +332,38 @@ namespace Chicken4WP8.Services.Implementation
             }
         }
 
+        public IFriendshipModel GetCachedFriendship(string name)
+        {
+            var entity = context.CachedFriendships.FirstOrDefault(u => u.Id == name);
+            if (entity == null || entity.Data == null || DateTime.Now - entity.InsertedTime > Const.EXPERIEDTIME)
+                return null;
+            return DeserializeObject<IFriendshipModel>(entity.Data);
+        }
+
+        public void AddOrUpdateCachedFriendship(IFriendshipModel friendship)
+        {
+            try
+            {
+                resetEvent.WaitOne();
+                var entity = context.CachedFriendships.FirstOrDefault(u => u.Id == friendship.ScreenName);
+                if (entity == null)
+                {
+                    entity = new CachedFriendship { Id = friendship.ScreenName };
+                    context.CachedFriendships.InsertOnSubmit(entity);
+                }
+                entity.Data = SerializeObject(friendship);
+                entity.InsertedTime = DateTime.Now;
+
+                context.SubmitChanges();
+            }
+            catch (Exception)
+            { }
+            finally
+            {
+                resetEvent.Set();
+            }
+        }
+
         public byte[] GetCachedImage(string id)
         {
             CachedImage image = null;
@@ -316,7 +388,7 @@ namespace Chicken4WP8.Services.Implementation
                 image.Data = data;
                 context.SubmitChanges();
             }
-            catch (Exception e)
+            catch (Exception)
             { }
             finally
             {
@@ -355,18 +427,28 @@ namespace Chicken4WP8.Services.Implementation
 
         public void AddCachedDirectMessages(IEnumerable<IDirectMessageModel> messages)
         {
-            foreach (var message in messages)
+            try
             {
-                var entity = new CachedDirectMessage
+                resetEvent.WaitOne();
+                foreach (var message in messages)
                 {
-                    Id = message.Id,
-                    UserId = message.User.Id.Value,
-                    IsSentByMe = message.IsSentByMe,
-                    Data = SerializeObject(message)
-                };
-                context.CachedDirectMessages.InsertOnSubmit(entity);
+                    var entity = new CachedDirectMessage
+                    {
+                        Id = message.Id,
+                        UserId = message.User.Id.Value,
+                        IsSentByMe = message.IsSentByMe,
+                        Data = SerializeObject(message)
+                    };
+                    context.CachedDirectMessages.InsertOnSubmit(entity);
+                }
+                context.SubmitChanges();
             }
-            context.SubmitChanges();
+            catch (Exception)
+            { }
+            finally
+            {
+                resetEvent.Set();
+            }
         }
 
         public List<IDirectMessageModel> GetGroupedDirectMessages()
@@ -389,7 +471,7 @@ namespace Chicken4WP8.Services.Implementation
         public T GetTombstoningData<T>(TombstoningType type, string id)
     where T : TombstoningDataBase
         {
-            var entity = context.TombstoningDatas.FirstOrDefault(t => t.Type == type && t.Key == id);
+            var entity = context.TombstoningDatas.FirstOrDefault(t => t.Type == type && t.Id == id);
             if (entity == null || entity.Data == null)
                 return default(T);
             return DeserializeObject<T>(entity.Data);
@@ -398,14 +480,24 @@ namespace Chicken4WP8.Services.Implementation
         public void AddOrUpdateTombstoningData<T>(TombstoningType type, string id, T data)
             where T : TombstoningDataBase
         {
-            var entity = context.TombstoningDatas.FirstOrDefault(t => t.Type == type && t.Key == id);
-            if (entity == null)
+            try
             {
-                entity = new TombstoningData { Type = type, Key = id };
-                context.TombstoningDatas.InsertOnSubmit(entity);
+                resetEvent.WaitOne();
+                var entity = context.TombstoningDatas.FirstOrDefault(t => t.Type == type && t.Id == id);
+                if (entity == null)
+                {
+                    entity = new TombstoningData { Type = type, Id = id };
+                    context.TombstoningDatas.InsertOnSubmit(entity);
+                }
+                entity.Data = SerializeObject(data);
+                context.SubmitChanges();
             }
-            entity.Data = SerializeObject(data);
-            context.SubmitChanges();
+            catch (Exception)
+            { }
+            finally
+            {
+                resetEvent.Set();
+            }
         }
         #endregion
 

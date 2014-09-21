@@ -6,7 +6,7 @@ namespace Chicken4WP8.Entities
     public class Setting
     {
         [Column(IsDbGenerated = true, IsPrimaryKey = true, DbType = "int IDENTITY(1,1)")]
-        public int Id { get; set; }
+        public int PrimaryKey { get; set; }
 
         [Column]
         public bool IsCurrentlyInUsed { get; set; }
