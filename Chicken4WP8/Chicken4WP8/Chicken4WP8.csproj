@@ -110,7 +110,7 @@
     <Compile Include="Controllers\Implementation\Custom\CustomDirectMessageController.cs" />
     <Compile Include="Controllers\Implementation\Custom\CustomOAuthController.cs" />
     <Compile Include="Controllers\Implementation\Custom\CustomStatusController.cs" />
-    <Compile Include="Controllers\Implementation\Custom\CustomerUserController.cs" />
+    <Compile Include="Controllers\Implementation\Custom\CustomUserController.cs" />
     <Compile Include="Controllers\Implementation\Twip\TwipOAuthController.cs" />
     <Compile Include="Controllers\NewStatusModel.cs" />
     <Compile Include="Controllers\Interface\IDirectMessageController.cs" />
@@ -133,9 +133,12 @@
     <Compile Include="Controllers\ITweetModel.cs" />
     <Compile Include="Controllers\IUserModel.cs" />
     <Compile Include="Entities\TempData.cs" />
+    <Compile Include="Entities\TombstoningData.cs" />
     <Compile Include="Models\Setting\OAuthSessionModel.cs" />
     <Compile Include="Models\Setting\OAuthSetting.cs" />
     <Compile Include="Models\Setting\UserSetting.cs" />
+    <Compile Include="Models\Tombstoning\IndexPageTombstoningData.cs" />
+    <Compile Include="Models\Tombstoning\TombstoningDataBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\AppResources.Designer.cs">
       <AutoGen>True</AutoGen>

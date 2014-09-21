@@ -37,5 +37,10 @@ namespace Chicken4WP8.Entities
                 return GetTable<CachedDirectMessage>();
             }
         }
+
+        public Table<TombstoningData> TombstoningDatas
+        {
+            get { return GetTable<TombstoningData>(); }
+        }
     }
 }

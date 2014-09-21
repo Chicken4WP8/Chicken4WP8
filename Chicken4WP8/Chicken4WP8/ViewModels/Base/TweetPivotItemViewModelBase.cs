@@ -39,7 +39,7 @@ namespace Chicken4WP8.ViewModels.Base
         #endregion
 
         #region init load data from web
-        private async Task InitLoadDataFromWeb()
+        protected virtual async Task InitLoadDataFromWeb()
         {
             var options = Const.GetDictionary();
             options.Add(Const.COUNT, Const.DEFAULTCOUNT);

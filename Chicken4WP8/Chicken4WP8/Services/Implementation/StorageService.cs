@@ -10,6 +10,7 @@ using Chicken4WP8.Common;
 using Chicken4WP8.Controllers;
 using Chicken4WP8.Entities;
 using Chicken4WP8.Models.Setting;
+using Chicken4WP8.Models.Tombstoning;
 using Chicken4WP8.Services.Interface;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Bson;
@@ -290,6 +291,28 @@ namespace Chicken4WP8.Services.Implementation
             context.SubmitChanges();
         }
 
+        public T GetTombstoningData<T>(TombstoningType type, string id)
+            where T : TombstoningDataBase
+        {
+            var entity = context.TombstoningDatas.FirstOrDefault(t => t.Type == type && t.Key == id);
+            if (entity == null || entity.Data == null)
+                return default(T);
+            return DeserializeObject<T>(entity.Data);
+        }
+
+        public void AddOrUpdateTombstoningData<T>(TombstoningType type, string id, T data)
+            where T : TombstoningDataBase
+        {
+            var entity = context.TombstoningDatas.FirstOrDefault(t => t.Type == type && t.Key == id);
+            if (entity == null)
+            {
+                entity = new TombstoningData { Type = type, Key = id };
+                context.TombstoningDatas.InsertOnSubmit(entity);
+            }
+            entity.Data = SerializeObject(data);
+            context.SubmitChanges();
+        }
+
         public List<string> GetEmotions()
         {
             List<string> result = new List<string>();
@@ -335,7 +358,8 @@ namespace Chicken4WP8.Services.Implementation
             using (var memoryStream = new MemoryStream(data))
             {
                 memoryStream.Seek(0, SeekOrigin.Begin);
-                BsonReader reader = new BsonReader(memoryStream);
+                var reader = new BsonReader(memoryStream);
+                var stream = new StreamReader(memoryStream);
                 result = serializer.Deserialize<T>(reader);
             }
             return result;

@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using Chicken4WP8.Controllers;
+using Chicken4WP8.Entities;
 using Chicken4WP8.Models.Setting;
+using Chicken4WP8.Models.Tombstoning;
 
 namespace Chicken4WP8.Services.Interface
 {
@@ -37,6 +39,9 @@ namespace Chicken4WP8.Services.Interface
 
         NewStatusModel GetTempNewStatus();
         void UpdateTempNewStatus(NewStatusModel status);
+
+        T GetTombstoningData<T>(TombstoningType type, string id) where T : TombstoningDataBase;
+        void AddOrUpdateTombstoningData<T>(TombstoningType type, string id, T data) where T : TombstoningDataBase;
 
         List<string> GetEmotions();
     }

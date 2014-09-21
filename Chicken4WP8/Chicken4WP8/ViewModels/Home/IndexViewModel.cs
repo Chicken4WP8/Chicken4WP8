@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 using Caliburn.Micro;
 using Chicken4WP8.Controllers;
 using Chicken4WP8.Controllers.Interface;
+using Chicken4WP8.Entities;
 using Chicken4WP8.Models.Setting;
+using Chicken4WP8.Models.Tombstoning;
 using Chicken4WP8.Services.Implementation;
 using Chicken4WP8.Services.Interface;
 using Chicken4WP8.ViewModels.Base;
@@ -50,6 +52,16 @@ namespace Chicken4WP8.ViewModels.Home
             return Task.Delay(0);
         }
 
+        protected override async Task InitLoadDataFromWeb()
+        {
+            var tombstone = StorageService.GetTombstoningData<IndexPageTombstoningData>(TombstoningType.IndexView, App.UserSetting.Id.ToString());
+            if (tombstone != null && tombstone.Tweets != null && tombstone.Tweets.Count != 0)
+                foreach (var item in tombstone.Tweets)
+                    Items.Add(item);
+            else
+                await base.InitLoadDataFromWeb();
+        }
+
         protected override async Task<IList<ITweetModel>> LoadDataFromWeb(IDictionary<string, object> options)
         {
             var tweets = await statusController.HomeTimelineAsync(options);
@@ -65,6 +77,14 @@ namespace Chicken4WP8.ViewModels.Home
             NavigationService.UriFor<NewStatusPageViewModel>()
                  .WithParam(o => o.Random, DateTime.Now.Ticks.ToString("x"))
                 .Navigate();
+        }
+
+        protected override void OnDeactivate(bool close)
+        {
+            base.OnDeactivate(close);
+            var tweets = Items.ToList();
+            var tombstone = new IndexPageTombstoningData { Tweets = tweets };
+            StorageService.AddOrUpdateTombstoningData(TombstoningType.IndexView, App.UserSetting.Id.ToString(), tombstone);
         }
     }
 }
