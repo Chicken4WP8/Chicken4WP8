@@ -59,6 +59,7 @@ namespace Chicken4WP8.ViewModels.Profile
             if (Items.Count == 0)
                 return;
             var option = Const.GetDictionary();
+            option.Add(Const.NEED_REFRESH, true);
             option.Add(Const.USER_ID, Items[0].Id);
             option.Add(Const.USER_SCREEN_NAME, Items[0].ScreenName);
             option.Add(Const.INCLUDE_ENTITIES, Const.DEFAULT_VALUE_FALSE);

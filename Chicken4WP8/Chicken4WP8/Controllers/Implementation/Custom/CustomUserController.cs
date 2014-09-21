@@ -11,10 +11,17 @@ namespace Chicken4WP8.Controllers.Implementation.Custom
     {
         public async Task<IUserModel> ShowAsync(IDictionary<string, object> parameters)
         {
+            IUserModel model = null;
+            if (!parameters.ContainsKey(Const.NEED_REFRESH))
+                model = StorageService.GetCachedUser(parameters[Const.USER_SCREEN_NAME] as string);
+            if (model != null)
+                return model;
             var user = await tokens.Users.ShowAsync(parameters);
-            if (user != null)
-                return new UserModel(user);
-            return null;
+            if (user == null)
+                return null;
+            model = new UserModel(user);
+            StorageService.AddOrUpdateCachedUser(model);
+            return model;
         }
 
         public async Task SetProfileImageAsync(IUserModel user)

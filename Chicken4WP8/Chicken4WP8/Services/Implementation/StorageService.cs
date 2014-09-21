@@ -113,11 +113,11 @@ namespace Chicken4WP8.Services.Implementation
             context.SubmitChanges();
         }
 
-        public IUserModel GetTempUser()
+        public string GetTempUserName()
         {
             var entity = context.TempDatas.FirstOrDefault(t => t.Type == TempType.UserProfile);
             var name = Encoding.Unicode.GetString(entity.Data, 0, entity.Data.Length);
-            return GetCachedUser(name);
+            return name;
         }
 
         public void UpdateTempUserName(string name)

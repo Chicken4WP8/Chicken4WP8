@@ -20,7 +20,7 @@ namespace Chicken4WP8.Services.Interface
         ITweetModel GetTempTweet();
         void UpdateTempTweetId(long tweetId);
 
-        IUserModel GetTempUser();
+        string GetTempUserName();
         void UpdateTempUserName(string name);
 
         string GetTempDirectMessageUserName();
@@ -36,6 +36,8 @@ namespace Chicken4WP8.Services.Interface
         IUserModel GetCachedUser(string name);
         void AddOrUpdateCachedUser(IUserModel user);
         void AddCachedUsers(IEnumerable<IUserModel> users);
+
+
 
         byte[] GetCachedImage(string id);
         byte[] AddOrUpdateImageCache(string id, byte[] data);

@@ -55,6 +55,8 @@ namespace Chicken4WP8.Common
         //search page
         public const string SEARCH_QUERY = "q";
         public const string PAGE = "page";
+        //view model
+        public const string NEED_REFRESH = "refresh";
         #endregion
 
         #region const
