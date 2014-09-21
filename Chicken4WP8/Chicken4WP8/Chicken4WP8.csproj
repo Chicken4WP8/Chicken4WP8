@@ -203,7 +203,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Data\emotions.json" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\AppManifest.xml" />
     <None Include="Properties\WMAppManifest.xml">
       <SubType>Designer</SubType>
@@ -328,9 +330,6 @@
     <Reference Include="Caliburn.Micro.Platform">
       <HintPath>..\packages\Caliburn.Micro.2.0.0\lib\wp8\Caliburn.Micro.Platform.dll</HintPath>
     </Reference>
-    <Reference Include="CoreTweet">
-      <HintPath>..\packages\CoreTweet.0.3.4\lib\wp8\CoreTweet.dll</HintPath>
-    </Reference>
     <Reference Include="ICSharpCode.SharpZLib.Phone, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="ImageTools, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="ImageTools.Controls, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
@@ -352,8 +351,9 @@
     <Reference Include="Microsoft.Threading.Tasks.Extensions.Phone">
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\wp8\Microsoft.Threading.Tasks.Extensions.Phone.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PCLWebUtility">
       <HintPath>..\packages\PCLWebUtility.1.0.2\Lib\portable-net4+sl4+wp7+win8\PCLWebUtility.dll</HintPath>
@@ -454,6 +454,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\CoreTweet\CoreTweet.wp8\CoreTweet.wp8.csproj">
+      <Project>{B63F0009-503F-4ED0-A302-8CB2DB69FB1A}</Project>
+      <Name>CoreTweet.wp8</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Caliburn.Micro.BindableAppBar\Caliburn.Micro.BindableAppBar.csproj">
       <Project>{D0A0600D-253C-408B-A0BE-DC575D86FD55}</Project>
       <Name>Caliburn.Micro.BindableAppBar</Name>
