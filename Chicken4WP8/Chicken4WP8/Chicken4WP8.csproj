@@ -454,13 +454,13 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\BindableAppBarWP8\Caliburn.Micro.BindableAppBar\Caliburn.Micro.BindableAppBar.csproj">
+      <Project>{D0A0600D-253C-408B-A0BE-DC575D86FD55}</Project>
+      <Name>Caliburn.Micro.BindableAppBar</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\CoreTweet\CoreTweet.wp8\CoreTweet.wp8.csproj">
       <Project>{B63F0009-503F-4ED0-A302-8CB2DB69FB1A}</Project>
       <Name>CoreTweet.wp8</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Caliburn.Micro.BindableAppBar\Caliburn.Micro.BindableAppBar.csproj">
-      <Project>{D0A0600D-253C-408B-A0BE-DC575D86FD55}</Project>
-      <Name>Caliburn.Micro.BindableAppBar</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
