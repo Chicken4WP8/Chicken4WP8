@@ -16,6 +16,7 @@ namespace Chicken4WP8.Controllers.Implementation.Base
             if (tweets != null)
                 foreach (var tweet in tweets)
                     list.Add(new TweetModel(tweet));
+            StorageService.AddCachedTweets(list);
             return list;
         }
 
@@ -26,6 +27,7 @@ namespace Chicken4WP8.Controllers.Implementation.Base
             if (tweets != null)
                 foreach (var tweet in tweets)
                     list.Add(new TweetModel(tweet));
+            StorageService.AddCachedTweets(list);
             return list;
         }
 
@@ -35,7 +37,7 @@ namespace Chicken4WP8.Controllers.Implementation.Base
             return new TweetModel(status);
         }
 
-        public async Task SetStatusImagesAsync(ITweetModel status)
+        public async Task SetTweetImagesAsync(ITweetModel status)
         {
             List<IMediaEntity> medias = null;
             if (status.RetweetedStatus != null

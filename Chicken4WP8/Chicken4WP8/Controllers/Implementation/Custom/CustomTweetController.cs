@@ -28,16 +28,21 @@ namespace Chicken4WP8.Controllers.Implementation.Custom
             if (tweets != null)
                 foreach (var tweet in tweets)
                     list.Add(new TweetModel(tweet));
+            StorageService.AddCachedTweets(list);
             return list;
         }
 
         public async Task<ITweetModel> ShowAsync(IDictionary<string, object> parameters)
         {
             var status = await tokens.Statuses.ShowAsync(parameters);
-            return new TweetModel(status);
+            if (status == null)
+                return null;
+            var tweet = new TweetModel(status);
+            StorageService.AddCachedTweets(new List<ITweetModel> { tweet });
+            return tweet;
         }
 
-        public async Task SetStatusImagesAsync(ITweetModel status)
+        public async Task SetTweetImagesAsync(ITweetModel status)
         {
             List<IMediaEntity> medias = null;
             if (status.RetweetedStatus != null

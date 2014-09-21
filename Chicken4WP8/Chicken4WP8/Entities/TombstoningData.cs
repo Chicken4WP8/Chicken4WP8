@@ -20,7 +20,8 @@ namespace Chicken4WP8.Entities
 
     public enum TombstoningType
     {
-        HomePageView = 100,
+        HomePage = 100,
         IndexView = 101,
+        MentionView = 102,
     }
 }

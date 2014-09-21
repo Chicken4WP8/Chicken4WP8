@@ -67,7 +67,7 @@ namespace Chicken4WP8.ViewModels.Status
             if (user.ProfileImageData == null)
                 Task.Factory.StartNew(() => userController.SetProfileImageAsync(user));
             if (item.IsStatusDetail)
-                Task.Factory.StartNew(() => statusController.SetStatusImagesAsync(item));
+                Task.Factory.StartNew(() => statusController.SetTweetImagesAsync(item));
             return Task.Delay(0);
         }
 
