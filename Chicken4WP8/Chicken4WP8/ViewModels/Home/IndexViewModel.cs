@@ -55,9 +55,18 @@ namespace Chicken4WP8.ViewModels.Home
         protected override async Task InitLoadDataFromWeb()
         {
             var tombstone = StorageService.GetTombstoningData<IndexViewTombstoningData>(TombstoningType.IndexView, App.UserSetting.Id.ToString());
-            if (tombstone != null && tombstone.Tweets != null && tombstone.Tweets.Count != 0)
-                foreach (var item in tombstone.Tweets)
-                    Items.Add(item);
+            if (tombstone != null)
+            {
+                if (tombstone.Tweets != null && tombstone.Tweets.Count != 0)
+                    foreach (var item in tombstone.Tweets)
+                        Items.Add(item);
+                if (tombstone.FetchedItemsCache != null)
+                    fetchedItemsCache.AddRange(tombstone.FetchedItemsCache);
+                if (tombstone.LoadedItemsCache != null)
+                    loadedItemsCache.AddRange(tombstone.LoadedItemsCache);
+                if (tombstone.MissedItemsCache != null)
+                    missedItemsCache.AddRange(tombstone.MissedItemsCache);
+            }
             else
                 await base.InitLoadDataFromWeb();
         }
@@ -72,10 +81,16 @@ namespace Chicken4WP8.ViewModels.Home
 
         protected override void OnDeactivate(bool close)
         {
-            base.OnDeactivate(close);
             var tweets = Items.ToList();
-            var tombstone = new IndexViewTombstoningData { Tweets = tweets };
+            var tombstone = new IndexViewTombstoningData
+            {
+                Tweets = tweets,
+                FetchedItemsCache = fetchedItemsCache,
+                LoadedItemsCache = loadedItemsCache,
+                MissedItemsCache = missedItemsCache
+            };
             StorageService.AddOrUpdateTombstoningData(TombstoningType.IndexView, App.UserSetting.Id.ToString(), tombstone);
+            base.OnDeactivate(close);
         }
 
         public void AppBar_NewTweet()

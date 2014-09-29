@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using Caliburn.Micro;
+using Chicken4WP8.Common;
 using Chicken4WP8.Controllers;
 using Chicken4WP8.Controls;
 using Chicken4WP8.Services.Interface;
@@ -22,7 +23,7 @@ namespace Chicken4WP8.ViewModels.Base
     {
         #region properties
         protected const int ITEMSPERPAGE = 10;
-        private const double OFFSET = 10;
+        private const double OFFSET = Const.DEFAULTCOUNT;
         private double height, maxHeight;
         protected LongListSelector listbox;
         private ViewportControl container;
@@ -119,9 +120,9 @@ namespace Chicken4WP8.ViewModels.Base
                 footer.Height = 0;
         }
 
-        protected async virtual Task RealizeItem(T item)
+        protected virtual Task RealizeItem(T item)
         {
-            return;
+            return Task.Delay(0);
         }
 
         private async void ItemUnrealized(object sender, ItemRealizationEventArgs e)
@@ -132,9 +133,9 @@ namespace Chicken4WP8.ViewModels.Base
             }
         }
 
-        protected async virtual Task UnrealizeItem(T item)
+        protected virtual Task UnrealizeItem(T item)
         {
-            return;
+            return Task.Delay(0);
         }
         #endregion
 
@@ -164,9 +165,9 @@ namespace Chicken4WP8.ViewModels.Base
             await HideProgressBar();
         }
 
-        protected async virtual Task FetchMoreDataFromWeb()
+        protected virtual Task FetchMoreDataFromWeb()
         {
-            return;
+            return Task.Delay(0);
         }
         #endregion
 
@@ -178,9 +179,9 @@ namespace Chicken4WP8.ViewModels.Base
             await HideProgressBar();
         }
 
-        protected async virtual Task LoadMoreDataFromWeb()
+        protected virtual Task LoadMoreDataFromWeb()
         {
-            return;
+            return Task.Delay(0);
         }
         #endregion
 

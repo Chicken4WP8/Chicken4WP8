@@ -51,6 +51,7 @@ namespace Chicken4WP8.Controllers.Implementation.Base
         public long? InReplyToTweetId { get; set; }
         public string InReplyToScreenName { get; set; }
         public ICoordinates Coordinates { get; set; }
+
         #region for template
         [JsonIgnore]
         public bool IncludeMedia
@@ -62,6 +63,7 @@ namespace Chicken4WP8.Controllers.Implementation.Base
                     && Entities.Media.Count != 0;
             }
         }
+
         [JsonIgnore]
         public bool IncludeCoordinates
         {
@@ -108,8 +110,8 @@ namespace Chicken4WP8.Controllers.Implementation.Base
         {
             get { return RetweetCount != 0 || FavoriteCount != 0 || IncludeCoordinates; }
         }
-        private bool isLoadMoreTweetButtonVisible;
-        [JsonIgnore]
+
+        private bool isLoadMoreTweetButtonVisible;        
         public bool IsLoadMoreTweetButtonVisible
         {
             get { return isLoadMoreTweetButtonVisible; }
@@ -119,8 +121,8 @@ namespace Chicken4WP8.Controllers.Implementation.Base
                 NotifyOfPropertyChange(() => IsLoadMoreTweetButtonVisible);
             }
         }
+
         private bool isBottomBoundsVisible;
-        [JsonIgnore]
         public bool IsBottomBoundsVisible
         {
             get { return isBottomBoundsVisible; }
@@ -130,8 +132,8 @@ namespace Chicken4WP8.Controllers.Implementation.Base
                 NotifyOfPropertyChange(() => IsBottomBoundsVisible);
             }
         }
+
         private bool isTopBoundsVisible;
-        [JsonIgnore]
         public bool IsTopBoundsVisible
         {
             get { return isTopBoundsVisible; }
@@ -142,6 +144,7 @@ namespace Chicken4WP8.Controllers.Implementation.Base
                 NotifyOfPropertyChange(() => IsTopBoundsVisible);
             }
         }
+
         private bool isStatusDetail;
         public bool IsStatusDetail
         {

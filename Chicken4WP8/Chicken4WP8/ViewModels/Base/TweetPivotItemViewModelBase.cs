@@ -14,9 +14,9 @@ namespace Chicken4WP8.ViewModels.Base
     public abstract class TweetPivotItemViewModelBase : PivotItemViewModelBase<ITweetModel>
     {
         #region properties
-        private List<ITweetModel> fetchedItemsCache = new List<ITweetModel>();
-        private List<ITweetModel> missedItemsCache = new List<ITweetModel>();
-        private List<ITweetModel> loadedItemsCache = new List<ITweetModel>();
+        protected List<ITweetModel> fetchedItemsCache = new List<ITweetModel>();
+        protected List<ITweetModel> missedItemsCache = new List<ITweetModel>();
+        protected List<ITweetModel> loadedItemsCache = new List<ITweetModel>();
 
         public TweetPivotItemViewModelBase(
             IEventAggregator eventAggregator,
