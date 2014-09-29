@@ -121,6 +121,7 @@
     <Compile Include="Controllers\Interface\IUserController.cs" />
     <Compile Include="Controllers\IUserEntities.cs" />
     <Compile Include="Controls\AutoRichTextBox.cs" />
+    <Compile Include="Controls\StateHelper.cs" />
     <Compile Include="Controls\TemplateSelector.cs" />
     <Compile Include="Controls\VisibilityConverter.cs" />
     <Compile Include="Controls\PopUp.cs" />
