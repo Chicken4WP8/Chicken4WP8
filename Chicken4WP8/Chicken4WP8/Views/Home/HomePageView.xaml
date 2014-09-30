@@ -15,9 +15,104 @@
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="True">
 
+    <phone:PhoneApplicationPage.Resources>
+        <Style x:Key="ListBoxItemStyle" TargetType="ListBoxItem">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Top"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border x:Name="LayoutRoot"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Background="{TemplateBinding Background}"
+                                HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalAlignment}">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="MouseOver"/>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="SelectionStates">
+                                    <VisualState x:Name="Unselected">
+                                        <Storyboard>
+                                            <ColorAnimation Duration="0" To="{StaticResource PhoneInactiveColor}"
+                                                            Storyboard.TargetProperty="(Control.Background).(SolidColorBrush.Color)"
+                                                            Storyboard.TargetName="ContentContainer" d:IsOptimized="True"/>
+                                            <ColorAnimation Duration="0" To="{StaticResource PhoneInactiveColor}"
+                                                            Storyboard.TargetProperty="(Control.Foreground).(SolidColorBrush.Color)"
+                                                            Storyboard.TargetName="ContentContainer" d:IsOptimized="True"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Selected">
+                                        <Storyboard>
+                                            <ColorAnimation Duration="0"
+                                                            To="{StaticResource PhoneAccentColor}"
+                                                            Storyboard.TargetProperty="(Control.Foreground).(SolidColorBrush.Color)"
+                                                            Storyboard.TargetName="ContentContainer" d:IsOptimized="True"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="SelectedUnfocused">
+                                        <Storyboard>
+                                            <ColorAnimation Duration="0"
+                                                            To="{StaticResource PhoneAccentColor}"
+                                                            Storyboard.TargetProperty="(Control.Foreground).(SolidColorBrush.Color)"
+                                                            Storyboard.TargetName="ContentContainer" d:IsOptimized="True"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <ContentControl x:Name="ContentContainer"
+                                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                                            Content="{TemplateBinding Content}"
+                                            Foreground="{TemplateBinding Foreground}" Background="Transparent"                                            
+                                            Margin="{TemplateBinding Padding}"
+                                            Height="90"
+                                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </phone:PhoneApplicationPage.Resources>
+
     <Grid x:Name="Root" Background="Transparent">
-        <ctrls:Pivot x:Name="Items" SelectedItem="{Binding ActiveItem, Mode=TwoWay}">
-                     <!--local:StateHelper.State="{Binding Path=State}"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <ListBox x:Name="ImageBar"
+                     Grid.Row="0"
+                     ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                     ItemContainerStyle="{StaticResource ListBoxItemStyle}"                     
+                     SelectedIndex="{Binding SelectedIndex, ElementName=Items, Mode=TwoWay}">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <local:SplitPanel />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBoxItem>
+                <Image 
+               Source="/Images/dark/Index.png" Stretch="Fill" />
+            </ListBoxItem>
+            <ListBoxItem>
+                <Image 
+               Source="/Images/dark/Mention.png" Stretch="Fill" />
+            </ListBoxItem>
+            <ListBoxItem>
+                <Image 
+               Source="/Images/dark/Message.png" Stretch="Fill" />
+            </ListBoxItem>
+        </ListBox>
+
+
+        <ctrls:Pivot x:Name="Items" Grid.Row="1" SelectedItem="{Binding ActiveItem, Mode=TwoWay}">
+            <!--local:StateHelper.State="{Binding Path=State}"
                      >-->
             <VisualStateManager.VisualStateGroups>
                 <VisualStateGroup>
@@ -39,6 +134,11 @@
                     <TranslateTransform/>
                 </TransformGroup>
             </ctrls:Pivot.RenderTransform>
+            <ctrls:Pivot.HeaderTemplate>
+                <DataTemplate>
+                    <Border />
+                </DataTemplate>
+            </ctrls:Pivot.HeaderTemplate>
         </ctrls:Pivot>
     </Grid>
 
