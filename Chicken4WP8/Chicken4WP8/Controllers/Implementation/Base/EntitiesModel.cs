@@ -119,7 +119,7 @@ namespace Chicken4WP8.Controllers.Implementation.Base
         public UrlEntityModel(UrlEntity entity)
             : base(entity)
         {
-            DisplayUrl = entity.DisplayUrl;
+            DisplayUrl = string.IsNullOrEmpty(entity.DisplayUrl) ? entity.ExpandedUrl.AbsoluteUri : entity.DisplayUrl;
             int index = DisplayUrl.IndexOf("/");
             if (index != -1)
                 TruncatedUrl = "[" + DisplayUrl.Remove(index) + "]";

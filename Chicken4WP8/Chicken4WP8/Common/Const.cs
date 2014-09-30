@@ -23,7 +23,6 @@ namespace Chicken4WP8.Common
         public const string DEFAULTSOURCE = "web";
         public const string DEFAULTSOURCEURL = "https://github.com/";
         public const int DEFAULTCOUNT = 40;
-        public static TimeSpan EXPERIEDTIME = new TimeSpan(0, 5, 0);
         #endregion
 
         #region rest api

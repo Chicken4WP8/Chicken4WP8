@@ -216,7 +216,7 @@ namespace Chicken4WP8.Services.Implementation
         {
             long id = long.Parse(tweetId);
             var entity = context.CachedTweets.FirstOrDefault(u => u.Id == id);
-            if (entity == null || entity.Data == null || DateTime.Now - entity.InsertedTime > Const.EXPERIEDTIME)
+            if (entity == null || entity.Data == null)
                 return null;
             return DeserializeObject<ITweetModel>(entity.Data);
         }
@@ -236,7 +236,6 @@ namespace Chicken4WP8.Services.Implementation
                         context.CachedTweets.InsertOnSubmit(entity);
                     }
                     entity.Data = SerializeObject(tweet);
-                    entity.InsertedTime = DateTime.Now;
                     #endregion
 
                     #region cache users
@@ -247,7 +246,6 @@ namespace Chicken4WP8.Services.Implementation
                         context.CachedUsers.InsertOnSubmit(user);
                     }
                     user.Data = SerializeObject(tweet.User);
-                    user.InsertedTime = DateTime.Now;
 
                     #region retweet users
                     if (tweet.RetweetedStatus != null && tweet.RetweetedStatus.User != null)
@@ -259,7 +257,6 @@ namespace Chicken4WP8.Services.Implementation
                             context.CachedUsers.InsertOnSubmit(origin);
                         }
                         origin.Data = SerializeObject(tweet.RetweetedStatus.User);
-                        origin.InsertedTime = DateTime.Now;
                     }
                     #endregion
                     #endregion
@@ -277,7 +274,7 @@ namespace Chicken4WP8.Services.Implementation
         public IUserModel GetCachedUser(string name)
         {
             var entity = context.CachedUsers.FirstOrDefault(u => u.Id == name);
-            if (entity == null || entity.Data == null || DateTime.Now - entity.InsertedTime > Const.EXPERIEDTIME)
+            if (entity == null || entity.Data == null)
                 return null;
             return DeserializeObject<IUserModel>(entity.Data);
         }
@@ -294,7 +291,6 @@ namespace Chicken4WP8.Services.Implementation
                     context.CachedUsers.InsertOnSubmit(entity);
                 }
                 entity.Data = SerializeObject(user);
-                entity.InsertedTime = DateTime.Now;
 
                 context.SubmitChanges();
             }
@@ -320,7 +316,6 @@ namespace Chicken4WP8.Services.Implementation
                         context.CachedUsers.InsertOnSubmit(entity);
                     }
                     entity.Data = SerializeObject(user);
-                    entity.InsertedTime = DateTime.Now;
                 }
                 context.SubmitChanges();
             }
@@ -335,7 +330,7 @@ namespace Chicken4WP8.Services.Implementation
         public IFriendshipModel GetCachedFriendship(string name)
         {
             var entity = context.CachedFriendships.FirstOrDefault(u => u.Id == name);
-            if (entity == null || entity.Data == null || DateTime.Now - entity.InsertedTime > Const.EXPERIEDTIME)
+            if (entity == null || entity.Data == null)
                 return null;
             return DeserializeObject<IFriendshipModel>(entity.Data);
         }
@@ -352,7 +347,6 @@ namespace Chicken4WP8.Services.Implementation
                     context.CachedFriendships.InsertOnSubmit(entity);
                 }
                 entity.Data = SerializeObject(friendship);
-                entity.InsertedTime = DateTime.Now;
 
                 context.SubmitChanges();
             }
