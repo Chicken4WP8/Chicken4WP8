@@ -85,13 +85,13 @@ namespace Chicken4WP8.ViewModels.Base
             footer.Height = 0;
 
             container.ManipulationStateChanged += ManipulationStateChanged;
-            container.ViewportChanged += container_ViewportChanged;
+            container.ViewportChanged += ViewportChanged;
             listbox.Loaded += ListboxLoaded;
             listbox.ItemRealized += ItemRealized;
             listbox.ItemUnrealized += ItemUnrealized;
         }
 
-        void container_ViewportChanged(object sender, ViewportChangedEventArgs e)
+        private void ViewportChanged(object sender, ViewportChangedEventArgs e)
         {
             if (oldViewport != Rect.Empty)
             {
