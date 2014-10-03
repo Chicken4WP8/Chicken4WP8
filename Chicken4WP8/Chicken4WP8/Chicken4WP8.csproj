@@ -171,6 +171,7 @@
     <Compile Include="Controllers\Implementation\Base\EntitiesModel.cs" />
     <Compile Include="Controllers\Implementation\Base\TweetModel.cs" />
     <Compile Include="Controllers\Implementation\Base\UserModel.cs" />
+    <Compile Include="ViewModels\Base\HomePageScreenArgs.cs" />
     <Compile Include="ViewModels\Base\ProfilePageNavigationArgs.cs" />
     <Compile Include="ViewModels\Base\TweetPivotItemViewModelBase.cs" />
     <Compile Include="ViewModels\Home\DirectMessageViewModel.cs" />

@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
+using System.Windows.Input;
 using Caliburn.Micro;
 using Chicken4WP8.Common;
 using Chicken4WP8.Controllers;
@@ -27,10 +28,11 @@ namespace Chicken4WP8.ViewModels.Base
         private double height, maxHeight;
         protected LongListSelector listbox;
         private ViewportControl container;
+        private Rect oldViewport = Rect.Empty;
         private FrameworkElement footer;
         private List<T> realizedItems = new List<T>();
 
-        public IEventAggregator EventAggregator { get; set; }
+        private IEventAggregator eventAggregator;
         public ILanguageHelper LanguageHelper { get; set; }
         public IProgressService ProgressService { get; set; }
         public INavigationService NavigationService { get; set; }
@@ -41,6 +43,7 @@ namespace Chicken4WP8.ViewModels.Base
             ILanguageHelper languageHelper)
         {
             eventAggregator.Subscribe(this);
+            this.eventAggregator = eventAggregator;
             LanguageHelper = languageHelper;
             SetLanguage();
         }
@@ -82,10 +85,24 @@ namespace Chicken4WP8.ViewModels.Base
             footer.Height = 0;
 
             container.ManipulationStateChanged += ManipulationStateChanged;
+            container.ViewportChanged += container_ViewportChanged;
             listbox.Loaded += ListboxLoaded;
             listbox.ItemRealized += ItemRealized;
             listbox.ItemUnrealized += ItemUnrealized;
         }
+
+        void container_ViewportChanged(object sender, ViewportChangedEventArgs e)
+        {
+            if (oldViewport != Rect.Empty)
+            {
+                if (container.Viewport.Top > oldViewport.Top)
+                    eventAggregator.Publish(new HomePageScreenArgs { IsFullScreen = true }, action => Task.Factory.StartNew(action));
+                else if (container.Viewport.Top < oldViewport.Top)
+                    eventAggregator.Publish(new HomePageScreenArgs { IsFullScreen = false }, action => Task.Factory.StartNew(action));
+            }
+            oldViewport = container.Viewport;
+        }
+
         #endregion
 
         #region realize and unrealize an item
