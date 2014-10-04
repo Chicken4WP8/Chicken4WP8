@@ -30,6 +30,11 @@ namespace Chicken4WP8.ViewModels.Home
             messageController = messageControllers.Single(c => c.Metadata.OAuthType == App.UserSetting.OAuthSetting.OAuthSettingType).Value;
             userController = userControllers.Single(c => c.Metadata.OAuthType == App.UserSetting.OAuthSetting.OAuthSettingType).Value;
         }
+
+        protected override void SetLanguage()
+        {
+            DisplayName = LanguageHelper["DirectMessageViewModel_Header"];
+        }
         #endregion
 
         protected override async void OnInitialize()
@@ -41,13 +46,8 @@ namespace Chicken4WP8.ViewModels.Home
             await ShowProgressBar();
             //when initialize a pivot item,
             //load data from web first
-            await FetchMoreDataFromWeb();
+            await InitLoadDataFromCache();
             await HideProgressBar();
-        }
-
-        protected override void SetLanguage()
-        {
-            DisplayName = LanguageHelper["DirectMessageViewModel_Header"];
         }
 
         protected override Task RealizeItem(IDirectMessageModel item)
@@ -78,6 +78,20 @@ namespace Chicken4WP8.ViewModels.Home
                 .WithParam(o => o.Random, DateTime.Now.Ticks.ToString("x"))
                 .WithParam(o => o.ScreenName, user.ScreenName)
                 .Navigate();
+        }
+
+        private async Task InitLoadDataFromCache()
+        {
+            var list = StorageService.GetGroupedDirectMessages();
+            if (list != null && list.Count != 0)
+            {
+                Items.Clear();
+                foreach (var item in list.OrderBy(m => m.Id))
+                    Items.Insert(0, item);
+                listbox.ScrollTo(Items[0]);
+            }
+            else
+                await FetchMoreDataFromWeb();
         }
 
         protected override async Task FetchMoreDataFromWeb()

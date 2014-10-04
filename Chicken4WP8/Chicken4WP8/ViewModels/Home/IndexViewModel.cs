@@ -32,17 +32,12 @@ namespace Chicken4WP8.ViewModels.Home
             statusController = statusControllers.Single(c => c.Metadata.OAuthType == App.UserSetting.OAuthSetting.OAuthSettingType).Value;
             userController = userControllers.Single(c => c.Metadata.OAuthType == App.UserSetting.OAuthSetting.OAuthSettingType).Value;
         }
-        #endregion
-
-        public void AppBar_Next()
-        {
-            LanguageHelper.SetLanguage(new CultureInfo("zh-CN"));
-        }
 
         protected override void SetLanguage()
         {
             DisplayName = LanguageHelper["IndexViewModel_Header"];
         }
+        #endregion
 
         protected override Task RealizeItem(ITweetModel item)
         {
@@ -79,23 +74,10 @@ namespace Chicken4WP8.ViewModels.Home
             return null;
         }
 
-        protected override void OnDeactivate(bool close)
+        #region appbar
+        public void AppBar_Next()
         {
-            var tweets = Items.ToList();
-            var tombstone = new IndexViewTombstoningData
-            {
-                Tweets = tweets,
-                FetchedItemsCache = fetchedItemsCache,
-                LoadedItemsCache = loadedItemsCache,
-                MissedItemsCache = missedItemsCache
-            };
-            if (tweets.Count >= 200)
-            {
-                tweets = tweets.Take(200).ToList();
-                tombstone.LoadedItemsCache.Clear();
-            }
-            StorageService.AddOrUpdateTombstoningData(TombstoningType.IndexView, App.UserSetting.Id.ToString(), tombstone);
-            base.OnDeactivate(close);
+            LanguageHelper.SetLanguage(new CultureInfo("zh-CN"));
         }
 
         public void AppBar_NewTweet()
@@ -105,6 +87,29 @@ namespace Chicken4WP8.ViewModels.Home
             NavigationService.UriFor<NewStatusPageViewModel>()
                  .WithParam(o => o.Random, DateTime.Now.Ticks.ToString("x"))
                 .Navigate();
+        }
+        #endregion
+
+        protected override Task SaveTombstoningData()
+        {
+            var task = Task.Factory.StartNew(() =>
+                {
+                    var tweets = Items.ToList();
+                    var tombstone = new IndexViewTombstoningData
+                    {
+                        Tweets = tweets,
+                        FetchedItemsCache = fetchedItemsCache,
+                        LoadedItemsCache = loadedItemsCache,
+                        MissedItemsCache = missedItemsCache
+                    };
+                    if (tweets.Count >= 200)
+                    {
+                        tweets = tweets.Take(200).ToList();
+                        tombstone.LoadedItemsCache.Clear();
+                    }
+                    StorageService.AddOrUpdateTombstoningData(TombstoningType.IndexView, App.UserSetting.Id.ToString(), tombstone);
+                });
+            return task;
         }
     }
 }

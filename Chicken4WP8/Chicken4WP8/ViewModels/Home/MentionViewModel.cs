@@ -30,12 +30,12 @@ namespace Chicken4WP8.ViewModels.Home
             statusController = statusControllers.Single(c => c.Metadata.OAuthType == App.UserSetting.OAuthSetting.OAuthSettingType).Value;
             userController = userControllers.Single(c => c.Metadata.OAuthType == App.UserSetting.OAuthSetting.OAuthSettingType).Value;
         }
-        #endregion
 
         protected override void SetLanguage()
         {
             DisplayName = LanguageHelper["MentionViewModel_Header"];
         }
+        #endregion
 
         protected override Task RealizeItem(ITweetModel item)
         {
@@ -72,25 +72,7 @@ namespace Chicken4WP8.ViewModels.Home
             return null;
         }
 
-        protected override void OnDeactivate(bool close)
-        {
-            var mentions = Items.ToList();
-            var tombstone = new MentionViewTombstoningData
-            {
-                Mentions = mentions,
-                FetchedItemsCache = fetchedItemsCache,
-                LoadedItemsCache = loadedItemsCache,
-                MissedItemsCache = missedItemsCache
-            };
-            if (mentions.Count >= 200)
-            {
-                mentions = mentions.Take(200).ToList();
-                tombstone.LoadedItemsCache.Clear();
-            }
-            StorageService.AddOrUpdateTombstoningData(TombstoningType.MentionView, App.UserSetting.Id.ToString(), tombstone);
-            base.OnDeactivate(close);
-        }
-
+        #region appbar
         public void AppBar_NewTweet()
         {
             var status = new NewTweetModel();
@@ -98,6 +80,29 @@ namespace Chicken4WP8.ViewModels.Home
             NavigationService.UriFor<NewStatusPageViewModel>()
                  .WithParam(o => o.Random, DateTime.Now.Ticks.ToString("x"))
                 .Navigate();
+        }
+        #endregion
+
+        protected override Task SaveTombstoningData()
+        {
+            var task = Task.Factory.StartNew(() =>
+                {
+                    var mentions = Items.ToList();
+                    var tombstone = new MentionViewTombstoningData
+                    {
+                        Mentions = mentions,
+                        FetchedItemsCache = fetchedItemsCache,
+                        LoadedItemsCache = loadedItemsCache,
+                        MissedItemsCache = missedItemsCache
+                    };
+                    if (mentions.Count >= 200)
+                    {
+                        mentions = mentions.Take(200).ToList();
+                        tombstone.LoadedItemsCache.Clear();
+                    }
+                    StorageService.AddOrUpdateTombstoningData(TombstoningType.MentionView, App.UserSetting.Id.ToString(), tombstone);
+                });
+            return task;
         }
     }
 }

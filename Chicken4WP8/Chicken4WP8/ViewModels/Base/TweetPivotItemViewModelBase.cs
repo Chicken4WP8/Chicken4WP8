@@ -46,13 +46,10 @@ namespace Chicken4WP8.ViewModels.Base
             var fetchedList = await LoadDataFromWeb(options);
             if (fetchedList != null && fetchedList.Count != 0)
             {
-                int count = fetchedList.Count;
-                Debug.WriteLine("init loaded data count is: {0}", count);
-                if (count > 0)
-                {
-                    foreach (var item in fetchedList)
-                        Items.Add(item);
-                }
+                Debug.WriteLine("init loaded data count is: {0}", fetchedList.Count);
+                foreach (var item in fetchedList)
+                    Items.Add(item);
+                await SaveTombstoningData();
             }
             else
             { }
@@ -79,6 +76,7 @@ namespace Chicken4WP8.ViewModels.Base
                         Items.Insert(0, fetchedItemsCache[i]);
                     fetchedItemsCache.Clear();
                 }
+                await SaveTombstoningData();
             }
             #endregion
             #region fetch data from derived class
@@ -129,7 +127,7 @@ namespace Chicken4WP8.ViewModels.Base
                                 Items.RemoveAt(Items.Count - 1);
                         }
                         #endregion
-                        #region cache the missed tweets:
+                        #region cache the missed tweets
                         missedItemsCache.AddRange(missedList);
                         var showedItem = fetchedList.Last();
                         Debug.WriteLine("show load more tweet button at tweet id : {0}", showedItem.Id);
@@ -171,6 +169,7 @@ namespace Chicken4WP8.ViewModels.Base
                         Items.Add(item);
                     loadedItemsCache.Clear();
                 }
+                await SaveTombstoningData();
             }
             #endregion
             #region load data from derived class
@@ -235,9 +234,15 @@ namespace Chicken4WP8.ViewModels.Base
                 showedItem.IsLoadMoreTweetButtonVisible = true;
                 missedItemsCache.AddRange(missedList);
             }
+            await SaveTombstoningData();
         }
         #endregion
 
         protected abstract Task<IList<ITweetModel>> LoadDataFromWeb(IDictionary<string, object> options);
+
+        protected virtual Task SaveTombstoningData()
+        {
+            return Task.Delay(0);
+        }
     }
 }
