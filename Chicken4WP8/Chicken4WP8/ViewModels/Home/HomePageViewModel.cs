@@ -8,6 +8,7 @@ namespace Chicken4WP8.ViewModels.Home
 {
     public class HomePageViewModel : PageViewModelBase, IHandle<HomePageScreenArgs>
     {
+        #region properties
         private const string NormalScreenState = "NormalScreen";
         private const string FullScreenState = "FullScreen";
         private HomePageView homeView;
@@ -32,6 +33,7 @@ namespace Chicken4WP8.ViewModels.Home
         {
             eventAggregator.Subscribe(this);
         }
+        #endregion
 
         protected override void OnInitialize()
         {
