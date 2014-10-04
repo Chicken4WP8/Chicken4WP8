@@ -39,7 +39,6 @@ namespace Chicken4WP8.ViewModels.Home
             {
                 var model = viewModels.Single(m => m.Metadata.Type == setting.Type).Value;
                 model.Index = setting.Index;
-                //model.Title = setting.Title;
                 if (!string.IsNullOrEmpty(setting.Title))
                     model.DisplayName = setting.Title;
                 models.Add(model);

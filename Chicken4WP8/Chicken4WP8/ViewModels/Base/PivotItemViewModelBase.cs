@@ -23,7 +23,6 @@ namespace Chicken4WP8.ViewModels.Base
     public abstract class PivotItemViewModelBase : Screen
     {
         public int Index { get; set; }
-        public string Title { get; set; }
     }
 
     public abstract class PivotItemViewModelBase<T> : PivotItemViewModelBase, IHandle<CultureInfo> where T : class
