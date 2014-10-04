@@ -96,17 +96,22 @@ namespace Chicken4WP8.ViewModels.Status
             newTweet.InReplyToStatusId = status.Id;
             var names = new List<string>();
             names.Add("@" + status.User.ScreenName);
+            if (status.RetweetedStatus != null && status.RetweetedStatus.User != null)
+                names.Add("@" + status.RetweetedStatus.User.ScreenName);
             if (status.Entities.UserMentions != null && status.Entities.UserMentions.Count != 0)
             {
-                var users = status.Entities.UserMentions.Select(m => "@" + m.ScreenName);
+                var users = status.Entities.UserMentions
+                    .Where(m => m.ScreenName != App.UserSetting.ScreenName)
+                    .Select(m => "@" + m.ScreenName);
                 foreach (var user in users)
                 {
                     if (!names.Contains(user))
                         names.Add(user);
                 }
             }
-            string text = string.Join(" ", names);
-            newTweet.InReplyToUserName = text;
+
+            string text = string.Join(" ", names) + " ";
+            newTweet.InReplyToUserName = "@" + status.User.ScreenName;
             newTweet.Text = text;
             newTweet.Type = NewTweetType.Reply;
             StorageService.UpdateTempNewTweet(newTweet);
