@@ -33,7 +33,8 @@ namespace Chicken4WP8
             //register storage service
             builder.RegisterType<StorageService>()
                 .As<IStorageService>()
-                .PropertiesAutowired();
+                .PropertiesAutowired()
+                .SingleInstance();
 
             var assembiles = AssemblySource.Instance.ToArray();
             //register services

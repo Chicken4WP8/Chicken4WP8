@@ -39,11 +39,6 @@ namespace Chicken4WP8.Entities
             { return GetTable<CachedFriendship>(); }
         }
 
-        public Table<CachedImage> CachedImages
-        {
-            get { return this.GetTable<CachedImage>(); }
-        }
-
         public Table<CachedDirectMessage> CachedDirectMessages
         {
             get

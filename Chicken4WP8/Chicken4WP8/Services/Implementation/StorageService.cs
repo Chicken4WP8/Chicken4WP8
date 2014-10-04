@@ -21,9 +21,11 @@ namespace Chicken4WP8.Services.Implementation
     {
         #region properties
         private static JsonSerializer serializer;
-        public static AutoResetEvent resetEvent = new AutoResetEvent(true);
+        private static IsolatedStorageFile fileSystem = IsolatedStorageFile.GetUserStoreForApplication();
+        private static object locker = new object();
         private ChickenDataContext context;
         private const string EMOTIONS_FILE_NAME = "emotions.json";
+        private const string IMAGE_PATH = "images";
 
         static StorageService()
         {
@@ -103,9 +105,8 @@ namespace Chicken4WP8.Services.Implementation
 
         public void UpdateTempTweetId(long tweetId)
         {
-            try
+            lock (locker)
             {
-                resetEvent.WaitOne();
                 var entity = context.TempDatas.FirstOrDefault(t => t.Type == TempType.TweetDetail);
                 if (entity == null)
                 {
@@ -114,12 +115,6 @@ namespace Chicken4WP8.Services.Implementation
                 }
                 entity.Data = Encoding.Unicode.GetBytes(tweetId.ToString());
                 context.SubmitChanges();
-            }
-            catch (Exception)
-            { }
-            finally
-            {
-                resetEvent.Set();
             }
         }
 
@@ -132,9 +127,8 @@ namespace Chicken4WP8.Services.Implementation
 
         public void UpdateTempUserName(string name)
         {
-            try
+            lock (locker)
             {
-                resetEvent.WaitOne();
                 var entity = context.TempDatas.FirstOrDefault(t => t.Type == TempType.UserProfile);
                 if (entity == null)
                 {
@@ -143,12 +137,6 @@ namespace Chicken4WP8.Services.Implementation
                 }
                 entity.Data = Encoding.Unicode.GetBytes(name);
                 context.SubmitChanges();
-            }
-            catch (Exception)
-            { }
-            finally
-            {
-                resetEvent.Set();
             }
         }
 
@@ -160,9 +148,8 @@ namespace Chicken4WP8.Services.Implementation
 
         public void UpdateTempDirectMessageUserName(string name)
         {
-            try
+            lock (locker)
             {
-                resetEvent.WaitOne();
                 var entity = context.TempDatas.FirstOrDefault(t => t.Type == TempType.DirectMessage);
                 if (entity == null)
                 {
@@ -171,12 +158,6 @@ namespace Chicken4WP8.Services.Implementation
                 }
                 entity.Data = Encoding.Unicode.GetBytes(name);
                 context.SubmitChanges();
-            }
-            catch (Exception)
-            { }
-            finally
-            {
-                resetEvent.Set();
             }
         }
 
@@ -190,9 +171,8 @@ namespace Chicken4WP8.Services.Implementation
 
         public void UpdateTempNewTweet(NewTweetModel status)
         {
-            try
+            lock (locker)
             {
-                resetEvent.WaitOne();
                 var entity = context.TempDatas.FirstOrDefault(t => t.Type == TempType.NewStatus);
                 if (entity == null)
                 {
@@ -201,12 +181,6 @@ namespace Chicken4WP8.Services.Implementation
                 }
                 entity.Data = SerializeObject(status);
                 context.SubmitChanges();
-            }
-            catch (Exception)
-            { }
-            finally
-            {
-                resetEvent.Set();
             }
         }
         #endregion
@@ -223,9 +197,8 @@ namespace Chicken4WP8.Services.Implementation
 
         public void AddCachedTweets(IEnumerable<ITweetModel> tweets)
         {
-            try
+            lock (locker)
             {
-                resetEvent.WaitOne();
                 foreach (var tweet in tweets)
                 {
                     #region cache tweets
@@ -263,12 +236,6 @@ namespace Chicken4WP8.Services.Implementation
                 }
                 context.SubmitChanges();
             }
-            catch (Exception)
-            { }
-            finally
-            {
-                resetEvent.Set();
-            }
         }
 
         public IUserModel GetCachedUser(string name)
@@ -281,9 +248,8 @@ namespace Chicken4WP8.Services.Implementation
 
         public void AddOrUpdateCachedUser(IUserModel user)
         {
-            try
+            lock (locker)
             {
-                resetEvent.WaitOne();
                 var entity = context.CachedUsers.FirstOrDefault(u => u.Id == user.ScreenName);
                 if (entity == null)
                 {
@@ -291,22 +257,14 @@ namespace Chicken4WP8.Services.Implementation
                     context.CachedUsers.InsertOnSubmit(entity);
                 }
                 entity.Data = SerializeObject(user);
-
                 context.SubmitChanges();
-            }
-            catch (Exception)
-            { }
-            finally
-            {
-                resetEvent.Set();
             }
         }
 
         public void AddCachedUsers(IEnumerable<IUserModel> users)
         {
-            try
+            lock (locker)
             {
-                resetEvent.WaitOne();
                 foreach (var user in users)
                 {
                     var entity = context.CachedUsers.FirstOrDefault(u => u.Id == user.ScreenName);
@@ -318,12 +276,6 @@ namespace Chicken4WP8.Services.Implementation
                     entity.Data = SerializeObject(user);
                 }
                 context.SubmitChanges();
-            }
-            catch (Exception)
-            { }
-            finally
-            {
-                resetEvent.Set();
             }
         }
 
@@ -337,9 +289,8 @@ namespace Chicken4WP8.Services.Implementation
 
         public void AddOrUpdateCachedFriendship(IFriendshipModel friendship)
         {
-            try
+            lock (locker)
             {
-                resetEvent.WaitOne();
                 var entity = context.CachedFriendships.FirstOrDefault(u => u.Id == friendship.ScreenName);
                 if (entity == null)
                 {
@@ -347,46 +298,53 @@ namespace Chicken4WP8.Services.Implementation
                     context.CachedFriendships.InsertOnSubmit(entity);
                 }
                 entity.Data = SerializeObject(friendship);
-
                 context.SubmitChanges();
-            }
-            catch (Exception)
-            { }
-            finally
-            {
-                resetEvent.Set();
             }
         }
 
         public byte[] GetCachedImage(string id)
         {
-            CachedImage image = null;
-            if (string.IsNullOrEmpty(id))
-                image = context.CachedImages.FirstOrDefault(c => c.Id == id);
-            if (image != null)
-                return image.Data;
-            return null;
+            try
+            {
+                byte[] bytes = null;
+                var md5 = MD5.GetMd5String(id);
+                string filepath = Path.Combine(IMAGE_PATH, md5);
+                if (!fileSystem.FileExists(filepath))
+                    return null;
+                using (var fileStream = fileSystem.OpenFile(filepath, FileMode.Open))
+                {
+                    using (var memStream = new MemoryStream())
+                    {
+                        fileStream.CopyTo(memStream);
+                        bytes = memStream.ToArray();
+                    }
+                }
+                return bytes;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public byte[] AddOrUpdateImageCache(string id, byte[] data)
         {
             try
             {
-                resetEvent.WaitOne();
-                var image = context.CachedImages.FirstOrDefault(c => c.Id == id);
-                if (image == null)
+                if (!fileSystem.DirectoryExists(IMAGE_PATH))
+                    fileSystem.CreateDirectory(IMAGE_PATH);
+                var md5 = MD5.GetMd5String(id);
+                string filepath = Path.Combine(IMAGE_PATH, md5);
+                if (fileSystem.FileExists(filepath))
+                    fileSystem.DeleteFile(filepath);
+                using (var fileStream = fileSystem.OpenFile(filepath, FileMode.Create))
                 {
-                    image = new CachedImage { Id = id };
-                    context.CachedImages.InsertOnSubmit(image);
+                    fileStream.Write(data, 0, data.Length);
                 }
-                image.Data = data;
-                context.SubmitChanges();
             }
             catch (Exception)
-            { }
-            finally
             {
-                resetEvent.Set();
+                throw;
             }
             return data;
         }
@@ -421,9 +379,8 @@ namespace Chicken4WP8.Services.Implementation
 
         public void AddCachedDirectMessages(IEnumerable<IDirectMessageModel> messages)
         {
-            try
+            lock (locker)
             {
-                resetEvent.WaitOne();
                 foreach (var message in messages)
                 {
                     var entity = new CachedDirectMessage
@@ -436,12 +393,6 @@ namespace Chicken4WP8.Services.Implementation
                     context.CachedDirectMessages.InsertOnSubmit(entity);
                 }
                 context.SubmitChanges();
-            }
-            catch (Exception)
-            { }
-            finally
-            {
-                resetEvent.Set();
             }
         }
 
@@ -474,9 +425,8 @@ namespace Chicken4WP8.Services.Implementation
         public void AddOrUpdateTombstoningData<T>(TombstoningType type, string id, T data)
             where T : TombstoningDataBase
         {
-            try
+            lock (locker)
             {
-                resetEvent.WaitOne();
                 var entity = context.TombstoningDatas.FirstOrDefault(t => t.Type == type && t.Id == id);
                 if (entity == null)
                 {
@@ -486,12 +436,6 @@ namespace Chicken4WP8.Services.Implementation
                 entity.Data = SerializeObject(data);
                 context.SubmitChanges();
             }
-            catch (Exception)
-            { }
-            finally
-            {
-                resetEvent.Set();
-            }
         }
         #endregion
 
@@ -499,7 +443,6 @@ namespace Chicken4WP8.Services.Implementation
         {
             List<string> result = new List<string>();
             string filepath = Path.Combine(EMOTIONS_FILE_NAME);
-            IsolatedStorageFile fileSystem = IsolatedStorageFile.GetUserStoreForApplication();
             using (var fileStream = fileSystem.OpenFile(filepath, FileMode.OpenOrCreate))
             {
                 if (fileStream == null || fileStream.Length == 0)

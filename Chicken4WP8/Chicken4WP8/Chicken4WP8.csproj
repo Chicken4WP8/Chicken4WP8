@@ -96,6 +96,8 @@
     <Compile Include="AutofacPhoneContainer.cs" />
     <Compile Include="ChickenBootstrapper.cs" />
     <Compile Include="Common\Const.cs" />
+    <Compile Include="Common\Extension.cs" />
+    <Compile Include="Common\Utils.cs" />
     <Compile Include="Controllers\IDirectMessageModel.cs" />
     <Compile Include="Controllers\IFriendshipModel.cs" />
     <Compile Include="Controllers\Implementation\Base\BaseControllerBase.cs" />
@@ -129,7 +131,6 @@
     <Compile Include="Controls\ToastPrompt.cs" />
     <Compile Include="Entities\CachedDirectMessage.cs" />
     <Compile Include="Entities\CachedFriendship.cs" />
-    <Compile Include="Entities\CachedImage.cs" />
     <Compile Include="Entities\CachedTweet.cs" />
     <Compile Include="Entities\CachedUser.cs" />
     <Compile Include="Entities\ChickenDataContext.cs" />
