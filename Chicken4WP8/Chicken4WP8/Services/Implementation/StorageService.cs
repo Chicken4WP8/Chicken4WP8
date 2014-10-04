@@ -304,47 +304,33 @@ namespace Chicken4WP8.Services.Implementation
 
         public byte[] GetCachedImage(string id)
         {
-            try
+            byte[] bytes = null;
+            var md5 = MD5.GetMd5String(id);
+            string filepath = Path.Combine(IMAGE_PATH, md5);
+            if (!fileSystem.FileExists(filepath))
+                return null;
+            using (var fileStream = fileSystem.OpenFile(filepath, FileMode.Open))
             {
-                byte[] bytes = null;
-                var md5 = MD5.GetMd5String(id);
-                string filepath = Path.Combine(IMAGE_PATH, md5);
-                if (!fileSystem.FileExists(filepath))
-                    return null;
-                using (var fileStream = fileSystem.OpenFile(filepath, FileMode.Open))
+                using (var memStream = new MemoryStream())
                 {
-                    using (var memStream = new MemoryStream())
-                    {
-                        fileStream.CopyTo(memStream);
-                        bytes = memStream.ToArray();
-                    }
+                    fileStream.CopyTo(memStream);
+                    bytes = memStream.ToArray();
                 }
-                return bytes;
             }
-            catch (Exception)
-            {
-                throw;
-            }
+            return bytes;
         }
 
         public byte[] AddOrUpdateImageCache(string id, byte[] data)
         {
-            try
+            if (!fileSystem.DirectoryExists(IMAGE_PATH))
+                fileSystem.CreateDirectory(IMAGE_PATH);
+            var md5 = MD5.GetMd5String(id);
+            string filepath = Path.Combine(IMAGE_PATH, md5);
+            if (fileSystem.FileExists(filepath))
+                fileSystem.DeleteFile(filepath);
+            using (var fileStream = fileSystem.OpenFile(filepath, FileMode.Create))
             {
-                if (!fileSystem.DirectoryExists(IMAGE_PATH))
-                    fileSystem.CreateDirectory(IMAGE_PATH);
-                var md5 = MD5.GetMd5String(id);
-                string filepath = Path.Combine(IMAGE_PATH, md5);
-                if (fileSystem.FileExists(filepath))
-                    fileSystem.DeleteFile(filepath);
-                using (var fileStream = fileSystem.OpenFile(filepath, FileMode.Create))
-                {
-                    fileStream.Write(data, 0, data.Length);
-                }
-            }
-            catch (Exception)
-            {
-                throw;
+                fileStream.Write(data, 0, data.Length);
             }
             return data;
         }
