@@ -48,9 +48,18 @@ namespace Chicken4WP8.ViewModels.Home
         protected override async Task InitLoadDataFromWeb()
         {
             var tombstone = StorageService.GetTombstoningData<MentionViewTombstoningData>(TombstoningType.MentionView, App.UserSetting.Id.ToString());
-            if (tombstone != null && tombstone.Mentions != null && tombstone.Mentions.Count != 0)
-                foreach (var item in tombstone.Mentions)
-                    Items.Add(item);
+            if (tombstone != null)
+            {
+                if (tombstone.Mentions != null && tombstone.Mentions.Count != 0)
+                    foreach (var item in tombstone.Mentions)
+                        Items.Add(item);
+                if (tombstone.FetchedItemsCache != null)
+                    fetchedItemsCache.AddRange(tombstone.FetchedItemsCache);
+                if (tombstone.LoadedItemsCache != null)
+                    loadedItemsCache.AddRange(tombstone.LoadedItemsCache);
+                if (tombstone.MissedItemsCache != null)
+                    missedItemsCache.AddRange(tombstone.MissedItemsCache);
+            }
             else
                 await base.InitLoadDataFromWeb();
         }
@@ -65,10 +74,21 @@ namespace Chicken4WP8.ViewModels.Home
 
         protected override void OnDeactivate(bool close)
         {
-            base.OnDeactivate(close);
             var mentions = Items.ToList();
-            var tombstone = new MentionViewTombstoningData { Mentions = mentions };
+            var tombstone = new MentionViewTombstoningData
+            {
+                Mentions = mentions,
+                FetchedItemsCache = fetchedItemsCache,
+                LoadedItemsCache = loadedItemsCache,
+                MissedItemsCache = missedItemsCache
+            };
+            if (mentions.Count >= 200)
+            {
+                mentions = mentions.Take(200).ToList();
+                tombstone.LoadedItemsCache.Clear();
+            }
             StorageService.AddOrUpdateTombstoningData(TombstoningType.MentionView, App.UserSetting.Id.ToString(), tombstone);
+            base.OnDeactivate(close);
         }
 
         public void AppBar_NewTweet()

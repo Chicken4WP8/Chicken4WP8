@@ -4,7 +4,7 @@ namespace Chicken4WP8.Entities
 {
     public class ChickenDataContext : DataContext
     {
-        private const string connectionString = @"isostore:/ChickenDataContext.sdf";
+        private const string connectionString = @"Data Source='isostore:/ChickenDataContext.sdf';Max Database Size=512;";
 
         public ChickenDataContext()
             : base(connectionString)

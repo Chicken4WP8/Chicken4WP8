@@ -89,6 +89,11 @@ namespace Chicken4WP8.ViewModels.Home
                 LoadedItemsCache = loadedItemsCache,
                 MissedItemsCache = missedItemsCache
             };
+            if (tweets.Count >= 200)
+            {
+                tweets = tweets.Take(200).ToList();
+                tombstone.LoadedItemsCache.Clear();
+            }
             StorageService.AddOrUpdateTombstoningData(TombstoningType.IndexView, App.UserSetting.Id.ToString(), tombstone);
             base.OnDeactivate(close);
         }
