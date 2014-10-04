@@ -33,7 +33,8 @@ namespace Chicken4WP8.ViewModels.Home
 
         protected override void SetLanguage()
         {
-            DisplayName = LanguageHelper["DirectMessageViewModel_Header"];
+            if (string.IsNullOrEmpty(Title))
+                DisplayName = LanguageHelper["DirectMessageViewModel_Header"];
         }
         #endregion
 

@@ -20,7 +20,13 @@ using Microsoft.Phone.Controls;
 
 namespace Chicken4WP8.ViewModels.Base
 {
-    public abstract class PivotItemViewModelBase<T> : Screen, IHandle<CultureInfo> where T : class
+    public abstract class PivotItemViewModelBase : Screen
+    {
+        public int Index { get; set; }
+        public string Title { get; set; }
+    }
+
+    public abstract class PivotItemViewModelBase<T> : PivotItemViewModelBase, IHandle<CultureInfo> where T : class
     {
         #region properties
         protected const int ITEMSPERPAGE = 10;

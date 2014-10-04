@@ -84,7 +84,7 @@ namespace Chicken4WP8.ViewModels.Setting.Proxies
 
             var setting = StorageService.GetCurrentUserSetting();
             if (setting == null)
-                setting = new UserSetting();
+                setting = UserSetting.CreateDefaultUserSettting();
 
             var oauth = await baseOAuthController.GetTokensAsync(PinCode);
             setting.OAuthSetting = oauth;

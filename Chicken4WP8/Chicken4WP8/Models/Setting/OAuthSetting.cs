@@ -1,5 +1,4 @@
-﻿
-namespace Chicken4WP8.Models.Setting
+﻿namespace Chicken4WP8.Models.Setting
 {
     public abstract class OAuthSetting
     {

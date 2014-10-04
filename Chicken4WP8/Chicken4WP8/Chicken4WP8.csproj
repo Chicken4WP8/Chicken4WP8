@@ -140,6 +140,7 @@
     <Compile Include="Controllers\IUserModel.cs" />
     <Compile Include="Entities\TempData.cs" />
     <Compile Include="Entities\TombstoningData.cs" />
+    <Compile Include="Models\Setting\HomePageSetting.cs" />
     <Compile Include="Models\Setting\OAuthSessionModel.cs" />
     <Compile Include="Models\Setting\OAuthSetting.cs" />
     <Compile Include="Models\Setting\UserSetting.cs" />

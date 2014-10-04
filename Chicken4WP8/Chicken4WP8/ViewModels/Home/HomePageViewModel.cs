@@ -1,6 +1,9 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Caliburn.Micro;
 using Caliburn.Micro.BindableAppBar;
+using Chicken4WP8.Models.Setting;
 using Chicken4WP8.ViewModels.Base;
 using Chicken4WP8.Views.Home;
 
@@ -12,10 +15,7 @@ namespace Chicken4WP8.ViewModels.Home
         private const string NormalScreenState = "NormalScreen";
         private const string FullScreenState = "FullScreen";
         private HomePageView homeView;
-
-        public IndexViewModel IndexViewModel { get; set; }
-        public MentionViewModel MentionViewModel { get; set; }
-        public DirectMessageViewModel DirectMessageViewModel { get; set; }
+        private List<PivotItemViewModelBase> models;
 
         private string state;
         public string State
@@ -28,10 +28,21 @@ namespace Chicken4WP8.ViewModels.Home
             }
         }
 
-        public HomePageViewModel(IEventAggregator eventAggregator)
+        public HomePageViewModel(
+            IEventAggregator eventAggregator,
+            IEnumerable<Lazy<PivotItemViewModelBase, HomePageSettingTypeMetadata>> viewModels)
             : base()
         {
             eventAggregator.Subscribe(this);
+            models = new List<PivotItemViewModelBase>();
+            foreach (var setting in App.UserSetting.HomePageSettings.Settings)
+            {
+                var model = viewModels.Single(m => m.Metadata.Type == setting.Type).Value;
+                model.Index = setting.Index;
+                model.Title = setting.Title;
+                models.Add(model);
+            }
+            models = models.OrderBy(m => m.Index).ToList();
         }
         #endregion
 
@@ -39,11 +50,9 @@ namespace Chicken4WP8.ViewModels.Home
         {
             base.OnInitialize();
 
-            Items.Add(IndexViewModel);
-            Items.Add(MentionViewModel);
-            Items.Add(DirectMessageViewModel);
-
-            ActivateItem(IndexViewModel);
+            foreach (var model in models)
+                Items.Add(model);
+            ActivateItem(models[0]);
 
             AppBarConductor.Mixin(this);
         }

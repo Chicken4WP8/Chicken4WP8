@@ -5,6 +5,8 @@ using Caliburn.Micro;
 using Chicken4WP8.Models.Setting;
 using Chicken4WP8.Services.Implementation;
 using Chicken4WP8.Services.Interface;
+using Chicken4WP8.ViewModels.Base;
+using Chicken4WP8.ViewModels.Home;
 
 namespace Chicken4WP8
 {
@@ -19,6 +21,7 @@ namespace Chicken4WP8
         {
             base.ConfigureContainer(builder);
 
+            #region register services
             //register language helper
             builder.RegisterType<LanguageHelper>()
                 .As<ILanguageHelper>()
@@ -52,8 +55,9 @@ namespace Chicken4WP8
                     .InstancePerDependency()
                 //auto inject property
                     .PropertiesAutowired();
+            #endregion
 
-            //register controllers
+            #region register controllers
             builder.RegisterAssemblyTypes(assembiles)
                 //must be a type which name ends with controller
                 .Where(type => type.Name.EndsWith("Controller"))
@@ -87,6 +91,31 @@ namespace Chicken4WP8
                 .WithMetadata<OAuthTypeMetadata>(
                 meta => meta.For(
                     m => m.OAuthType, OAuthSettingType.TwipOAuth));
+            #endregion
+
+            #region register home page view models
+            builder.RegisterType<IndexViewModel>()
+                .As<PivotItemViewModelBase>()
+                .InstancePerDependency()
+                .PropertiesAutowired()
+                .WithMetadata<HomePageSettingTypeMetadata>(
+                meta => meta.For(
+                    m => m.Type, HomePageSettingType.Index));
+            builder.RegisterType<MentionViewModel>()
+                 .As<PivotItemViewModelBase>()
+                .InstancePerDependency()
+                .PropertiesAutowired()
+                  .WithMetadata<HomePageSettingTypeMetadata>(
+                meta => meta.For(
+                    m => m.Type, HomePageSettingType.Mention));
+            builder.RegisterType<DirectMessageViewModel>()
+                .As<PivotItemViewModelBase>()
+                .InstancePerDependency()
+                .PropertiesAutowired()
+                  .WithMetadata<HomePageSettingTypeMetadata>(
+                meta => meta.For(
+                    m => m.Type, HomePageSettingType.Message));
+            #endregion
         }
 
         protected override void OnUnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
