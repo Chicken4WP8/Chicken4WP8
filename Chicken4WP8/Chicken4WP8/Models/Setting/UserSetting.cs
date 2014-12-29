@@ -18,9 +18,9 @@ namespace Chicken4WP8.Models.Setting
                 {
                     Settings = new List<HomePageSetting>
                     {
-                        new HomePageSetting{ Index =0, Type = HomePageSettingType.Index, Title="喔" },
-                        new HomePageSetting{ Index =1,  Type = HomePageSettingType.Mention,Title="霸"},
-                        new HomePageSetting{Index =2, Type = HomePageSettingType.Message,Title = "天"},
+                        new HomePageSetting{ Index =0, Type = HomePageSettingType.Index },
+                        new HomePageSetting{ Index =1,  Type = HomePageSettingType.Mention },
+                        new HomePageSetting{ Index =2, Type = HomePageSettingType.Message },
                     }
                 }
             };
