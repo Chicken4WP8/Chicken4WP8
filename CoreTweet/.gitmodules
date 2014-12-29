@@ -1,6 +1,0 @@
-[submodule "ExternalDependencies/doxygen"]
-	path = ExternalDependencies/doxygen
-	url = https://github.com/doxygen/doxygen.git
-[submodule "ExternalDependencies/nuget"]
-	path = ExternalDependencies/nuget
-	url = https://github.com/alexrp/nuget-unix.git
