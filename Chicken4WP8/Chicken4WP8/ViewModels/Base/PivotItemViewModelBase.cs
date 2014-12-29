@@ -100,9 +100,9 @@ namespace Chicken4WP8.ViewModels.Base
         {
             if (oldViewport != Rect.Empty)
             {
-                if (container.Viewport.Top > oldViewport.Top)
+                if (container.Viewport.Top - oldViewport.Top > 20)
                     eventAggregator.Publish(new HomePageScreenArgs { IsFullScreen = true }, action => Task.Factory.StartNew(action));
-                else if (container.Viewport.Top < oldViewport.Top)
+                else if (container.Viewport.Top < oldViewport.Top - 40)
                     eventAggregator.Publish(new HomePageScreenArgs { IsFullScreen = false }, action => Task.Factory.StartNew(action));
             }
             oldViewport = container.Viewport;
