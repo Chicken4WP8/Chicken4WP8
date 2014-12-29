@@ -119,14 +119,20 @@ namespace Chicken4WP8.Controllers.Implementation.Base
         public UrlEntityModel(UrlEntity entity)
             : base(entity)
         {
-            DisplayUrl = string.IsNullOrEmpty(entity.DisplayUrl) ? entity.ExpandedUrl.AbsoluteUri : entity.DisplayUrl;
-            int index = DisplayUrl.IndexOf("/");
-            if (index != -1)
-                TruncatedUrl = "[" + DisplayUrl.Remove(index) + "]";
-            else
+            if (entity.ExpandedUrl != null)
+            {
+                DisplayUrl = entity.ExpandedUrl.Host.Replace("www", "");
                 TruncatedUrl = "[" + DisplayUrl + "]";
-            ExpandedUrl = entity.ExpandedUrl;
-            Url = entity.Url;
+                ExpandedUrl = entity.ExpandedUrl;
+                Url = entity.Url;
+            }
+            else
+            {
+                DisplayUrl = entity.Url.Host.Replace("www", "");
+                TruncatedUrl = "[" + DisplayUrl + "]";
+                ExpandedUrl = entity.Url;
+                Url = entity.Url;
+            }
         }
 
         public override EntityType EntityType
